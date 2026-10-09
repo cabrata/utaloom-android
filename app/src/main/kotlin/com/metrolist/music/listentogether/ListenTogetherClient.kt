@@ -428,8 +428,9 @@ class ListenTogetherClient
         /**
          * Load persisted session information from storage
          */
-        private fun loadPersistedSession() {
+        private suspend fun loadPersistedSession() {
             val generationAtLoadStart = sessionApplyGeneration.get()
+            if (!migrateServerUrl()) return
             try {
                 val token = context.dataStore.get(ListenTogetherSessionTokenKey, "")
                 val roomCode = context.dataStore.get(ListenTogetherRoomCodeKey, "")
@@ -469,8 +470,6 @@ class ListenTogetherClient
             // Also load blocked usernames
             loadBlockedUsernames()
 
-            // Migrate old server URL to new one
-            migrateServerUrl()
         }
 
         /**
@@ -509,21 +508,12 @@ class ListenTogetherClient
         /**
          * Migrate old server URL to new one if needed
          */
-        private fun migrateServerUrl() {
+        private suspend fun migrateServerUrl(): Boolean {
             try {
-                val configuredUrl = context.dataStore.get(ListenTogetherServerUrlKey, DEFAULT_SERVER_URL)
-                val normalizedUrl = normalizeServerUrl(configuredUrl)
-
-                if (normalizedUrl != configuredUrl) {
-                    log(LogLevel.INFO, "Migrating server URL", "Old: $configuredUrl -> New: $normalizedUrl")
-                    scope.launch {
-                        context.safeDataStoreEdit { preferences ->
-                            preferences[ListenTogetherServerUrlKey] = normalizedUrl
-                        }
-                    }
-                }
+                return context.safeDataStoreEdit(ListenTogetherServers::migratePreferences)
             } catch (e: Exception) {
                 log(LogLevel.ERROR, "Failed to migrate server URL", e.message)
+                return false
             }
         }
 
@@ -535,6 +525,7 @@ class ListenTogetherClient
                 scope.launch {
                     context.safeDataStoreEdit { preferences ->
                         if (sessionToken != null) {
+                            preferences[ListenTogetherServerUrlKey] = normalizeServerUrl(preferences[ListenTogetherServerUrlKey].orEmpty())
                             preferences[ListenTogetherSessionTokenKey] = sessionToken!!
                             preferences[ListenTogetherRoomCodeKey] = storedRoomCode ?: ""
                             preferences[ListenTogetherUserIdKey] = _userId.value ?: ""
@@ -623,13 +614,7 @@ class ListenTogetherClient
                 .build()
 
         private fun normalizeServerUrl(url: String): String {
-            val trimmed = url.trim()
-            if (trimmed.isEmpty()) return DEFAULT_SERVER_URL
-            return if (trimmed.contains("metroserver.meowery.eu", ignoreCase = true)) {
-                DEFAULT_SERVER_URL
-            } else {
-                trimmed
-            }
+            return ListenTogetherServers.normalizeUrl(url)
         }
 
         private fun getServerUrl(): String {

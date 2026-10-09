@@ -69,7 +69,19 @@ jobs:
           echo "${{ secrets.KEYSTORE }}" | base64 -d > app/keystore/release.keystore
 
       - name: Build signed release APK
-        run: bash gradlew ":app:assemble${VARIANT^}Release" -x lint --console=plain --max-workers=2
+        run: |
+          bash gradlew ":app:assemble${VARIANT^}Release" -x lint --console=plain --max-workers=2
+          apk=$(find app/build/outputs/apk/${{ matrix.variant }}/release -name '*.apk' | head -n1)
+          [ -n "$apk" ] || { echo "::error::no APK built"; exit 1; }
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" sign \
+            --ks app/keystore/release.keystore \
+            --ks-pass "pass:${{ secrets.KEYSTORE_PASSWORD }}" \
+            --ks-key-alias "${{ secrets.KEY_ALIAS }}" \
+            --key-pass "pass:${{ secrets.KEY_PASSWORD }}" \
+            --min-sdk-version 24 \
+            --v1-signing-enabled true \
+            --v2-signing-enabled true \
+            "$apk"
         env:
           VARIANT: ${{ matrix.variant }}
           STORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
