@@ -1,17 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Utaloom "Woven U" mark. Source: utaloom-web/brand/logo-mark.svg -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:height="108dp"
     android:width="108dp"
-    android:viewportWidth="30.0"
-    android:viewportHeight="32.0">
-    <group
-        android:scaleX="0.47"
-        android:scaleY="0.5"
-        android:translateX="7.8"
-        android:translateY="8.0">
+    android:height="108dp"
+    android:viewportWidth="256"
+    android:viewportHeight="256">
+    <group android:pivotX="128" android:pivotY="128" android:scaleX="0.6" android:scaleY="0.6" android:translateY="-2.4">
         <path
-            android:fillColor="#00000000"
-            android:pathData="M9.5,15.5L3.707,21.293C3.317,21.684 3.317,22.317 3.707,22.707L9.293,28.293C9.683,28.684 10.317,28.684 10.707,28.293L16.707,22.293C16.895,22.105 17,21.851 17,21.586V4.468C17,3.578 18.074,3.132 18.705,3.759L28,13"
+            android:pathData="M64,64v72c0,38 26,64 64,64s64,-26 64,-64V64"
             android:strokeColor="#FF000000"
-            android:strokeWidth="5.0" />
+            android:strokeWidth="32"
+            android:strokeLineCap="round" />
+        <path
+            android:pathData="M104,64v68c0,15 9,24 24,24s24,-9 24,-24V92"
+            android:strokeColor="#FF000000"
+            android:strokeWidth="16"
+            android:strokeLineCap="round" />
     </group>
 </vector>
