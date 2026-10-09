@@ -1,0 +1,108 @@
+name: Release Utaloom Android
+
+# Automatic release: bump versionName (and versionCode) in app/build.gradle.kts and push to main.
+# If tag v<versionName> doesn't exist yet, this builds signed APKs and publishes a GitHub release,
+# which the in-app updater picks up.
+on:
+  push:
+    branches: [main]
+    paths: [app/build.gradle.kts]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.v.outputs.tag }}
+      release: ${{ steps.v.outputs.release }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: v
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          v=$(sed -n 's/^ *versionName = "\(.*\)"/\1/p' app/build.gradle.kts | head -n1)
+          [[ "$v" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "::error::versionName must look like 1.2.3, got '$v'"; exit 1; }
+          echo "tag=v$v" >> "$GITHUB_OUTPUT"
+          if gh release view "v$v" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "v$v is already released, nothing to do."
+            echo "release=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "release=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  build:
+    needs: version
+    if: needs.version.outputs.release == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      matrix:
+        include:
+          - variant: foss
+            name: Utaloom-Android.apk
+          - variant: gms
+            name: Utaloom-Android-with-Google-Cast.apk
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: temurin
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install Android compile SDK
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-37.0' 'build-tools;36.0.0' > /dev/null
+
+      - name: Write release keystore
+        run: |
+          mkdir -p app/keystore
+          echo "${{ secrets.KEYSTORE }}" | base64 -d > app/keystore/release.keystore
+
+      - name: Build signed release APK
+        run: bash gradlew ":app:assemble${VARIANT^}Release" -x lint --console=plain --max-workers=2
+        env:
+          VARIANT: ${{ matrix.variant }}
+          STORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
+          LASTFM_SECRET: ${{ secrets.LASTFM_SECRET }}
+
+      - name: Rename APK
+        run: |
+          mkdir -p out
+          apk=$(find app/build/outputs/apk/${{ matrix.variant }}/release -name '*.apk' | head -n1)
+          [ -n "$apk" ] || { echo "::error::no APK built"; exit 1; }
+          cp "$apk" "out/${{ matrix.name }}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ matrix.variant }}
+          path: out/*.apk
+          if-no-files-found: error
+
+  publish:
+    needs: [version, build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.version.outputs.tag }}
+        run: |
+          gh release create "$TAG" dist/*.apk --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "Utaloom Android $TAG" --generate-notes
