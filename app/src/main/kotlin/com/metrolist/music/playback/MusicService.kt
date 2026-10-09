@@ -162,6 +162,7 @@ import com.metrolist.music.constants.ScrobbleMinSongDurationKey
 import com.metrolist.music.constants.ShowLyricsKey
 import com.metrolist.music.constants.ShuffleModeKey
 import com.metrolist.music.constants.ShufflePlaylistFirstKey
+import com.metrolist.music.constants.SmartShuffleKey
 import com.metrolist.music.constants.SimilarContent
 import com.metrolist.music.constants.SkipSilenceInstantKey
 import com.metrolist.music.constants.SkipSilenceKey
@@ -199,7 +200,9 @@ import com.metrolist.music.playback.alarm.MusicAlarmStore
 import com.metrolist.music.playback.audio.SilenceDetectorAudioProcessor
 import com.metrolist.music.playback.queues.EmptyQueue
 import com.metrolist.music.playback.queues.ListQueue
+import com.metrolist.music.playback.queues.LocalAlbumRadio
 import com.metrolist.music.playback.queues.Queue
+import com.metrolist.music.playback.queues.YouTubeAlbumRadio
 import com.metrolist.music.playback.queues.YouTubeQueue
 import com.metrolist.music.playback.queues.YouTubePlaylistQueue
 import com.metrolist.music.playback.queues.filterExplicit
@@ -472,6 +475,9 @@ class MusicService :
 
     // Tracks the original queue size to distinguish original items from auto-added ones
     private var originalQueueSize: Int = 0
+    private var smartShuffleJob: Job? = null
+    private val MediaItem.isSmartShuffleRecommendation: Boolean
+        get() = mediaMetadata.extras?.getBoolean("smart_shuffle_recommendation") == true
 
     private var consecutivePlaybackErr = 0
     private var retryJob: Job? = null
@@ -500,6 +506,8 @@ class MusicService :
     private var cachedShufflePlaylistFirst = false
     @Volatile
     private var cachedAutoLoadMore = true
+    @Volatile
+    private var cachedSmartShuffle = false
 
     // URL cache for stream URLs - class-level so it can be invalidated on errors
     private val songUrlCache = StreamUrlCache()
@@ -1180,6 +1188,14 @@ class MusicService :
         scope.launch {
             dataStore.data.map { it[AutoLoadMoreKey] ?: true }.distinctUntilChanged().collect { cachedAutoLoadMore = it }
         }
+        scope.launch {
+            dataStore.data.map { it[SmartShuffleKey] ?: false }.distinctUntilChanged().collect { enabled ->
+                cachedSmartShuffle = enabled
+                if (playerInitialized.value) {
+                    if (enabled) startSmartShuffle() else stopSmartShuffle()
+                }
+            }
+        }
         if (startupPrefs!![PersistentQueueKey] ?: true) {
             val queueFile = filesDir.resolve(PERSISTENT_QUEUE_FILE)
             if (queueFile.exists()) {
@@ -1766,13 +1782,14 @@ class MusicService :
             Timber.tag(TAG).w("playQueue called before player initialization, queuing request")
             scope.launch {
                 playerInitialized.first { it }
-                playQueue(queue, playWhenReady)
+                playQueue(queue, playWhenReady, restoringQueue)
             }
             return
         }
 
         currentQueue = queue
         queueTitle = null
+        smartShuffleJob?.cancel()
         val persistShuffleAcrossQueues = dataStore.get(PersistentShuffleAcrossQueuesKey, false)
         if (!persistShuffleAcrossQueues && !restoringQueue) {
             player.shuffleModeEnabled = false
@@ -1791,6 +1808,7 @@ class MusicService :
                         .filterExplicit(dataStore.get(HideExplicitKey, false))
                         .filterVideoSongs(dataStore.get(HideVideoSongsKey, false))
                 }
+            if (currentQueue !== queue) return@launch
             if (queue.preloadItem != null && player.playbackState == STATE_IDLE) return@launch
             if (initialStatus.title != null) {
                 queueTitle = initialStatus.title
@@ -1828,14 +1846,17 @@ class MusicService :
             if (player.shuffleModeEnabled) {
                 val shufflePlaylistFirst = dataStore.get(ShufflePlaylistFirstKey, false)
                 applyShuffleOrder(player.currentMediaItemIndex, player.mediaItemCount, shufflePlaylistFirst)
+                startSmartShuffle()
             }
         }
     }
 
     fun adoptQueue(queue: Queue, title: String? = null, initialQueueSize: Int = 0) {
+        stopSmartShuffle()
         currentQueue = queue
         queueTitle = title
         originalQueueSize = initialQueueSize
+        if (playerInitialized.value) startSmartShuffle()
     }
 
     fun startRadioSeamlessly() {
@@ -1843,6 +1864,7 @@ class MusicService :
             Timber.tag(TAG).w("startRadioSeamlessly called before player initialization")
             return
         }
+        stopSmartShuffle()
 
         val currentMediaMetadata = player.currentMetadata ?: return
 
@@ -1891,7 +1913,7 @@ class MusicService :
                     }
                 }
 
-                currentQueue = radioQueue
+                adoptQueue(radioQueue, queueTitle, radioItems.size)
             } catch (e: Exception) {
                 try {
                     val nextResult =
@@ -2812,6 +2834,9 @@ class MusicService :
             val totalCount = player.mediaItemCount
 
             applyShuffleOrder(currentIndex, totalCount, shufflePlaylistFirst)
+            startSmartShuffle()
+        } else {
+            stopSmartShuffle()
         }
 
         if (dataStore.get(RememberShuffleAndRepeatKey, true)) {
@@ -2840,6 +2865,59 @@ class MusicService :
         }
     }
 
+    private fun stopSmartShuffle() {
+        smartShuffleJob?.cancel()
+        for (i in player.mediaItemCount - 1 downTo 0) {
+            if (i != player.currentMediaItemIndex && player.getMediaItemAt(i).isSmartShuffleRecommendation) {
+                player.removeMediaItem(i)
+            }
+        }
+        if (cachedPersistentQueue && player.mediaItemCount > 0) saveQueueToDisk()
+    }
+
+    // ponytail: one bounded radio batch per queue, fetch more only if continuous discovery is needed.
+    private fun startSmartShuffle() {
+        if (!playerInitialized.value || !cachedSmartShuffle || !player.shuffleModeEnabled ||
+            player.mediaItems.any { it.isSmartShuffleRecommendation } || smartShuffleJob?.isActive == true ||
+            player.mediaItemCount == 0 ||
+            !(currentQueue is ListQueue || currentQueue is LocalAlbumRadio ||
+                currentQueue is YouTubeAlbumRadio || currentQueue is YouTubePlaylistQueue)
+        ) {
+            return
+        }
+        val queue = currentQueue
+        val queueIds = (0 until player.mediaItemCount).map { player.getMediaItemAt(it).mediaId }.toSet()
+        val seed = player.getMediaItemAt((0 until player.mediaItemCount).random()).metadata ?: return
+        smartShuffleJob = scope.launch(SilentHandler) {
+            val recs = withContext(Dispatchers.IO) {
+                YouTubeQueue.radio(seed).getInitialStatus()
+                    .filterExplicit(cachedHideExplicit)
+                    .filterVideoSongs(cachedHideVideoSongs)
+                    .items
+            }
+            if (!cachedSmartShuffle || !player.shuffleModeEnabled || currentQueue !== queue ||
+                player.mediaItemCount == 0 || player.mediaItems.none { it.mediaId in queueIds }
+            ) return@launch
+            val liveIds = player.mediaItems.map { it.mediaId }.toSet()
+            val additions = recs.filter { it.mediaId !in liveIds }
+                .distinctBy { it.mediaId }
+                .take((queueIds.size / 3).coerceIn(1, 30))
+                .map { item ->
+                    item.buildUpon().setMediaMetadata(
+                        item.mediaMetadata.buildUpon().setExtras(
+                            Bundle(item.mediaMetadata.extras ?: Bundle()).apply {
+                                putBoolean("smart_shuffle_recommendation", true)
+                            },
+                        ).build(),
+                    ).build()
+                }
+            if (additions.isEmpty()) return@launch
+            player.addMediaItems(additions)
+            applyShuffleOrder(player.currentMediaItemIndex, player.mediaItemCount, cachedShufflePlaylistFirst)
+            if (cachedPersistentQueue) saveQueueToDisk()
+        }
+    }
+
     /**
      * Applies a new shuffle order to the player, maintaining the current item's position.
      * If `shufflePlaylistFirst` is true, it attempts to shuffle original items separately from added items.
@@ -2850,6 +2928,15 @@ class MusicService :
         shufflePlaylistFirst: Boolean,
     ) {
         if (totalCount == 0) return
+
+        if (cachedSmartShuffle && player.mediaItems.any { it.isSmartShuffleRecommendation }) {
+            val remaining = (0 until totalCount).filter { it != currentIndex }
+            val (recommendations, base) = remaining.partition { player.getMediaItemAt(it).isSmartShuffleRecommendation }
+            player.setShuffleOrder(
+                DefaultShuffleOrder(smartShuffleOrder(currentIndex, base.shuffled(), recommendations.shuffled()), System.currentTimeMillis()),
+            )
+            return
+        }
 
         if (shufflePlaylistFirst && originalQueueSize > 0 && originalQueueSize < totalCount) {
             // Shuffle original items and added items separately
@@ -4090,11 +4177,14 @@ class MusicService :
         }
 
         try {
+            val savedIndices = (0 until player.mediaItemCount).filter {
+                it == player.currentMediaItemIndex || !player.getMediaItemAt(it).isSmartShuffleRecommendation
+            }
             val persistQueue =
                 currentQueue.toPersistQueue(
                     title = queueTitle,
-                    items = player.mediaItems.mapNotNull { it.metadata },
-                    mediaItemIndex = player.currentMediaItemIndex,
+                    items = savedIndices.mapNotNull { player.getMediaItemAt(it).metadata },
+                    mediaItemIndex = savedIndices.indexOf(player.currentMediaItemIndex),
                     position = player.currentPosition,
                 )
 
@@ -4144,7 +4234,9 @@ class MusicService :
             shuffleModeEnabled = player.shuffleModeEnabled,
             volume = playerVolume.value,
             currentPosition = player.currentPosition,
-            currentMediaItemIndex = player.currentMediaItemIndex,
+            currentMediaItemIndex = (0 until player.currentMediaItemIndex).count {
+                !player.getMediaItemAt(it).isSmartShuffleRecommendation
+            },
             playbackState = player.playbackState,
         )
         runCatching {

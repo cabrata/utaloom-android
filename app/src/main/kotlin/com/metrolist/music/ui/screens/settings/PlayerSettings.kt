@@ -63,6 +63,7 @@ import com.metrolist.music.constants.RememberShuffleAndRepeatKey
 import com.metrolist.music.constants.ResumeOnBluetoothConnectKey
 import com.metrolist.music.constants.SeekExtraSeconds
 import com.metrolist.music.constants.ShufflePlaylistFirstKey
+import com.metrolist.music.constants.SmartShuffleKey
 import com.metrolist.music.constants.SimilarContent
 import com.metrolist.music.constants.SkipSilenceInstantKey
 import com.metrolist.music.constants.SkipSilenceKey
@@ -198,6 +199,7 @@ fun PlayerSettings(
         ShufflePlaylistFirstKey,
         defaultValue = false
     )
+    val (smartShuffle, onSmartShuffleChange) = rememberPreference(SmartShuffleKey, defaultValue = false)
     val (preventDuplicateTracksInQueue, onPreventDuplicateTracksInQueueChange) = rememberPreference(
         PreventDuplicateTracksInQueueKey,
         defaultValue = false
@@ -955,6 +957,27 @@ fun PlayerSettings(
                         )
                     },
                     onClick = { onShufflePlaylistFirstChange(!shufflePlaylistFirst) }
+                ),
+                Material3SettingsItem(
+                    icon = painterResource(R.drawable.shuffle),
+                    title = { Text(stringResource(R.string.smart_shuffle)) },
+                    description = { Text(stringResource(R.string.smart_shuffle_desc)) },
+                    trailingContent = {
+                        Switch(
+                            checked = smartShuffle,
+                            onCheckedChange = onSmartShuffleChange,
+                            thumbContent = {
+                                Icon(
+                                    painter = painterResource(
+                                        id = if (smartShuffle) R.drawable.check else R.drawable.close
+                                    ),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(SwitchDefaults.IconSize)
+                                )
+                            }
+                        )
+                    },
+                    onClick = { onSmartShuffleChange(!smartShuffle) }
                 ),
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.queue_music),

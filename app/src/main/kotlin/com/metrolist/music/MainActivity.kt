@@ -259,6 +259,7 @@ class MainActivity : FragmentActivity() {
 
     private lateinit var navController: NavHostController
     private var pendingIntent: Intent? = null
+    private var collapsePlayerForIntent: (() -> Unit)? = null
     private var latestVersionName by mutableStateOf(BuildConfig.BASE_VERSION_NAME)
 
     // Keep PlayerConnection as regular property - NOT mutableStateOf to prevent UI recomposition
@@ -378,6 +379,7 @@ class MainActivity : FragmentActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         if (::navController.isInitialized) {
+            handleShortcutIntent(intent, navController)
             handleWidgetTargetIntent(intent, navController)
             handleDeepLinkIntent(intent, navController)
         } else {
@@ -828,6 +830,15 @@ class MainActivity : FragmentActivity() {
                         expandedBound = maxHeight,
                     )
 
+                DisposableEffect(playerBottomSheetState) {
+                    collapsePlayerForIntent = {
+                        if (!playerBottomSheetState.isCollapsed && !playerBottomSheetState.isDismissed) {
+                            playerBottomSheetState.collapseSoft()
+                        }
+                    }
+                    onDispose { collapsePlayerForIntent = null }
+                }
+
                 val playerReadyState =
                     playerConnection?.service?.isPlayerReady?.collectAsStateWithLifecycle()
                         ?: remember { mutableStateOf(false) }
@@ -961,11 +972,13 @@ class MainActivity : FragmentActivity() {
 
                 LaunchedEffect(Unit) {
                     if (pendingIntent != null) {
+                        handleShortcutIntent(pendingIntent!!, navController)
                         handleWidgetTargetIntent(pendingIntent!!, navController)
                         handleRecognitionIntent(pendingIntent!!, navController)
                         handleDeepLinkIntent(pendingIntent!!, navController)
                         pendingIntent = null
                     } else {
+                        handleShortcutIntent(intent, navController)
                         handleWidgetTargetIntent(intent, navController)
                         handleRecognitionIntent(intent, navController)
                         handleDeepLinkIntent(intent, navController)
@@ -975,6 +988,7 @@ class MainActivity : FragmentActivity() {
                 DisposableEffect(Unit) {
                     val listener =
                         Consumer<Intent> { intent ->
+                            handleShortcutIntent(intent, navController)
                             handleWidgetTargetIntent(intent, navController)
                             handleRecognitionIntent(intent, navController)
                             handleDeepLinkIntent(intent, navController)
@@ -1488,6 +1502,22 @@ class MainActivity : FragmentActivity() {
         }
     }
 
+    private fun handleShortcutIntent(
+        intent: Intent,
+        navController: NavHostController,
+    ) {
+        val route = when (intent.action) {
+            ACTION_SEARCH -> Screens.Search.route
+            ACTION_LIBRARY -> Screens.Library.route
+            else -> return
+        }
+        intent.action = null
+        collapsePlayerForIntent?.invoke()
+        navController.navigate(route) {
+            launchSingleTop = true
+        }
+    }
+
     /**
      * Handles the ACTION_RECOGNITION intent sent from the Music Recognizer Widget.
      * Always navigates to the recognition screen to show the result.
@@ -1500,6 +1530,7 @@ class MainActivity : FragmentActivity() {
         val autoStart = intent.getBooleanExtra(EXTRA_AUTO_START_RECOGNITION, false)
         intent.action = null
         intent.removeExtra(EXTRA_AUTO_START_RECOGNITION)
+        collapsePlayerForIntent?.invoke()
         navController.navigate(if (autoStart) "recognition?autoStart=true" else "recognition") {
             launchSingleTop = true
         }
@@ -1546,6 +1577,7 @@ class MainActivity : FragmentActivity() {
             else -> null
         } ?: return
 
+        collapsePlayerForIntent?.invoke()
         navController.navigate(targetRoute.route)
     }
 

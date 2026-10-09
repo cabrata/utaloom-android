@@ -13,6 +13,42 @@
     </shortcut>
     <shortcut
         android:enabled="true"
+        android:icon="@drawable/shortcut_favorite"
+        android:shortcutId="liked"
+        android:shortcutShortLabel="@string/liked_songs">
+        <intent
+            android:action="com.metrolist.music.action.OPEN_WIDGET_TARGET"
+            android:targetClass="com.metrolist.music.MainActivity"
+            android:targetPackage="com.cabrata.utaloom.android.debug">
+            <extra android:name="widget_target_type" android:value="liked" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/shortcut_download"
+        android:shortcutId="downloaded"
+        android:shortcutShortLabel="@string/downloaded_songs">
+        <intent
+            android:action="com.metrolist.music.action.OPEN_WIDGET_TARGET"
+            android:targetClass="com.metrolist.music.MainActivity"
+            android:targetPackage="com.cabrata.utaloom.android.debug">
+            <extra android:name="widget_target_type" android:value="downloaded" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/shortcut_mic"
+        android:shortcutId="recognize"
+        android:shortcutShortLabel="@string/recognize_music">
+        <intent
+            android:action="com.metrolist.music.action.RECOGNITION"
+            android:targetClass="com.metrolist.music.MainActivity"
+            android:targetPackage="com.cabrata.utaloom.android.debug">
+            <extra android:name="auto_start_recognition" android:value="true" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:enabled="true"
         android:icon="@drawable/shortcut_library"
         android:shortcutId="library"
         android:shortcutShortLabel="@string/filter_library">
