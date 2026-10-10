@@ -7,11 +7,15 @@ package com.metrolist.music.lyrics
 
 import android.content.Context
 import com.metrolist.innertube.YouTube
+import com.metrolist.music.constants.EnableYouTubeSubtitleLyricsKey
+import com.metrolist.music.utils.dataStore
+import com.metrolist.music.utils.get
 
 object YouTubeSubtitleLyricsProvider : LyricsProvider {
     override val name = "YouTube Subtitle"
 
-    override fun isEnabled(context: Context) = true
+    override fun isEnabled(context: Context): Boolean =
+        context.dataStore[EnableYouTubeSubtitleLyricsKey] ?: true
 
     override suspend fun getLyrics(
         context: Context,

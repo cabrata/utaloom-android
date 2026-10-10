@@ -35,12 +35,10 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -62,17 +60,10 @@ import com.metrolist.music.constants.AppLanguageKey
 import com.metrolist.music.constants.ContentCountryKey
 import com.metrolist.music.constants.ContentLanguageKey
 import com.metrolist.music.constants.CountryCodeToName
-import com.metrolist.music.constants.EnableBetterLyricsKey
-import com.metrolist.music.constants.EnableKugouKey
-import com.metrolist.music.constants.EnableLrcLibKey
-import com.metrolist.music.constants.EnablePaxsenixKey
-import com.metrolist.music.constants.EnableLyricsPlus
-import com.metrolist.music.constants.EnableZemerKey
 import com.metrolist.music.constants.HideExplicitKey
 import com.metrolist.music.constants.HideVideoSongsKey
 import com.metrolist.music.constants.HideYoutubeShortsKey
 import com.metrolist.music.constants.LanguageCodeToName
-import com.metrolist.music.constants.LyricsProviderOrderKey
 import com.metrolist.music.constants.ProxyEnabledKey
 import com.metrolist.music.constants.ProxyPasswordKey
 import com.metrolist.music.constants.ProxyTypeKey
@@ -92,9 +83,6 @@ import com.metrolist.music.ui.component.EnumDialog
 import com.metrolist.music.ui.component.IconButton
 import com.metrolist.music.ui.component.Material3SettingsGroup
 import com.metrolist.music.ui.component.Material3SettingsItem
-import com.metrolist.music.ui.component.DraggableLyricsProviderItem
-import com.metrolist.music.ui.component.DraggableLyricsProviderList
-import com.metrolist.music.lyrics.LyricsProviderRegistry
 import com.metrolist.music.ui.utils.backToMain
 import com.metrolist.music.utils.rememberEnumPreference
 import com.metrolist.music.utils.rememberPreference
@@ -123,16 +111,6 @@ fun ContentSettings(
     val (proxyUrl, onProxyUrlChange) = rememberPreference(key = ProxyUrlKey, defaultValue = "host:port")
     val (proxyUsername, onProxyUsernameChange) = rememberPreference(key = ProxyUsernameKey, defaultValue = "username")
     val (proxyPassword, onProxyPasswordChange) = rememberPreference(key = ProxyPasswordKey, defaultValue = "password")
-    val (enableZemer, onEnableZemerChange) = rememberPreference(key = EnableZemerKey, defaultValue = true)
-    val (enableKugou, onEnableKugouChange) = rememberPreference(key = EnableKugouKey, defaultValue = true)
-    val (enableLrclib, onEnableLrclibChange) = rememberPreference(key = EnableLrcLibKey, defaultValue = true)
-    val (enableBetterLyrics, onEnableBetterLyricsChange) = rememberPreference(key = EnableBetterLyricsKey, defaultValue = true)
-    val (enablePaxsenix, onEnablePaxsenixChange) = rememberPreference(key = EnablePaxsenixKey, defaultValue = true)
-    val (enableLyricsPlus, onEnableLyricsPlusChange) = rememberPreference(key = EnableLyricsPlus, defaultValue = true)
-    val (lyricsProviderOrder, onLyricsProviderOrderChange) = rememberPreference(
-        key = LyricsProviderOrderKey,
-        defaultValue = LyricsProviderRegistry.serializeProviderOrder(LyricsProviderRegistry.getDefaultProviderOrder())
-    )
     val (lengthTop, onLengthTopChange) = rememberPreference(key = TopSize, defaultValue = "50")
     val (quickPicks, onQuickPicksChange) = rememberEnumPreference(key = QuickPicksKey, defaultValue = QuickPicks.QUICK_PICKS)
     val (showWrappedCard, onShowWrappedCardChange) = rememberPreference(key = ShowWrappedCardKey, defaultValue = false)
@@ -167,18 +145,6 @@ fun ContentSettings(
             }
         }
     }
-
-    val providerDisplayNames =
-        mapOf(
-            "BetterLyrics" to "Better Lyrics",
-            "Paxsenix" to "Paxsenix",
-            "LrcLib" to "LrcLib",
-            "KuGou" to "KuGou",
-            "LyricsPlus" to "LyricsPlus",
-            "Zemer" to "Zemer",
-            "YouTubeSubtitle" to "YouTube Subtitles",
-            "YouTube" to "YouTube",
-        )
 
     var showProxyConfigurationDialog by rememberSaveable {
         mutableStateOf(false)
@@ -363,214 +329,6 @@ fun ContentSettings(
         )
     }
 
-    var showProviderSelectionDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
-
-    if (showProviderSelectionDialog) {
-        AlertDialog(
-            onDismissRequest = { showProviderSelectionDialog = false },
-            title = { Text(stringResource(R.string.lyrics_provider_selection)) },
-            text = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Column(
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(stringResource(R.string.enable_lrclib))
-                            Text(
-                                text = stringResource(R.string.enable_lrclib_desc),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                        Switch(
-                            checked = enableLrclib,
-                            onCheckedChange = onEnableLrclibChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (enableLrclib) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Column(
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(stringResource(R.string.enable_kugou))
-                            Text(
-                                text = stringResource(R.string.enable_kugou_desc),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                        Switch(
-                            checked = enableKugou,
-                            onCheckedChange = onEnableKugouChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (enableKugou) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Column(
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(stringResource(R.string.enable_better_lyrics))
-                            Text(
-                                text = stringResource(R.string.enable_better_lyrics_desc),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                        Switch(
-                            checked = enableBetterLyrics,
-                            onCheckedChange = onEnableBetterLyricsChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (enableBetterLyrics) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Column(
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(stringResource(R.string.enable_paxsenix))
-                            Text(
-                                text = stringResource(R.string.enable_paxsenix_desc),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                        Switch(
-                            checked = enablePaxsenix,
-                            onCheckedChange = onEnablePaxsenixChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (enablePaxsenix) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Column(
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(stringResource(R.string.enable_lyricsplus))
-                            Text(
-                                text = stringResource(R.string.enable_lyricsplus_desc),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                        Switch(
-                            checked = enableLyricsPlus,
-                            onCheckedChange = onEnableLyricsPlusChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (enableLyricsPlus) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Column(
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(stringResource(R.string.enable_zemer))
-                            Text(
-                                text = stringResource(R.string.enable_zemer_desc),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                        Switch(
-                            checked = enableZemer,
-                            onCheckedChange = onEnableZemerChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (enableZemer) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
-                        )
-                    }
-                    Column(modifier = Modifier.padding(2.dp)) {
-                        Text(
-                            text = stringResource(R.string.youtube_music_lyrics_note),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = { showProviderSelectionDialog = false }
-                ) {
-                    Text(stringResource(R.string.close))
-                }
-            }
-        )
-    }
-
     var showQuickPicksDialog by rememberSaveable {
         mutableStateOf(false)
     }
@@ -656,82 +414,6 @@ fun ContentSettings(
                     }
                 ) {
                     Text(stringResource(R.string.save))
-                }
-            }
-        )
-    }
-
-    var showProviderPriorityDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
-
-    if (showProviderPriorityDialog) {
-        val currentOrder = LyricsProviderRegistry.deserializeProviderOrder(lyricsProviderOrder)
-        val defaultOrder = LyricsProviderRegistry.getDefaultProviderOrder()
-        val normalizedOrder = currentOrder.filter { it in defaultOrder } +
-            defaultOrder.filter { it !in currentOrder }
-
-        val enabledProviders = setOf(
-            "LrcLib".takeIf { enableLrclib },
-            "KuGou".takeIf { enableKugou },
-            "BetterLyrics".takeIf { enableBetterLyrics },
-            "Paxsenix".takeIf { enablePaxsenix },
-            "LyricsPlus".takeIf { enableLyricsPlus },
-            "Zemer".takeIf { enableZemer },
-        ).filterNotNull().toSet()
-        val lyricsIcon = painterResource(R.drawable.lyrics)
-        val draggableItems = remember { mutableStateListOf<DraggableLyricsProviderItem>() }
-
-        LaunchedEffect(normalizedOrder, enableLrclib, enableKugou, enableBetterLyrics, enablePaxsenix, enableLyricsPlus, enableZemer) {
-            val orderedEnabledProviders = normalizedOrder.filter { it in enabledProviders }
-            draggableItems.clear()
-            draggableItems.addAll(
-                orderedEnabledProviders.mapNotNull { providerName ->
-                    LyricsProviderRegistry.getProviderByName(providerName) ?: return@mapNotNull null
-                    DraggableLyricsProviderItem(
-                        id = providerName,
-                        name = providerDisplayNames[providerName] ?: providerName,
-                        icon = lyricsIcon,
-                    )
-                }
-            )
-        }
-
-        AlertDialog(
-            onDismissRequest = { showProviderPriorityDialog = false },
-            title = { Text(stringResource(R.string.lyrics_provider_priority)) },
-            text = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(300.dp)
-                ) {
-                    Text(
-                        stringResource(R.string.lyrics_provider_priority_desc),
-                        style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier.padding(bottom = 8.dp),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    DraggableLyricsProviderList(
-                        items = draggableItems,
-                        onItemsReordered = { reorderedItems ->
-                            val enabledOrder = reorderedItems.map { it.id }
-                            val disabledOrder = normalizedOrder.filter { it !in enabledProviders }
-                            onLyricsProviderOrderChange(
-                                LyricsProviderRegistry.serializeProviderOrder(enabledOrder + disabledOrder)
-                            )
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                    )
-                }
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = { showProviderPriorityDialog = false }
-                ) {
-                    Text(stringResource(R.string.close))
                 }
             }
         )
@@ -997,15 +679,9 @@ fun ContentSettings(
             items = listOf(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.lyrics),
-                    title = { Text(stringResource(R.string.lyrics_provider_selection)) },
+                    title = { Text(stringResource(R.string.lyrics_providers)) },
                     description = { Text(stringResource(R.string.lyrics_provider_selection_desc)) },
-                    onClick = { showProviderSelectionDialog = true }
-                ),
-                Material3SettingsItem(
-                    icon = painterResource(R.drawable.lyrics),
-                    title = { Text(stringResource(R.string.lyrics_provider_priority)) },
-                    description = { Text(stringResource(R.string.lyrics_provider_priority_desc)) },
-                    onClick = { showProviderPriorityDialog = true }
+                    onClick = { navController.navigate("settings/lyrics") }
                 ),
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.language_korean_latin),

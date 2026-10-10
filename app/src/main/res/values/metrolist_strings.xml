@@ -143,6 +143,12 @@
     <string name="enable_lyricsplus_desc">Synchronized lyrics from multiple sources</string>
     <string name="lyrics_provider_selection">Provider selection</string>
     <string name="lyrics_provider_selection_desc">Choose which lyrics providers are enabled</string>
+    <string name="lyrics_providers">Lyrics providers</string>
+    <string name="lyrics_providers_desc">Enable providers and reorder with the arrows. Tried from top to bottom on the next lyrics fetch.</string>
+    <string name="youtube_lyrics_desc">Lyrics from YouTube Music, usually without synchronized timing</string>
+    <string name="youtube_subtitle_lyrics_desc">Timed lyrics from YouTube video subtitles</string>
+    <string name="lyrics_provider_move_up">Move %1$s up</string>
+    <string name="lyrics_provider_move_down">Move %1$s down</string>
     <string name="auto_scroll">Re-sync</string>
     <string name="slim">Slim</string>
     <string name="force_bottom_navbar">Force bottom navigation bar</string>

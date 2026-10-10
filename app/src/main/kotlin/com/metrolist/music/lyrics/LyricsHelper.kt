@@ -7,7 +7,6 @@ package com.metrolist.music.lyrics
 
 import android.content.Context
 import android.util.LruCache
-import com.metrolist.music.constants.LyricsProviderOrderKey
 import com.metrolist.music.db.entities.LyricsEntity.Companion.LYRICS_NOT_FOUND
 import com.metrolist.music.models.MediaMetadata
 import com.metrolist.music.utils.NetworkConnectivityObserver
@@ -42,18 +41,13 @@ constructor(
                 resolveLyricsProviders(preferences)
             }.distinctUntilChanged()
 
-    private val cache = LruCache<String, List<LyricsResult>>(MAX_CACHE_SIZE)
+    private val cache = LruCache<LyricsSearchQuery, List<LyricsResult>>(MAX_CACHE_SIZE)
     private var currentLyricsJob: Job? = null
 
     suspend fun getLyrics(mediaMetadata: MediaMetadata): LyricsWithProvider {
         currentLyricsJob?.cancel()
 
-        val cached = cache.get(mediaMetadata.id)?.firstOrNull()
-        if (cached != null) {
-            return LyricsWithProvider(cached.lyrics, cached.providerName)
-        }
-
-        val orderedProviders = context.dataStore.data
+        val enabledProviders = context.dataStore.data
             .map { preferences -> resolveLyricsProviders(preferences) }
             .first()
 
@@ -69,7 +63,6 @@ constructor(
 
         val result = withTimeoutOrNull(MAX_LYRICS_FETCH_MS) {
             val cleanedTitle = LyricsUtils.cleanTitleForSearch(mediaMetadata.title)
-            val enabledProviders = orderedProviders.filter { it.isEnabled(context) }
 
             Timber.tag("LyricsHelper").d("Starting sequential fetch for: $cleanedTitle by ${mediaMetadata.artists.joinToString { it.name }}")
             Timber.tag("LyricsHelper").d("Enabled providers in order: ${enabledProviders.joinToString { it.name }}")
@@ -121,7 +114,8 @@ constructor(
     ) {
         currentLyricsJob?.cancel()
 
-        val cacheKey = "$songArtists-$songTitle".replace(" ", "")
+        val enabledProviders = resolveLyricsProviders(context.dataStore.data.first())
+        val cacheKey = LyricsSearchQuery(mediaId, songTitle, songArtists, duration, album, enabledProviders.map { it.name })
         cache.get(cacheKey)?.let { results ->
             results.forEach { callback(it) }
             return
@@ -138,10 +132,6 @@ constructor(
         val allResult = mutableListOf<LyricsResult>()
         currentLyricsJob = CoroutineScope(SupervisorJob()).launch {
             val cleanedTitle = LyricsUtils.cleanTitleForSearch(songTitle)
-            val allProviders = context.dataStore.data
-                .map { preferences -> resolveLyricsProviders(preferences) }
-                .first()
-            val enabledProviders = allProviders.filter { it.isEnabled(context) }
 
             val otherProviders = enabledProviders.filter { it.name != "LyricsPlus" }
             val lyricsPlusProvider = enabledProviders.find { it.name == "LyricsPlus" }
@@ -194,15 +184,8 @@ constructor(
         currentLyricsJob?.join()
     }
 
-    private fun resolveLyricsProviders(preferences: androidx.datastore.preferences.core.Preferences): List<LyricsProvider> {
-        val providerOrder = preferences[LyricsProviderOrderKey].orEmpty()
-        if (providerOrder.isNotBlank()) {
-            return LyricsProviderRegistry.getOrderedProviders(providerOrder)
-        }
-
-        return LyricsProviderRegistry.getDefaultProviderOrder()
-            .mapNotNull { LyricsProviderRegistry.getProviderByName(it) }
-    }
+    private fun resolveLyricsProviders(preferences: androidx.datastore.preferences.core.Preferences): List<LyricsProvider> =
+        LyricsProviderRegistry.getEnabledProviders(preferences)
 
     companion object {
         private const val MAX_CACHE_SIZE = 3
@@ -217,4 +200,13 @@ data class LyricsResult(
 data class LyricsWithProvider(
     val lyrics: String,
     val provider: String,
+)
+
+internal data class LyricsSearchQuery(
+    val mediaId: String,
+    val title: String,
+    val artist: String,
+    val duration: Int,
+    val album: String?,
+    val providers: List<String>,
 )

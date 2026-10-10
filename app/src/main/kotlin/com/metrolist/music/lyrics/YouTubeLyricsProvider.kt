@@ -8,6 +8,9 @@ package com.metrolist.music.lyrics
 import android.content.Context
 import com.metrolist.innertube.YouTube
 import com.metrolist.innertube.models.WatchEndpoint
+import com.metrolist.music.constants.EnableYouTubeLyricsKey
+import com.metrolist.music.utils.dataStore
+import com.metrolist.music.utils.get
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -15,7 +18,8 @@ import kotlinx.coroutines.withContext
 object YouTubeLyricsProvider : LyricsProvider {
     override val name = "YouTube Music"
 
-    override fun isEnabled(context: Context) = true
+    override fun isEnabled(context: Context): Boolean =
+        context.dataStore[EnableYouTubeLyricsKey] ?: true
 
     override suspend fun getLyrics(
         context: Context,
