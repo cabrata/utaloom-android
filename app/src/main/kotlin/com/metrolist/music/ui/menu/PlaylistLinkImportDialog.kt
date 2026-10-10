@@ -6,6 +6,7 @@
 package com.metrolist.music.ui.menu
 
 import android.widget.Toast
+import androidx.core.app.NotificationManagerCompat
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -66,6 +67,11 @@ fun PlaylistLinkImportDialog(
             placeholder = { Text(stringResource(R.string.import_from_link_hint)) },
             keyboardType = KeyboardType.Uri,
             autoDismiss = false,
+            extraContent = {
+                if (!NotificationManagerCompat.from(context).areNotificationsEnabled()) {
+                    Text(stringResource(R.string.import_notifications_disabled))
+                }
+            },
             onDismiss = onDismiss,
             onDone = { url ->
                 PlaylistImportService.start(context, url)

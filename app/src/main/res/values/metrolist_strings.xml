@@ -237,6 +237,7 @@
     <string name="import_notification_done">Imported %1$s</string>
     <string name="import_notification_failed">Playlist import failed</string>
     <string name="import_run_in_background">Run in background</string>
+    <string name="import_notifications_disabled">Import can continue without notifications. Allow them in Android settings to see background progress and completion.</string>
     <string name="playlist_unavailable">Playlist unavailable</string>
     <string name="playlist_created_locally">YouTube sync failed. Playlist created locally.</string>
     <string name="playlist_add_local_to_synced_note">NOTE: Adding local songs to synced or remote playlists is not supported. Any other combination is valid</string>
