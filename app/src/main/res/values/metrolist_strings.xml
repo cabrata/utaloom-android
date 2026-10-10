@@ -227,6 +227,11 @@
 
     <string name="import_online">Import an M3U playlist</string>
     <string name="import_csv">Import a CSV playlist</string>
+    <string name="import_from_link">Import from Spotify or YouTube Music</string>
+    <string name="import_from_link_hint">Public playlist or album link</string>
+    <string name="import_from_link_failed">Import failed. Check the link and your connection.</string>
+    <string name="import_from_link_done">Imported %1$d songs. %2$d not found on YouTube Music.</string>
+    <string name="import_from_link_truncated">Spotify only returned the first 100 tracks.</string>
     <string name="playlist_unavailable">Playlist unavailable</string>
     <string name="playlist_created_locally">YouTube sync failed. Playlist created locally.</string>
     <string name="playlist_add_local_to_synced_note">NOTE: Adding local songs to synced or remote playlists is not supported. Any other combination is valid</string>
