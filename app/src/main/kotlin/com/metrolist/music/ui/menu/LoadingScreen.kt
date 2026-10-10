@@ -40,7 +40,11 @@ fun LoadingScreen(
     isVisible: Boolean,
     value: Int,
     songTitle: String? = null,
-    onCancel: (() -> Unit)? = null
+    onCancel: (() -> Unit)? = null,
+    /** Shown instead of the percent label, e.g. "12 / 340". */
+    detail: String? = null,
+    /** Animated bar while the total is still unknown. */
+    indeterminate: Boolean = false,
 ) {
     if (!isVisible) return
 
@@ -89,15 +93,19 @@ fun LoadingScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            LinearWavyProgressIndicator(
-                progress = { value / 100f },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(8.dp),
-            )
+            if (indeterminate) {
+                LinearWavyProgressIndicator(modifier = Modifier.fillMaxWidth().height(8.dp))
+            } else {
+                LinearWavyProgressIndicator(
+                    progress = { value / 100f },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(8.dp),
+                )
+            }
 
             Text(
-                text = stringResource(R.string.progress_percent, value.toString()),
+                text = detail ?: stringResource(R.string.progress_percent, value.toString()),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

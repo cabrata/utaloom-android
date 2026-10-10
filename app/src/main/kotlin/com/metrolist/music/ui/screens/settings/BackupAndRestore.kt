@@ -121,6 +121,8 @@ fun BackupAndRestore(
     val coroutineScope = rememberCoroutineScope()
     val database = LocalDatabase.current
     var showLinkImport by remember { mutableStateOf(false) }
+    var linkProgress by remember { mutableStateOf<Pair<Int, Int>?>(null) }
+    var linkImporting by remember { mutableStateOf(false) }
 
     val backupLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/octet-stream")) { uri ->
@@ -264,6 +266,8 @@ fun BackupAndRestore(
         isVisible = isProgressStarted,
         value = progressPercentage,
         songTitle = currentImportSong,
+        detail = linkProgress?.let { (done, total) -> stringResource(R.string.import_from_link_progress, done, total, done * 100 / total) },
+        indeterminate = linkImporting && linkProgress == null,
     )
 
     if (showLinkImport) {
@@ -275,12 +279,15 @@ fun BackupAndRestore(
             onDismiss = { showLinkImport = false },
             onDone = { url ->
                 isProgressStarted = true
+                linkImporting = true
                 progressPercentage = 0
                 currentImportSong = ""
+                linkProgress = null
                 coroutineScope.launch {
                     try {
                         val result = PlaylistLinkImporter.import(url) { done, total, title ->
                             progressPercentage = done * 100 / total
+                            linkProgress = done to total
                             currentImportSong = title
                         }
                         val playlist = PlaylistEntity(name = result.name.take(200), bookmarkedAt = LocalDateTime.now())
@@ -303,6 +310,8 @@ fun BackupAndRestore(
                         Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
                     } finally {
                         isProgressStarted = false
+                        linkImporting = false
+                        linkProgress = null
                     }
                 }
             },
