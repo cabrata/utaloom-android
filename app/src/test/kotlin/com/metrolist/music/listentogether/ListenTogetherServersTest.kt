@@ -19,7 +19,7 @@ class ListenTogetherServersTest {
         assertEquals(expected, ListenTogetherServers.defaultServerUrl)
         assertEquals("cabrata", ListenTogetherServers.findByUrl(expected)?.operator)
 
-        for (oldUrl in listOf(null, "", "wss://metroserver.meowery.eu/ws", "wss://metroserverx.meowery.eu/ws")) {
+        for (oldUrl in listOf(null, "", "wss://metroserver.meowery.eu/ws", "wss://metroserverx.meowery.eu/ws", "wss://metrolist.caliph.dev/ws")) {
             val preferences = mutablePreferencesOf(
                 ListenTogetherUsernameKey to "listener",
                 ListenTogetherSessionTokenKey to "old-server-token",

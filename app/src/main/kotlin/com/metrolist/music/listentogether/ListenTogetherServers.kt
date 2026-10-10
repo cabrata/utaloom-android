@@ -50,7 +50,8 @@ object ListenTogetherServers {
         if (trimmed.isEmpty()) return defaultServerUrl
         val host = runCatching { URI(trimmed).host }.getOrNull()
         return if (host.equals("metroserver.meowery.eu", ignoreCase = true) ||
-            host.equals("metroserverx.meowery.eu", ignoreCase = true)
+            host.equals("metroserverx.meowery.eu", ignoreCase = true) ||
+            host.equals("metrolist.caliph.dev", ignoreCase = true)
         ) defaultServerUrl else trimmed
     }
 
