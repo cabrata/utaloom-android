@@ -256,6 +256,11 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".utils.PlaylistImportService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
         <!-- Receiver for Listen Together notification actions (Approve/Reject) -->
         <receiver
             android:name=".listentogether.ListenTogetherActionReceiver"

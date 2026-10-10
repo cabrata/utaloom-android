@@ -46,25 +46,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.metrolist.music.LocalPlayerAwareWindowInsets
-import com.metrolist.music.LocalDatabase
 import com.metrolist.music.R
-import com.metrolist.music.db.entities.PlaylistEntity
 import com.metrolist.music.db.entities.Song
-import com.metrolist.music.models.toMediaMetadata
-import com.metrolist.music.ui.component.TextFieldDialog
-import com.metrolist.music.utils.PlaylistLinkImporter
-import com.metrolist.music.utils.reportException
-import android.widget.Toast
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.withContext
 import com.metrolist.music.ui.component.DefaultDialog
 import com.metrolist.music.ui.component.IconButton
 import com.metrolist.music.ui.component.Material3SettingsGroup
@@ -121,11 +109,6 @@ fun BackupAndRestore(
 
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
-    val database = LocalDatabase.current
-    var showLinkImport by remember { mutableStateOf(false) }
-    var linkProgress by remember { mutableStateOf<Pair<Int, Int>?>(null) }
-    var linkImporting by remember { mutableStateOf(false) }
-    var linkJob by remember { mutableStateOf<Job?>(null) }
 
     val backupLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/octet-stream")) { uri ->
@@ -230,11 +213,6 @@ fun BackupAndRestore(
                             )
                         },
                     ),
-                    Material3SettingsItem(
-                        title = { Text(stringResource(R.string.import_from_link)) },
-                        icon = painterResource(R.drawable.link),
-                        onClick = { showLinkImport = true },
-                    ),
                 ),
         )
     }
@@ -269,59 +247,7 @@ fun BackupAndRestore(
         isVisible = isProgressStarted,
         value = progressPercentage,
         songTitle = currentImportSong,
-        detail = linkProgress?.let { (done, total) -> stringResource(R.string.import_from_link_progress, done, total, done * 100 / total) },
-        indeterminate = linkImporting && linkProgress == null,
-        onCancel = if (linkImporting) ({ linkJob?.cancel() }) else null,
     )
-
-    if (showLinkImport) {
-        TextFieldDialog(
-            icon = { Icon(painterResource(R.drawable.link), contentDescription = null) },
-            title = { Text(stringResource(R.string.import_from_link)) },
-            placeholder = { Text(stringResource(R.string.import_from_link_hint)) },
-            keyboardType = KeyboardType.Uri,
-            onDismiss = { showLinkImport = false },
-            onDone = { url ->
-                isProgressStarted = true
-                linkImporting = true
-                progressPercentage = 0
-                currentImportSong = ""
-                linkProgress = null
-                linkJob = coroutineScope.launch {
-                    try {
-                        val result = PlaylistLinkImporter.import(url) { done, total, title ->
-                            progressPercentage = done * 100 / total
-                            linkProgress = done to total
-                            currentImportSong = title
-                        }
-                        val playlist = PlaylistEntity(name = result.name.take(200), bookmarkedAt = LocalDateTime.now())
-                        // Once matching is done, finish writing so a late cancel can't leave a half-filled playlist.
-                        withContext(Dispatchers.IO + NonCancellable) {
-                            database.insert(playlist)
-                            result.songs.forEach { database.insert(it.toMediaMetadata()) }
-                            database.playlistBlocking(playlist.id)?.let { p ->
-                                database.addSongsToPlaylist(p, result.songs.map { it.id to null })
-                            }
-                        }
-                        val msg = context.getString(R.string.import_from_link_done, result.songs.size, result.missing.size) +
-                            if (result.truncated) "\n" + context.getString(R.string.import_from_link_truncated) else ""
-                        Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
-                        navController.navigate("local_playlist/${playlist.id}")
-                    } catch (e: CancellationException) {
-                        throw e
-                    } catch (e: Exception) {
-                        reportException(e)
-                        val msg = (e as? IllegalArgumentException)?.message ?: context.getString(R.string.import_from_link_failed)
-                        Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
-                    } finally {
-                        isProgressStarted = false
-                        linkImporting = false
-                        linkProgress = null
-                    }
-                }
-            },
-        )
-    }
 
     // CSV column mapping dialog
     csvImportState?.let { state ->

@@ -9,6 +9,7 @@ package com.metrolist.music.ui.menu
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -45,6 +46,8 @@ fun LoadingScreen(
     detail: String? = null,
     /** Animated bar while the total is still unknown. */
     indeterminate: Boolean = false,
+    /** Hides this dialog while the work keeps going (e.g. in a foreground service). */
+    onBackground: (() -> Unit)? = null,
 ) {
     if (!isVisible) return
 
@@ -110,13 +113,18 @@ fun LoadingScreen(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
 
-            if (onCancel != null) {
+            if (onCancel != null || onBackground != null) {
                 Spacer(modifier = Modifier.height(8.dp))
-                TextButton(
-                    onClick = onCancel,
-                    modifier = Modifier.align(Alignment.End)
+                Row(
+                    modifier = Modifier.align(Alignment.End),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    Text(stringResource(R.string.cancel))
+                    if (onCancel != null) {
+                        TextButton(onClick = onCancel) { Text(stringResource(R.string.cancel)) }
+                    }
+                    if (onBackground != null) {
+                        TextButton(onClick = onBackground) { Text(stringResource(R.string.import_run_in_background)) }
+                    }
                 }
             }
         }

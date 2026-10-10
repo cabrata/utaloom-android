@@ -233,6 +233,10 @@
     <string name="import_from_link_done">Imported %1$d songs. %2$d not found on YouTube Music.</string>
     <string name="import_from_link_truncated">Spotify only returned the first 100 tracks.</string>
     <string name="import_from_link_progress">Matching %1$d / %2$d tracks (%3$d%%)</string>
+    <string name="import_notification_channel">Playlist import</string>
+    <string name="import_notification_done">Imported %1$s</string>
+    <string name="import_notification_failed">Playlist import failed</string>
+    <string name="import_run_in_background">Run in background</string>
     <string name="playlist_unavailable">Playlist unavailable</string>
     <string name="playlist_created_locally">YouTube sync failed. Playlist created locally.</string>
     <string name="playlist_add_local_to_synced_note">NOTE: Adding local songs to synced or remote playlists is not supported. Any other combination is valid</string>

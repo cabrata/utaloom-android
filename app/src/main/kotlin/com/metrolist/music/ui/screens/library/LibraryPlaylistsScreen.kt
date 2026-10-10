@@ -29,6 +29,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -75,6 +76,7 @@ import com.metrolist.music.constants.YtmSyncKey
 import com.metrolist.music.db.entities.Playlist
 import com.metrolist.music.db.entities.PlaylistEntity
 import com.metrolist.music.ui.component.CreatePlaylistDialog
+import com.metrolist.music.ui.menu.PlaylistLinkImportDialog
 import com.metrolist.music.ui.component.LibrarySearchEmptyPlaceholder
 import com.metrolist.music.ui.component.LibrarySearchHeader
 import com.metrolist.music.ui.component.LibraryPlaylistGridItem
@@ -315,6 +317,11 @@ fun LibraryPlaylistsScreen(
     }
 
     var showCreatePlaylistDialog by rememberSaveable { mutableStateOf(false) }
+    var showLinkImport by rememberSaveable { mutableStateOf(false) }
+
+    if (showLinkImport) {
+        PlaylistLinkImportDialog(navController = navController, onDismiss = { showLinkImport = false })
+    }
 
     if (showCreatePlaylistDialog) {
         CreatePlaylistDialog(
@@ -541,6 +548,22 @@ fun LibraryPlaylistsScreen(
         }
 
         // Always visible + button (no scroll hiding)
+        SmallFloatingActionButton(
+            onClick = { showLinkImport = true },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .windowInsetsPadding(
+                    LocalPlayerAwareWindowInsets.current
+                        .only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal)
+                )
+                .padding(end = 20.dp, bottom = 88.dp)
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.link),
+                contentDescription = stringResource(R.string.import_from_link),
+            )
+        }
+
         FloatingActionButton(
             onClick = { showCreatePlaylistDialog = true },
             modifier = Modifier
