@@ -62,6 +62,8 @@ import com.metrolist.music.utils.PlaylistLinkImporter
 import com.metrolist.music.utils.reportException
 import android.widget.Toast
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.withContext
 import com.metrolist.music.ui.component.DefaultDialog
 import com.metrolist.music.ui.component.IconButton
@@ -123,6 +125,7 @@ fun BackupAndRestore(
     var showLinkImport by remember { mutableStateOf(false) }
     var linkProgress by remember { mutableStateOf<Pair<Int, Int>?>(null) }
     var linkImporting by remember { mutableStateOf(false) }
+    var linkJob by remember { mutableStateOf<Job?>(null) }
 
     val backupLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/octet-stream")) { uri ->
@@ -268,6 +271,7 @@ fun BackupAndRestore(
         songTitle = currentImportSong,
         detail = linkProgress?.let { (done, total) -> stringResource(R.string.import_from_link_progress, done, total, done * 100 / total) },
         indeterminate = linkImporting && linkProgress == null,
+        onCancel = if (linkImporting) ({ linkJob?.cancel() }) else null,
     )
 
     if (showLinkImport) {
@@ -283,7 +287,7 @@ fun BackupAndRestore(
                 progressPercentage = 0
                 currentImportSong = ""
                 linkProgress = null
-                coroutineScope.launch {
+                linkJob = coroutineScope.launch {
                     try {
                         val result = PlaylistLinkImporter.import(url) { done, total, title ->
                             progressPercentage = done * 100 / total
@@ -291,7 +295,8 @@ fun BackupAndRestore(
                             currentImportSong = title
                         }
                         val playlist = PlaylistEntity(name = result.name.take(200), bookmarkedAt = LocalDateTime.now())
-                        withContext(Dispatchers.IO) {
+                        // Once matching is done, finish writing so a late cancel can't leave a half-filled playlist.
+                        withContext(Dispatchers.IO + NonCancellable) {
                             database.insert(playlist)
                             result.songs.forEach { database.insert(it.toMediaMetadata()) }
                             database.playlistBlocking(playlist.id)?.let { p ->
