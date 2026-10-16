@@ -18,10 +18,18 @@ internal data class CachedStreamUrl(
     val useRangeChunks: Boolean = false,
 )
 
-internal fun DataSpec.withResolvedStream(stream: CachedStreamUrl): DataSpec {
+internal fun DataSpec.withResolvedStream(
+    stream: CachedStreamUrl,
+    fullRange: Boolean = false,
+): DataSpec {
     val resolved =
         withUri(stream.url.toUri())
             .withRequestHeaders(httpRequestHeaders + stream.requestHeaders)
+    if (fullRange) {
+        // For ahead-of-playhead caching: fetch from position to end in one request so googlevideo
+        // streams at full link speed instead of playback speed, and don't shrink to chunk size.
+        return resolved
+    }
     if ((!stream.requireBoundedRange && !stream.useRangeChunks) || stream.rangeChunkSizeBytes <= 0L) {
         return resolved
     }
@@ -68,6 +76,13 @@ internal class StreamUrlCache(
 
     fun clientName(mediaId: String): String? =
         synchronized(entries) { entries[mediaId]?.stream?.clientName }
+
+    /** Remaining TTL in milliseconds, or 0 if the entry is missing or expired. */
+    fun remainingTtlMillis(mediaId: String): Long =
+        synchronized(entries) {
+            val entry = entries[mediaId] ?: return@synchronized 0L
+            (entry.expiresAtMillis - currentTimeMillis()).coerceAtLeast(0L)
+        }
 
     fun generation(mediaId: String): Long =
         synchronized(entries) { generations[mediaId] ?: 0L }

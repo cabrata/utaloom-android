@@ -56,12 +56,14 @@ import androidx.media3.common.Timeline
 import androidx.media3.common.audio.SonicAudioProcessor
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
+import androidx.media3.datasource.DataSpec
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.HttpDataSource
 import androidx.media3.datasource.ResolvingDataSource
 import androidx.media3.datasource.cache.Cache
 import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.datasource.cache.CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR
+import androidx.media3.datasource.cache.CacheWriter
 import androidx.media3.datasource.cache.ContentMetadata
 import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.DefaultLoadControl
@@ -513,6 +515,8 @@ class MusicService :
     private var cachedAutoLoadMore = true
     @Volatile
     private var cachedSmartShuffle = false
+    @Volatile
+    private var cachedEnableSongCache = true
 
     // URL cache for stream URLs - class-level so it can be invalidated on errors
     private val songUrlCache = StreamUrlCache()
@@ -765,6 +769,7 @@ class MusicService :
             if (value == "VERY_HIGH") com.metrolist.music.constants.AudioQuality.HIGH
             else com.metrolist.music.constants.AudioQuality.entries.find { it.name == value }
         } ?: com.metrolist.music.constants.AudioQuality.AUTO
+        cachedEnableSongCache = startupPrefs!![EnableSongCacheKey] ?: true
         playerVolume = MutableStateFlow((startupPrefs!![PlayerVolumeKey] ?: 1f).coerceIn(0f, 1f))
 
         initializeCast()
@@ -1232,6 +1237,9 @@ class MusicService :
                 }
             }
         }
+        scope.launch {
+            dataStore.data.map { it[EnableSongCacheKey] ?: true }.distinctUntilChanged().collect { cachedEnableSongCache = it }
+        }
         if (startupPrefs!![PersistentQueueKey] ?: true) {
             val queueFile = filesDir.resolve(PERSISTENT_QUEUE_FILE)
             if (queueFile.exists()) {
@@ -1367,12 +1375,12 @@ class MusicService :
                 )
                 .setRenderersFactory(createRenderersFactory(normalizationProcessor, eqProcessor, silenceProcessor, useAudioTrackPlaybackParams))
                 .setLoadControl(
-                    // Start playback once ~750ms is buffered (media3's default is 1000ms) so first
-                    // audio is audible a touch sooner. min/max/after-rebuffer match the media3 1.x
-                    // defaults (50s / 50s / 2000ms) so buffering and post-stall recovery are unchanged.
+                    // Start playback once ~2s is buffered so the first chunk (512KiB for
+                    // chunked clients) is fully in hand and transient network slowness
+                    // doesn't stall audio right after start.
                     DefaultLoadControl
                         .Builder()
-                        .setBufferDurationsMs(50_000, 50_000, 750, 2_000)
+                        .setBufferDurationsMs(50_000, 50_000, 2_000, 4_000)
                         .build(),
                 )
                 .setHandleAudioBecomingNoisy(true)
@@ -1752,6 +1760,170 @@ class MusicService :
             }
         }
     }
+
+    /** In-flight ahead-of-playhead cache writers and jobs, keyed by mediaId. */
+    private val aheadCacheWriters = java.util.concurrent.ConcurrentHashMap<String, CacheWriter>()
+    private val aheadCacheJobs = java.util.concurrent.ConcurrentHashMap<String, Job>()
+
+    /** In-flight prefetch jobs, keyed by mediaId, so each song resolves at most once. */
+    private val prefetchJobs = java.util.concurrent.ConcurrentHashMap<String, Job>()
+
+    private var lastPrefetchedId: String? = null
+
+    /** mediaIds whose cached stream URL is being refreshed in the background. */
+    private val refreshingStreams = java.util.concurrent.ConcurrentHashMap.newKeySet<String>()
+
+    /**
+     * Resolve the next queue item's stream URL ahead of time and seed [songUrlCache],
+     * so the transition to the next song doesn't stall on innertube extraction
+     * (player config + PoToken via WebView + player request, seconds on slow networks).
+     *
+     * Called on media transitions, when the player becomes READY, and when the next
+     * item is about to expire from cache so the successor is always warm.
+     */
+    private fun prefetchNextStream() {
+        if (offlineMode) return
+        prefetchStreamFor(player.nextMediaItemAtSafeIndex()?.mediaId)
+        cacheCurrentSongAheadIfEnabled()
+    }
+
+    /**
+     * Like YouTube Music's offline listening: while a song plays, keep downloading the rest
+     * of it into playerCache ahead of the playhead. When the playhead reaches uncached territory,
+     * the download wins because it is already on disk, so playback never stalls on the network.
+     */
+    private fun cacheCurrentSongAheadIfEnabled() {
+        if (offlineMode || !cachedEnableSongCache) return
+        val currentId = player.currentMediaItem?.mediaId ?: return
+
+        // Cancel background download of previous tracks so all bandwidth goes to the current song
+        aheadCacheJobs.keys.filter { it != currentId }.forEach { oldId ->
+            aheadCacheWriters.remove(oldId)?.cancel()
+            aheadCacheJobs.remove(oldId)?.cancel()
+        }
+
+        if (aheadCacheJobs.containsKey(currentId)) return
+
+        scope.launch(Dispatchers.IO + SilentHandler) {
+            try {
+                cacheSongAheadOfPlayhead(currentId)
+            } catch (e: Exception) {
+                if (e !is CancellationException) {
+                    Timber.tag(TAG).w(e, "Ahead-caching failed for %s", currentId)
+                }
+            }
+        }
+    }
+
+    private suspend fun cacheSongAheadOfPlayhead(mediaId: String) {
+        val contentLength =
+            database.format(mediaId).first()?.contentLength
+                ?: ContentMetadata.getContentLength(playerCache.getContentMetadata(mediaId)).takeIf { it > 0L }
+                ?: return
+
+        if (playerCache.isCached(mediaId, 0, contentLength)) return
+        if (aheadCacheJobs.containsKey(mediaId)) return
+
+        val dataSpec = DataSpec.Builder().setUri(mediaId).setKey(mediaId).build()
+        val writer = CacheWriter(cacheWriteDataSource(mediaId), dataSpec, null, null)
+        aheadCacheWriters[mediaId] = writer
+        val job = scope.launch(Dispatchers.IO + SilentHandler) {
+            try {
+                writer.cache()
+                Timber.tag(TAG).d("AHEAD-CACHED %s (%d bytes)", mediaId, contentLength)
+            } catch (e: Exception) {
+                if (e !is CancellationException) {
+                    Timber.tag(TAG).w(e, "Ahead-caching I/O failed for %s", mediaId)
+                }
+            } finally {
+                aheadCacheWriters.remove(mediaId)
+                aheadCacheJobs.remove(mediaId)
+            }
+        }
+        aheadCacheJobs[mediaId] = job
+    }
+
+    private fun cacheWriteDataSource(mediaId: String): CacheDataSource {
+        val upstream =
+            ResolvingDataSource.Factory(
+                DefaultDataSource.Factory(
+                    this,
+                    OkHttpDataSource.Factory(
+                        OkHttpClient
+                            .Builder()
+                            .addInterceptor { chain ->
+                                if (offlineMode) throw IOException(getString(R.string.offline_mode_playback_error))
+                                chain.proceed(chain.request())
+                            }
+                            .proxy(YouTube.proxy)
+                            .proxyAuthenticator { _, response ->
+                                YouTube.proxyAuth?.let { auth ->
+                                    response.request
+                                        .newBuilder()
+                                        .header("Proxy-Authorization", auth)
+                                        .build()
+                                } ?: response.request
+                            }.build(),
+                    ),
+                ),
+            ) { dataSpec ->
+                val cachedStream = songUrlCache[mediaId]
+                    ?: throw IOException("No cached stream URL for ahead-caching $mediaId")
+                dataSpec.withResolvedStream(cachedStream, fullRange = true)
+            }
+        return CacheDataSource
+            .Factory()
+            .setCache(playerCache)
+            .setUpstreamDataSourceFactory(upstream)
+            .setFlags(FLAG_IGNORE_CACHE_ON_ERROR)
+            .createDataSourceForDownloading()
+    }
+    /**
+     * Warm [songUrlCache] for one mediaId, deduped by both in-flight job and "already done".
+     * Safe for shuffle mode: once shuffle order is applied by the player, nextMediaItemAtSafeIndex
+     * already reflects it.
+     */
+    private fun prefetchStreamFor(nextId: String?) {
+        if (nextId == null || offlineMode) return
+        if (lastPrefetchedId == nextId) return
+        if (prefetchJobs.putIfAbsent(nextId, Job()) != null) return
+        scope.launch(SilentHandler) {
+            try {
+                val playbackData =
+                    withContext(Dispatchers.IO) {
+                        val song = database.songEntity(nextId)
+                        InnerTubeXPlayer.playerResponseForPlayback(
+                            nextId,
+                            audioQuality = audioQuality,
+                            connectivityManager = connectivityManager,
+                            contentHints = ContentHints(
+                                isExplicit = song?.explicit,
+                                isUploaded = song?.isUploaded,
+                            ),
+                        ).getOrNull()
+                    } ?: return@launch
+                songUrlCache.put(
+                    mediaId = nextId,
+                    url = playbackData.streamUrl,
+                    requestHeaders = playbackData.streamHeaders,
+                    clientName = playbackData.streamClient,
+                    expiresInSeconds = playbackData.streamExpiresInSeconds,
+                    requireBoundedRange = playbackData.requireBoundedRange,
+                    rangeChunkSizeBytes = playbackData.rangeChunkSizeBytes,
+                    useRangeChunks = playbackData.useRangeChunks,
+                )
+                Timber.tag(TAG).d("PREFETCHED STREAM: %s", nextId)
+                lastPrefetchedId = nextId
+            } catch (e: Exception) {
+                Timber.tag(TAG).w(e, "Stream prefetch failed for %s", nextId)
+            } finally {
+                prefetchJobs.remove(nextId)
+            }
+        }
+    }
+
+    private fun Player.nextMediaItemAtSafeIndex(): MediaItem? =
+        nextMediaItemIndex.takeIf { it != C.INDEX_UNSET && it < mediaItemCount }?.let { getMediaItemAt(it) }
 
     /**
      * Launches [recoverSong] for [mediaId] unless a call for the same mediaId is
@@ -2563,6 +2735,8 @@ class MusicService :
         mediaItem: MediaItem?,
         reason: Int,
     ) {
+        prefetchNextStream()
+
         // Only natural completion transitions mark the previous track as fully cached,
         // never a manual skip or seek. Read lastTransitionedMediaId before replacing it.
         if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO ||
@@ -2665,6 +2839,7 @@ class MusicService :
         @Player.State playbackState: Int,
     ) {
         updateInitialBufferRecovery(playbackState)
+        if (playbackState == Player.STATE_READY) prefetchNextStream()
 
         if (playbackState == Player.STATE_ENDED) {
             player.currentMediaItem?.mediaId?.let { mediaId ->
@@ -2887,6 +3062,10 @@ class MusicService :
 
         if (cachedPersistentQueue) {
             saveQueueToDisk()
+        }
+        scope.launch {
+            // Shuffle order only exists after applyShuffleOrder runs; prefetch then.
+            if (!shuffleModeEnabled) prefetchNextStream()
         }
     }
 
@@ -3441,6 +3620,7 @@ class MusicService :
         incrementRetryCount(mediaId)
 
         songUrlCache.invalidate(mediaId)
+        if (lastPrefetchedId == mediaId) lastPrefetchedId = null
         failedStreamClient?.let { InnerTubeXPlayer.markStreamClientFailed(mediaId, it) }
         Timber.tag(TAG).d("Cleared cached URL after $retryReason (client=$failedStreamClient)")
 
@@ -3937,7 +4117,7 @@ class MusicService :
             val shouldBypassCache = bypassCacheForQualityChange.contains(mediaId)
 
             if (!shouldBypassCache) {
-                val usePlayerCache = dataStore.get(EnableSongCacheKey, true)
+                val usePlayerCache = cachedEnableSongCache
 
                 val contentLength =
                     storedFormat?.contentLength
@@ -3964,6 +4144,44 @@ class MusicService :
                 songUrlCache[mediaId]?.let { cachedStream ->
                     recoverSongDeduped(mediaId)
                     currentStreamClient.value = cachedStream.clientName
+                    // URL is expiring soon for the current item — refresh in the background
+                    // (once per mediaId) so playback continues on this URL meanwhile.
+                    if (songUrlCache.remainingTtlMillis(mediaId) in 1 until EXPIRING_SOON_REFRESH_MS &&
+                        refreshingStreams.add(mediaId)
+                    ) {
+                        scope.launch(SilentHandler) {
+                            try {
+                                val fresh = withContext(Dispatchers.IO) {
+                                    val song = database.songEntity(mediaId)
+                                    InnerTubeXPlayer.playerResponseForPlayback(
+                                        mediaId,
+                                        audioQuality = audioQuality,
+                                        connectivityManager = connectivityManager,
+                                        contentHints = ContentHints(
+                                            isExplicit = song?.explicit,
+                                            isUploaded = song?.isUploaded,
+                                        ),
+                                    ).getOrNull()
+                                }
+                                if (fresh != null) {
+                                    songUrlCache.put(
+                                        mediaId = mediaId,
+                                        url = fresh.streamUrl,
+                                        requestHeaders = fresh.streamHeaders,
+                                        clientName = fresh.streamClient,
+                                        expiresInSeconds = fresh.streamExpiresInSeconds,
+                                        requireBoundedRange = fresh.requireBoundedRange,
+                                        rangeChunkSizeBytes = fresh.rangeChunkSizeBytes,
+                                        useRangeChunks = fresh.useRangeChunks,
+                                    )
+                                }
+                            } catch (e: Exception) {
+                                Timber.tag(TAG).w(e, "Stream refresh failed for %s", mediaId)
+                            } finally {
+                                refreshingStreams.remove(mediaId)
+                            }
+                        }
+                    }
                     return@Factory dataSpec.withResolvedStream(cachedStream)
                 }
             } else {
@@ -4086,6 +4304,8 @@ class MusicService :
                 nonNullPlayback.playbackTracking?.videostatsPlaybackUrl?.baseUrl?.let {
                     playbackUrlCache[cacheKey(mediaId)] = it
                 }
+
+                cacheCurrentSongAheadIfEnabled()
 
                 return@Factory dataSpec.withResolvedStream(
                     CachedStreamUrl(
@@ -5180,6 +5400,9 @@ class MusicService :
         const val PERSISTENT_PLAYER_STATE_FILE = "persistent_player_state.data"
         const val MAX_CONSECUTIVE_ERR = 5
         const val MAX_RETRY_COUNT = 10
+
+        /** Refresh cached stream URLs with less TTL remaining than this. */
+        private const val EXPIRING_SOON_REFRESH_MS = 30_000L
 
         private const val INITIAL_BUFFER_RECOVERY_DELAY_MS = 15_000L
         private const val INITIAL_BUFFER_RECOVERY_POSITION_MS = 5_000L
