@@ -67,7 +67,6 @@ import com.metrolist.music.constants.ExperimentalLyricsKey
 import com.metrolist.music.constants.ForceBottomNavBarKey
 import com.metrolist.music.constants.GridItemSize
 import com.metrolist.music.constants.GridItemsSizeKey
-import com.metrolist.music.canvas.SpotifyLoginDialog
 import com.metrolist.music.constants.HidePlayerThumbnailKey
 import com.metrolist.music.constants.HideStatusBarOnFullscreenKey
 import com.metrolist.music.constants.LibraryFilter
@@ -348,9 +347,6 @@ fun AppearanceSettings(
     var showSpotifySpDcDialog by rememberSaveable {
         mutableStateOf(false)
     }
-    var showSpotifyLoginDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
 
     var showPlayerButtonsStyleDialog by rememberSaveable {
         mutableStateOf(false)
@@ -566,16 +562,6 @@ fun AppearanceSettings(
                     PlayerBackgroundStyle.BLUR -> stringResource(R.string.player_background_blur)
                     PlayerBackgroundStyle.CANVAS -> stringResource(R.string.player_background_canvas)
                 }
-            },
-        )
-    }
-
-    if (showSpotifyLoginDialog) {
-        SpotifyLoginDialog(
-            onDismiss = { showSpotifyLoginDialog = false },
-            onSuccess = { cookie ->
-                onSpotifySpDcChange(cookie)
-                showSpotifyLoginDialog = false
             },
         )
     }
@@ -1242,7 +1228,7 @@ fun AppearanceSettings(
                                 if (spotifySpDc.isNotBlank()) {
                                     onSpotifySpDcChange("")
                                 } else {
-                                    showSpotifyLoginDialog = true
+                                    navController.navigate("settings/spotify_login")
                                 }
                             },
                         )

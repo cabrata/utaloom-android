@@ -908,6 +908,16 @@ fun BottomSheetPlayer(
                         }
                     }
 
+                    PlayerBackgroundStyle.CANVAS -> {
+                        if (canvasUrl.isNullOrBlank()) {
+                            AppleMeshBackground(
+                                thumbnailUrl = mediaMetadata?.thumbnailUrl,
+                                animate = effectiveIsPlaying && state.isExpanded,
+                                modifier = Modifier.alpha(backgroundAlpha),
+                            )
+                        }
+                    }
+
                     else -> {
                         PlayerBackgroundStyle.DEFAULT
                     }
@@ -1880,7 +1890,7 @@ fun BottomSheetPlayer(
                                     showLyrics = showLyrics,
                                     sliderPositionProvider = sliderPositionProvider,
                                 )
-                            } else if (playerBackground == PlayerBackgroundStyle.CANVAS) {
+                            } else if (playerBackground == PlayerBackgroundStyle.CANVAS && !canvasUrl.isNullOrBlank()) {
                                 CanvasPlayerView(
                                     canvasUrl = canvasUrl,
                                     thumbnailUrl = mediaMetadata?.thumbnailUrl,
@@ -1953,7 +1963,7 @@ fun BottomSheetPlayer(
                                     showLyrics = showLyrics,
                                     sliderPositionProvider = sliderPositionProvider,
                                 )
-                            } else if (playerBackground == PlayerBackgroundStyle.CANVAS) {
+                            } else if (playerBackground == PlayerBackgroundStyle.CANVAS && !canvasUrl.isNullOrBlank()) {
                                 CanvasPlayerView(
                                     canvasUrl = canvasUrl,
                                     thumbnailUrl = mediaMetadata?.thumbnailUrl,

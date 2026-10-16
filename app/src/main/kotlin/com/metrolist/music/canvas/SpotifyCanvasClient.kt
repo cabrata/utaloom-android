@@ -208,3 +208,12 @@ object SpotifyCanvasClient {
         }
     }
 }
+
+fun extractSpDc(cookieString: String?): String? {
+    if (cookieString.isNullOrBlank()) return null
+    return cookieString.split(";")
+        .map { it.trim() }
+        .firstOrNull { it.startsWith("sp_dc=") }
+        ?.substringAfter("sp_dc=")
+        ?.takeIf { it.isNotBlank() }
+}
