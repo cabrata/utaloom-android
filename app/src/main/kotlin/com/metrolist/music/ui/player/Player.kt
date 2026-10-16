@@ -140,6 +140,8 @@ import com.metrolist.music.LocalDownloadUtil
 import com.metrolist.music.LocalListenTogetherManager
 import com.metrolist.music.LocalPlayerConnection
 import com.metrolist.music.R
+import com.metrolist.music.canvas.CanvasPlayerView
+import com.metrolist.music.canvas.SpotifyCanvasClient
 import com.metrolist.music.constants.CropAlbumArtKey
 import com.metrolist.music.constants.DarkModeKey
 import com.metrolist.music.constants.HidePlayerThumbnailKey
@@ -156,6 +158,7 @@ import com.metrolist.music.constants.SleepTimerFadeOutKey
 import com.metrolist.music.constants.SleepTimerStopAfterCurrentSongKey
 import com.metrolist.music.constants.SliderStyle
 import com.metrolist.music.constants.SliderStyleKey
+import com.metrolist.music.constants.SpotifySpDcCookieKey
 import com.metrolist.music.constants.SquigglySliderKey
 import com.metrolist.music.constants.ThumbnailCornerRadius
 import com.metrolist.music.constants.UseNewPlayerDesignKey
@@ -254,7 +257,7 @@ fun BottomSheetPlayer(
     val shouldUseDarkButtonColors =
         remember(playerBackground, useDarkTheme) {
             when (playerBackground) {
-                PlayerBackgroundStyle.BLUR, PlayerBackgroundStyle.GRADIENT -> true
+                PlayerBackgroundStyle.BLUR, PlayerBackgroundStyle.GRADIENT, PlayerBackgroundStyle.CANVAS -> true
                 PlayerBackgroundStyle.DEFAULT -> useDarkTheme
             }
         }
@@ -269,7 +272,7 @@ fun BottomSheetPlayer(
             val insetsController = WindowCompat.getInsetsController(window, window.decorView)
 
             when (playerBackground) {
-                PlayerBackgroundStyle.BLUR, PlayerBackgroundStyle.GRADIENT -> {
+                PlayerBackgroundStyle.BLUR, PlayerBackgroundStyle.GRADIENT, PlayerBackgroundStyle.CANVAS -> {
                     insetsController.isAppearanceLightStatusBars = false
                 }
 
@@ -329,6 +332,23 @@ fun BottomSheetPlayer(
 
     val sliderStyle by rememberEnumPreference(SliderStyleKey, SliderStyle.DEFAULT)
     val squigglySlider by rememberPreference(SquigglySliderKey, defaultValue = false)
+
+    val spotifySpDc by rememberPreference(SpotifySpDcCookieKey, defaultValue = "")
+    var canvasUrl by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(mediaMetadata?.id, playerBackground, spotifySpDc) {
+        val metadata = mediaMetadata
+        if (playerBackground == PlayerBackgroundStyle.CANVAS && metadata != null) {
+            val artistName = metadata.artists.firstOrNull()?.name.orEmpty()
+            canvasUrl = SpotifyCanvasClient.fetchCanvas(
+                title = metadata.title,
+                artist = artistName,
+                spDc = spotifySpDc.takeIf { it.isNotBlank() },
+            )
+        } else {
+            canvasUrl = null
+        }
+    }
 
     // Listen Together state (reactive)
     val listenTogetherManager = LocalListenTogetherManager.current
@@ -463,6 +483,7 @@ fun BottomSheetPlayer(
                 PlayerBackgroundStyle.DEFAULT -> MaterialTheme.colorScheme.onBackground
                 PlayerBackgroundStyle.BLUR -> Color.White
                 PlayerBackgroundStyle.GRADIENT -> Color.White
+                PlayerBackgroundStyle.CANVAS -> Color.White
             },
         label = "TextBackgroundColor",
     )
@@ -473,6 +494,7 @@ fun BottomSheetPlayer(
                 PlayerBackgroundStyle.DEFAULT -> MaterialTheme.colorScheme.surface
                 PlayerBackgroundStyle.BLUR -> Color.Black
                 PlayerBackgroundStyle.GRADIENT -> Color.Black
+                PlayerBackgroundStyle.CANVAS -> Color.Black
             },
         label = "icBackgroundColor",
     )
@@ -480,7 +502,8 @@ fun BottomSheetPlayer(
     val (textButtonColor, iconButtonColor) =
         when {
             playerBackground == PlayerBackgroundStyle.BLUR ||
-                playerBackground == PlayerBackgroundStyle.GRADIENT -> {
+                playerBackground == PlayerBackgroundStyle.GRADIENT ||
+                playerBackground == PlayerBackgroundStyle.CANVAS -> {
                 when (playerButtonsStyle) {
                     PlayerButtonsStyle.DEFAULT -> {
                         Pair(Color.White, Color.Black)
@@ -533,7 +556,8 @@ fun BottomSheetPlayer(
     val (sideButtonContainerColor, sideButtonContentColor) =
         when {
             playerBackground == PlayerBackgroundStyle.BLUR ||
-                playerBackground == PlayerBackgroundStyle.GRADIENT -> {
+                playerBackground == PlayerBackgroundStyle.GRADIENT ||
+                playerBackground == PlayerBackgroundStyle.CANVAS -> {
                 when (playerButtonsStyle) {
                     PlayerButtonsStyle.DEFAULT -> {
                         Pair(
@@ -816,7 +840,7 @@ fun BottomSheetPlayer(
 
     val bottomSheetBackgroundColor =
         when (playerBackground) {
-            PlayerBackgroundStyle.BLUR, PlayerBackgroundStyle.GRADIENT -> {
+            PlayerBackgroundStyle.BLUR, PlayerBackgroundStyle.GRADIENT, PlayerBackgroundStyle.CANVAS -> {
                 MaterialTheme.colorScheme.surfaceContainer
             }
 
@@ -1856,6 +1880,16 @@ fun BottomSheetPlayer(
                                     showLyrics = showLyrics,
                                     sliderPositionProvider = sliderPositionProvider,
                                 )
+                            } else if (playerBackground == PlayerBackgroundStyle.CANVAS) {
+                                CanvasPlayerView(
+                                    canvasUrl = canvasUrl,
+                                    thumbnailUrl = mediaMetadata?.thumbnailUrl,
+                                    isPlaying = effectiveIsPlaying,
+                                    isExpanded = state.isExpanded,
+                                    bottomColor = bottomSheetBackgroundColor,
+                                    isLandscape = true,
+                                    modifier = Modifier.animateContentSize(),
+                                )
                             } else {
                                 Thumbnail(
                                     sliderPositionProvider = sliderPositionProvider,
@@ -1918,6 +1952,16 @@ fun BottomSheetPlayer(
                                     mediaMetadata = mediaMetadata,
                                     showLyrics = showLyrics,
                                     sliderPositionProvider = sliderPositionProvider,
+                                )
+                            } else if (playerBackground == PlayerBackgroundStyle.CANVAS) {
+                                CanvasPlayerView(
+                                    canvasUrl = canvasUrl,
+                                    thumbnailUrl = mediaMetadata?.thumbnailUrl,
+                                    isPlaying = effectiveIsPlaying,
+                                    isExpanded = state.isExpanded,
+                                    bottomColor = bottomSheetBackgroundColor,
+                                    isLandscape = false,
+                                    modifier = Modifier.nestedScroll(state.preUpPostDownNestedScrollConnection),
                                 )
                             } else {
                                 Thumbnail(

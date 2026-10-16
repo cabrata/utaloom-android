@@ -435,7 +435,10 @@ enum class PlayerBackgroundStyle {
     DEFAULT,
     GRADIENT,
     BLUR,
+    CANVAS,
 }
+
+val SpotifySpDcCookieKey = stringPreferencesKey("spotify_sp_dc_cookie")
 
 val TopSize = stringPreferencesKey("topSize")
 val HistoryDuration = floatPreferencesKey("historyDuration")

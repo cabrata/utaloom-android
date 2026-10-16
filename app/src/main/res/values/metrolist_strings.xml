@@ -98,6 +98,15 @@
     <string name="new_player_design">New player design</string>
     <string name="new_mini_player_design">New mini-player design</string>
     <string name="player_background_blur">Blur</string>
+    <string name="player_background_canvas">Canvas</string>
+    <string name="spotify_sp_dc_title">Spotify sp_dc Cookie</string>
+    <string name="spotify_sp_dc_desc">Used to retrieve Spotify Canvas video backgrounds</string>
+    <string name="spotify_login_title">Log in with Spotify</string>
+    <string name="spotify_login_desc">Log in to Spotify to automatically enable Canvas videos</string>
+    <string name="spotify_logged_in">Connected to Spotify</string>
+    <string name="spotify_logout">Disconnect Spotify</string>
+    <string name="spotify_login_success">Successfully connected to Spotify</string>
+    <string name="spotify_login_loading">Signing in to Spotify...</string>
     <string name="player_buttons_style">Player button colors</string>
     <string name="default_style">Default</string>
     <string name="primary_color_style">Primary color</string>
