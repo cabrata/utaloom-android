@@ -12,8 +12,6 @@ import android.graphics.Canvas
 import android.graphics.LinearGradient
 import android.graphics.Paint
 import android.graphics.Path
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.graphics.RectF
 import android.graphics.Shader
 import android.graphics.Typeface
@@ -27,7 +25,6 @@ import android.text.TextPaint
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.graphics.createBitmap
-import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.withClip
 import androidx.core.graphics.withTranslation
 import androidx.palette.graphics.Palette
@@ -186,6 +183,11 @@ object ComposeToImage {
                 }
             canvas.drawRoundRect(backgroundRect, cornerRadius, cornerRadius, borderPaint)
 
+            ContextCompat.getDrawable(context, R.drawable.utaloom_lyric_threads)?.apply {
+                setBounds(0, 0, imageWidth, imageHeight)
+                draw(canvas)
+            }
+
             val padding = 28f * scale
 
             // --- Header Section ---
@@ -265,47 +267,24 @@ object ComposeToImage {
 
             // --- Footer Section ---
             val logoBoxSize = 22f * scale
-            val logoIconSize = 16f * scale
             val footerY = imageHeight - padding - logoBoxSize
 
-            // Draw Logo Background Box
-            val logoBgPaint =
-                Paint().apply {
-                    color = secondaryTxtColor
-                    isAntiAlias = true
-                }
-            val logoBoxRect = RectF(padding, footerY, padding + logoBoxSize, footerY + logoBoxSize)
-            // Since it's a circle in preview: .clip(RoundedCornerShape(50)) which is usually circle for square box
-            canvas.drawOval(logoBoxRect, logoBgPaint)
-
-            // Draw Logo Icon
-            val rawLogo = ContextCompat.getDrawable(context, R.drawable.small_icon)?.toBitmap()
-            rawLogo?.let {
-                val logoPaint =
-                    Paint().apply {
-                        colorFilter = PorterDuffColorFilter(bgColor, PorterDuff.Mode.SRC_IN)
-                        isAntiAlias = true
-                    }
-
-                // Center logo in box
-                val logoOffset = (logoBoxSize - logoIconSize) / 2f
-                val logoRect =
-                    RectF(
-                        padding + logoOffset,
-                        footerY + logoOffset,
-                        padding + logoBoxSize - logoOffset,
-                        footerY + logoBoxSize - logoOffset,
-                    )
-                canvas.drawBitmap(it, null, logoRect, logoPaint)
+            ContextCompat.getDrawable(context, R.drawable.app_logo)?.apply {
+                setBounds(
+                    padding.roundToInt(),
+                    footerY.roundToInt(),
+                    (padding + logoBoxSize).roundToInt(),
+                    (footerY + logoBoxSize).roundToInt(),
+                )
+                draw(canvas)
             }
 
-            // Draw App Name
-            val appName = context.getString(R.string.app_name)
+            val appName = context.getString(R.string.utaloom_lyrics_signature)
             val appNamePaint =
                 TextPaint().apply {
                     color = secondaryTxtColor
-                    textSize = 14f * scale
-                    typeface = Typeface.DEFAULT_BOLD
+                    textSize = 12f * scale
+                    typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
                     isAntiAlias = true
                 }
 

@@ -292,6 +292,13 @@ fun LyricsImageCard(
                     .border(1.dp, mainTextColor.copy(alpha = 0.09f), RoundedCornerShape(cardCornerRadius))
             )
 
+            Image(
+                painter = painterResource(R.drawable.utaloom_lyric_threads),
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.matchParentSize()
+            )
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -395,33 +402,24 @@ fun LyricsImageCard(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .size(44.dp)
-                            .clip(RoundedCornerShape(50))
-                            .background(secondaryColor),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.small_icon),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(38.dp),
-                            colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(backgroundSolidColor)
-                        )
-                    }
+                    Image(
+                        painter = painterResource(R.drawable.app_logo),
+                        contentDescription = null,
+                        modifier = Modifier.size(22.dp)
+                    )
 
                     Spacer(modifier = Modifier.width(8.dp))
 
                     Text(
-                        text = stringResource(R.string.app_name),
+                        text = stringResource(R.string.utaloom_lyrics_signature),
                         color = secondaryColor,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Medium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
             }
         }
     }
 }
-

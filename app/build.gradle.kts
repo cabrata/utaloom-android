@@ -189,6 +189,13 @@ android {
         generateLocaleConfig = true
     }
 
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+        unitTests.all {
+            it.jvmArgs("--add-exports=java.base/jdk.internal.access=ALL-UNNAMED")
+        }
+    }
+
     packaging {
         jniLibs {
             useLegacyPackaging = false

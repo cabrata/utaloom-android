@@ -36,6 +36,7 @@
     <string name="share_lyrics">Share lyrics</string>
     <string name="share_as_text">Share as text</string>
     <string name="share_as_image">Share as image</string>
+    <string name="utaloom_lyrics_signature">woven with Utaloom</string>
     <string name="max_selection_limit">Maximum selection limit reached</string>
     <string name="share_selected">Share selected</string>
     <string name="customize_colors">Customize colors</string>
