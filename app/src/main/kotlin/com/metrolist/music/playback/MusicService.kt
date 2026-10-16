@@ -1792,9 +1792,14 @@ class MusicService :
      * of it into playerCache ahead of the playhead. When the playhead reaches uncached territory,
      * the download wins because it is already on disk, so playback never stalls on the network.
      */
-    private fun cacheCurrentSongAheadIfEnabled() {
+    private fun cacheCurrentSongAheadIfEnabled(targetMediaId: String? = null) {
         if (offlineMode || !cachedEnableSongCache) return
-        val currentId = player.currentMediaItem?.mediaId ?: return
+        val currentId = targetMediaId
+            ?: (if (Looper.myLooper() == Looper.getMainLooper()) {
+                player.currentMediaItem?.mediaId
+            } else {
+                runBlocking(Dispatchers.Main.immediate) { player.currentMediaItem?.mediaId }
+            }) ?: return
 
         // Cancel background download of previous tracks so all bandwidth goes to the current song
         aheadCacheJobs.keys.filter { it != currentId }.forEach { oldId ->
@@ -4305,7 +4310,7 @@ class MusicService :
                     playbackUrlCache[cacheKey(mediaId)] = it
                 }
 
-                cacheCurrentSongAheadIfEnabled()
+                cacheCurrentSongAheadIfEnabled(mediaId)
 
                 return@Factory dataSpec.withResolvedStream(
                     CachedStreamUrl(
