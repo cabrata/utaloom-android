@@ -1233,6 +1233,22 @@ fun AppearanceSettings(
                             },
                         )
                     } else null,
+                    if (playerBackground == PlayerBackgroundStyle.CANVAS) {
+                        Material3SettingsItem(
+                            icon = painterResource(R.drawable.edit),
+                            title = { Text(stringResource(R.string.spotify_sp_dc_title)) },
+                            description = {
+                                Text(
+                                    if (spotifySpDc.isBlank()) {
+                                        stringResource(R.string.spotify_manual_cookie)
+                                    } else {
+                                        "••••••••"
+                                    }
+                                )
+                            },
+                            onClick = { showSpotifySpDcDialog = true },
+                        )
+                    } else null,
                     Material3SettingsItem(
                         icon = painterResource(R.drawable.hide_image),
                         title = { Text(stringResource(R.string.hide_player_thumbnail)) },

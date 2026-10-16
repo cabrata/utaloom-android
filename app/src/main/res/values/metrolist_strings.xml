@@ -107,6 +107,7 @@
     <string name="spotify_logout">Disconnect Spotify</string>
     <string name="spotify_login_success">Successfully connected to Spotify</string>
     <string name="spotify_login_loading">Signing in to Spotify...</string>
+    <string name="spotify_manual_cookie">Enter cookie manually</string>
     <string name="player_buttons_style">Player button colors</string>
     <string name="default_style">Default</string>
     <string name="primary_color_style">Primary color</string>
