@@ -334,13 +334,14 @@ fun BottomSheetPlayer(
     val squigglySlider by rememberPreference(SquigglySliderKey, defaultValue = false)
 
     val spotifySpDc by rememberPreference(SpotifySpDcCookieKey, defaultValue = "")
-    var canvasUrl by remember { mutableStateOf<String?>(null) }
+    var canvasUrl by remember(mediaMetadata?.id, spotifySpDc) { mutableStateOf<String?>(null) }
 
-    LaunchedEffect(mediaMetadata?.id, playerBackground, spotifySpDc) {
+    LaunchedEffect(mediaMetadata?.id, playerBackground, spotifySpDc, state.isExpanded) {
         val metadata = mediaMetadata
-        if (playerBackground == PlayerBackgroundStyle.CANVAS && metadata != null) {
+        canvasUrl = null
+        if (playerBackground == PlayerBackgroundStyle.CANVAS && metadata != null && state.isExpanded) {
             val artistName = metadata.artists.firstOrNull()?.name.orEmpty()
-            canvasUrl = SpotifyCanvasClient.fetchCanvas(
+            canvasUrl = SpotifyCanvasClient.Default.fetchCanvas(
                 title = metadata.title,
                 artist = artistName,
                 spDc = spotifySpDc.takeIf { it.isNotBlank() },
@@ -840,7 +841,8 @@ fun BottomSheetPlayer(
 
     val bottomSheetBackgroundColor =
         when (playerBackground) {
-            PlayerBackgroundStyle.BLUR, PlayerBackgroundStyle.GRADIENT, PlayerBackgroundStyle.CANVAS -> {
+            PlayerBackgroundStyle.CANVAS -> Color(0xFF121212)
+            PlayerBackgroundStyle.BLUR, PlayerBackgroundStyle.GRADIENT -> {
                 MaterialTheme.colorScheme.surfaceContainer
             }
 
@@ -1899,6 +1901,7 @@ fun BottomSheetPlayer(
                                     bottomColor = bottomSheetBackgroundColor,
                                     isLandscape = true,
                                     modifier = Modifier.animateContentSize(),
+                                    onError = { canvasUrl = null },
                                 )
                             } else {
                                 Thumbnail(
@@ -1972,6 +1975,7 @@ fun BottomSheetPlayer(
                                     bottomColor = bottomSheetBackgroundColor,
                                     isLandscape = false,
                                     modifier = Modifier.nestedScroll(state.preUpPostDownNestedScrollConnection),
+                                    onError = { canvasUrl = null },
                                 )
                             } else {
                                 Thumbnail(

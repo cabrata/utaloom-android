@@ -48,7 +48,6 @@ import androidx.navigation.NavController
 import com.metrolist.music.R
 import com.metrolist.music.canvas.extractSpDc
 import com.metrolist.music.constants.SpotifySpDcCookieKey
-import com.metrolist.music.utils.dataStore
 import com.metrolist.music.utils.safeDataStoreEdit
 import kotlinx.coroutines.launch
 
@@ -64,20 +63,24 @@ fun SpotifyLoginScreen(
     var progress by remember { mutableIntStateOf(0) }
     var hasCaptured by remember { mutableStateOf(false) }
 
-    fun checkAndSaveCookie(url: String?) {
+    fun checkAndSaveCookie() {
         if (hasCaptured) return
         val cookieManager = CookieManager.getInstance()
-        val cookie1 = cookieManager.getCookie(url ?: "https://open.spotify.com").orEmpty()
         val cookie2 = cookieManager.getCookie("https://open.spotify.com").orEmpty()
         val cookie3 = cookieManager.getCookie("https://accounts.spotify.com").orEmpty()
-        val fullCookies = "$cookie1; $cookie2; $cookie3"
+        val fullCookies = "$cookie2; $cookie3"
 
         val spDc = extractSpDc(fullCookies)
         if (!spDc.isNullOrBlank()) {
             hasCaptured = true
             coroutineScope.launch {
-                context.safeDataStoreEdit { settings ->
+                val saved = context.safeDataStoreEdit { settings ->
                     settings[SpotifySpDcCookieKey] = spDc
+                }
+                if (!saved) {
+                    hasCaptured = false
+                    Toast.makeText(context, R.string.spotify_login_save_error, Toast.LENGTH_LONG).show()
+                    return@launch
                 }
                 Toast.makeText(
                     context,
@@ -142,13 +145,14 @@ fun SpotifyLoginScreen(
                         settings.apply {
                             javaScriptEnabled = true
                             domStorageEnabled = true
-                            databaseEnabled = true
                             useWideViewPort = true
                             loadWithOverviewMode = true
                             setSupportZoom(true)
                             builtInZoomControls = true
                             displayZoomControls = false
-                            mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+                            mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
+                            allowFileAccess = false
+                            allowContentAccess = false
                             userAgentString =
                                 "Mozilla/5.0 (Linux; Android 14; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36"
                         }
@@ -163,26 +167,27 @@ fun SpotifyLoginScreen(
                             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
                                 val scheme = request.url.scheme
                                 if (scheme == "http" || scheme == "https") {
-                                    checkAndSaveCookie(request.url.toString())
+                                    checkAndSaveCookie()
                                     return false
                                 }
                                 return true
                             }
 
                             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                                checkAndSaveCookie(url)
+                                checkAndSaveCookie()
                             }
 
                             override fun onPageFinished(view: WebView?, url: String?) {
-                                checkAndSaveCookie(url)
+                                checkAndSaveCookie()
                             }
 
                             override fun doUpdateVisitedHistory(view: WebView?, url: String?, isReload: Boolean) {
-                                checkAndSaveCookie(url)
+                                checkAndSaveCookie()
                             }
 
                             override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
-                                handler?.proceed()
+                                handler?.cancel()
+                                Toast.makeText(ctx, R.string.spotify_login_tls_error, Toast.LENGTH_LONG).show()
                             }
                         }
 

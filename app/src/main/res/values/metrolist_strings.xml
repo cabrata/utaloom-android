@@ -108,6 +108,8 @@
     <string name="spotify_login_success">Successfully connected to Spotify</string>
     <string name="spotify_login_loading">Signing in to Spotify...</string>
     <string name="spotify_manual_cookie">Enter cookie manually</string>
+    <string name="spotify_login_tls_error">Cannot securely connect to Spotify. Check the device date and network, then try again.</string>
+    <string name="spotify_login_save_error">Could not save the Spotify session. Please try again.</string>
     <string name="player_buttons_style">Player button colors</string>
     <string name="default_style">Default</string>
     <string name="primary_color_style">Primary color</string>

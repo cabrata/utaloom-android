@@ -5,12 +5,11 @@
 
 package com.metrolist.music.canvas
 
+import android.content.Context
 import android.graphics.Matrix
 import android.view.TextureView
 import androidx.annotation.OptIn
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -25,9 +24,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -35,11 +36,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.compose.LifecycleResumeEffect
+import androidx.media3.common.AudioAttributes
+import androidx.media3.common.C
 import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.VideoSize
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.audio.AudioSink
 import coil3.compose.AsyncImage
 
 @OptIn(UnstableApi::class)
@@ -52,17 +59,33 @@ fun CanvasPlayerView(
     bottomColor: Color,
     isLandscape: Boolean = false,
     modifier: Modifier = Modifier,
+    onError: () -> Unit = {},
 ) {
     val context = LocalContext.current
-    var isVideoReady by remember(canvasUrl) { mutableStateOf(false) }
+    val currentOnError by rememberUpdatedState(onError)
+    var isVideoReady by remember { mutableStateOf(false) }
     var videoWidth by remember { mutableIntStateOf(0) }
     var videoHeight by remember { mutableIntStateOf(0) }
+    val videoAlpha by animateFloatAsState(
+        targetValue = if (isVideoReady) 1f else 0f,
+        label = "canvasAlpha",
+    )
 
-    val exoPlayer = remember {
-        ExoPlayer.Builder(context).build().apply {
-            volume = 0f
-            repeatMode = Player.REPEAT_MODE_ONE
+    val exoPlayer = remember(context) {
+        val renderersFactory = object : DefaultRenderersFactory(context) {
+            override fun buildAudioSink(
+                context: Context,
+                enableFloatOutput: Boolean,
+                enableAudioOutputPlaybackParams: Boolean,
+            ): AudioSink? = null
         }
+        ExoPlayer.Builder(context, renderersFactory)
+            .setAudioAttributes(AudioAttributes.DEFAULT, false)
+            .setWakeMode(C.WAKE_MODE_NONE)
+            .build().apply {
+                volume = 0f
+                repeatMode = Player.REPEAT_MODE_ONE
+            }
     }
 
     DisposableEffect(exoPlayer) {
@@ -74,32 +97,42 @@ fun CanvasPlayerView(
                 }
             }
 
-            override fun onPlaybackStateChanged(playbackState: Int) {
-                if (playbackState == Player.STATE_READY) {
-                    isVideoReady = true
-                }
+            override fun onRenderedFirstFrame() {
+                isVideoReady = true
+            }
+
+            override fun onPlayerError(error: PlaybackException) {
+                isVideoReady = false
+                exoPlayer.pause()
+                currentOnError()
             }
         }
         exoPlayer.addListener(listener)
         onDispose {
             exoPlayer.removeListener(listener)
+            exoPlayer.clearVideoSurface()
             exoPlayer.release()
         }
     }
 
-    LaunchedEffect(canvasUrl) {
+    LaunchedEffect(exoPlayer, canvasUrl) {
         isVideoReady = false
+        videoWidth = 0
+        videoHeight = 0
         if (!canvasUrl.isNullOrBlank()) {
             exoPlayer.setMediaItem(MediaItem.fromUri(canvasUrl))
             exoPlayer.prepare()
-            exoPlayer.playWhenReady = isPlaying && isExpanded
         } else {
             exoPlayer.clearMediaItems()
         }
     }
 
-    LaunchedEffect(isPlaying, isExpanded, isVideoReady) {
-        exoPlayer.playWhenReady = isPlaying && isExpanded && isVideoReady
+    val shouldPlay = isPlaying && isExpanded && !canvasUrl.isNullOrBlank()
+    LifecycleResumeEffect(exoPlayer, canvasUrl, shouldPlay) {
+        exoPlayer.playWhenReady = shouldPlay
+        onPauseOrDispose {
+            exoPlayer.pause()
+        }
     }
 
     Box(
@@ -120,28 +153,22 @@ fun CanvasPlayerView(
 
         // Canvas video
         if (!canvasUrl.isNullOrBlank()) {
-            AnimatedVisibility(
-                visible = isVideoReady,
-                enter = fadeIn(),
-                exit = fadeOut(),
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                AndroidView(
-                    factory = { ctx ->
-                        TextureView(ctx).apply {
-                            exoPlayer.setVideoTextureView(this)
-                            addOnLayoutChangeListener { _, left, top, right, bottom, _, _, _, _ ->
-                                updateCenterCrop(this, right - left, bottom - top, videoWidth, videoHeight)
-                            }
+            AndroidView(
+                factory = { ctx ->
+                    TextureView(ctx).apply {
+                        exoPlayer.setVideoTextureView(this)
+                        addOnLayoutChangeListener { _, left, top, right, bottom, _, _, _, _ ->
+                            updateCenterCrop(this, right - left, bottom - top, videoWidth, videoHeight)
                         }
-                    },
-                    update = { view ->
-                        exoPlayer.setVideoTextureView(view)
-                        updateCenterCrop(view, view.width, view.height, videoWidth, videoHeight)
-                    },
-                    modifier = Modifier.fillMaxSize(),
-                )
-            }
+                    }
+                },
+                update = { view ->
+                    exoPlayer.setVideoTextureView(view)
+                    updateCenterCrop(view, view.width, view.height, videoWidth, videoHeight)
+                },
+                onRelease = { view -> exoPlayer.clearVideoTextureView(view) },
+                modifier = Modifier.fillMaxSize().alpha(videoAlpha),
+            )
         }
 
         // Top vignette

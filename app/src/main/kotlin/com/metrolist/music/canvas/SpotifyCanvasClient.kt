@@ -5,215 +5,261 @@
 
 package com.metrolist.music.canvas
 
-import android.util.LruCache
+import com.google.protobuf.CodedInputStream
+import com.google.protobuf.CodedOutputStream
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONArray
 import org.json.JSONObject
 import timber.log.Timber
+import java.io.ByteArrayOutputStream
+import java.io.IOException
 import java.nio.ByteBuffer
+import java.text.Normalizer
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
-import kotlin.math.pow
+import kotlin.coroutines.coroutineContext
 
-object SpotifyCanvasClient {
-    private val httpClient = OkHttpClient.Builder()
+class SpotifyCanvasClient internal constructor(
+    private val httpClient: OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(8, TimeUnit.SECONDS)
         .readTimeout(10, TimeUnit.SECONDS)
-        .build()
+        .callTimeout(20, TimeUnit.SECONDS)
+        .build(),
+    private val now: () -> Long = System::currentTimeMillis,
+) {
+    companion object {
+        val Default = SpotifyCanvasClient()
+        private const val USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
+        // ponytail: Spotify's persisted query is versioned, update from the web player if it changes.
+        private const val SEARCH_HASH = "b02683192a98dde7966b5e6655a79eeb62713eab703eda9902c932818dd52751"
+    }
 
-    private val cache = LruCache<String, String>(100)
-    private val canvasUrlRegex = Regex("""https://canvaz\.scdn\.co/[^\x00-\x1f\x7f-\xff"]+\.mp4""")
+    // ponytail: one on-screen lookup at a time, use per-session locks if callers ever run in parallel.
+    private val mutex = Mutex()
+    private val cache = LinkedHashMap<String, Pair<String?, Long>>()
+    private var session: String? = null
+    private var token: String? = null
+    private var tokenExpiresAt = 0L
+    private var retryAt = 0L
 
-    private var cachedToken: String? = null
-    private var tokenExpiryTime: Long = 0L
-
-    suspend fun fetchCanvas(
-        title: String,
-        artist: String,
-        spDc: String?,
-    ): String? = withContext(Dispatchers.IO) {
-        val cacheKey = "$title - $artist"
-        synchronized(cache) {
-            val cached = cache.get(cacheKey)
-            if (cached != null) {
-                return@withContext cached.ifEmpty { null }
+    suspend fun fetchCanvas(title: String, artist: String, spDc: String?): String? = withContext(Dispatchers.IO) {
+        mutex.withLock {
+            val cookie = normalizeSpDc(spDc)
+            if (session != cookie) {
+                session = cookie
+                token = null
+                tokenExpiresAt = 0L
+                retryAt = 0L
+                cache.clear()
             }
-        }
+            if (cookie == null || title.isBlank() || artist.isBlank()) return@withLock null
+            val cacheKey = "$title\n$artist"
+            cache[cacheKey]?.takeIf { it.second > now() }?.let { return@withLock it.first }
+            if (now() < retryAt) return@withLock null
 
-        try {
-            val token = getAccessToken(spDc)
-            if (token == null) {
-                Timber.w("Failed to get Spotify access token")
-                return@withContext null
+            try {
+                val accessToken = getAccessToken(cookie)
+                val trackId = searchTrackId(title, artist, accessToken)
+                val canvas = trackId?.let { fetchCanvasByTrackId(it, accessToken) }
+                coroutineContext.ensureActive()
+                cache[cacheKey] = canvas to (now() + if (canvas == null) 5 * 60_000L else 30 * 60_000L)
+                if (cache.size > 100) cache.remove(cache.keys.first())
+                canvas
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: IOException) {
+                // Do not cache a network/auth failure as "this song has no Canvas".
+                Timber.w("Spotify Canvas lookup failed (%s)", e.javaClass.simpleName)
+                null
+            } catch (e: org.json.JSONException) {
+                Timber.w("Spotify Canvas returned an unsupported response")
+                null
             }
-
-            val trackId = searchTrackId(title, artist, token)
-            if (trackId == null) {
-                Timber.d("Spotify track not found for $title by $artist")
-                synchronized(cache) { cache.put(cacheKey, "") }
-                return@withContext null
-            }
-
-            val canvasUrl = fetchCanvasByTrackId(trackId, token)
-            synchronized(cache) {
-                cache.put(cacheKey, canvasUrl ?: "")
-            }
-            canvasUrl
-        } catch (e: Exception) {
-            Timber.e(e, "Error fetching canvas for $title by $artist")
-            null
         }
     }
 
-    private fun cleanTitle(title: String): String {
-        return title
-            .replace(Regex("""(?i)\(.*?official.*?\)|\[.*?official.*?\]"""), "")
-            .replace(Regex("""(?i)\(.*?video.*?\)|\[.*?video.*?\]"""), "")
-            .replace(Regex("""(?i)\(.*?audio.*?\)|\[.*?audio.*?\]"""), "")
-            .replace(Regex("""(?i)\(.*?lyric.*?\)|\[.*?lyric.*?\]"""), "")
-            .replace(Regex("""(?i)\(.*?feat\..*?\)|\[.*?feat\..*?\]"""), "")
-            .replace(Regex("""(?i)\(.*?ft\..*?\)|\[.*?ft\..*?\]"""), "")
-            .trim()
-    }
-
-    private suspend fun getAccessToken(spDc: String?): String? = withContext(Dispatchers.IO) {
-        val now = System.currentTimeMillis()
-        if (cachedToken != null && now < tokenExpiryTime - 60_000) {
-            return@withContext cachedToken
-        }
-
-        try {
-            val totpVer = "61"
-            val secretCipher = intArrayOf(
-                44, 55, 44, 43, 103, 60, 49, 126, 59, 49, 80, 69, 89, 75, 81, 87, 62, 54, 123, 37, 117, 49, 52, 93, 76, 62
-            )
-            val processed = StringBuilder()
-            secretCipher.forEachIndexed { i, byte ->
-                processed.append(byte xor ((i % 33) + 9))
-            }
-            val keyBytes = processed.toString().toByteArray(Charsets.US_ASCII)
-
-            val localTime = System.currentTimeMillis() / 1000
-            val totpCode = generateTotp(keyBytes, localTime)
-            val serverCode = generateTotp(keyBytes, localTime)
-
-            val tokenUrl = "https://open.spotify.com/api/token?reason=transport&productType=web-player&totp=$totpCode&totpVer=$totpVer&totpServer=$serverCode"
-            val requestBuilder = Request.Builder()
-                .url(tokenUrl)
-                .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36")
-                .header("Origin", "https://open.spotify.com/")
-                .header("Referer", "https://open.spotify.com/")
-
-            if (!spDc.isNullOrBlank()) {
-                requestBuilder.header("Cookie", "sp_dc=${spDc.trim()}")
-            }
-
-            val response = httpClient.newCall(requestBuilder.build()).execute()
+    private suspend fun execute(request: Request): ByteArray {
+        coroutineContext.ensureActive()
+        val bytes = httpClient.newCall(request).execute().use { response ->
             if (!response.isSuccessful) {
-                Timber.w("Token fetch unsuccessful: ${response.code}")
-                return@withContext null
+                if (response.code == 401 || response.code == 403) {
+                    token = null
+                    tokenExpiresAt = 0L
+                }
+                if (response.code == 429) {
+                    val seconds = response.header("Retry-After")?.toLongOrNull()?.coerceIn(1L, 3600L) ?: 60L
+                    retryAt = now() + seconds * 1000L
+                }
+                throw IOException("Spotify HTTP ${response.code}")
             }
-
-            val body = response.body.string()
-            val json = JSONObject(body)
-            val token = json.optString("accessToken")
-            if (token.isNotEmpty()) {
-                cachedToken = token
-                tokenExpiryTime = now + 50 * 60 * 1000L
-                return@withContext token
-            }
-            null
-        } catch (e: Exception) {
-            Timber.e(e, "Error obtaining Spotify access token")
-            null
+            response.body.bytes()
         }
+        coroutineContext.ensureActive()
+        return bytes
     }
 
-    private fun generateTotp(keyBytes: ByteArray, timestampSec: Long, period: Int = 30, digits: Int = 6): String {
-        val counter = timestampSec / period
-        val buffer = ByteBuffer.allocate(8).putLong(counter).array()
-        val mac = Mac.getInstance("HmacSHA1")
-        mac.init(SecretKeySpec(keyBytes, "HmacSHA1"))
-        val hash = mac.doFinal(buffer)
-        val offset = hash[19].toInt() and 0xf
-        val binary = ((hash[offset].toInt() and 0x7f) shl 24) or
-                ((hash[offset + 1].toInt() and 0xff) shl 16) or
-                ((hash[offset + 2].toInt() and 0xff) shl 8) or
-                (hash[offset + 3].toInt() and 0xff)
-        val otp = (binary % 10.0.pow(digits.toDouble())).toInt()
-        return otp.toString().padStart(digits, '0')
-    }
+    private fun spotifyRequest(url: String, accessToken: String? = null): Request.Builder = Request.Builder()
+        .url(url)
+        .header("User-Agent", USER_AGENT)
+        .header("Origin", "https://open.spotify.com")
+        .header("Referer", "https://open.spotify.com/")
+        .apply { accessToken?.let { header("Authorization", "Bearer $it") } }
 
-    private suspend fun searchTrackId(title: String, artist: String, token: String): String? = withContext(Dispatchers.IO) {
-        val cleaned = cleanTitle(title)
-        val query = "$cleaned $artist".trim()
-        val searchUrl = "https://api.spotify.com/v1/search?q=${java.net.URLEncoder.encode(query, "UTF-8")}&type=track&limit=1"
-
-        val request = Request.Builder()
-            .url(searchUrl)
-            .header("Authorization", "Bearer $token")
-            .header("User-Agent", "Mozilla/5.0")
+    private suspend fun getAccessToken(cookie: String): String {
+        token?.takeIf { now() < tokenExpiresAt - 60_000L }?.let { return it }
+        // This public rotation data request must never carry account cookies or bearer tokens.
+        val secrets = JSONObject(String(execute(Request.Builder()
+            .url("https://raw.githubusercontent.com/xyloflake/spot-secrets-go/refs/heads/main/secrets/secretDict.json")
+            .build()), Charsets.UTF_8))
+        val version = secrets.keys().asSequence().mapNotNull(String::toIntOrNull).maxOrNull()
+            ?: throw IOException("Missing Spotify authentication version")
+        val cipher = secrets.getJSONArray(version.toString())
+        if (cipher.length() !in 16..128) throw IOException("Invalid Spotify authentication data")
+        val key = (0 until cipher.length()).joinToString("") { index ->
+            val value = cipher.getInt(index)
+            if (value !in 0..255) throw IOException("Invalid Spotify authentication data")
+            (value xor ((index % 33) + 9)).toString()
+        }.toByteArray(Charsets.US_ASCII)
+        val serverTime = JSONObject(String(execute(spotifyRequest("https://open.spotify.com/api/server-time").build()), Charsets.UTF_8))
+            .getLong("serverTime")
+        if (serverTime <= 0) throw IOException("Invalid Spotify server time")
+        val url = "https://open.spotify.com/api/token".toHttpUrl().newBuilder()
+            .addQueryParameter("reason", "transport")
+            .addQueryParameter("productType", "web-player")
+            .addQueryParameter("totp", spotifyTotp(key, serverTime))
+            .addQueryParameter("totpVer", version.toString())
+            // Spotify's totpServer parameter uses the legacy, already-divided server timestamp.
+            .addQueryParameter("totpServer", spotifyTotp(key, serverTime / 30))
             .build()
-
-        try {
-            val response = httpClient.newCall(request).execute()
-            if (!response.isSuccessful) {
-                Timber.w("Spotify search failed: ${response.code}")
-                return@withContext null
-            }
-            val body = response.body.string()
-            val json = JSONObject(body)
-            val items = json.optJSONObject("tracks")?.optJSONArray("items")
-            if (items != null && items.length() > 0) {
-                return@withContext items.getJSONObject(0).optString("id")
-            }
-        } catch (e: Exception) {
-            Timber.w(e, "Error searching Spotify track")
+        val json = JSONObject(String(execute(spotifyRequest(url.toString())
+            .header("Cookie", "sp_dc=$cookie").build()), Charsets.UTF_8))
+        val accessToken = json.optString("accessToken")
+        if (accessToken.isBlank() || json.optBoolean("isAnonymous", true)) {
+            throw IOException("Spotify session is not authenticated")
         }
-        null
+        token = accessToken
+        tokenExpiresAt = json.optLong("accessTokenExpirationTimestampMs", now() + 30 * 60_000L)
+        return accessToken
     }
 
-    private suspend fun fetchCanvasByTrackId(trackId: String, token: String): String? = withContext(Dispatchers.IO) {
-        val trackUri = "spotify:track:$trackId"
-        val trackUriBytes = trackUri.toByteArray(Charsets.UTF_8)
+    private suspend fun searchTrackId(title: String, artist: String, accessToken: String): String? {
+        val payload = JSONObject()
+            .put("operationName", "searchTracks")
+            .put("variables", JSONObject().put("searchTerm", "${cleanCanvasTitle(title)} $artist").put("offset", 0).put("limit", 10))
+            .put("extensions", JSONObject().put("persistedQuery", JSONObject().put("version", 1).put("sha256Hash", SEARCH_HASH)))
+        val json = JSONObject(String(execute(spotifyRequest("https://api-partner.spotify.com/pathfinder/v2/query", accessToken)
+            .post(payload.toString().toRequestBody("application/json".toMediaType())).build()), Charsets.UTF_8))
+        if (json.optJSONArray("errors")?.length()?.let { it > 0 } == true) throw IOException("Spotify search failed")
+        val tracks = json.optJSONObject("data")?.optJSONObject("searchV2")?.optJSONObject("tracksV2")?.optJSONArray("items")
+            ?: throw IOException("Missing Spotify track results")
+        return matchCanvasTrack(tracks, title, artist)
+    }
 
-        val trackBytes = byteArrayOf(0x0a, trackUriBytes.size.toByte()) + trackUriBytes
-        val reqBytes = byteArrayOf(0x0a, trackBytes.size.toByte()) + trackBytes
-
-        val request = Request.Builder()
-            .url("https://spclient.wg.spotify.com/canvaz-cache/v0/canvases")
-            .post(reqBytes.toRequestBody("application/x-protobuf".toMediaType()))
-            .header("Authorization", "Bearer $token")
-            .header("User-Agent", "Spotify/9.0.34.593 iOS/18.4 (iPhone15,3)")
-            .build()
-
-        try {
-            val response = httpClient.newCall(request).execute()
-            if (!response.isSuccessful) {
-                Timber.w("Canvas fetch request failed: ${response.code}")
-                return@withContext null
-            }
-            val responseBytes = response.body.bytes()
-            val responseText = String(responseBytes, Charsets.ISO_8859_1)
-            val match = canvasUrlRegex.find(responseText)
-            return@withContext match?.value
-        } catch (e: Exception) {
-            Timber.e(e, "Error executing canvas request")
-            null
-        }
+    private suspend fun fetchCanvasByTrackId(trackId: String, accessToken: String): String? {
+        val bytes = execute(spotifyRequest("https://spclient.wg.spotify.com/canvaz-cache/v0/canvases", accessToken)
+            .post(canvasRequest(trackId).toRequestBody("application/x-protobuf".toMediaType())).build())
+        return decodeCanvasUrl(bytes, "spotify:track:$trackId")
     }
 }
 
-fun extractSpDc(cookieString: String?): String? {
-    if (cookieString.isNullOrBlank()) return null
-    return cookieString.split(";")
-        .map { it.trim() }
-        .firstOrNull { it.startsWith("sp_dc=") }
-        ?.substringAfter("sp_dc=")
-        ?.takeIf { it.isNotBlank() }
+internal fun spotifyTotp(key: ByteArray, seconds: Long): String {
+    val mac = Mac.getInstance("HmacSHA1")
+    mac.init(SecretKeySpec(key, "HmacSHA1"))
+    val hash = mac.doFinal(ByteBuffer.allocate(8).putLong(seconds / 30).array())
+    val offset = hash.last().toInt() and 15
+    val binary = ByteBuffer.wrap(hash, offset, 4).int and Int.MAX_VALUE
+    return (binary % 1_000_000).toString().padStart(6, '0')
 }
+
+internal fun cleanCanvasTitle(title: String): String = title
+    .replace(Regex("""(?i)\([^)]*(?:official|video|audio|lyric|feat\.|ft\.)[^)]*\)|\[[^]]*(?:official|video|audio|lyric|feat\.|ft\.)[^]]*]"""), "")
+    .trim()
+
+private fun normalizeCanvasText(text: String): String = Normalizer.normalize(text, Normalizer.Form.NFD)
+    .replace(Regex("\\p{M}+"), "")
+    .lowercase(Locale.ROOT)
+    .replace(Regex("[^\\p{L}\\p{N}]+"), " ")
+    .trim()
+
+internal fun matchCanvasTrack(tracks: JSONArray, title: String, artist: String): String? {
+    val normalizedTitle = normalizeCanvasText(cleanCanvasTitle(title))
+    val normalizedArtist = normalizeCanvasText(artist)
+    for (index in 0 until tracks.length()) {
+        val track = tracks.optJSONObject(index)?.optJSONObject("item")?.optJSONObject("data") ?: continue
+        if (normalizeCanvasText(cleanCanvasTitle(track.optString("name"))) != normalizedTitle) continue
+        val artists = track.optJSONObject("artists")?.optJSONArray("items") ?: continue
+        val artistMatches = (0 until artists.length()).any {
+            normalizeCanvasText(artists.optJSONObject(it)?.optJSONObject("profile")?.optString("name").orEmpty()) == normalizedArtist
+        }
+        val id = track.optString("id")
+        if (artistMatches && Regex("[A-Za-z0-9]{22}").matches(id)) return id
+    }
+    return null
+}
+
+internal fun canvasRequest(trackId: String): ByteArray {
+    require(Regex("[A-Za-z0-9]{22}").matches(trackId))
+    val entityBytes = ByteArrayOutputStream().also { buffer ->
+        CodedOutputStream.newInstance(buffer).apply {
+            writeString(1, "spotify:track:$trackId")
+            flush()
+        }
+    }.toByteArray()
+    return ByteArrayOutputStream().also { buffer ->
+        CodedOutputStream.newInstance(buffer).apply {
+            writeByteArray(1, entityBytes)
+            flush()
+        }
+    }.toByteArray()
+}
+
+internal fun decodeCanvasUrl(bytes: ByteArray, trackUri: String): String? {
+    val input = CodedInputStream.newInstance(bytes)
+    while (!input.isAtEnd) {
+        val tag = input.readTag()
+        if (tag != 10) {
+            if (!input.skipField(tag)) break
+            continue
+        }
+        val canvas = CodedInputStream.newInstance(input.readByteArray())
+        var url: String? = null
+        var uri: String? = null
+        while (!canvas.isAtEnd) {
+            when (val field = canvas.readTag()) {
+                18 -> url = canvas.readStringRequireUtf8()
+                42 -> uri = canvas.readStringRequireUtf8()
+                else -> if (!canvas.skipField(field)) break
+            }
+        }
+        val parsed = url?.toHttpUrlOrNullCanvas()
+        if (uri == trackUri && parsed != null) return parsed
+    }
+    return null
+}
+
+private fun String.toHttpUrlOrNullCanvas(): String? = toHttpUrlOrNull()
+    ?.takeIf { it.scheme == "https" && it.host == "canvaz.scdn.co" && it.encodedPath.endsWith(".mp4") }
+    ?.toString()
+
+internal fun normalizeSpDc(input: String?): String? {
+    val trimmed = input?.trim()?.removeSurrounding("\"")?.removeSurrounding("'") ?: return null
+    val cookie = if (trimmed.contains("sp_dc=")) extractSpDc(trimmed) else trimmed
+    return cookie?.takeIf { it.length in 16..4096 && it.all { char -> char.isLetterOrDigit() && char.code < 128 || char == '-' || char == '_' || char == '=' } }
+}
+
+fun extractSpDc(cookieString: String?): String? = cookieString?.split(';')
+    ?.asSequence()?.map(String::trim)?.firstOrNull { it.startsWith("sp_dc=") }
+    ?.substringAfter("sp_dc=")?.takeIf(String::isNotBlank)
