@@ -1,5 +1,22 @@
 # Changelog
 
+## [v1.3.0] - 2026-10-16
+
+### Added
+- **player:** Spotify Canvas backgrounds with automatic login (`3c464b0`)
+- **canvas:** Unit tests for cookie extraction and Canvas URL matching (`e12a965`)
+
+### Changed
+- **playback:** Reduced streaming lag with next-track prefetching and progressive caching (`9fc42ef`)
+
+### Fixed
+- **canvas:** Repaired Spotify lookup and first-frame playback (`9a7c019`)
+- **auth:** Restored Scaffold layout and settings for Spotify login (`6356ff7`)
+- **playback:** Prevented wrong-thread access during look-ahead caching and fixed WebView login (`1f7441b`)
+- **player:** Fixed blank WebView layouts and added manual cookie entry (`61a158d`)
+- **player:** Fixed blank Spotify login and added a fallback when Canvas is unavailable (`ec7802f`)
+- **lyrics:** Synchronized lyric animations and highlighting during cast playback (`37f542f`)
+
 ## [v1.2.0] - 2026-10-12
 
 ### Added
