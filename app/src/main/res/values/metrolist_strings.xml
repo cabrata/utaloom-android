@@ -754,6 +754,7 @@
 
     <!-- Theme Palette Names -->
     <string name="palette_dynamic">Dynamic</string>
+    <string name="palette_utaloom_coral">Utaloom Coral</string>
     <string name="palette_crimson">Crimson</string>
     <string name="palette_rose">Rose</string>
     <string name="palette_purple">Purple</string>

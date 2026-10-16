@@ -974,13 +974,12 @@ fun BottomSheetPlayer(
                                             .background(MaterialTheme.colorScheme.surfaceVariant),
                                     contentAlignment = Alignment.Center,
                                 ) {
-                                    Icon(
-                                        painter = painterResource(R.drawable.small_icon),
+                                    Image(
+                                        painter = painterResource(R.drawable.app_logo),
                                         contentDescription = null,
                                         modifier =
                                             Modifier
                                                 .size(32.dp),
-                                        tint = textButtonColor.copy(alpha = 0.7f),
                                     )
                                 }
                             } else {

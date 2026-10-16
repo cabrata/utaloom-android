@@ -243,12 +243,8 @@ fun AboutScreen(
                     .padding(24.dp)
             ) {
                 Image(
-                    painter = painterResource(R.drawable.small_icon),
+                    painter = painterResource(R.drawable.app_logo),
                     contentDescription = stringResource(R.string.utaloom_name),
-                    colorFilter = ColorFilter.tint(
-                        color = MaterialTheme.colorScheme.primary,
-                        blendMode = BlendMode.SrcIn,
-                    ),
                     modifier = Modifier.size(64.dp)
                 )
         

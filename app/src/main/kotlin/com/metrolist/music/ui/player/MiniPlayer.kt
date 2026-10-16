@@ -550,7 +550,15 @@ private fun NewMiniPlayerPlayButton(
                     )
                     // Draw progress
                     drawArc(
-                        color = primaryColor,
+                        brush =
+                            Brush.sweepGradient(
+                                listOf(
+                                    Color(0xFFF47757),
+                                    Color(0xFFFFC6A3),
+                                    Color(0xFFF47757),
+                                ),
+                                center = Offset(size.width / 2, size.height / 2),
+                            ),
                         startAngle = startAngle,
                         sweepAngle = sweepAngle,
                         useCenter = false,
@@ -834,7 +842,13 @@ private fun LegacyMiniPlayer(
                     .drawWithContent {
                         val progress = progressState.progress
                         drawRect(trackColor)
-                        drawRect(primaryColor, size = Size(size.width * progress, size.height))
+                        drawRect(
+                            brush =
+                                Brush.horizontalGradient(
+                                    listOf(Color(0xFFF47757), Color(0xFFFFC6A3)),
+                                ),
+                            size = Size(size.width * progress, size.height),
+                        )
                     },
         )
 
