@@ -31,6 +31,27 @@ class AudioQualityInfoTest {
     }
 
     @Test
+    fun `badge uses the add-on's quality and measured values beat reported ones`() {
+        val reported = stream("flac", 16, 44_100).copy(quality = "LOSSLESS", bitrateKbps = 900)
+        val info = audioQualityOf(reported, opus, PlayedAudio(bitDepth = 24, sampleRateHz = 96_000, bitrateKbps = 2_900))!!
+        assertEquals("LOSSLESS", info.label)
+        assertEquals(Tier.HI_RES, info.tier)
+        assertEquals(24, info.bitDepth)
+        assertEquals(96_000, info.sampleRateHz)
+        assertEquals(2_900, info.bitrateKbps)
+        assertEquals(900, audioQualityOf(reported, opus, PlayedAudio())!!.bitrateKbps)
+        assertNull(audioQualityOf(null, opus)!!.label)
+    }
+
+    @Test
+    fun `average bitrate comes from file size over length`() {
+        // 41 699 102 bytes over 5:54
+        assertEquals(942, averageBitrateKbps(41_699_102L, 354_000L))
+        assertNull(averageBitrateKbps(null, 354_000L))
+        assertNull(averageBitrateKbps(41_699_102L, -1L))
+    }
+
+    @Test
     fun `YouTube format is lossy and names its codec`() {
         val info = audioQualityOf(null, opus)!!
         assertEquals(Tier.LOSSY, info.tier)

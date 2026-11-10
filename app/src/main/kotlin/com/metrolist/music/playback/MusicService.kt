@@ -1909,6 +1909,14 @@ class MusicService :
     }
     private fun addonCacheKey(mediaId: String, stream: MusicAddons.Stream) = "$mediaId#${stream.cacheKey}"
 
+    /** Size of the add-on file playing for [mediaId], once the cache has seen its length. */
+    fun addonStreamBytes(mediaId: String): Long? =
+        addonStreams.value[mediaId]?.let { stream ->
+            ContentMetadata
+                .getContentLength(playerCache.getContentMetadata(addonCacheKey(mediaId, stream)))
+                .takeIf { it > 0L }
+        }
+
     /** Stream from the first enabled add-on that has this track, or null to fall through to YouTube. */
     private suspend fun resolveAddonStream(mediaId: String): MusicAddons.Stream? {
         val stream = lookupAddonStream(mediaId)

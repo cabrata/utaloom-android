@@ -12,8 +12,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -23,6 +25,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.media3.common.C
+import androidx.media3.common.Format
+import androidx.media3.common.Player
+import androidx.media3.common.Tracks
 import com.metrolist.music.R
 import com.metrolist.music.db.entities.FormatEntity
 import com.metrolist.music.playback.MusicAddons
@@ -37,28 +43,54 @@ internal data class AudioQualityInfo(
     val bitDepth: Int? = null,
     val sampleRateHz: Int? = null,
     val bitrateKbps: Int? = null,
+    /** The add-on's own name for the rendition, shown on the badge as sent. */
+    val label: String? = null,
 ) {
     enum class Tier { HI_RES, LOSSLESS, LOSSY }
 }
 
+/** Measured on the device from the track being decoded. */
+internal data class PlayedAudio(
+    val bitDepth: Int? = null,
+    val sampleRateHz: Int? = null,
+    val bitrateKbps: Int? = null,
+)
+
+/** Average bitrate of a whole file, or null while its size or length is unknown. */
+internal fun averageBitrateKbps(bytes: Long?, durationMs: Long): Int? =
+    if (bytes != null && bytes > 0 && durationMs > 0) (bytes * 8 / durationMs).toInt() else null
+
+private fun Player.playedAudioFormat(): Format? =
+    currentTracks.groups
+        .firstOrNull { it.type == C.TRACK_TYPE_AUDIO && it.isSelected }
+        ?.let { group -> (0 until group.length).firstOrNull(group::isTrackSelected)?.let(group::getTrackFormat) }
+
 private val LOSSLESS_CODECS = setOf("flac", "alac", "wav", "pcm", "ape", "aiff")
 
 /** What is playing: the add-on stream when the song resolved to one, otherwise the stored YouTube format. */
-internal fun audioQualityOf(addonStream: MusicAddons.Stream?, format: FormatEntity?): AudioQualityInfo? {
+internal fun audioQualityOf(
+    addonStream: MusicAddons.Stream?,
+    format: FormatEntity?,
+    played: PlayedAudio? = null,
+): AudioQualityInfo? {
     if (addonStream != null) {
         val codec = addonStream.codec?.lowercase()
+        // What the decoder reports beats what the add-on claims.
+        val bitDepth = played?.bitDepth ?: addonStream.bitDepth
+        val sampleRateHz = played?.sampleRateHz ?: addonStream.sampleRateHz
         val tier = when {
             codec !in LOSSLESS_CODECS -> AudioQualityInfo.Tier.LOSSY
-            (addonStream.bitDepth ?: 0) > 16 || (addonStream.sampleRateHz ?: 0) > 48_000 -> AudioQualityInfo.Tier.HI_RES
+            (bitDepth ?: 0) > 16 || (sampleRateHz ?: 0) > 48_000 -> AudioQualityInfo.Tier.HI_RES
             else -> AudioQualityInfo.Tier.LOSSLESS
         }
         return AudioQualityInfo(
             tier = tier,
             codec = codec?.uppercase() ?: addonStream.source,
             addon = addonStream.source,
-            bitDepth = addonStream.bitDepth,
-            sampleRateHz = addonStream.sampleRateHz,
-            bitrateKbps = addonStream.bitrateKbps,
+            bitDepth = bitDepth,
+            sampleRateHz = sampleRateHz,
+            bitrateKbps = played?.bitrateKbps ?: addonStream.bitrateKbps,
+            label = addonStream.quality,
         )
     }
     format ?: return null
@@ -82,10 +114,40 @@ fun AudioQualityBadge(playerConnection: PlayerConnection, color: Color) {
     val mediaId = playerConnection.mediaMetadata.collectAsStateWithLifecycle().value?.id
     val addonStreams by playerConnection.addonStreams.collectAsStateWithLifecycle()
     val format by playerConnection.currentFormat.collectAsStateWithLifecycle(initialValue = null)
-    val info = audioQualityOf(addonStreams[mediaId], format) ?: return
     var showDetails by rememberSaveable { mutableStateOf(false) }
 
-    val label = when (info.tier) {
+    val player = playerConnection.player
+    var trackFormat by remember { mutableStateOf(player.playedAudioFormat()) }
+    DisposableEffect(player) {
+        val listener = object : Player.Listener {
+            override fun onTracksChanged(tracks: Tracks) {
+                trackFormat = player.playedAudioFormat()
+            }
+        }
+        player.addListener(listener)
+        onDispose { player.removeListener(listener) }
+    }
+    val played = trackFormat?.let { track ->
+        PlayedAudio(
+            bitDepth = when (track.pcmEncoding) {
+                C.ENCODING_PCM_16BIT -> 16
+                C.ENCODING_PCM_24BIT -> 24
+                C.ENCODING_PCM_32BIT, C.ENCODING_PCM_FLOAT -> 32
+                else -> null
+            },
+            sampleRateHz = track.sampleRate.takeIf { it > 0 },
+            // Lossless tracks carry no bitrate; size over length is only needed once the details are open.
+            bitrateKbps = track.bitrate.takeIf { it > 0 }?.div(1000)
+                ?: if (showDetails && mediaId != null) {
+                    averageBitrateKbps(playerConnection.service.addonStreamBytes(mediaId), player.duration)
+                } else {
+                    null
+                },
+        )
+    }
+    val info = audioQualityOf(addonStreams[mediaId], format, played) ?: return
+
+    val label = info.label ?: when (info.tier) {
         AudioQualityInfo.Tier.HI_RES -> stringResource(R.string.audio_quality_hires_lossless)
         AudioQualityInfo.Tier.LOSSLESS -> stringResource(R.string.audio_quality_lossless)
         AudioQualityInfo.Tier.LOSSY -> info.codec

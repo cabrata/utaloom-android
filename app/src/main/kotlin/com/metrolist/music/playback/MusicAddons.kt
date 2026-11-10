@@ -57,6 +57,8 @@ object MusicAddons {
         val bitDepth: Int? = null,
         val sampleRateHz: Int? = null,
         val bitrateKbps: Int? = null,
+        /** The add-on's own name for this rendition, e.g. `LOSSLESS`. */
+        val quality: String? = null,
     )
 
     @Serializable
@@ -79,6 +81,8 @@ object MusicAddons {
         val encrypted: Boolean = false,
         val sampleRate: Double? = null,
         val bitrate: Double? = null,
+        val format: String? = null,
+        val quality: String? = null,
         val bitDepth: Double? = null,
     )
 
@@ -217,8 +221,9 @@ object MusicAddons {
 
         // Add-ons report sample rate in Hz or kHz and bitrate in bps or kbps.
         val sampleRateHz = stream?.sampleRate?.let { if (it < 1000) it * 1000 else it }?.toInt()
+        val codec = (stream?.codec ?: stream?.format)?.takeIf { it.isNotBlank() }
         val format = listOfNotNull(
-            stream?.codec?.uppercase(),
+            codec?.uppercase(),
             stream?.bitDepth?.let { "${it.toInt()}-bit" },
             sampleRateHz?.let { "${(it / 1000.0).toString().removeSuffix(".0")} kHz" },
         ).joinToString(" ")
@@ -226,7 +231,8 @@ object MusicAddons {
             url = url,
             label = listOf(addon.name, format).filter { it.isNotBlank() }.joinToString(" · "),
             source = addon.name,
-            codec = stream?.codec?.takeIf { it.isNotBlank() },
+            codec = codec,
+            quality = stream?.quality?.takeIf { it.isNotBlank() },
             bitDepth = stream?.bitDepth?.toInt(),
             sampleRateHz = sampleRateHz,
             bitrateKbps = stream?.bitrate?.let { if (it > 10_000) it / 1000 else it }?.toInt(),
