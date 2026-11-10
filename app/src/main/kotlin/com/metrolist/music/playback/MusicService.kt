@@ -84,7 +84,9 @@ import androidx.media3.exoplayer.mediacodec.MediaCodecSelector
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.ShuffleOrder.DefaultShuffleOrder
 import androidx.media3.extractor.ExtractorsFactory
+import androidx.media3.extractor.flac.FlacExtractor
 import androidx.media3.extractor.mkv.MatroskaExtractor
+import androidx.media3.extractor.mp3.Mp3Extractor
 import androidx.media3.extractor.mp4.FragmentedMp4Extractor
 import androidx.media3.extractor.mp4.Mp4Extractor
 import androidx.media3.session.CommandButton
@@ -110,6 +112,7 @@ import com.metrolist.music.constants.AndroidAutoTargetPlaylistKey
 import com.metrolist.music.constants.AudioNormalizationKey
 import com.metrolist.music.constants.AudioOffload
 import com.metrolist.music.constants.AudioQualityKey
+import com.metrolist.music.constants.MusicAddonsKey
 import com.metrolist.music.constants.AudioTrackPlaybackParamsKey
 import com.metrolist.music.constants.AutoDownloadOnLikeKey
 import com.metrolist.music.constants.AutoLoadMoreKey
@@ -521,6 +524,14 @@ class MusicService :
     // URL cache for stream URLs - class-level so it can be invalidated on errors
     private val songUrlCache = StreamUrlCache()
 
+    private class AddonResult(val stream: MusicAddons.Stream?, val expiresAtMillis: Long)
+
+    @Volatile
+    private var musicAddons: List<MusicAddon> = emptyList()
+
+    // Add-on hits and misses per mediaId; a miss (null stream) sends the track to YouTube.
+    private val addonResults = java.util.concurrent.ConcurrentHashMap<String, AddonResult>()
+
     // Tracks mediaIds for which a recoverSong() coroutine is currently in flight.
     //
     // resolveDataSpec() (createDataSourceFactory()) calls recoverSong() on every
@@ -770,6 +781,7 @@ class MusicService :
             else com.metrolist.music.constants.AudioQuality.entries.find { it.name == value }
         } ?: com.metrolist.music.constants.AudioQuality.AUTO
         cachedEnableSongCache = startupPrefs!![EnableSongCacheKey] ?: true
+        musicAddons = MusicAddons.decode(startupPrefs!![MusicAddonsKey])
         playerVolume = MutableStateFlow((startupPrefs!![PlayerVolumeKey] ?: 1f).coerceIn(0f, 1f))
 
         initializeCast()
@@ -1241,6 +1253,12 @@ class MusicService :
             dataStore.data.map { it[EnableSongCacheKey] ?: true }.distinctUntilChanged().collect { cachedEnableSongCache = it }
         }
         if (startupPrefs!![PersistentQueueKey] ?: true) {
+        scope.launch {
+            dataStore.data.map { it[MusicAddonsKey] }.distinctUntilChanged().collect {
+                musicAddons = MusicAddons.decode(it)
+                addonResults.clear()
+            }
+        }
             val queueFile = filesDir.resolve(PERSISTENT_QUEUE_FILE)
             if (queueFile.exists()) {
                 runCatching {
@@ -1801,6 +1819,8 @@ class MusicService :
                 runBlocking(Dispatchers.Main.immediate) { player.currentMediaItem?.mediaId }
             }) ?: return
 
+        // Ahead-caching writes the YouTube stream; an add-on track is cached under its own key as it plays.
+        if (addonResults[currentId]?.stream != null) return
         // Cancel background download of previous tracks so all bandwidth goes to the current song
         aheadCacheJobs.keys.filter { it != currentId }.forEach { oldId ->
             aheadCacheWriters.remove(oldId)?.cancel()
@@ -1884,6 +1904,35 @@ class MusicService :
             .createDataSourceForDownloading()
     }
     /**
+    private fun addonCacheKey(mediaId: String, stream: MusicAddons.Stream) = "$mediaId#${stream.cacheKey}"
+
+    /** Stream from the first enabled add-on that has this track, or null to fall through to YouTube. */
+    private suspend fun resolveAddonStream(mediaId: String): MusicAddons.Stream? {
+        val addons = musicAddons
+        if (addons.none { it.enabled }) return null
+        val now = System.currentTimeMillis()
+        addonResults[mediaId]?.takeIf { it.expiresAtMillis > now }?.let { return it.stream }
+        // Downloads are always the YouTube stream; never mix the two for one song.
+        if (downloadCache.getCachedSpans(mediaId).isNotEmpty()) return null
+        val metadata = withContext(Dispatchers.Main) {
+            player.mediaItems.firstOrNull { it.mediaId == mediaId }?.metadata
+        }
+        val stream = metadata?.let {
+            MusicAddons.resolve(addons, it.title, it.artists.map { artist -> artist.name }, it.duration.takeIf { d -> d > 0 })
+        }
+        Timber.tag(TAG).i("ADDON STREAM: %s -> %s", mediaId, stream?.label ?: "none")
+        addonResults[mediaId] =
+            AddonResult(stream, now + if (stream != null) ADDON_STREAM_TTL_MS else ADDON_MISS_TTL_MS)
+        return stream
+    }
+
+    /** After a playback error on an add-on stream: drop it so the retry plays from YouTube. */
+    private fun failAddonStream(mediaId: String) {
+        val stream = addonResults[mediaId]?.stream ?: return
+        addonResults[mediaId] = AddonResult(null, System.currentTimeMillis() + ADDON_MISS_TTL_MS)
+        runCatching { playerCache.removeResource(addonCacheKey(mediaId, stream)) }
+    }
+
      * Warm [songUrlCache] for one mediaId, deduped by both in-flight job and "already done".
      * Safe for shuffle mode: once shuffle order is applied by the player, nextMediaItemAtSafeIndex
      * already reflects it.
@@ -1895,6 +1944,10 @@ class MusicService :
         scope.launch(SilentHandler) {
             try {
                 val playbackData =
+                if (withContext(Dispatchers.IO) { resolveAddonStream(nextId) } != null) {
+                    lastPrefetchedId = nextId
+                    return@launch
+                }
                     withContext(Dispatchers.IO) {
                         val song = database.songEntity(nextId)
                         InnerTubeXPlayer.playerResponseForPlayback(
@@ -3425,6 +3478,7 @@ class MusicService :
 
         songUrlCache.invalidate(mediaId)
 
+        failAddonStream(mediaId)
         try {
             playerCache.removeResource(mediaId)
             Timber.tag(TAG).d("Cleared player cache")
@@ -3626,6 +3680,7 @@ class MusicService :
 
         songUrlCache.invalidate(mediaId)
         if (lastPrefetchedId == mediaId) lastPrefetchedId = null
+        failAddonStream(mediaId)
         failedStreamClient?.let { InnerTubeXPlayer.markStreamClientFailed(mediaId, it) }
         Timber.tag(TAG).d("Cleared cached URL after $retryReason (client=$failedStreamClient)")
 
@@ -4120,6 +4175,16 @@ class MusicService :
             }
 
             val shouldBypassCache = bypassCacheForQualityChange.contains(mediaId)
+            runBlocking(Dispatchers.IO) { resolveAddonStream(mediaId) }?.let { addonStream ->
+                recoverSongDeduped(mediaId)
+                currentStreamClient.value = addonStream.label
+                return@Factory dataSpec
+                    .buildUpon()
+                    .setUri(addonStream.url)
+                    .setKey(addonCacheKey(mediaId, addonStream))
+                    .build()
+            }
+
 
             if (!shouldBypassCache) {
                 val usePlayerCache = cachedEnableSongCache
@@ -4333,7 +4398,7 @@ class MusicService :
         DefaultMediaSourceFactory(
             createDataSourceFactory(normalizationProcessor, playerProvider),
             ExtractorsFactory {
-                arrayOf(MatroskaExtractor(), FragmentedMp4Extractor(), Mp4Extractor())
+                arrayOf(MatroskaExtractor(), FragmentedMp4Extractor(), Mp4Extractor(), FlacExtractor(), Mp3Extractor())
             },
         )
 
@@ -5409,6 +5474,8 @@ class MusicService :
         /** Refresh cached stream URLs with less TTL remaining than this. */
         private const val EXPIRING_SOON_REFRESH_MS = 30_000L
 
+        private const val ADDON_STREAM_TTL_MS = 5 * 60_000L
+        private const val ADDON_MISS_TTL_MS = 10 * 60_000L
         private const val INITIAL_BUFFER_RECOVERY_DELAY_MS = 15_000L
         private const val INITIAL_BUFFER_RECOVERY_POSITION_MS = 5_000L
         private const val TAG = "MusicService"

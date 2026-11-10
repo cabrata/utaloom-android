@@ -686,6 +686,20 @@ fun ContentSettings(
         Spacer(modifier = Modifier.height(27.dp))
 
         Material3SettingsGroup(
+            title = stringResource(R.string.music_sources),
+            items = listOf(
+                Material3SettingsItem(
+                    icon = painterResource(R.drawable.graphic_eq),
+                    title = { Text(stringResource(R.string.music_sources)) },
+                    description = { Text(stringResource(R.string.music_sources_selection_desc)) },
+                    onClick = { navController.navigate("settings/content/music_sources") }
+                ),
+            )
+        )
+
+        Spacer(modifier = Modifier.height(27.dp))
+
+        Material3SettingsGroup(
             title = stringResource(R.string.lyrics),
             items = listOf(
                 Material3SettingsItem(

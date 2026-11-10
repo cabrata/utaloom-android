@@ -162,6 +162,16 @@
     <string name="youtube_subtitle_lyrics_desc">Timed lyrics from YouTube video subtitles</string>
     <string name="lyrics_provider_move_up">Move %1$s up</string>
     <string name="lyrics_provider_move_down">Move %1$s down</string>
+    <string name="music_sources">Music sources</string>
+    <string name="music_sources_selection_desc">Play from add-ons such as lossless sources before YouTube Music</string>
+    <string name="music_sources_desc">Add-ons are tried from top to bottom. A song is matched by title, artist and length; when no add-on has it, YouTube Music plays it.</string>
+    <string name="music_source_youtube_desc">Lossy · Full catalogue</string>
+    <string name="music_source_always_on">Always on</string>
+    <string name="music_source_add">Add an add-on</string>
+    <string name="music_source_add_desc">Paste the link of a BitChord-compatible add-on server</string>
+    <string name="music_source_add_failed">Couldn\'t add this add-on. Check the link and try again.</string>
+    <string name="music_source_auth_unsupported">This add-on only accepts the BitChord app</string>
+    <string name="music_source_remove">Remove %1$s</string>
     <string name="auto_scroll">Re-sync</string>
     <string name="slim">Slim</string>
     <string name="force_bottom_navbar">Force bottom navigation bar</string>
