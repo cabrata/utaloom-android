@@ -52,6 +52,11 @@ object MusicAddons {
         val url: String,
         val label: String,
         val cacheKey: String,
+        val source: String,
+        val codec: String? = null,
+        val bitDepth: Int? = null,
+        val sampleRateHz: Int? = null,
+        val bitrateKbps: Int? = null,
     )
 
     @Serializable
@@ -73,6 +78,7 @@ object MusicAddons {
         val manifest: String? = null,
         val encrypted: Boolean = false,
         val sampleRate: Double? = null,
+        val bitrate: Double? = null,
         val bitDepth: Double? = null,
     )
 
@@ -209,14 +215,21 @@ object MusicAddons {
         // HTTPS only: the player's data source would also open file:// and content:// URIs.
         val url = (stream?.url ?: match.streamURL)?.takeIf { it.toHttpUrlOrNull()?.isHttps == true } ?: return null
 
+        // Add-ons report sample rate in Hz or kHz and bitrate in bps or kbps.
+        val sampleRateHz = stream?.sampleRate?.let { if (it < 1000) it * 1000 else it }?.toInt()
         val format = listOfNotNull(
             stream?.codec?.uppercase(),
             stream?.bitDepth?.let { "${it.toInt()}-bit" },
-            stream?.sampleRate?.let { "${(if (it < 1000) it else it / 1000).toString().removeSuffix(".0")} kHz" },
+            sampleRateHz?.let { "${(it / 1000.0).toString().removeSuffix(".0")} kHz" },
         ).joinToString(" ")
         return Stream(
             url = url,
             label = listOf(addon.name, format).filter { it.isNotBlank() }.joinToString(" · "),
+            source = addon.name,
+            codec = stream?.codec?.takeIf { it.isNotBlank() },
+            bitDepth = stream?.bitDepth?.toInt(),
+            sampleRateHz = sampleRateHz,
+            bitrateKbps = stream?.bitrate?.let { if (it > 10_000) it / 1000 else it }?.toInt(),
             // Quality is part of the key: another tier is another file and must not share cached bytes.
             cacheKey = "${addon.url}/${match.id}?${addon.quality}",
         )

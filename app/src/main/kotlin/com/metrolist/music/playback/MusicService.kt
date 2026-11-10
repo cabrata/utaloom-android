@@ -243,6 +243,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -531,6 +532,9 @@ class MusicService :
 
     // Add-on hits and misses per mediaId; a miss (null stream) sends the track to YouTube.
     private val addonResults = java.util.concurrent.ConcurrentHashMap<String, AddonResult>()
+
+    /** Add-on stream each mediaId last resolved to; absent means it plays from YouTube. */
+    val addonStreams = MutableStateFlow<Map<String, MusicAddons.Stream>>(emptyMap())
 
     // Tracks mediaIds for which a recoverSong() coroutine is currently in flight.
     //
@@ -1907,6 +1911,14 @@ class MusicService :
 
     /** Stream from the first enabled add-on that has this track, or null to fall through to YouTube. */
     private suspend fun resolveAddonStream(mediaId: String): MusicAddons.Stream? {
+        val stream = lookupAddonStream(mediaId)
+        if (addonStreams.value[mediaId] != stream) {
+            addonStreams.update { if (stream != null) it + (mediaId to stream) else it - mediaId }
+        }
+        return stream
+    }
+
+    private suspend fun lookupAddonStream(mediaId: String): MusicAddons.Stream? {
         val addons = musicAddons
         if (addons.none { it.enabled }) return null
         val now = System.currentTimeMillis()
@@ -1929,6 +1941,7 @@ class MusicService :
     private fun failAddonStream(mediaId: String) {
         val stream = addonResults[mediaId]?.stream ?: return
         addonResults[mediaId] = AddonResult(null, System.currentTimeMillis() + ADDON_MISS_TTL_MS)
+        addonStreams.update { it - mediaId }
         runCatching { playerCache.removeResource(addonCacheKey(mediaId, stream)) }
     }
 

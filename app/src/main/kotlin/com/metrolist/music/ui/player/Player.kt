@@ -1515,6 +1515,8 @@ fun BottomSheetPlayer(
                     overflow = TextOverflow.Ellipsis,
                 )
 
+                AudioQualityBadge(playerConnection, TextBackgroundColor)
+
                 Text(
                     text = if (duration != C.TIME_UNSET) makeTimeString(duration) else "",
                     style = MaterialTheme.typography.labelMedium,
