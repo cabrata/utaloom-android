@@ -1252,13 +1252,13 @@ class MusicService :
         scope.launch {
             dataStore.data.map { it[EnableSongCacheKey] ?: true }.distinctUntilChanged().collect { cachedEnableSongCache = it }
         }
-        if (startupPrefs!![PersistentQueueKey] ?: true) {
         scope.launch {
             dataStore.data.map { it[MusicAddonsKey] }.distinctUntilChanged().collect {
                 musicAddons = MusicAddons.decode(it)
                 addonResults.clear()
             }
         }
+        if (startupPrefs!![PersistentQueueKey] ?: true) {
             val queueFile = filesDir.resolve(PERSISTENT_QUEUE_FILE)
             if (queueFile.exists()) {
                 runCatching {
@@ -1818,9 +1818,9 @@ class MusicService :
             } else {
                 runBlocking(Dispatchers.Main.immediate) { player.currentMediaItem?.mediaId }
             }) ?: return
-
         // Ahead-caching writes the YouTube stream; an add-on track is cached under its own key as it plays.
         if (addonResults[currentId]?.stream != null) return
+
         // Cancel background download of previous tracks so all bandwidth goes to the current song
         aheadCacheJobs.keys.filter { it != currentId }.forEach { oldId ->
             aheadCacheWriters.remove(oldId)?.cancel()
@@ -1903,7 +1903,6 @@ class MusicService :
             .setFlags(FLAG_IGNORE_CACHE_ON_ERROR)
             .createDataSourceForDownloading()
     }
-    /**
     private fun addonCacheKey(mediaId: String, stream: MusicAddons.Stream) = "$mediaId#${stream.cacheKey}"
 
     /** Stream from the first enabled add-on that has this track, or null to fall through to YouTube. */
@@ -1933,6 +1932,7 @@ class MusicService :
         runCatching { playerCache.removeResource(addonCacheKey(mediaId, stream)) }
     }
 
+    /**
      * Warm [songUrlCache] for one mediaId, deduped by both in-flight job and "already done".
      * Safe for shuffle mode: once shuffle order is applied by the player, nextMediaItemAtSafeIndex
      * already reflects it.
@@ -1943,11 +1943,11 @@ class MusicService :
         if (prefetchJobs.putIfAbsent(nextId, Job()) != null) return
         scope.launch(SilentHandler) {
             try {
-                val playbackData =
                 if (withContext(Dispatchers.IO) { resolveAddonStream(nextId) } != null) {
                     lastPrefetchedId = nextId
                     return@launch
                 }
+                val playbackData =
                     withContext(Dispatchers.IO) {
                         val song = database.songEntity(nextId)
                         InnerTubeXPlayer.playerResponseForPlayback(
@@ -3477,8 +3477,8 @@ class MusicService :
         Timber.tag(TAG).d("Performing aggressive cache clear")
 
         songUrlCache.invalidate(mediaId)
-
         failAddonStream(mediaId)
+
         try {
             playerCache.removeResource(mediaId)
             Timber.tag(TAG).d("Cleared player cache")
@@ -3679,8 +3679,8 @@ class MusicService :
         incrementRetryCount(mediaId)
 
         songUrlCache.invalidate(mediaId)
-        if (lastPrefetchedId == mediaId) lastPrefetchedId = null
         failAddonStream(mediaId)
+        if (lastPrefetchedId == mediaId) lastPrefetchedId = null
         failedStreamClient?.let { InnerTubeXPlayer.markStreamClientFailed(mediaId, it) }
         Timber.tag(TAG).d("Cleared cached URL after $retryReason (client=$failedStreamClient)")
 
@@ -4174,7 +4174,6 @@ class MusicService :
                     )
             }
 
-            val shouldBypassCache = bypassCacheForQualityChange.contains(mediaId)
             runBlocking(Dispatchers.IO) { resolveAddonStream(mediaId) }?.let { addonStream ->
                 recoverSongDeduped(mediaId)
                 currentStreamClient.value = addonStream.label
@@ -4185,6 +4184,7 @@ class MusicService :
                     .build()
             }
 
+            val shouldBypassCache = bypassCacheForQualityChange.contains(mediaId)
 
             if (!shouldBypassCache) {
                 val usePlayerCache = cachedEnableSongCache
@@ -5473,9 +5473,9 @@ class MusicService :
 
         /** Refresh cached stream URLs with less TTL remaining than this. */
         private const val EXPIRING_SOON_REFRESH_MS = 30_000L
-
         private const val ADDON_STREAM_TTL_MS = 5 * 60_000L
         private const val ADDON_MISS_TTL_MS = 10 * 60_000L
+
         private const val INITIAL_BUFFER_RECOVERY_DELAY_MS = 15_000L
         private const val INITIAL_BUFFER_RECOVERY_POSITION_MS = 5_000L
         private const val TAG = "MusicService"
