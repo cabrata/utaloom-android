@@ -164,7 +164,7 @@
     <string name="lyrics_provider_move_down">Move %1$s down</string>
     <string name="music_sources">Music sources</string>
     <string name="music_sources_selection_desc">Play from add-ons such as lossless sources before YouTube Music</string>
-    <string name="music_sources_desc">Add-ons are tried from top to bottom. A song is matched by title, artist and length; when no add-on has it, YouTube Music plays it.</string>
+    <string name="music_sources_desc">Add-ons are tried from top to bottom. A song is matched by title, artist and length; when no add-on has it, YouTube Music plays it. Tap an add-on to copy its link.</string>
     <string name="music_source_youtube_desc">Lossy · Full catalogue</string>
     <string name="music_source_always_on">Always on</string>
     <string name="music_source_add">Add an add-on</string>
@@ -172,6 +172,12 @@
     <string name="music_source_add_failed">Couldn\'t add this add-on. Check the link and try again.</string>
     <string name="music_source_auth_unsupported">This add-on only accepts the BitChord app</string>
     <string name="music_source_remove">Remove %1$s</string>
+    <string name="music_source_quality">Quality: %1$s</string>
+    <string name="music_source_working">Working</string>
+    <string name="music_source_streaming_only">Streaming only</string>
+    <string name="music_source_downloads_allowed">Downloads allowed</string>
+    <string name="music_source_checking">Checking…</string>
+    <string name="music_source_error">Error: %1$s</string>
     <string name="auto_scroll">Re-sync</string>
     <string name="slim">Slim</string>
     <string name="force_bottom_navbar">Force bottom navigation bar</string>

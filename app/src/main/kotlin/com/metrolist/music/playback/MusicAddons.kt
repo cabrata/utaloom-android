@@ -31,7 +31,15 @@ data class MusicAddon(
     val name: String,
     val enabled: Boolean = true,
     val params: Map<String, String> = emptyMap(),
-)
+    val version: String = "",
+    val qualities: List<Quality> = emptyList(),
+    val downloadsAllowed: Boolean = true,
+) {
+    @Serializable
+    data class Quality(val value: String, val label: String)
+
+    val quality: String? get() = params[MusicAddons.QUALITY]
+}
 
 class AddonAuthRequiredException : Exception("Add-on requires BitChord authentication")
 
@@ -72,6 +80,8 @@ object MusicAddons {
     private data class Manifest(
         val id: String = "",
         val name: String = "",
+        val version: String = "",
+        val allowDownloads: JsonPrimitive? = null,
         val bitchordAuth: JsonPrimitive? = null,
         val settings: List<Setting> = emptyList(),
     )
@@ -84,7 +94,9 @@ object MusicAddons {
     )
 
     @Serializable
-    private data class Option(val value: JsonPrimitive? = null)
+    private data class Option(val value: JsonPrimitive? = null, val label: String = "")
+
+    const val QUALITY = "quality"
 
     private const val DURATION_TOLERANCE_SEC = 3.0
     private val COMBINING_MARKS = Regex("\\p{Mn}+")
@@ -123,6 +135,20 @@ object MusicAddons {
     /** Reads the manifest behind [rawUrl] and returns the add-on ready to be stored. */
     suspend fun add(rawUrl: String): MusicAddon = withContext(Dispatchers.IO) {
         val base = normalizeUrl(rawUrl) ?: throw IOException("Not an HTTPS add-on address")
+        fromManifest(base, previous = null)
+    }
+
+    /**
+     * Health check: re-reads the manifest and runs a search. Returns [addon] refreshed
+     * from the manifest (its switch and chosen quality kept), or throws what went wrong.
+     */
+    suspend fun check(addon: MusicAddon): MusicAddon = withContext(Dispatchers.IO) {
+        val refreshed = fromManifest(addon.url, previous = addon)
+        get<SearchResponse>(refreshed.url, listOf("search"), refreshed.params + ("q" to "test"))
+        refreshed
+    }
+
+    private fun fromManifest(base: String, previous: MusicAddon?): MusicAddon {
         val manifest = get<Manifest>(base, listOf("manifest.json"), emptyMap())
         if (manifest.id.isBlank()) throw IOException("Add-on manifest has no id")
         // BitChord-signed tokens cannot be produced outside the BitChord app.
@@ -132,10 +158,23 @@ object MusicAddons {
             .filter { it.key.isNotBlank() && it.defaultValue != null }
             .associate { it.key to it.defaultValue!!.content }
             .toMutableMap()
-        val qualities = manifest.settings.firstOrNull { it.key == "quality" }?.options.orEmpty().mapNotNull { it.value?.content }
-        params["quality"] = qualities.firstOrNull { "lossless" in it.lowercase() } ?: params["quality"] ?: "LOSSLESS"
+        val qualities = manifest.settings.firstOrNull { it.key == QUALITY }?.options.orEmpty().mapNotNull { option ->
+            option.value?.content?.let { MusicAddon.Quality(it, option.label.ifBlank { it }) }
+        }
+        params[QUALITY] = previous?.quality?.takeIf { chosen -> qualities.isEmpty() || qualities.any { it.value == chosen } }
+            ?: qualities.firstOrNull { "lossless" in it.value.lowercase() }?.value
+            ?: params[QUALITY]
+            ?: "LOSSLESS"
 
-        MusicAddon(url = base, name = manifest.name.ifBlank { base.toHttpUrl().host }, params = params)
+        return MusicAddon(
+            url = base,
+            name = manifest.name.ifBlank { base.toHttpUrl().host },
+            enabled = previous?.enabled ?: true,
+            params = params,
+            version = manifest.version,
+            qualities = qualities,
+            downloadsAllowed = manifest.allowDownloads?.content?.lowercase() !in setOf("0", "false"),
+        )
     }
 
     /** Stream for this track from the first enabled add-on that has it, in list order. */
@@ -178,7 +217,8 @@ object MusicAddons {
         return Stream(
             url = url,
             label = listOf(addon.name, format).filter { it.isNotBlank() }.joinToString(" · "),
-            cacheKey = "${addon.url}/${match.id}",
+            // Quality is part of the key: another tier is another file and must not share cached bytes.
+            cacheKey = "${addon.url}/${match.id}?${addon.quality}",
         )
     }
 

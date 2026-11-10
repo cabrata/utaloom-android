@@ -53,7 +53,15 @@ class MusicAddonsTest {
 
     @Test
     fun `stored list survives a round trip and bad data`() {
-        val addons = listOf(MusicAddon("https://example.com/a", "k-DL", enabled = false, params = mapOf("quality" to "lossless")))
+        val addons = listOf(
+            MusicAddon(
+                "https://example.com/a", "k-DL", enabled = false, params = mapOf("quality" to "lossless"),
+                version = "1.0.0", qualities = listOf(MusicAddon.Quality("lossless", "Lossless")),
+            ),
+        )
+        assertEquals("lossless", addons.single().quality)
+        // Entries stored before version and quality options existed still load.
+        assertEquals("k-DL", MusicAddons.decode("""[{"url":"https://example.com/a","name":"k-DL"}]""").single().name)
         assertEquals(addons, MusicAddons.decode(MusicAddons.encode(addons)))
         assertEquals(emptyList<MusicAddon>(), MusicAddons.decode("not json"))
         assertEquals(emptyList<MusicAddon>(), MusicAddons.decode(null))

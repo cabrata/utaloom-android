@@ -6,6 +6,8 @@
 package com.metrolist.music.ui.component
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -84,7 +86,8 @@ fun Material3SettingsGroup(
                             MaterialTheme.colorScheme.surfaceContainerLow
                         }
                     ),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+                    elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+                    border = item.borderColor?.let { BorderStroke(1.5.dp, it) }
                 ) {
                     Material3SettingsItemRow(item = item)
                 }
@@ -216,5 +219,6 @@ data class Material3SettingsItem(
     val showBadge: Boolean = false,
     val isHighlighted: Boolean = false,
     val enabled: Boolean = true,
+    val borderColor: Color? = null,
     val onClick: (() -> Unit)? = null
 )
