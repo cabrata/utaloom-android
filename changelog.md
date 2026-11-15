@@ -1,5 +1,18 @@
 # Changelog
 
+## [v1.4.0] - 2026-11-15
+
+### Added
+- **player:** Label add-on streams with reported quality and measured format (`8701c54`)
+- **player:** Add audio quality badge with source details (`361f0c7`)
+- **ui:** Show add-on quality picker, status and info in music sources (`d37f7e5`)
+- **playback:** Add BitChord-compatible music source add-ons (`b32bd7a`)
+- **ui:** Add Utaloom brand accents across player and theme (`cf88558`)
+- **lyrics:** Add Utaloom woven thread share cards (`61e0142`)
+
+### Fixed
+- **playback:** Restore add-on stream functions misplaced in MusicService (`2ce7f5a`)
+
 ## [v1.3.0] - 2026-10-16
 
 ### Added
