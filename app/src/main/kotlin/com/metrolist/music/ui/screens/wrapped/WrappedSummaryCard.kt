@@ -26,8 +26,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -38,13 +36,13 @@ import coil3.request.allowHardware
 import com.metrolist.music.R
 import java.text.NumberFormat
 
-internal val WrappedInk = Color(0xFF121212)
-internal val WrappedPaper = Color(0xFFF4F4F4)
-internal val WrappedOrange = Color(0xFFFF4632)
-internal val WrappedLime = Color(0xFFCDF564)
-internal val WrappedPink = Color(0xFFF573A0)
-internal val WrappedBlue = Color(0xFF2D46B9)
-internal val WrappedYellow = Color(0xFFFFC862)
+// Utaloom brand palette, built around the logo's coral and peach strokes.
+internal val WrappedInk = Color(0xFF1E1412)
+internal val WrappedPaper = Color(0xFFFFF4EC)
+internal val WrappedCoral = Color(0xFFF47757)
+internal val WrappedPeach = Color(0xFFFFC6A3)
+internal val WrappedPlum = Color(0xFF4A1F2E)
+internal val WrappedEmber = Color(0xFFB8432C)
 
 @Composable
 internal fun WrappedSummaryCard(state: WrappedState, modifier: Modifier = Modifier) {
@@ -57,13 +55,13 @@ internal fun WrappedSummaryCard(state: WrappedState, modifier: Modifier = Modifi
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(WrappedBlue)
+            .background(WrappedPlum)
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.Bottom) {
             Box(
-                Modifier.weight(1f).aspectRatio(1f).clip(RoundedCornerShape(4.dp)).background(WrappedPink),
+                Modifier.weight(1f).aspectRatio(1f).clip(RoundedCornerShape(4.dp)).background(WrappedPeach),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(painterResource(R.drawable.music_note), null, Modifier.size(48.dp), tint = WrappedInk)
@@ -78,7 +76,7 @@ internal fun WrappedSummaryCard(state: WrappedState, modifier: Modifier = Modifi
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(
                     text = stringResource(R.string.wrapped_recap_brand),
-                    color = WrappedLime,
+                    color = WrappedCoral,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 3.sp,
@@ -118,8 +116,9 @@ internal fun WrappedSummaryCard(state: WrappedState, modifier: Modifier = Modifi
             )
             Text(
                 text = numbers.format(state.totalMinutes),
-                color = WrappedLime,
-                fontFamily = FontFamily(Font(R.font.bbh_bartle_regular)),
+                color = WrappedCoral,
+                fontFamily = WrappedDisplayFont,
+                fontWeight = FontWeight.Black,
                 fontSize = 44.sp,
                 lineHeight = 48.sp,
                 maxLines = 1,

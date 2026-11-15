@@ -97,8 +97,6 @@ import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -133,18 +131,16 @@ sealed class WrappedScreenType {
 
 private const val STORY_DURATION_MS = 7_000
 
-private val WrappedDisplayFont = FontFamily(Font(R.font.bbh_bartle_regular))
-
 private data class StoryStyle(val background: Color, val content: Color, val accent: Color, val shapes: Int)
 
 // Accents sit behind text, so each pair keeps at least 3:1 against the content color.
 private fun WrappedScreenType.style() = when (this) {
-    WrappedScreenType.Welcome -> StoryStyle(WrappedInk, WrappedLime, WrappedBlue, 0)
-    WrappedScreenType.MinutesReveal -> StoryStyle(WrappedOrange, WrappedInk, WrappedYellow, 1)
-    WrappedScreenType.TopSongReveal -> StoryStyle(WrappedBlue, WrappedPaper, WrappedInk, 2)
-    WrappedScreenType.Top5Songs -> StoryStyle(WrappedLime, WrappedInk, WrappedPink, 1)
-    WrappedScreenType.TopArtistReveal -> StoryStyle(WrappedPink, WrappedInk, WrappedLime, 0)
-    WrappedScreenType.Conclusion -> StoryStyle(WrappedInk, WrappedPaper, WrappedBlue, 2)
+    WrappedScreenType.Welcome -> StoryStyle(WrappedInk, WrappedPeach, WrappedEmber, 0)
+    WrappedScreenType.MinutesReveal -> StoryStyle(WrappedCoral, WrappedInk, WrappedPeach, 1)
+    WrappedScreenType.TopSongReveal -> StoryStyle(WrappedPlum, WrappedPaper, WrappedEmber, 2)
+    WrappedScreenType.Top5Songs -> StoryStyle(WrappedPeach, WrappedInk, WrappedCoral, 1)
+    WrappedScreenType.TopArtistReveal -> StoryStyle(WrappedEmber, WrappedPaper, WrappedPlum, 0)
+    WrappedScreenType.Conclusion -> StoryStyle(WrappedInk, WrappedPaper, WrappedEmber, 2)
 }
 
 @Composable
@@ -573,7 +569,7 @@ private fun StoryPage(
                 Button(
                     enabled = !sharing,
                     onClick = onShare,
-                    colors = ButtonDefaults.buttonColors(containerColor = WrappedLime, contentColor = WrappedInk),
+                    colors = ButtonDefaults.buttonColors(containerColor = WrappedCoral, contentColor = WrappedInk),
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Icon(painterResource(R.drawable.share), null, Modifier.padding(end = 8.dp).size(20.dp))
@@ -673,6 +669,7 @@ private fun DisplayText(text: String, modifier: Modifier = Modifier, maxSize: In
         style = TextStyle(
             color = LocalContentColor.current,
             fontFamily = WrappedDisplayFont,
+            fontWeight = FontWeight.Black,
             textAlign = TextAlign.Center,
         ),
         maxLines = 1,
@@ -739,7 +736,8 @@ private fun StoryRank(
             rank.toString(),
             Modifier.widthIn(min = 32.dp),
             fontFamily = WrappedDisplayFont,
-            fontSize = 28.sp,
+            fontWeight = FontWeight.Black,
+            fontSize = 32.sp,
         )
         Box(Modifier.size(56.dp).clip(RoundedCornerShape(4.dp)).background(accent), contentAlignment = Alignment.Center) {
             Icon(painterResource(R.drawable.music_note), null)

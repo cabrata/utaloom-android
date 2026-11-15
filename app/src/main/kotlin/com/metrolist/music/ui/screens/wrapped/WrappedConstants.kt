@@ -5,9 +5,16 @@
 
 package com.metrolist.music.ui.screens.wrapped
 
+import androidx.compose.ui.text.font.DeviceFontFamilyName
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
+
+// Tall condensed numerals fit one line at large sizes; extended faces get squashed flat by autosize.
+internal val WrappedDisplayFont = FontFamily(Font(DeviceFontFamilyName("sans-serif-condensed"), FontWeight.Black))
 
 object WrappedConstants {
     val YEAR: Int
