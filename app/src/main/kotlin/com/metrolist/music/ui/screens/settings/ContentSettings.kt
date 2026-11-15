@@ -761,6 +761,11 @@ fun ContentSettings(
                         )
                     },
                     onClick = { onShowWrappedCardChange(!showWrappedCard) }
+                ),
+                Material3SettingsItem(
+                    icon = painterResource(R.drawable.replay),
+                    title = { Text(stringResource(R.string.wrapped_recap_view)) },
+                    onClick = { navController.navigate("wrapped") }
                 )
             )
         )

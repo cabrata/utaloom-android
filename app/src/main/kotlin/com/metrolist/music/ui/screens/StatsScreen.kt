@@ -86,6 +86,8 @@ import com.metrolist.music.ui.component.LocalSongsGrid
 import com.metrolist.music.ui.component.NavigationTitle
 import com.metrolist.music.ui.component.PlaylistGridItem
 import com.metrolist.music.ui.component.TimeTransfer
+import com.metrolist.music.ui.screens.wrapped.WrappedHomeCard
+import com.metrolist.music.ui.screens.wrapped.rememberWrappedYear
 import com.metrolist.music.ui.menu.AlbumMenu
 import com.metrolist.music.ui.menu.ArtistMenu
 import com.metrolist.music.ui.menu.SongMenu
@@ -321,6 +323,15 @@ fun StatsScreen(
                     }.filter { artist ->
                         artist.name.contains(query.text, ignoreCase = true)
                     }
+
+            item(key = "wrapped_card") {
+                val wrappedYear = rememberWrappedYear()
+                WrappedHomeCard(
+                    year = wrappedYear,
+                    onClick = { navController.navigate("wrapped") },
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                )
+            }
 
             item(key = "choice_chips") {
                 ChoiceChipsRow(

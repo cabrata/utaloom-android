@@ -21,6 +21,11 @@ data class WrappedState(
     val uniqueArtistCount: Int = 0,
     val totalAlbums: Int = 0,
     val isDataReady: Boolean = false,
-    val trackMap: Map<WrappedScreenType, String?> = emptyMap(),
-    val playlistCreationState: PlaylistCreationState = PlaylistCreationState.Idle
+    val playlistCreationState: PlaylistCreationState = PlaylistCreationState.Idle,
+    val year: Int = WrappedConstants.YEAR,
+    val availableYears: List<Int> = listOf(WrappedConstants.YEAR),
+    val isLoading: Boolean = false,
+    val hasError: Boolean = false,
+    val playlistId: String? = null,
+    val playlistError: Boolean = false,
 )

@@ -5,8 +5,29 @@
 
 package com.metrolist.music.ui.screens.wrapped
 
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
+
 object WrappedConstants {
-    // This is intentionally hardcoded to 2025 and should not be changed.
-    const val YEAR = 2025
-    const val PLAYLIST_NAME = "Utaloom 2025"
+    val YEAR: Int
+        get() = LocalDate.now().year
+    val PLAYLIST_NAME: String
+        get() = "Utaloom $YEAR"
+}
+
+internal data class WrappedPeriod(
+    val start: LocalDateTime,
+    val endInclusive: LocalDateTime,
+) {
+    // Ranking queries use >, while count queries use >=. Room stores whole milliseconds.
+    val rankingStart: LocalDateTime
+        get() = start.minus(1, ChronoUnit.MILLIS)
+}
+
+internal fun wrappedPeriod(year: Int, now: LocalDateTime = LocalDateTime.now()): WrappedPeriod {
+    require(year in 1..now.year) { "Wrapped year must not be in the future" }
+    val start = LocalDate.of(year, 1, 1).atStartOfDay()
+    val end = if (year == now.year) now else start.plusYears(1).minus(1, ChronoUnit.MILLIS)
+    return WrappedPeriod(start, end.truncatedTo(ChronoUnit.MILLIS))
 }

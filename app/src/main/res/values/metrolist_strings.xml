@@ -535,6 +535,43 @@
     <string name="wrapped_playlist_title">Your %s Wrapped</string>
     <string name="wrapped_create_playlist">Create playlist</string>
     <string name="wrapped_playlist_saved">Playlist saved</string>
+    <string name="wrapped_recap_brand" translatable="false">UTALOOM</string>
+    <string name="wrapped_recap_title">%1$d Wrapped</string>
+    <string name="wrapped_recap_open">Your year, on repeat.</string>
+    <string name="wrapped_recap_home_subtitle">The songs and artists that made your year.</string>
+    <string name="wrapped_recap_view">View your Wrapped</string>
+    <string name="wrapped_recap_intro">Every repeat. Every discovery.\nThis is your soundtrack.</string>
+    <string name="wrapped_recap_start">Let’s rewind</string>
+    <string name="wrapped_recap_year_so_far">Your year so far</string>
+    <string name="wrapped_recap_full_year">Your year in music</string>
+    <string name="wrapped_recap_minutes">Minutes listened</string>
+    <string name="wrapped_recap_time_title">Time well spent.</string>
+    <string name="wrapped_recap_time_subtitle">Music kept you company. Here’s how much.</string>
+    <string name="wrapped_recap_top_song">You kept coming back.</string>
+    <string name="wrapped_recap_top_songs">Top songs</string>
+    <string name="wrapped_recap_song_detail">%1$s plays · %2$s minutes</string>
+    <string name="wrapped_recap_top_artist">Your kind of artist.</string>
+    <string name="wrapped_recap_top_artists">Top artists</string>
+    <string name="wrapped_recap_artist_detail">%1$s minutes together</string>
+    <string name="wrapped_recap_songs">Songs</string>
+    <string name="wrapped_recap_artists">Artists</string>
+    <string name="wrapped_recap_source">Based on listening history on this device</string>
+    <string name="wrapped_recap_summary">Keep this one.</string>
+    <string name="wrapped_recap_share">Share recap</string>
+    <string name="wrapped_recap_sharing">Preparing image…</string>
+    <string name="wrapped_recap_share_error">Couldn’t share your recap. Try again.</string>
+    <string name="wrapped_recap_playlist_error">Couldn’t save your playlist. Try again.</string>
+    <string name="wrapped_recap_playlist_open">Open playlist</string>
+    <string name="wrapped_recap_replay">Replay Wrapped</string>
+    <string name="wrapped_recap_previous">Previous story</string>
+    <string name="wrapped_recap_next">Next story</string>
+    <string name="wrapped_recap_page">Story %1$d of %2$d</string>
+    <string name="wrapped_recap_select_year">Choose a year</string>
+    <string name="wrapped_recap_loading">Finding your favorites…</string>
+    <string name="wrapped_recap_error">Your Wrapped couldn’t load.</string>
+    <string name="wrapped_recap_empty_title">Your soundtrack starts here.</string>
+    <string name="wrapped_recap_empty_body">No listening history for %1$d yet. Play some music with history enabled, or choose another year.</string>
+    <string name="wrapped_recap_listen">Find something to play</string>
 
     <!-- Equalizer UI -->
     <string name="equalizer_header">Equalizer</string>

@@ -33,7 +33,7 @@ import com.metrolist.music.constants.OfflineModeKey
 import com.metrolist.music.constants.QuickPicks
 import com.metrolist.music.constants.QuickPicksKey
 import com.metrolist.music.constants.ShowWrappedCardKey
-import com.metrolist.music.constants.WrappedSeenKey
+import com.metrolist.music.constants.WrappedSeenYearKey
 import com.metrolist.music.db.MusicDatabase
 import com.metrolist.music.db.entities.Album
 import com.metrolist.music.db.entities.LocalItem
@@ -42,8 +42,6 @@ import com.metrolist.music.db.entities.SpeedDialItem
 import com.metrolist.music.extensions.filterVideoSongs
 import com.metrolist.music.extensions.toEnum
 import com.metrolist.music.models.SimilarRecommendation
-import com.metrolist.music.ui.screens.wrapped.WrappedAudioService
-import com.metrolist.music.ui.screens.wrapped.WrappedManager
 import com.metrolist.music.utils.NetworkConnectivityObserver
 import com.metrolist.music.utils.SyncUtils
 import com.metrolist.music.utils.dataStore
@@ -64,7 +62,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 import kotlin.random.Random
@@ -90,13 +87,14 @@ internal fun buildSpeedDialItems(
         .distinctBy { it.id }
         .take(27)
 
+internal fun shouldShowWrapped(seenYear: Int, currentYear: Int, enabled: Boolean): Boolean =
+    enabled || seenYear != currentYear
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     @ApplicationContext val context: Context,
     val database: MusicDatabase,
     val syncUtils: SyncUtils,
-    val wrappedManager: WrappedManager,
-    private val wrappedAudioService: WrappedAudioService,
     private val networkConnectivity: NetworkConnectivityObserver,
 ) : ViewModel() {
     val isRefreshing = MutableStateFlow(false)
@@ -255,22 +253,17 @@ class HomeViewModel @Inject constructor(
     val accountName = MutableStateFlow("Guest")
     val accountImageUrl = MutableStateFlow<String?>(null)
 
-	val showWrappedCard: StateFlow<Boolean> = context.dataStore.data.map { prefs ->
+    fun showWrappedCard(year: Int): StateFlow<Boolean> = context.dataStore.data.map { prefs ->
         val showWrappedPref = prefs[ShowWrappedCardKey] ?: false
-        val seen = prefs[WrappedSeenKey] ?: false
-        val isBeforeDate = LocalDate.now().isBefore(LocalDate.of(2026, 2, 1))
+        val seenYear = prefs[WrappedSeenYearKey] ?: 0
 
-        isBeforeDate && (!seen || showWrappedPref)
-    }.stateIn(viewModelScope, SharingStarted.Lazily, false)
+        shouldShowWrapped(seenYear, year, showWrappedPref)
+    }.distinctUntilChanged().stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), false)
 
-    val wrappedSeen: StateFlow<Boolean> = context.dataStore.data.map { prefs ->
-        prefs[WrappedSeenKey] ?: false
-    }.stateIn(viewModelScope, SharingStarted.Lazily, false)
-
-    fun markWrappedAsSeen() {
+    fun markWrappedAsSeen(year: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             context.safeDataStoreEdit {
-                it[WrappedSeenKey] = true
+                if (year > (it[WrappedSeenYearKey] ?: 0)) it[WrappedSeenYearKey] = year
             }
         }
     }
@@ -721,11 +714,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        wrappedManager.dispose()
-    }
-
     init {
         // Run sync in separate coroutine with cooldown to avoid blocking UI
         viewModelScope.launch(Dispatchers.IO) {
@@ -740,25 +728,6 @@ class HomeViewModel @Inject constructor(
                 } else if (wasOffline) {
                     wasOffline = false
                     refresh()
-                }
-            }
-        }
-
-        // Prepare wrapped data in background
-        viewModelScope.launch(Dispatchers.IO) {
-            showWrappedCard.collect { shouldShow ->
-                if (shouldShow && !wrappedManager.state.value.isDataReady) {
-                    try {
-                        wrappedManager.prepare()
-                        val state = wrappedManager.state.first { it.isDataReady }
-                        val trackMap = state.trackMap
-                        if (trackMap.isNotEmpty()) {
-                            val firstTrackId = trackMap.entries.first().value
-                            wrappedAudioService.prepareTrack(firstTrackId)
-                        }
-                    } catch (e: Exception) {
-                        reportException(e)
-                    }
                 }
             }
         }
