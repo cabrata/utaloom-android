@@ -1951,6 +1951,8 @@ class MusicService :
         val stream = addonResults[mediaId]?.stream ?: return
         addonResults[mediaId] = AddonResult(null, System.currentTimeMillis() + ADDON_MISS_TTL_MS)
         addonStreams.update { it - mediaId }
+        // Otherwise a later YouTube error would still be reported under the add-on's name.
+        currentStreamClient.compareAndSet(stream.label, null)
         runCatching { playerCache.removeResource(addonCacheKey(mediaId, stream)) }
     }
 
@@ -3413,6 +3415,20 @@ class MusicService :
         Timber
             .tag(TAG)
             .w(error, "Player error occurred for $mediaId: errorCode=${error.errorCode}, message=${error.message}")
+
+        // An add-on stream failed (rate limit, dead link, undecodable file): replay from YouTube.
+        // The failing load may be the pre-buffered next track, so both are dropped.
+        val addonIds = listOfNotNull(mediaId, player.nextMediaItemAtSafeIndex()?.mediaId)
+            .filter { it in addonStreams.value }
+        if (addonIds.isNotEmpty()) {
+            Timber.tag(TAG).w("Add-on stream failed for %s, falling back to YouTube", addonIds)
+            addonIds.forEach(::failAddonStream)
+            val index = player.currentMediaItemIndex
+            if (index != C.INDEX_UNSET) player.seekTo(index, player.currentPosition)
+            player.prepare()
+            return
+        }
+
         reportException(error)
 
         if (mediaId != null && hasExceededRetryLimit(mediaId)) {
