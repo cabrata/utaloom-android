@@ -1,5 +1,15 @@
 # Changelog
 
+## [v1.5.0] - 2026-11-15
+
+### Added
+- **wrapped:** Rebuild Wrapped as Spotify-style stories for any year (`b16606a`)
+- **lyrics:** Add lrc.red provider as default first source (`1d0fc2b`)
+
+### Changed
+- **playback:** Fall back to YouTube when add-on stream fails (`6cb3349`)
+- **scrobble:** Queue offline Last.fm scrobbles for later retry (`440c201`)
+
 ## [v1.4.0] - 2026-11-15
 
 ### Added
