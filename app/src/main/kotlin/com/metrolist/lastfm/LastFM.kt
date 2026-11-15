@@ -137,25 +137,39 @@ object LastFM {
     suspend fun scrobble(
         artist: String, track: String, timestamp: Long,
         album: String? = null, trackNumber: Int? = null, duration: Int? = null
-    ) = runCatching {
-        client.post {
-            lastfmParams(
-                method = "track.scrobble",
-                apiKey = API_KEY,
-                secret = SECRET,
-                sessionKey = sessionKey!!,
-                extra = buildMap {
-                    put("artist[0]", artist)
-                    put("track[0]", track)
-                    put("timestamp[0]", timestamp.toString())
-                    album?.let { put("album[0]", it) }
-                    trackNumber?.let { put("trackNumber[0]", it.toString()) }
-                    duration?.let { put("duration[0]", it.toString()) }
+    ): ScrobbleResult =
+        runCatching {
+            client.post {
+                lastfmParams(
+                    method = "track.scrobble",
+                    apiKey = API_KEY,
+                    secret = SECRET,
+                    sessionKey = sessionKey!!,
+                    extra = buildMap {
+                        put("artist[0]", artist)
+                        put("track[0]", track)
+                        put("timestamp[0]", timestamp.toString())
+                        album?.let { put("album[0]", it) }
+                        trackNumber?.let { put("trackNumber[0]", it.toString()) }
+                        duration?.let { put("duration[0]", it.toString()) }
+                    }
+                )
+                parameter("format", "json")
+            }
+        }.fold(
+            onSuccess = { response ->
+                val text = response.bodyAsText()
+                when {
+                    text.contains("\"error\"") -> ScrobbleResult.Failed
+                    text.contains("\"ignored\"") && !text.contains("\"ignored\":0") -> ScrobbleResult.Failed
+                    else -> ScrobbleResult.Sent
                 }
-            )
-            parameter("format", "json")
-        }
-    }
+            },
+            // Offline / DNS / timeout all surface as IOException here; retry those later.
+            onFailure = { if (it is java.io.IOException) ScrobbleResult.Retry else ScrobbleResult.Failed },
+        )
+
+    enum class ScrobbleResult { Sent, Retry, Failed }
 
 
     suspend fun setLoveStatus(

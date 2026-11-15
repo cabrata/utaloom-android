@@ -1171,6 +1171,7 @@ class MusicService :
                     scrobbleManager =
                         ScrobbleManager(
                             scope,
+                            this@MusicService,
                             minSongDuration = minSongDuration,
                             scrobbleDelayPercent = delayPercent,
                             scrobbleDelaySeconds = delaySeconds,
