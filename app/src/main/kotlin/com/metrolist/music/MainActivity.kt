@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.add
@@ -46,12 +47,15 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Badge
@@ -179,6 +183,9 @@ import com.metrolist.music.playback.MusicService.MusicBinder
 import com.metrolist.music.playback.PlayerConnection
 import com.metrolist.music.playback.queues.YouTubeQueue
 import com.metrolist.music.ui.component.AccountSettingsDialog
+import com.metrolist.music.ui.component.AppDrawer
+import com.metrolist.music.ui.component.AppDrawerEntry
+import com.metrolist.music.ui.component.UtaloomLogo
 import com.metrolist.music.ui.component.AppNavigationBar
 import com.metrolist.music.ui.component.AppNavigationRail
 import com.metrolist.music.ui.component.BottomSheetMenu
@@ -194,6 +201,7 @@ import com.metrolist.music.ui.screens.navigationBuilder
 import com.metrolist.music.ui.screens.settings.ChangelogScreen
 import com.metrolist.music.ui.screens.settings.DarkMode
 import com.metrolist.music.ui.screens.settings.NavigationTab
+import com.metrolist.music.ui.screens.wrapped.rememberWrappedYear
 import com.metrolist.music.ui.theme.ColorSaver
 import com.metrolist.music.ui.theme.DefaultThemeColor
 import com.metrolist.music.ui.theme.MetrolistTheme
@@ -1010,6 +1018,7 @@ class MainActivity : FragmentActivity() {
                     }
 
                 var showAccountDialog by remember { mutableStateOf(false) }
+                var showDrawer by rememberSaveable { mutableStateOf(false) }
 
                 val pauseListenHistory by rememberPreference(PauseListenHistoryKey, defaultValue = false)
                 val eventCount by database.eventCount().collectAsStateWithLifecycle(initialValue = 0)
@@ -1049,34 +1058,41 @@ class MainActivity : FragmentActivity() {
                                 Row {
                                     TopAppBar(
                                         title = {
-                                            Text(
-                                                text = currentTitleRes?.let { stringResource(it) } ?: "",
-                                                style = MaterialTheme.typography.titleLarge,
-                                            )
-                                        },
-                                        actions = {
-                                            if (showHistoryButton) {
-                                                IconButton(onClick = { navController.navigate("history") }) {
-                                                    Icon(
-                                                        painter = painterResource(R.drawable.history),
-                                                        contentDescription = stringResource(R.string.history),
+                                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                                UtaloomLogo(Modifier.size(36.dp))
+                                                Spacer(Modifier.width(12.dp))
+                                                Spacer(
+                                                    Modifier
+                                                        .width(1.dp)
+                                                        .height(28.dp)
+                                                        .background(MaterialTheme.colorScheme.outlineVariant),
+                                                )
+                                                Column(Modifier.padding(start = 12.dp)) {
+                                                    Text(
+                                                        text = stringResource(R.string.app_name_brand),
+                                                        style = MaterialTheme.typography.labelSmall,
+                                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                        maxLines = 1,
+                                                    )
+                                                    Text(
+                                                        text = currentTitleRes?.let { stringResource(it) } ?: "",
+                                                        style = MaterialTheme.typography.titleLarge,
+                                                        fontWeight = FontWeight.Bold,
+                                                        maxLines = 1,
+                                                        overflow = TextOverflow.Ellipsis,
                                                     )
                                                 }
                                             }
-                                            IconButton(onClick = { navController.navigate("stats") }) {
+                                        },
+                                        navigationIcon = {
+                                            IconButton(onClick = { showDrawer = true }) {
                                                 Icon(
-                                                    painter = painterResource(R.drawable.stats),
-                                                    contentDescription = stringResource(R.string.stats),
+                                                    painter = painterResource(R.drawable.menu),
+                                                    contentDescription = stringResource(R.string.open_menu),
                                                 )
                                             }
-                                            if (listenTogetherInTopBar) {
-                                                IconButton(onClick = { navController.navigate("listen_together_from_topbar") }) {
-                                                    Icon(
-                                                        painter = painterResource(R.drawable.group_outlined),
-                                                        contentDescription = stringResource(R.string.together),
-                                                    )
-                                                }
-                                            }
+                                        },
+                                        actions = {
                                             IconButton(onClick = { showAccountDialog = true }) {
                                                 BadgedBox(badge = {
                                                     if (latestVersionName != BuildConfig.BASE_VERSION_NAME) {
@@ -1389,6 +1405,30 @@ class MainActivity : FragmentActivity() {
                             }
                         }
                     }
+
+                    val wrappedYear = rememberWrappedYear()
+                    AppDrawer(
+                        visible = showDrawer,
+                        onDismiss = { showDrawer = false },
+                        pureBlack = pureBlack,
+                        entries = buildList {
+                            fun entry(label: String, icon: Int, route: String) = add(
+                                AppDrawerEntry(label, icon) {
+                                    if (playerBottomSheetState.isExpanded) playerBottomSheetState.collapseSoft()
+                                    navController.navigate(route) { launchSingleTop = true }
+                                },
+                            )
+                            if (showHistoryButton) entry(stringResource(R.string.history), R.drawable.history, "history")
+                            entry(stringResource(R.string.stats), R.drawable.stats, "stats")
+                            entry(stringResource(R.string.wrapped_recap_title, wrappedYear), R.drawable.music_note, "wrapped")
+                            if (listenTogetherInTopBar) {
+                                entry(stringResource(R.string.together), R.drawable.group_outlined, "listen_together_from_topbar")
+                            }
+                            entry(stringResource(R.string.recognize_music), R.drawable.mic, "recognition")
+                            entry(stringResource(R.string.equalizer), R.drawable.equalizer, "equalizer")
+                            entry(stringResource(R.string.settings), R.drawable.settings, "settings")
+                        },
+                    )
 
                     BottomSheetMenu(
                         state = LocalMenuState.current,

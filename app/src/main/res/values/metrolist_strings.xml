@@ -1118,4 +1118,6 @@
     <string name="download_quality_desc">Quality for new downloads, independent of streaming. Existing downloads keep their quality.</string>
     <string name="wifi_only_downloads">Wi-Fi / unmetered downloads only</string>
     <string name="wifi_only_downloads_desc">Pause on metered connections and resume on Wi-Fi or another unmetered network. Metered Wi-Fi is excluded.</string>
+    <string name="open_menu">Open menu</string>
+    <string name="app_name_brand" translatable="false">Utaloom</string>
 </resources>

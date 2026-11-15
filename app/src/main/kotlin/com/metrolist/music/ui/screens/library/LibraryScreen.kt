@@ -44,6 +44,13 @@ fun LibraryScreen() {
                 onValueUpdate = {
                     filterType = if (filterType == it) LibraryFilter.LIBRARY else it
                 },
+                icons = mapOf(
+                    LibraryFilter.PLAYLISTS to R.drawable.playlist_play,
+                    LibraryFilter.SONGS to R.drawable.music_note,
+                    LibraryFilter.ALBUMS to R.drawable.album,
+                    LibraryFilter.ARTISTS to R.drawable.mic,
+                    LibraryFilter.PODCASTS to R.drawable.radio,
+                ),
                 modifier = Modifier.weight(1f),
             )
         }
