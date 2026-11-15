@@ -24,7 +24,7 @@ import org.robolectric.annotation.Config
 class LyricsProviderRegistryTest {
     private val registry = LyricsProviderRegistry
     private val desktopOrder = listOf(
-        "BetterLyrics", "LrcLib", "KuGou", "Paxsenix", "LyricsPlus", "Zemer", "YouTubeSubtitle", "YouTube",
+        "lrc.red", "BetterLyrics", "LrcLib", "KuGou", "Paxsenix", "LyricsPlus", "Zemer", "YouTubeSubtitle", "YouTube",
     )
 
     @Test

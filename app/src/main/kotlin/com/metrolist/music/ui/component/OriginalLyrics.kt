@@ -90,6 +90,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
@@ -200,6 +201,7 @@ fun OriginalLyrics(
     val menuState = LocalMenuState.current
     val density = LocalDensity.current
     val context = LocalContext.current
+    val uriHandler = LocalUriHandler.current
     val configuration = LocalWindowInfo.current
     val listenTogetherManager = LocalListenTogetherManager.current
     val isGuest = listenTogetherManager?.isInRoom == true && !listenTogetherManager.isHost
@@ -851,13 +853,16 @@ fun OriginalLyrics(
                 if (isLyricsProviderShown) {
                     item {
                         Text(
-                            text = "Lyrics from ${lyricsEntity?.provider}",
+                            text = stringResource(R.string.lyrics_from_provider, lyricsEntity?.provider.orEmpty()),
                             fontSize = 12.sp,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                             fontWeight = FontWeight.Medium,
                             modifier =
                                 Modifier
                                     .fillMaxWidth()
+                                    .clickable(enabled = lyricsEntity?.provider == "lrc.red") {
+                                        uriHandler.openUri("https://lrc.red")
+                                    }
                                     .padding(horizontal = 12.dp, vertical = 8.dp),
                         )
                     }

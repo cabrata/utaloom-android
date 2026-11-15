@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.Preferences
 import com.metrolist.music.constants.EnableBetterLyricsKey
 import com.metrolist.music.constants.EnableKugouKey
 import com.metrolist.music.constants.EnableLrcLibKey
+import com.metrolist.music.constants.EnableLrcRedKey
 import com.metrolist.music.constants.EnableLyricsPlus
 import com.metrolist.music.constants.EnablePaxsenixKey
 import com.metrolist.music.constants.EnableYouTubeLyricsKey
@@ -18,6 +19,7 @@ import com.metrolist.music.constants.LyricsProviderOrderKey
 
 object LyricsProviderRegistry {
     private val providerMap = mapOf(
+        "lrc.red" to LrcRedLyricsProvider,
         "BetterLyrics" to BetterLyricsProvider,
         "Paxsenix" to PaxsenixLyricsProvider,
         "LrcLib" to LrcLibLyricsProvider,
@@ -31,6 +33,7 @@ object LyricsProviderRegistry {
     val providerNames = providerMap.keys.toList()
 
     val providerEnabledKeys = mapOf(
+        "lrc.red" to EnableLrcRedKey,
         "BetterLyrics" to EnableBetterLyricsKey,
         "LrcLib" to EnableLrcLibKey,
         "KuGou" to EnableKugouKey,
@@ -59,6 +62,7 @@ object LyricsProviderRegistry {
     }
 
     fun getDefaultProviderOrder(): List<String> = listOf(
+        "lrc.red",
         "BetterLyrics",
         "LrcLib",
         "KuGou",

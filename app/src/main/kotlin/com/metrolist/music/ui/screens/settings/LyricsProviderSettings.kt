@@ -63,6 +63,7 @@ fun LyricsProviderSettings(navController: NavController) {
                         defaultValue = true,
                     )
                     val description = when (providerId) {
+                        "lrc.red" -> R.string.enable_lrc_red_desc
                         "BetterLyrics" -> R.string.enable_better_lyrics_desc
                         "LrcLib" -> R.string.enable_lrclib_desc
                         "KuGou" -> R.string.enable_kugou_desc
