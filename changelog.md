@@ -1,5 +1,14 @@
 # Changelog
 
+## [v1.6.0] - 2026-11-15
+
+### Added
+- **i18n:** Translate Wrapped recap strings to all locales (`6196f65`)
+- **ui:** Add floating pill navbar, brand top bar and navigation drawer (`bd2d250`)
+
+### Fixed
+- **wrapped:** Use Utaloom palette, condensed display type and new home banner (`a79ada5`)
+
 ## [v1.5.0] - 2026-11-15
 
 ### Added
