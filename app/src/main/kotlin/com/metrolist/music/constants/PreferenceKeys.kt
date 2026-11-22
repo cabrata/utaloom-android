@@ -541,6 +541,8 @@ val AndroidAutoSectionsOrderKey = stringPreferencesKey("androidAutoSectionsOrder
 val AndroidAutoTargetPlaylistKey = stringPreferencesKey("androidAutoTargetPlaylist")
 val AndroidAutoSearchLocalLimitKey = intPreferencesKey("androidAutoSearchLocalLimit")
 val InnerTubeCookieKey = stringPreferencesKey("innerTubeCookie")
+// JSON list of every YouTube Music login the user added; holds cookies like InnerTubeCookieKey.
+val SavedYouTubeAccountsKey = stringPreferencesKey("saved_youtube_accounts")
 val AccountNameKey = stringPreferencesKey("accountName")
 val AccountEmailKey = stringPreferencesKey("accountEmail")
 val AccountChannelHandleKey = stringPreferencesKey("accountChannelHandle")

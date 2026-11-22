@@ -35,8 +35,10 @@ import com.metrolist.music.extensions.toEnum
 import com.metrolist.music.extensions.toInetSocketAddress
 import com.metrolist.music.utils.CrashHandler
 import com.metrolist.music.utils.ArtistNameAliases
+import com.metrolist.music.utils.ArtworkUrlMapper
 import com.metrolist.music.utils.InnerTubeXPlayer
 import com.metrolist.music.utils.dataStore
+import com.metrolist.music.utils.forgetActiveAccount
 import com.metrolist.music.utils.safeDataStoreEdit
 import com.metrolist.music.utils.reportException
 import dagger.hilt.android.HiltAndroidApp
@@ -312,6 +314,7 @@ class App :
             .Builder(this)
             .apply {
                 components {
+                    add(ArtworkUrlMapper())
                     add(OkHttpNetworkFetcherFactory(callFactory = {
                         OkHttpClient.Builder().addInterceptor { chain ->
                             if (YouTube.offlineMode) throw IOException("Offline mode is enabled")
@@ -319,7 +322,7 @@ class App :
                         }.build()
                     }))
                 }
-                crossfade(true)
+                crossfade(200)
                 allowHardware(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
                 // Memory cache for fast image loading (prevents network requests on recomposition)
                 memoryCache {
@@ -351,6 +354,7 @@ class App :
             // Clear DataStore preferences
             Timber.d("forgetAccount: Clearing DataStore preferences")
             val cleared = context.safeDataStoreEdit { settings ->
+                settings.forgetActiveAccount()
                 settings.remove(InnerTubeCookieKey)
                 settings.remove(VisitorDataKey)
                 settings.remove(DataSyncIdKey)

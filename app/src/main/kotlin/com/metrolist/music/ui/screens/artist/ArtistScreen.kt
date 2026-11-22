@@ -66,6 +66,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -302,7 +303,16 @@ fun ArtistScreen(
                     val thumbnail = artistPage?.artist?.thumbnail ?: libraryArtist?.artist?.thumbnailUrl
 
                     if (isUtaloomGlass) {
-                        // Glass mode artist header
+                        // Pull the photo up under the status bar and app bar, like the Material header's offset,
+                        // but via layout so no gap is left below it.
+                        Box(
+                            Modifier.layout { measurable, constraints ->
+                                val placeable = measurable.measure(constraints)
+                                layout(placeable.width, (placeable.height + headerOffset).coerceAtLeast(0)) {
+                                    placeable.place(0, headerOffset)
+                                }
+                            },
+                        ) {
                         GlassArtistHeader(
                             name = displayArtistName ?: "Unknown",
                             imageUrl = thumbnail?.resize(1200, 1200),
@@ -321,6 +331,7 @@ fun ArtistScreen(
                                 }
                             },
                         )
+                        }
                     } else {
                         Box {
                             // Artist Image with offset

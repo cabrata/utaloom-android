@@ -5,6 +5,8 @@
 
 package com.metrolist.music.ui.screens
 
+import com.metrolist.music.ui.screens.spotify.SpotifyLibraryScreen
+import com.metrolist.music.ui.screens.spotify.SpotifyPlaylistScreen
 import com.metrolist.music.ui.screens.explore.ExploreScreen
 import com.metrolist.music.ui.screens.radio.RadioScreen
 import android.app.Activity
@@ -447,6 +449,26 @@ fun NavGraphBuilder.navigationBuilder(
 
     composable("login") {
         LoginScreen(navController)
+    }
+
+    composable("add_account") {
+        LoginScreen(navController, isAddingAccount = true)
+    }
+
+    composable("spotify_library") {
+        SpotifyLibraryScreen(navController)
+    }
+
+    composable(
+        route = "spotify_playlist/{id}?name={name}&owner={owner}&cover={cover}",
+        arguments = listOf("id", "name", "owner", "cover").map { name ->
+            navArgument(name) {
+                type = NavType.StringType
+                if (name != "id") defaultValue = ""
+            }
+        },
+    ) {
+        SpotifyPlaylistScreen(navController)
     }
 
     composable("switch_channel") {

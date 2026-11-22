@@ -1206,4 +1206,13 @@
     <string name="radio_station_name">%1$s Station</string>
     <string name="radio_continue_listening">Continue from your last song</string>
     <string name="radio_empty">Play some music and your stations will appear here</string>
+    <string name="youtube_accounts">YouTube Music accounts</string>
+    <string name="add_account">Add account</string>
+    <string name="remove_account">Remove account</string>
+    <string name="active_account">Active account</string>
+    <string name="spotify_library">Spotify library</string>
+    <string name="spotify_library_connect_description">Connect Spotify to browse your playlists and Liked Songs. Tracks play from YouTube Music.</string>
+    <string name="switch_account">Switch account</string>
+    <string name="manage_accounts">Manage accounts</string>
+    <string name="done">Done</string>
 </resources>

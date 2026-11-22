@@ -85,6 +85,8 @@ import com.metrolist.music.constants.VisitorDataKey
 import com.metrolist.music.ui.component.IconButton
 import com.metrolist.music.ui.utils.backToMain
 import com.metrolist.music.utils.reportException
+import com.metrolist.music.utils.restartApp
+import com.metrolist.music.utils.saveActiveAccount
 import com.metrolist.music.utils.safeDataStoreEdit
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CancellationException
@@ -116,6 +118,7 @@ private data class AuthData(
 fun LoginScreen(
     navController: NavController,
     isSwitchingChannel: Boolean = false,
+    isAddingAccount: Boolean = false,
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -208,6 +211,7 @@ fun LoginScreen(
                         settings[AccountNameKey] = accountInfo.name
                         settings[AccountEmailKey] = accountInfo.email.orEmpty()
                         settings[AccountChannelHandleKey] = accountInfo.channelHandle.orEmpty()
+                        settings.saveActiveAccount(accountInfo.thumbnailUrl)
                     }
                 }
             check(saved) { "Failed to persist account data" }
@@ -220,13 +224,7 @@ fun LoginScreen(
             }
             CookieManager.getInstance().flush()
 
-            withContext(Dispatchers.Main) {
-                context.packageManager
-                    .getLaunchIntentForPackage(context.packageName)
-                    ?.apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK) }
-                    ?.let(context::startActivity)
-                Runtime.getRuntime().exit(0)
-            }
+            withContext(Dispatchers.Main) { restartApp(context) }
         } catch (exception: CancellationException) {
             throw exception
         } catch (throwable: Exception) {
@@ -391,13 +389,24 @@ fun LoginScreen(
                         if (isSwitchingChannel) {
                             restoreYouTubeCookies(YouTube.cookie)
                         }
-                        loadUrl(
-                            if (isSwitchingChannel) {
-                                "https://music.youtube.com"
-                            } else {
-                                "https://accounts.google.com/ServiceLogin?continue=https%3A%2F%2Fmusic.youtube.com"
-                            },
-                        )
+                        if (isAddingAccount) {
+                            // Only this WebView forgets the session; the saved accounts' cookies stay valid
+                            // because Google is never asked to sign them out.
+                            CookieManager.getInstance().removeAllCookies {
+                                loadUrl(
+                                    "https://accounts.google.com/ServiceLogin?prompt=select_account" +
+                                        "&continue=https%3A%2F%2Fmusic.youtube.com",
+                                )
+                            }
+                        } else {
+                            loadUrl(
+                                if (isSwitchingChannel) {
+                                    "https://music.youtube.com"
+                                } else {
+                                    "https://accounts.google.com/ServiceLogin?continue=https%3A%2F%2Fmusic.youtube.com"
+                                },
+                            )
+                        }
                     }
                 },
             )

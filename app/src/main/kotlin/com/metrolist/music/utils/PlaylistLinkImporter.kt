@@ -169,6 +169,14 @@ object PlaylistLinkImporter {
             out
         }.onFailure { reportException(it) }.getOrNull()
 
+    /** The YouTube Music song for a track from another service, or null when no hit is close enough. */
+    suspend fun match(title: String, artist: String, durationSec: Int): SongItem? {
+        val cleanTitle = title.replace(Regex("\\s+-\\s+.*(remaster|version|edit|mix|live).*$", RegexOption.IGNORE_CASE), "")
+        val hits = YouTube.search("$cleanTitle $artist", YouTube.SearchFilter.FILTER_SONG).getOrNull()
+            ?.items?.filterIsInstance<SongItem>().orEmpty()
+        return bestMatch(hits, durationSec, artist)
+    }
+
     /** Among the top results: prefer a matching artist, then the closest duration. Rejects hits more than 30s off. */
     fun bestMatch(hits: List<SongItem>, durationSec: Int, artist: String = ""): SongItem? {
         val wanted = artist.lowercase().split(",").map { it.trim() }.filter { it.isNotEmpty() }
@@ -188,10 +196,7 @@ object PlaylistLinkImporter {
             val matched = tracks.map { t ->
                 async {
                     gate.withPermit {
-                        val title = t.title.replace(Regex("\\s+-\\s+.*(remaster|version|edit|mix|live).*$", RegexOption.IGNORE_CASE), "")
-                        val hits = YouTube.search("$title ${t.artist}", YouTube.SearchFilter.FILTER_SONG).getOrNull()
-                            ?.items?.filterIsInstance<SongItem>().orEmpty()
-                        bestMatch(hits, t.durationSec, t.artist).also { onProgress(done.incrementAndGet(), tracks.size, t.title) }
+                        match(t.title, t.artist, t.durationSec).also { onProgress(done.incrementAndGet(), tracks.size, t.title) }
                     }
                 }
             }.awaitAll()

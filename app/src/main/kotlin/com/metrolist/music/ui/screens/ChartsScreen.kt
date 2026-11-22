@@ -7,6 +7,7 @@ package com.metrolist.music.ui.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
@@ -61,6 +62,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.metrolist.innertube.models.SongItem
+import com.metrolist.innertube.models.PlaylistItem
+import com.metrolist.innertube.models.ArtistItem
+import com.metrolist.innertube.models.AlbumItem
 import com.metrolist.innertube.models.WatchEndpoint
 import com.metrolist.music.LocalPlayerAwareWindowInsets
 import com.metrolist.music.LocalPlayerConnection
@@ -228,7 +232,33 @@ fun ChartsScreen(
                                 modifier = Modifier.animateItem(),
                             )
                         }
-                        item(key = "section_content_${section.title}") {
+                        val chartCovers = section.items.filter { it !is SongItem }.distinctBy { it.id }
+                        if (chartCovers.isNotEmpty()) {
+                            item(key = "section_covers_${section.title}") {
+                                LazyRow(
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+                                ) {
+                                    items(chartCovers, key = { "chart_cover_${it.id}" }) { chart ->
+                                        YouTubeGridItem(
+                                            item = chart,
+                                            isActive = false,
+                                            isPlaying = isPlaying,
+                                            coroutineScope = coroutineScope,
+                                            modifier = Modifier.width(160.dp).clickable {
+                                                when (chart) {
+                                                    is PlaylistItem -> navController.navigate("online_playlist/${chart.id}")
+                                                    is ArtistItem -> navController.navigate("artist/${chart.id}")
+                                                    is AlbumItem -> navController.navigate("album/${chart.id}")
+                                                    else -> Unit
+                                                }
+                                            },
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                        if (section.items.any { it is SongItem }) item(key = "section_content_${section.title}") {
                             BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
                                 val horizontalLazyGridItemWidthFactor = if (maxWidth * 0.475f >= 320.dp) 0.475f else 0.9f
                                 val horizontalLazyGridItemWidth = maxWidth * horizontalLazyGridItemWidthFactor

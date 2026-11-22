@@ -51,6 +51,8 @@ import androidx.navigation.NavController
 import com.metrolist.music.LocalPlayerAwareWindowInsets
 import com.metrolist.music.LocalPlayerConnection
 import com.metrolist.music.R
+import com.metrolist.music.utils.rememberPreference
+import com.metrolist.music.constants.SpotifySpDcCookieKey
 import com.metrolist.music.constants.GridItemSize
 import com.metrolist.music.constants.GridItemsSizeKey
 import com.metrolist.music.constants.GridThumbnailHeight
@@ -105,6 +107,7 @@ fun GlassLibraryHome(
     }
 
     var showCreatePlaylistDialog by rememberSaveable { mutableStateOf(false) }
+    val spotifyConnected = rememberPreference(SpotifySpDcCookieKey, "").value.isNotBlank()
 
     if (showCreatePlaylistDialog) {
         CreatePlaylistDialog(
@@ -121,6 +124,11 @@ fun GlassLibraryHome(
             GlassLibraryLinkList(
                 onOpenFilter = onOpenFilter,
                 onDownloadedClick = { navController.navigate("auto_playlist/downloaded") },
+                onSpotifyClick = if (spotifyConnected) {
+                    { navController.navigate("spotify_library") }
+                } else {
+                    null
+                },
             )
         }
 
@@ -218,6 +226,7 @@ fun GlassLibraryHome(
 private fun GlassLibraryLinkList(
     onOpenFilter: (LibraryFilter) -> Unit,
     onDownloadedClick: () -> Unit,
+    onSpotifyClick: (() -> Unit)?,
 ) {
     Column(
         modifier = Modifier
@@ -281,37 +290,42 @@ private fun GlassLibraryLinkList(
             }
         }
 
-        // Downloaded section
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp)
-                .combinedClickable(onClick = onDownloadedClick)
-                .padding(horizontal = 16.dp),
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.download),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(24.dp),
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Text(
-                text = stringResource(R.string.filter_downloaded),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.weight(1f),
-            )
-            Icon(
-                painter = painterResource(R.drawable.navigate_next),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
-                modifier = Modifier.size(20.dp),
-            )
-        }
+        GlassLinkRow(R.drawable.download, stringResource(R.string.filter_downloaded), onDownloadedClick)
+        if (onSpotifyClick != null) GlassLinkRow(R.drawable.queue_music, stringResource(R.string.spotify_library), onSpotifyClick)
+    }
+}
+
+@Composable
+private fun GlassLinkRow(iconRes: Int, label: String, onClick: () -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(52.dp)
+            .combinedClickable(onClick = onClick)
+            .padding(horizontal = 16.dp),
+    ) {
+        Icon(
+            painter = painterResource(iconRes),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(24.dp),
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurface,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f),
+        )
+        Icon(
+            painter = painterResource(R.drawable.navigate_next),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+            modifier = Modifier.size(20.dp),
+        )
     }
 }
 

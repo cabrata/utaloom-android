@@ -318,6 +318,10 @@ fun AccountSettings(
 
         Spacer(Modifier.height(8.dp))
 
+        SavedAccountsGroup(navController = navController, accountImageUrl = accountImageUrl, onClose = onClose)
+
+        Spacer(Modifier.height(8.dp))
+
         Material3SettingsGroup(
             items = listOf(
                 Material3SettingsItem(

@@ -64,9 +64,35 @@ import com.metrolist.music.ui.screens.Screens
 import com.metrolist.music.ui.theme.isUtaloomGlass
 import com.metrolist.music.ui.theme.GlassShapes
 import com.metrolist.music.ui.glass.liquidGlass
-import com.metrolist.music.ui.glass.liquidGlassRim
 import com.metrolist.music.ui.glass.glassContentColor
 import com.metrolist.music.ui.glass.glassIndicatorColor
+import com.metrolist.music.ui.glass.FlatSelectionPill
+import com.metrolist.music.ui.glass.GlassPillMotion
+import com.metrolist.music.ui.glass.GlassSelectionPill
+import com.metrolist.music.ui.glass.LocalAppBackdrop
+import com.metrolist.music.ui.glass.LocalGlassExport
+import com.metrolist.music.ui.glass.PILL_GROW_HEIGHT
+import com.metrolist.music.ui.glass.glassActive
+import com.metrolist.music.ui.glass.pillPlacement
+import com.metrolist.music.ui.glass.backdrop.backdrops.layerBackdrop
+import com.metrolist.music.ui.glass.backdrop.backdrops.rememberLayerBackdrop
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.MotionDurationScale
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.LayoutDirection
+import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 
@@ -186,14 +212,60 @@ fun AppNavigationBar(
     val haptics = LocalHapticFeedback.current
     val viewConfiguration = LocalViewConfiguration.current
     val selectedIndex = navigationItems.indexOfFirst { isRouteSelected(currentRoute, it.route, navigationItems) }
-    val indicatorPosition by animateFloatAsState(
+    val indicatorPosition = if (glass) 0f else animateFloatAsState(
         targetValue = selectedIndex.coerceAtLeast(0).toFloat(),
         animationSpec = spring(dampingRatio = 0.8f, stiffness = Spring.StiffnessMediumLow),
         label = "navIndicator",
-    )
+    ).value
+
+    // Glass mode: BitChord's selection pill, flat at rest and a lens over the bar while it travels.
+    val coroutineScope = rememberCoroutineScope()
+    val pill = remember(navigationItems) { GlassPillMotion(coroutineScope, selectedIndex.coerceAtLeast(0)) }
+    val reduceMotion = coroutineScope.coroutineContext[MotionDurationScale]?.scaleFactor == 0f
+    pill.reduceMotion = reduceMotion
+    DisposableEffect(pill) { onDispose { pill.stop() } }
+    val lensPill = glass && glassActive() && LocalAppBackdrop.current != null
+    val barGlass = rememberLayerBackdrop()
+    val tabRow = rememberLayerBackdrop()
+    val density = LocalDensity.current
+    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
+    var rowSize by remember { mutableStateOf(IntSize.Zero) }
+    val tabCount = navigationItems.size.coerceAtLeast(1)
+    val stepPx = rowSize.width.toFloat() / tabCount
+    pill.stepDp = stepPx / density.density
+    val barPadPx = with(density) { 4.dp.toPx() }
+    val restSize = Size(stepPx, rowSize.height.toFloat())
+    val liftedHeight = rowSize.height + barPadPx * 2 + with(density) { PILL_GROW_HEIGHT.toPx() }
+    val liftedSize = if (rowSize.height > 0) Size(liftedHeight * stepPx / rowSize.height, liftedHeight) else restSize
+    val pillCenter: (Float) -> Offset = { position ->
+        val x = position * stepPx + stepPx / 2f
+        Offset(if (isRtl) rowSize.width - x else x, rowSize.height / 2f)
+    }
+    val showPill = glass && selectedIndex >= 0 && stepPx > 0f
+    var lastSelectedIndex by remember { mutableIntStateOf(selectedIndex) }
+    LaunchedEffect(selectedIndex, glass, reduceMotion, pill) {
+        if (selectedIndex >= 0) {
+            if (!glass || reduceMotion || lastSelectedIndex < 0) pill.snapTo(selectedIndex) else pill.animateTo(selectedIndex)
+        }
+        lastSelectedIndex = selectedIndex
+    }
+    val currentStepPx by rememberUpdatedState(stepPx)
+    val currentSelectedIndex by rememberUpdatedState(selectedIndex)
+    val currentItems by rememberUpdatedState(navigationItems)
+    val currentOnItemClick by rememberUpdatedState(onItemClick)
 
     // Floats inside the same slot the full-width bar used, so the mini player bounds stay unchanged.
     Box(modifier.fillMaxWidth(), contentAlignment = Alignment.BottomCenter) {
+      // Unclipped wrapper: the lifted lens pill stands past the bar's edges.
+      Box(
+        Modifier
+            .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal))
+            .padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
+            .widthIn(max = 480.dp)
+            .fillMaxWidth()
+            .height(if (slimNav) 52.dp else 64.dp),
+      ) {
+       CompositionLocalProvider(LocalGlassExport provides if (lensPill) barGlass else null) {
         Surface(
             shape = CircleShape,
             color = containerColor,
@@ -201,36 +273,84 @@ fun AppNavigationBar(
             shadowElevation = if (glass) 0.dp else 6.dp,
             border = if (pureBlack && !glass) BorderStroke(1.dp, colors.outlineVariant) else null,
             modifier = Modifier
-                .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal))
-                .padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
-                .widthIn(max = 480.dp)
-                .fillMaxWidth()
-                .height(if (slimNav) 52.dp else 64.dp)
+                .fillMaxSize()
                 .then(if (glass) Modifier.liquidGlass(shape = GlassShapes.Capsule) else Modifier),
         ) {
             BoxWithConstraints(Modifier.padding(4.dp)) {
                 val itemWidth = maxWidth / navigationItems.size.coerceAtLeast(1)
-                if (selectedIndex >= 0) {
+                if (!glass && selectedIndex >= 0) {
                     Box(
                         Modifier
-                            .graphicsLayer {
-                                translationX = itemWidth.toPx() * indicatorPosition
-                                if (glass) {
-                                    // BitChord's pill lifts out of the bar while it travels and settles on landing.
-                                    val travel = (selectedIndex - indicatorPosition).coerceIn(-1f, 1f)
-                                    val lift = 1f + 0.14f * kotlin.math.abs(travel).coerceAtMost(1f)
-                                    scaleX = lift
-                                    scaleY = lift
-                                }
-                            }
+                            .graphicsLayer { translationX = itemWidth.toPx() * indicatorPosition }
                             .width(itemWidth)
                             .fillMaxHeight()
                             .clip(CircleShape)
-                            .background(indicatorColor)
-                            .then(if (glass) Modifier.liquidGlassRim(CircleShape) else Modifier),
+                            .background(indicatorColor),
                     )
                 }
-                Row(Modifier.fillMaxSize().selectableGroup()) {
+                if (showPill && (!lensPill || pill.isFlat)) {
+                    FlatSelectionPill(
+                        color = indicatorColor,
+                        modifier = Modifier
+                            .matchParentSize()
+                            .pillPlacement(
+                                center = { pillCenter(pill.position) },
+                                size = { pill.liveSize(restSize, liftedSize) },
+                            ),
+                    )
+                }
+                Row(
+                    Modifier
+                        .fillMaxSize()
+                        .selectableGroup()
+                        .then(
+                            if (!glass) Modifier else Modifier
+                                .onSizeChanged { rowSize = it }
+                                .then(if (lensPill) Modifier.layerBackdrop(tabRow) else Modifier)
+                                .pointerInput(pill, isRtl) {
+                                    var totalDrag = 0f
+                                    var startIndex = 0
+                                    var step = 0f
+                                    var holding = false
+                                    var lastTick = 0
+                                    val direction = if (isRtl) -1f else 1f
+                                    fun dragIndex() = (startIndex + totalDrag / step)
+                                        .coerceIn(0f, (currentItems.size - 1).toFloat())
+                                    detectHorizontalDragGestures(
+                                        onDragStart = {
+                                            step = currentStepPx
+                                            holding = currentSelectedIndex >= 0 && step > 0f
+                                            if (!holding) return@detectHorizontalDragGestures
+                                            totalDrag = 0f
+                                            startIndex = currentSelectedIndex
+                                            lastTick = startIndex
+                                            pill.startDrag()
+                                        },
+                                        onDragCancel = {
+                                            if (holding) pill.release(currentSelectedIndex)
+                                            holding = false
+                                        },
+                                        onDragEnd = {
+                                            if (!holding) return@detectHorizontalDragGestures
+                                            holding = false
+                                            val next = dragIndex().roundToInt()
+                                            pill.release(next)
+                                            if (next != currentSelectedIndex) currentOnItemClick(currentItems[next], false)
+                                        },
+                                        onHorizontalDrag = { _, delta ->
+                                            if (!holding) return@detectHorizontalDragGestures
+                                            totalDrag += delta * direction
+                                            val at = dragIndex()
+                                            pill.dragTo(at)
+                                            if (at.roundToInt() != lastTick) {
+                                                lastTick = at.roundToInt()
+                                                haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                                            }
+                                        },
+                                    )
+                                },
+                        ),
+                ) {
                     navigationItems.forEach { screen ->
                         val isSelected = remember(currentRoute, screen.route) {
                             isRouteSelected(currentRoute, screen.route, navigationItems)
@@ -311,5 +431,22 @@ fun AppNavigationBar(
                 }
             }
         }
+       }
+        if (lensPill && showPill && !pill.isFlat) {
+            val padPx = barPadPx
+            GlassSelectionPill(
+                motion = pill,
+                fillColor = indicatorColor,
+                barGlass = barGlass,
+                tabRow = tabRow,
+                modifier = Modifier
+                    .matchParentSize()
+                    .pillPlacement(
+                        center = { pillCenter(pill.position) + Offset(padPx, padPx) },
+                        size = { pill.liveSize(restSize, liftedSize) },
+                    ),
+            )
+        }
+      }
     }
 }

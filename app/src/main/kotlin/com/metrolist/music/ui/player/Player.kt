@@ -78,6 +78,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -89,12 +90,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -297,10 +300,12 @@ fun BottomSheetPlayer(
     val isPlaying by playerConnection.isPlaying.collectAsState()
     val isKeepScreenOn by rememberPreference(KeepScreenOn, false)
     val keepScreenOn = isPlaying && isKeepScreenOn
+    val currentDarkTheme by rememberUpdatedState(useDarkTheme)
+    val playerExpanded = state.isExpanded
 
-    DisposableEffect(playerBackground, state.isExpanded, useDarkTheme, keepScreenOn, isFullScreen, hideStatusBarOnFullscreen) {
+    LifecycleResumeEffect(playerBackground, playerExpanded, useDarkTheme, keepScreenOn, isFullScreen, hideStatusBarOnFullscreen) {
         val window = (context as? android.app.Activity)?.window
-        if (window != null && state.isExpanded) {
+        if (window != null && playerExpanded) {
             val insetsController = WindowCompat.getInsetsController(window, window.decorView)
 
             when (playerBackground) {
@@ -327,10 +332,10 @@ fun BottomSheetPlayer(
             }
         }
 
-        onDispose {
-            if (window != null) {
+        onPauseOrDispose {
+            if (window != null && playerExpanded) {
                 val insetsController = WindowCompat.getInsetsController(window, window.decorView)
-                insetsController.isAppearanceLightStatusBars = !useDarkTheme
+                insetsController.isAppearanceLightStatusBars = !currentDarkTheme
                 insetsController.show(WindowInsetsCompat.Type.statusBars())
                 window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
@@ -367,22 +372,22 @@ fun BottomSheetPlayer(
 
     val spotifySpDc by rememberPreference(SpotifySpDcCookieKey, defaultValue = "")
     var canvasUrl by remember(mediaMetadata?.id, spotifySpDc) { mutableStateOf<String?>(null) }
+    // The Canvas records here each frame so the control deck's glass can blur the video behind it.
+    val canvasLayer = rememberGraphicsLayer()
 
     val wantsCanvas = heroPlayer || playerBackground == PlayerBackgroundStyle.CANVAS
-    LaunchedEffect(mediaMetadata?.id, spotifySpDc, state.isExpanded, wantsCanvas) {
-        val metadata = mediaMetadata
-        canvasUrl = null
+    // Fetched once the player first opens, then kept: collapsing only pauses the Canvas, so reopening
+    // shows the paused frame and resumes it. canvasUrl is already reset above whenever the song changes.
+    LaunchedEffect(mediaMetadata?.id, spotifySpDc, wantsCanvas) {
+        val metadata = mediaMetadata ?: return@LaunchedEffect
+        if (!wantsCanvas) return@LaunchedEffect
+        snapshotFlow { state.isExpanded }.first { it }
         // Without a Spotify cookie this is a no-op.
-        if (metadata != null && state.isExpanded && wantsCanvas) {
-            val artistName = metadata.artists.firstOrNull()?.name.orEmpty()
-            canvasUrl = SpotifyCanvasClient.Default.fetchCanvas(
-                title = metadata.title,
-                artist = artistName,
-                spDc = spotifySpDc.takeIf { it.isNotBlank() },
-            )
-        } else {
-            canvasUrl = null
-        }
+        canvasUrl = SpotifyCanvasClient.Default.fetchCanvas(
+            title = metadata.title,
+            artist = metadata.artists.firstOrNull()?.name.orEmpty(),
+            spDc = spotifySpDc.takeIf { it.isNotBlank() },
+        )
     }
 
     // Listen Together state (reactive)
@@ -1949,6 +1954,7 @@ fun BottomSheetPlayer(
                 canSkipNext = canSkipNext,
                 isListenTogetherGuest = isListenTogetherGuest,
                 focusRequester = focusRequester,
+                canvasLayer = canvasLayer,
             )
         } else when (LocalConfiguration.current.orientation) {
             Configuration.ORIENTATION_LANDSCAPE -> {

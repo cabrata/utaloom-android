@@ -90,6 +90,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.runtime.withFrameNanos
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -139,6 +140,9 @@ import com.metrolist.innertube.YouTube
 import com.metrolist.innertube.models.SongItem
 import com.metrolist.innertube.models.WatchEndpoint
 import com.metrolist.music.constants.AppBarHeight
+import com.metrolist.music.constants.CropAlbumArtKey
+import com.metrolist.music.constants.GridItemSize
+import com.metrolist.music.constants.GridItemsSizeKey
 import com.metrolist.music.constants.AppLanguageKey
 import com.metrolist.music.constants.CheckForUpdatesKey
 import com.metrolist.music.constants.DarkModeKey
@@ -184,6 +188,7 @@ import com.metrolist.music.playback.MusicService.MusicBinder
 import com.metrolist.music.playback.PlayerConnection
 import com.metrolist.music.playback.queues.YouTubeQueue
 import com.metrolist.music.ui.component.AccountSettingsDialog
+import com.metrolist.music.ui.component.AccountSwitcher
 import com.metrolist.music.ui.component.AppDrawer
 import com.metrolist.music.ui.component.AppDrawerEntry
 import com.metrolist.music.ui.component.UtaloomLogo
@@ -597,10 +602,6 @@ class MainActivity : FragmentActivity() {
                 if (darkTheme == DarkMode.AUTO) isSystemInDarkTheme else darkTheme == DarkMode.ON
             }
 
-        LaunchedEffect(useDarkTheme) {
-            setSystemBarAppearance(useDarkTheme)
-        }
-
         val enableLandscapeScaling by rememberPreference(EnableLandscapeScalingKey, defaultValue = false)
         val userDensityScale by rememberPreference(DensityScaleKey, defaultValue = 1f)
         val pureBlackEnabled by rememberPreference(PureBlackKey, defaultValue = false)
@@ -823,7 +824,7 @@ class MainActivity : FragmentActivity() {
                 }
 
                 // Wrapped and web sign-in pages draw edge to edge, without the mini player or rail.
-                val isFullScreenRoute = currentRoute in setOf("wrapped", "login", "switch_channel", "settings/spotify_login")
+                val isFullScreenRoute = currentRoute in setOf("wrapped", "login", "add_account", "switch_channel", "settings/spotify_login")
 
                 val inSearchScreen by remember {
                     derivedStateOf { currentRoute?.startsWith("search/") == true }
@@ -843,7 +844,9 @@ class MainActivity : FragmentActivity() {
                 val isLandscape = configuration.containerDpSize.width > configuration.containerDpSize.height
                 val isTablet = configuration.containerDpSize.width >= 600.dp
 
-                val showRail = !forceBottomNav && (isLandscape || isTablet) && !inSearchScreen
+                // BitChord keeps its pill tab bar at the bottom in every orientation;
+                // the side rail is only for the classic Metrolist layouts.
+                val showRail = !glassStyle && !forceBottomNav && (isLandscape || isTablet) && !inSearchScreen
 
                 val navPadding =
                     if (shouldShowNavigationBar && !showRail) {
@@ -868,6 +871,13 @@ class MainActivity : FragmentActivity() {
                                 MiniPlayerHeight,
                         expandedBound = maxHeight,
                     )
+
+                LifecycleResumeEffect(useDarkTheme, playerBottomSheetState.isExpanded, currentRoute) {
+                    if (!playerBottomSheetState.isExpanded && currentRoute?.startsWith("wrapped") != true) {
+                        setSystemBarAppearance(useDarkTheme)
+                    }
+                    onPauseOrDispose {}
+                }
 
                 DisposableEffect(playerBottomSheetState) {
                     collapsePlayerForIntent = {
@@ -1051,6 +1061,7 @@ class MainActivity : FragmentActivity() {
                     }
 
                 var showAccountDialog by remember { mutableStateOf(false) }
+                var showAccountSwitcher by remember { mutableStateOf(false) }
                 var showDrawer by rememberSaveable { mutableStateOf(false) }
 
                 val pauseListenHistory by rememberPreference(PauseListenHistoryKey, defaultValue = false)
@@ -1063,6 +1074,8 @@ class MainActivity : FragmentActivity() {
                 // Glass lets the page run under the system navigation bar instead of a grey band.
                 val baseBg = if (glassStyle) Color.Transparent else if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer
                 val artistNameAliases by ArtistNameAliases.aliases.collectAsStateWithLifecycle()
+                val gridItemSize by rememberEnumPreference(GridItemsSizeKey, GridItemSize.BIG)
+                val cropAlbumArt by rememberPreference(CropAlbumArtKey, false)
 
                 val iosOverscrollFactory = if (glassStyle && isGlassSupported()) {
                     rememberIosOverscrollFactory()
@@ -1082,6 +1095,8 @@ class MainActivity : FragmentActivity() {
                     LocalListenTogetherManager provides listenTogetherManager,
                     LocalChangelogState provides showChangelog,
                     LocalArtistNameAliases provides artistNameAliases,
+                    LocalGridItemSize provides gridItemSize,
+                    LocalCropAlbumArt provides cropAlbumArt,
                     LocalAppBackdrop provides appBackdrop.takeIf { glassStyle && isGlassSupported() },
                     LocalOverscrollFactory provides iosOverscrollFactory,
                 ) {
@@ -1098,12 +1113,20 @@ class MainActivity : FragmentActivity() {
                                 exit = fadeOut(animationSpec = tween(durationMillis = 200)),
                             ) {
                                 if (glassStyle && isGlassSupported()) {
+                                    // Pinned behaviour: heightOffset tracks distance scrolled from the top, and
+                                    // navigation resets it, so this flips once per threshold crossing.
+                                    val topBarCollapsed by remember(topAppBarScrollBehavior, density) {
+                                        derivedStateOf {
+                                            topAppBarScrollBehavior.state.heightOffset < -with(density) { 24.dp.toPx() }
+                                        }
+                                    }
                                     GlassTopBar(
                                         title = currentTitleRes?.let { stringResource(it) } ?: "",
                                         accountImageUrl = accountImageUrl,
                                         onMenuClick = { showDrawer = true },
-                                        onAccountClick = { showAccountDialog = true },
+                                        onAccountClick = { showAccountSwitcher = true },
                                         hasUpdateBadge = latestVersionName != BuildConfig.BASE_VERSION_NAME,
+                                        collapsed = topBarCollapsed,
                                     )
                                 } else {
                                     Row {
@@ -1144,7 +1167,7 @@ class MainActivity : FragmentActivity() {
                                                 }
                                             },
                                             actions = {
-                                                IconButton(onClick = { showAccountDialog = true }) {
+                                                IconButton(onClick = { showAccountSwitcher = true }) {
                                                     BadgedBox(badge = {
                                                         if (latestVersionName != BuildConfig.BASE_VERSION_NAME) {
                                                             Badge()
@@ -1496,6 +1519,21 @@ class MainActivity : FragmentActivity() {
                         modifier = Modifier.align(Alignment.BottomCenter),
                     )
 
+                    if (showAccountSwitcher) {
+                        AccountSwitcher(
+                            accountImageUrl = accountImageUrl,
+                            onAddAccount = {
+                                showAccountSwitcher = false
+                                navController.navigate("add_account")
+                            },
+                            onOpenSettings = {
+                                showAccountSwitcher = false
+                                showAccountDialog = true
+                            },
+                            onDismiss = { showAccountSwitcher = false },
+                        )
+                    }
+
                     if (showAccountDialog) {
                         AccountSettingsDialog(
                             onDismiss = {
@@ -1814,4 +1852,8 @@ val LocalSyncUtils = staticCompositionLocalOf<SyncUtils> { error("No SyncUtils p
 val LocalListenTogetherManager = staticCompositionLocalOf<com.metrolist.music.listentogether.ListenTogetherManager?> { null }
 val LocalChangelogState = staticCompositionLocalOf<MutableState<Boolean>> { error("No LocalChangelogState provided") }
 val LocalArtistNameAliases = staticCompositionLocalOf<Map<String, String>> { emptyMap() }
+
+// Read once here: a DataStore collector per thumbnail costs every list item a coroutine as it scrolls in.
+val LocalGridItemSize = compositionLocalOf { GridItemSize.BIG }
+val LocalCropAlbumArt = compositionLocalOf { false }
 val LocalIsPlayerExpanded = compositionLocalOf { false }

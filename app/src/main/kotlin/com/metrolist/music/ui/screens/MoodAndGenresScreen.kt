@@ -23,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -42,6 +43,8 @@ import com.metrolist.music.ui.component.NavigationTitle
 import com.metrolist.music.ui.component.shimmer.ListItemPlaceHolder
 import com.metrolist.music.ui.component.shimmer.ShimmerHost
 import com.metrolist.music.ui.utils.backToMain
+import com.metrolist.music.ui.screens.explore.MoodGenreSleeve
+import com.metrolist.music.ui.theme.isUtaloomGlass
 import com.metrolist.music.viewmodels.MoodAndGenresViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,6 +57,8 @@ fun MoodAndGenresScreen(
     val itemsPerRow = if (localConfiguration.orientation == ORIENTATION_LANDSCAPE) 3 else 2
 
     val moodAndGenresList by viewModel.moodAndGenres.collectAsStateWithLifecycle()
+    val artwork by viewModel.artwork.collectAsStateWithLifecycle()
+    val glass = isUtaloomGlass
 
     LazyColumn(
         contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues(),
@@ -83,7 +88,17 @@ fun MoodAndGenresScreen(
                     moodAndGenres.items.chunked(itemsPerRow).forEach { row ->
                         Row {
                             row.forEach {
-                                MoodAndGenresButton(
+                                if (glass) {
+                                    LaunchedEffect(it.endpoint) { viewModel.loadArtwork(it) }
+                                    MoodGenreSleeve(
+                                        item = it,
+                                        artwork = artwork[it.endpoint.browseId to it.endpoint.params],
+                                        onClick = {
+                                            navController.navigate("youtube_browse/${it.endpoint.browseId}?params=${it.endpoint.params}")
+                                        },
+                                        modifier = Modifier.weight(1f).padding(6.dp),
+                                    )
+                                } else MoodAndGenresButton(
                                     title = it.title,
                                     onClick = {
                                         navController.navigate("youtube_browse/${it.endpoint.browseId}?params=${it.endpoint.params}")

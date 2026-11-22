@@ -82,6 +82,9 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.statusBarsIgnoringVisibility
+import androidx.compose.foundation.layout.union
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.draw.clipToBounds
@@ -173,6 +176,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.horizontalDrag
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -201,6 +205,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.graphics.drawscope.withTransform
+import androidx.compose.ui.graphics.layer.drawLayer
+import androidx.compose.ui.graphics.layer.GraphicsLayer
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
@@ -247,7 +256,11 @@ enum class HeroMode { Normal, Lyrics, Queue }
  * Static images, so nothing is redrawn per frame outside a fade.
  */
 @Composable
-fun HeroBackdrop(thumbnailUrl: String?, dimmed: Boolean, modifier: Modifier = Modifier) {
+fun HeroBackdrop(
+    thumbnailUrl: String?,
+    dimmed: Boolean,
+    modifier: Modifier = Modifier,
+) {
     val dim = animateFloatAsState(if (dimmed) 1f else 0f, tween(350), label = "heroBackdropDim")
     val context = LocalContext.current
     // BitChord's ArtworkMeshBackdrop: the image on screen and the one fading in over it, both plain
@@ -278,12 +291,16 @@ fun HeroBackdrop(thumbnailUrl: String?, dimmed: Boolean, modifier: Modifier = Mo
         incoming = null
     }
     // Every animated value is read in the draw: a skip or a mode switch repaints, never recomposes.
-    Canvas(modifier.fillMaxSize().background(Color.Black)) {
+    Box(modifier.fillMaxSize().background(Color.Black)) {
+    Canvas(Modifier.fillMaxSize()) {
         // Landscape has no seam below the artwork (min(w, h) is the full height), so it always takes
         // BitChord's full-cover blur and scrim, like its lyrics and queue, or bright covers wash out the text.
         val d = if (size.width > size.height) 1f else dim.value
         shown?.let { drawBackdrop(it, 1f, d) }
         incoming?.let { drawBackdrop(it, fade.value, d) }
+    }
+    Canvas(Modifier.fillMaxSize()) {
+        val d = if (size.width > size.height) 1f else dim.value
         // BitChord's mesh scrim runs 0.10f..0.30f. The blurred cover here stays up behind the
         // controls, so a white one gets a slightly heavier foot; a dark cover keeps its artwork.
         val shade = BACKDROP_SHADE_MIN + (BACKDROP_SHADE_MAX - BACKDROP_SHADE_MIN) * brightness
@@ -300,6 +317,7 @@ fun HeroBackdrop(thumbnailUrl: String?, dimmed: Boolean, modifier: Modifier = Mo
             alpha = 1f - d,
         )
         if (d > 0f) drawRect(BackdropDimmedScrim, alpha = d)
+    }
     }
 }
 
@@ -381,6 +399,9 @@ internal fun smootherStep(t: Float): Float {
 
 private const val BACKDROP_SOURCE_PX = 128
 private const val BACKDROP_BLUR_RADIUS = 14
+private const val LIVE_BLUR_DOWNSCALE = 8f
+// Matches the cover blur's reach: BACKDROP_BLUR_RADIUS over a BACKDROP_SOURCE_PX source.
+private const val LIVE_BLUR_RADIUS_FRACTION = BACKDROP_BLUR_RADIUS.toFloat() / BACKDROP_SOURCE_PX
 private const val BACKDROP_FADE_MS = 600
 // Scrim weight at the foot of the screen: BitChord's 0.10f..0.30f for its mesh backdrop, nudged
 // up to 0.36f for a white sleeve. Well under the flat 0.6f this replaced.
@@ -417,8 +438,14 @@ fun HeroArtwork(
     fadeEdge: () -> Float = { 1f },
     canvasAlpha: () -> Float = { 1f },
     canvasVisible: Boolean = true,
+    onTap: (() -> Unit)? = null,
+    // Receives the Canvas video each frame so the backdrop can blur it (TextureView draws into layers).
+    canvasLayer: GraphicsLayer? = null,
+    // 0 while a full-window Canvas plays behind this sleeve, so only its gestures remain.
+    coverAlpha: () -> Float = { 1f },
 ) {
     val scope = rememberCoroutineScope()
+    val tap by rememberUpdatedState(onTap)
     val nudge = remember { Animatable(0f) }
     val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     val next by rememberUpdatedState(onNext)
@@ -451,7 +478,10 @@ fun HeroArtwork(
                 )
             }.pointerInput(gesturesEnabled, rtl) {
                 if (!gesturesEnabled) return@pointerInput
-                detectTapGestures(onDoubleTap = { doubleTap((it.x < size.width / 2) != rtl) })
+                detectTapGestures(
+                    onTap = { tap?.invoke() },
+                    onDoubleTap = { doubleTap((it.x < size.width / 2) != rtl) },
+                )
             }.graphicsLayer {
                 translationX = nudge.value
                 val radius = corner()
@@ -478,7 +508,12 @@ fun HeroArtwork(
                 }
             },
     ) {
-        Crossfade(targetState = thumbnailUrl, animationSpec = tween(420), label = "heroArtwork") { url ->
+        Crossfade(
+            targetState = thumbnailUrl,
+            animationSpec = tween(420),
+            modifier = Modifier.graphicsLayer { alpha = coverAlpha() },
+            label = "heroArtwork",
+        ) { url ->
             AsyncImage(
                 model = url,
                 contentDescription = null,
@@ -494,7 +529,18 @@ fun HeroArtwork(
                 thumbnailUrl = null,
                 isPlaying = canvasPlaying && canvasVisible,
                 isExpanded = true,
-                modifier = Modifier.graphicsLayer { alpha = canvasAlpha() },
+                modifier = Modifier
+                    .graphicsLayer { alpha = canvasAlpha() }
+                    .then(
+                        if (canvasLayer == null) {
+                            Modifier
+                        } else {
+                            Modifier.drawWithContent {
+                                canvasLayer.record { this@drawWithContent.drawContent() }
+                                drawLayer(canvasLayer)
+                            }
+                        },
+                    ),
                 onError = onCanvasError,
             )
         }
@@ -1487,6 +1533,7 @@ internal fun Modifier.swipeUpToOpen(enabled: Boolean, onOpen: () -> Unit): Modif
  * header for Lyrics and Queue (capped to a centred column on tablets). Wide windows get Apple Music's
  * landscape split: the artwork left, everything else right, compacted on short phone screens.
  */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HeroPlayerContent(
     state: BottomSheetState,
@@ -1507,8 +1554,13 @@ fun HeroPlayerContent(
     canSkipNext: Boolean,
     isListenTogetherGuest: Boolean,
     focusRequester: FocusRequester,
+    canvasLayer: GraphicsLayer? = null,
 ) {
     val playerConnection = LocalPlayerConnection.current ?: return
+    // BitChord: a tap on the Canvas slides the control deck away so the video plays clear (the title stays);
+    // tapping again, or leaving Normal mode, brings it back. The Canvas itself never leaves its sleeve.
+    var canvasControlsHidden by remember(canvasUrl) { mutableStateOf(false) }
+    LaunchedEffect(state.isExpanded, mode) { if (!state.isExpanded || mode != HeroMode.Normal) canvasControlsHidden = false }
     // Position changes every 100 ms: only HeroProgress and the lyric line read it, never this scope.
     val scrubState = remember { mutableStateOf<Long?>(null) }
     var scrub by scrubState
@@ -1570,11 +1622,13 @@ fun HeroPlayerContent(
         panelMode = mode
     }
 
-    val artwork: @Composable (Modifier, () -> Dp, () -> Float, () -> Float, Boolean, Boolean) -> Unit =
-        { modifier, corner, fadeEdge, canvasAlpha, canvasVisible, gestures ->
+    // inSleeve: the Canvas plays inside this artwork (landscape). False: it plays behind the whole player
+    // (portrait, as in BitChord) and this artwork is the gesture layer over it, then the thumbnail.
+    val artwork: @Composable (Modifier, () -> Dp, () -> Float, () -> Float, Boolean, Boolean, Boolean) -> Unit =
+        { modifier, corner, fadeEdge, canvasAlpha, canvasVisible, gestures, inSleeve ->
         HeroArtwork(
             thumbnailUrl = mediaMetadata?.thumbnailUrl,
-            canvasUrl = canvasUrl,
+            canvasUrl = canvasUrl.takeIf { inSleeve },
             canvasPlaying = isPlaying && state.isExpanded,
             gesturesEnabled = gestures && !isListenTogetherGuest && state.isExpanded,
             onCanvasError = onCanvasError,
@@ -1587,6 +1641,17 @@ fun HeroPlayerContent(
             fadeEdge = fadeEdge,
             canvasAlpha = canvasAlpha,
             canvasVisible = canvasVisible,
+            onTap = if (!canvasUrl.isNullOrBlank() && mode == HeroMode.Normal) {
+                { canvasControlsHidden = !canvasControlsHidden }
+            } else {
+                null
+            },
+            canvasLayer = canvasLayer.takeIf { inSleeve },
+            coverAlpha = if (inSleeve || canvasUrl.isNullOrBlank()) {
+                { 1f }
+            } else {
+                { morph() }
+            },
             modifier = modifier,
         )
     }
@@ -1634,7 +1699,7 @@ fun HeroPlayerContent(
     // Scrubber to bottom row. Never moves between modes; [previewRow] adds the lyric line / credit above it.
     // Hidden while reading lyrics/queue: it slides away and the panel above grows into its space.
     val controls: @Composable (Boolean, Boolean, Boolean, Boolean, Dp) -> Unit = { compact, showVolume, previewRow, bottomRow, hPad ->
-        SlidingDeck(visible = controlsShown) {
+        SlidingDeck(visible = controlsShown && !canvasControlsHidden) {
         Column(Modifier.fillMaxWidth()) {
             SlidingDeck(visible = previewRow) {
                 Box(
@@ -1750,28 +1815,42 @@ fun HeroPlayerContent(
 
     BoxWithConstraints(Modifier.fillMaxSize()) {
         val landscape = maxWidth > maxHeight && maxWidth >= 560.dp
+        // BitChord: on a phone held upright the Canvas fills the window behind everything.
+        val fullCanvas = !landscape && !canvasUrl.isNullOrBlank()
+        if (fullCanvas && canvasLayer != null) {
+            val deckOpen = mode == HeroMode.Normal && controlsShown && !canvasControlsHidden
+            CanvasBackground(
+                canvasUrl = canvasUrl.orEmpty(),
+                playing = isPlaying && state.isExpanded && mode == HeroMode.Normal,
+                alpha = { 1f - morph() },
+                layer = canvasLayer,
+                deckOpen = deckOpen,
+                onError = onCanvasError,
+            )
+        }
         if (landscape) {
             val compact = maxHeight < 480.dp
             val showVolume = maxHeight >= 400.dp
             val normal = mode == HeroMode.Normal
-            // Normal centres its stack; Lyrics and Queue let the panel take the column.
-            val spread by animateFloatAsState(if (normal) 1f else 0.001f, tween(380), label = "heroSpread")
             Row(
                 horizontalArrangement = Arrangement.spacedBy(if (compact) 24.dp else 48.dp, Alignment.CenterHorizontally),
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .widthIn(max = 1200.dp)
+                    .widthIn(max = 1100.dp)
                     .fillMaxSize()
-                    .windowInsetsPadding(WindowInsets.safeDrawing)
-                    .padding(horizontal = 24.dp, vertical = if (compact) 8.dp else 24.dp),
+                    // BitChord: the status bar's stable inset even while it's hidden, plus a handle strip,
+                    // so the title never rides up under where the status bar would be.
+                    .windowInsetsPadding(WindowInsets.safeDrawing.union(WindowInsets.statusBarsIgnoringVisibility))
+                    .padding(horizontal = 24.dp)
+                    .padding(top = 24.dp, bottom = if (compact) 8.dp else 20.dp),
             ) {
                 BoxWithConstraints(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.weight(1f).fillMaxHeight(),
                 ) {
                     val bottomHeight = if (compact) 72.dp else 96.dp
-                    val artSize = min(maxWidth, maxHeight - bottomHeight - 8.dp)
+                    val artSize = min(maxWidth, maxHeight - bottomHeight - 8.dp).coerceAtLeast(1.dp)
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Box(Modifier.size(artSize)) {
                             artwork(
@@ -1781,6 +1860,7 @@ fun HeroPlayerContent(
                                 LandscapeCorner,
                                 NoFade,
                                 FullAlpha,
+                                true,
                                 true,
                                 true,
                             )
@@ -1797,8 +1877,10 @@ fun HeroPlayerContent(
                         )
                     }
                 }
-                Column(Modifier.weight(1f).widthIn(max = 560.dp).fillMaxHeight()) {
-                    Spacer(Modifier.weight(spread))
+                Column(
+                    modifier = Modifier.weight(1f).widthIn(max = 560.dp).fillMaxHeight(),
+                    verticalArrangement = Arrangement.Center,
+                ) {
                     AnimatedVisibility(
                         visible = normal,
                         enter = expandVertically(tween(380)) + fadeIn(tween(300)),
@@ -1823,7 +1905,11 @@ fun HeroPlayerContent(
                             }
                         }
                     }
-                    panel(Modifier.weight(1.001f - spread).fillMaxWidth())
+                    if (!normal) {
+                        Box(Modifier.weight(1f).fillMaxWidth()) {
+                            panel(Modifier.fillMaxSize())
+                        }
+                    }
                     AnimatedVisibility(
                         visible = mode == HeroMode.Lyrics,
                         enter = expandVertically(tween(380)) + fadeIn(tween(300)),
@@ -1832,7 +1918,6 @@ fun HeroPlayerContent(
                         HeroLyricsActions(Modifier.padding(top = 4.dp))
                     }
                     controls(compact, showVolume && normal, false, false, 0.dp)
-                    Spacer(Modifier.weight(spread))
                 }
             }
         } else {
@@ -1879,6 +1964,7 @@ fun HeroPlayerContent(
                         { 1f - morph() },
                         mode == HeroMode.Normal,
                         mode == HeroMode.Normal,
+                        canvasUrl.isNullOrBlank(),
                     )
                     HeroHeader(
                         onCollapse = state::collapseSoft,
@@ -1911,9 +1997,124 @@ fun HeroPlayerContent(
                 controls(false, true, mode != HeroMode.Queue, true, 24.dp)
             }
         }
+        // Controls away: a tap anywhere below the header brings them back (the sleeve only covers the top).
+        if (fullCanvas && mode == HeroMode.Normal && canvasControlsHidden) {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .padding(top = 96.dp)
+                    .clickable(indication = null, interactionSource = null) { canvasControlsHidden = false },
+            )
+        }
         HeroGlassMenu(metadata = mediaMetadata, anchor = menuAnchor, state = state, onDismiss = { menuAnchor = null })
     }
 }
+
+/**
+ * BitChord's phone Canvas: the video cropped to the whole window, sharp. While the control deck is up
+ * it sits under a 50% dim, and the lower 56% is glass that blurs the video behind it live. When the deck
+ * slides away, the glass and the dim leave with it and the video plays clear.
+ */
+@Composable
+private fun BoxScope.CanvasBackground(
+    canvasUrl: String,
+    playing: Boolean,
+    alpha: () -> Float,
+    layer: GraphicsLayer,
+    deckOpen: Boolean,
+    onError: () -> Unit,
+) {
+    CanvasPlayerView(
+        canvasUrl = canvasUrl,
+        thumbnailUrl = null,
+        isPlaying = playing,
+        isExpanded = true,
+        modifier = Modifier
+            .fillMaxSize()
+            .graphicsLayer { this.alpha = alpha() }
+            .drawWithContent {
+                layer.record { this@drawWithContent.drawContent() }
+                drawLayer(layer)
+            },
+        onError = onError,
+    )
+    AnimatedVisibility(
+        visible = deckOpen,
+        modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().fillMaxHeight(CANVAS_DECK_FRACTION),
+        enter = fadeIn(tween(CANVAS_DECK_MS)),
+        exit = fadeOut(tween(CANVAS_DECK_MS)),
+    ) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            CanvasGlass(layer)
+        } else {
+            // No RenderEffect: BitChord's flat fallback with the same soft top edge.
+            Box(
+                Modifier.fillMaxSize().background(
+                    Brush.verticalGradient(0f to Color.Transparent, 0.25f to Color.Black.copy(alpha = 0.40f), 1f to Color.Black.copy(alpha = 0.40f)),
+                ),
+            )
+        }
+    }
+    val dim = animateFloatAsState(if (deckOpen) 0.5f else 0f, tween(CANVAS_DECK_MS), label = "canvasDim")
+    Box(Modifier.matchParentSize().graphicsLayer { this.alpha = dim.value * alpha() }.background(Color.Black))
+}
+
+/**
+ * The glass under the deck: the same pixels of the video that sit behind it, blurred. [layer] is the
+ * whole window's video, so the deck's box samples its own slice, bottom-aligned. Blurred at 1/8 size
+ * and scaled up, like BitChord's live frost at a tenth, since it re-blurs on every video frame.
+ */
+@Composable
+private fun CanvasGlass(layer: GraphicsLayer) {
+    Canvas(
+        Modifier
+            .fillMaxSize()
+            .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
+            .drawWithContent {
+                drawContent()
+                // Progressive top edge, so the glass dissolves into the sharp video above it.
+                drawRect(
+                    Brush.verticalGradient(0f to Color.Transparent, CANVAS_DECK_TOP_FADE to Color.Black),
+                    blendMode = BlendMode.DstIn,
+                )
+            }
+            .downscaledBlur(),
+    ) {
+        val source = layer.size
+        if (source.width <= 0 || source.height <= 0) return@Canvas
+        val scale = size.width / source.width
+        withTransform({
+            translate(0f, size.height - source.height * scale)
+            scale(scale, scale, Offset.Zero)
+        }) { drawLayer(layer) }
+        drawRect(Color.Black.copy(alpha = 0.18f))
+    }
+}
+
+/** Lays the content out at 1/[LIVE_BLUR_DOWNSCALE] size, blurs it there, and scales it back up. */
+private fun Modifier.downscaledBlur(): Modifier = layout { measurable, constraints ->
+    val width = constraints.maxWidth
+    val height = constraints.maxHeight
+    val small = measurable.measure(
+        Constraints.fixed(
+            (width / LIVE_BLUR_DOWNSCALE).roundToInt().coerceAtLeast(1),
+            (height / LIVE_BLUR_DOWNSCALE).roundToInt().coerceAtLeast(1),
+        ),
+    )
+    layout(width, height) {
+        small.placeWithLayer(0, 0) {
+            transformOrigin = TransformOrigin(0f, 0f)
+            scaleX = LIVE_BLUR_DOWNSCALE
+            scaleY = LIVE_BLUR_DOWNSCALE
+            val radius = size.minDimension * LIVE_BLUR_RADIUS_FRACTION
+            renderEffect = BlurEffect(radius, radius, TileMode.Clamp)
+        }
+    }
+}
+
+private const val CANVAS_DECK_FRACTION = 0.56f
+private const val CANVAS_DECK_TOP_FADE = 0.25f
+private const val CANVAS_DECK_MS = 420
 
 private val LandscapeCorner = { 12.dp }
 

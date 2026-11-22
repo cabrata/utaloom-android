@@ -145,6 +145,7 @@ import com.metrolist.music.ui.component.SpeedDialGridItem
 import com.metrolist.music.ui.component.YouTubeGridItem
 import com.metrolist.music.ui.component.YouTubeListItem
 import com.metrolist.music.ui.screens.wrapped.WrappedHomeCard
+import com.metrolist.music.ui.theme.isUtaloomGlass
 import com.metrolist.music.ui.screens.wrapped.rememberWrappedYear
 import com.metrolist.music.ui.component.shimmer.GridItemPlaceHolder
 import com.metrolist.music.ui.component.shimmer.ShimmerHost
@@ -2474,7 +2475,8 @@ fun HomeScreen(
             }
 
             HideOnScrollFAB(
-                visible = allLocalItems.isNotEmpty() || allYtItems.isNotEmpty(),
+                // Glass Home stays clear of floating buttons; recognition lives in the search field.
+                visible = !isUtaloomGlass && (allLocalItems.isNotEmpty() || allYtItems.isNotEmpty()),
                 lazyListState = lazylistState,
                 icon = R.drawable.shuffle,
                 onClick = {

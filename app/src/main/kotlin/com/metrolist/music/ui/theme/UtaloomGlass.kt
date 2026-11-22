@@ -30,8 +30,10 @@ val isUtaloomGlass: Boolean
 
 /** Continuous (squircle) corners used by Utaloom Glass surfaces. */
 object GlassShapes {
-    val Artwork = RoundedCornerShape(8.dp).continuous()
-    val ArtworkLarge = RoundedCornerShape(12.dp).continuous()
+    // Plain rounded rects, as BitChord uses for list art: they clip on the RenderNode, while a
+    // continuous corner is a path clip on every thumbnail, every scroll frame. Invisible at 8–12dp.
+    val Artwork = RoundedCornerShape(8.dp)
+    val ArtworkLarge = RoundedCornerShape(12.dp)
     val Group = RoundedCornerShape(26.dp).continuous()
     val Sheet = RoundedCornerShape(topStart = 34.dp, topEnd = 34.dp).continuous()
     val Alert = RoundedCornerShape(26.dp).continuous()

@@ -4,6 +4,15 @@
 package com.metrolist.music.ui.glass
 
 import androidx.compose.foundation.background
+import kotlin.math.roundToInt
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.runtime.getValue
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.border
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.Spring
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -53,12 +62,19 @@ fun GlassTopBar(
     onMenuClick: () -> Unit,
     onAccountClick: () -> Unit,
     hasUpdateBadge: Boolean,
+    collapsed: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val page = MaterialTheme.colorScheme.background
     val fade = remember(page) {
         Brush.verticalGradient(0f to page, 0.75f to page.copy(alpha = 0.94f), 1f to page.copy(alpha = 0f))
     }
+    // Scrolled: the profile slides off the edge and the menu takes its slot; at the top both return.
+    val slide by animateFloatAsState(
+        targetValue = if (collapsed) 1f else 0f,
+        animationSpec = spring(dampingRatio = 0.8f, stiffness = Spring.StiffnessMediumLow),
+        label = "topBarSlide",
+    )
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
@@ -76,7 +92,10 @@ fun GlassTopBar(
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1f),
         )
-        GlassCircleButton(onClick = onMenuClick) {
+        GlassCircleButton(
+            onClick = onMenuClick,
+            modifier = Modifier.offset { IntOffset((slide * (BUTTON_SIZE + BUTTON_GAP).toPx()).roundToInt(), 0) },
+        ) {
             Icon(
                 painter = painterResource(R.drawable.menu),
                 contentDescription = stringResource(R.string.open_menu),
@@ -84,17 +103,25 @@ fun GlassTopBar(
                 modifier = Modifier.size(20.dp),
             )
         }
-        Spacer(Modifier.width(10.dp))
-        GlassCircleButton(onClick = onAccountClick) {
-            BadgedBox(badge = { if (hasUpdateBadge) Badge() }) {
-                if (accountImageUrl != null) {
-                    AsyncImage(
-                        model = accountImageUrl,
-                        contentDescription = stringResource(R.string.account),
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.size(30.dp).clip(CircleShape),
-                    )
-                } else {
+        Spacer(Modifier.width(BUTTON_GAP))
+        val profileModifier = Modifier
+            .offset { IntOffset((slide * (BUTTON_SIZE + 24.dp).toPx()).roundToInt(), 0) }
+            .graphicsLayer { alpha = 1f - slide }
+        BadgedBox(badge = { if (hasUpdateBadge) Badge() }, modifier = profileModifier) {
+            if (accountImageUrl != null) {
+                // The photo itself is the button; a glass ring around it only adds clutter.
+                AsyncImage(
+                    model = accountImageUrl,
+                    contentDescription = stringResource(R.string.account),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(BUTTON_SIZE)
+                        .clip(CircleShape)
+                        .border(GLASS_EDGE_WIDTH, GLASS_EDGE_COLOR, CircleShape)
+                        .clickable(role = Role.Button, onClick = onAccountClick),
+                )
+            } else {
+                GlassCircleButton(onClick = onAccountClick) {
                     Icon(
                         painter = painterResource(R.drawable.account),
                         contentDescription = stringResource(R.string.account),
@@ -107,12 +134,19 @@ fun GlassTopBar(
     }
 }
 
+private val BUTTON_SIZE = 40.dp
+private val BUTTON_GAP = 10.dp
+
 @Composable
-private fun GlassCircleButton(onClick: () -> Unit, content: @Composable BoxScope.() -> Unit) {
+private fun GlassCircleButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable BoxScope.() -> Unit,
+) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .size(40.dp)
+        modifier = modifier
+            .size(BUTTON_SIZE)
             .liquidGlass(CircleShape)
             .clip(CircleShape)
             .clickable(role = Role.Button, onClick = onClick),

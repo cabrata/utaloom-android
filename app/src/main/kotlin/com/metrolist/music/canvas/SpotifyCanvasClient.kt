@@ -58,13 +58,7 @@ class SpotifyCanvasClient internal constructor(
     suspend fun fetchCanvas(title: String, artist: String, spDc: String?): String? = withContext(Dispatchers.IO) {
         mutex.withLock {
             val cookie = normalizeSpDc(spDc)
-            if (session != cookie) {
-                session = cookie
-                token = null
-                tokenExpiresAt = 0L
-                retryAt = 0L
-                cache.clear()
-            }
+            useSession(cookie)
             if (cookie == null || title.isBlank() || artist.isBlank()) return@withLock null
             val cacheKey = "$title\n$artist"
             cache[cacheKey]?.takeIf { it.second > now() }?.let { return@withLock it.first }
@@ -89,6 +83,25 @@ class SpotifyCanvasClient internal constructor(
                 null
             }
         }
+    }
+
+    /** The signed-in web player bearer for [spDc], shared with Canvas lookups so both reuse one token. */
+    suspend fun accessToken(spDc: String?): String = withContext(Dispatchers.IO) {
+        mutex.withLock {
+            val cookie = normalizeSpDc(spDc) ?: throw IOException("Spotify is not connected")
+            useSession(cookie)
+            if (now() < retryAt) throw IOException("Spotify is rate limiting, try again shortly")
+            getAccessToken(cookie)
+        }
+    }
+
+    private fun useSession(cookie: String?) {
+        if (session == cookie) return
+        session = cookie
+        token = null
+        tokenExpiresAt = 0L
+        retryAt = 0L
+        cache.clear()
     }
 
     private suspend fun execute(request: Request): ByteArray {

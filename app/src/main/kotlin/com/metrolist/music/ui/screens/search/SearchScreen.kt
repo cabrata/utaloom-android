@@ -11,6 +11,14 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.dp
+import com.metrolist.music.ui.theme.isUtaloomGlass
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -184,14 +192,40 @@ fun SearchScreen(
 
     val onSearchFromSuggestion: (String) -> Unit = { searchQuery -> handleSearch(searchQuery) }
 
+    val glass = isUtaloomGlass
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .then(
+                                if (glass) {
+                                    // iOS search field: a grey rounded pill led by a magnifier.
+                                    Modifier
+                                        .padding(end = 12.dp)
+                                        .height(40.dp)
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.08f))
+                                        .padding(start = 10.dp)
+                                } else {
+                                    Modifier
+                                },
+                            ),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
+                        if (glass) {
+                            Icon(
+                                painter = painterResource(R.drawable.search),
+                                contentDescription = stringResource(R.string.search),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier
+                                    .size(48.dp)
+                                    .clickable(enabled = query.text.isNotBlank()) { onSearch(query.text) }
+                                    .padding(12.dp),
+                            )
+                        }
                         BasicTextField(
                             value = query,
                             onValueChange = { query = it },
@@ -216,6 +250,8 @@ fun SearchScreen(
                                                     SearchSource.ONLINE -> R.string.search_yt_music
                                                 },
                                             ),
+                                        maxLines = 1,
+                                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
                                         style =
                                             TextStyle(
                                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
@@ -240,8 +276,16 @@ fun SearchScreen(
                                 IconButton(onClick = { query = TextFieldValue("") }) {
                                     Icon(
                                         painter = painterResource(R.drawable.close),
-                                        contentDescription = null,
+                                        contentDescription = stringResource(R.string.clear_search),
                                         tint = MaterialTheme.colorScheme.onSurface,
+                                    )
+                                }
+                            } else if (glass) {
+                                IconButton(onClick = { navController.navigate("recognition") }) {
+                                    Icon(
+                                        painter = painterResource(R.drawable.mic),
+                                        contentDescription = stringResource(R.string.recognize_music),
+                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                     )
                                 }
                             }
@@ -264,7 +308,9 @@ fun SearchScreen(
                                                 SearchSource.ONLINE -> R.drawable.language
                                             },
                                         ),
-                                    contentDescription = null,
+                                    contentDescription = stringResource(
+                                        if (effectiveSearchSource == SearchSource.LOCAL) R.string.search_yt_music else R.string.search_library,
+                                    ),
                                     tint = MaterialTheme.colorScheme.onSurface,
                                 )
                             }
@@ -282,7 +328,11 @@ fun SearchScreen(
                 },
                 colors =
                     TopAppBarDefaults.topAppBarColors(
-                        containerColor = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer,
+                        containerColor = when {
+                            pureBlack -> Color.Black
+                            glass -> MaterialTheme.colorScheme.background
+                            else -> MaterialTheme.colorScheme.surfaceContainer
+                        },
                     ),
             )
         },

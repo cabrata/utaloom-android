@@ -41,6 +41,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,6 +54,7 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -62,9 +64,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import coil3.compose.AsyncImage
 import com.metrolist.innertube.models.AlbumItem
+import com.metrolist.innertube.models.ArtistItem
+import com.metrolist.innertube.models.PlaylistItem
 import com.metrolist.innertube.models.SongItem
 import com.metrolist.innertube.models.WatchEndpoint
+import com.metrolist.innertube.pages.MoodAndGenres
 import com.metrolist.music.LocalPlayerAwareWindowInsets
 import com.metrolist.music.LocalPlayerConnection
 import com.metrolist.music.R
@@ -86,6 +92,8 @@ import com.metrolist.music.utils.rememberEnumPreference
 import com.metrolist.music.viewmodels.ChartsViewModel
 import com.metrolist.music.viewmodels.MoodAndGenresViewModel
 import com.metrolist.music.viewmodels.NewReleaseViewModel
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -130,7 +138,7 @@ fun ExploreScreen(
                     onShowAllClick = {
                         navController.navigate("new_release")
                     },
-                    modifier = Modifier.animateItem(),
+                    modifier = Modifier,
                 )
             }
 
@@ -139,8 +147,7 @@ fun ExploreScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .animateItem(),
+                        .fillMaxWidth(),
                 ) {
                     items(
                         items = newReleaseAlbums.take(10).distinctBy { it.id },
@@ -151,6 +158,7 @@ fun ExploreScreen(
                             isActive = mediaMetadata?.album?.id == album.id,
                             isPlaying = isPlaying,
                             coroutineScope = coroutineScope,
+                            badges = {},
                             modifier = Modifier
                                 .width(GridThumbnailHeight + if (gridItemSize == GridItemSize.BIG) 24.dp else (-24).dp)
                                 .combinedClickable(
@@ -176,7 +184,7 @@ fun ExploreScreen(
                 ExploreSection(
                     title = stringResource(R.string.new_release_albums),
                     onShowAllClick = { navController.navigate("new_release") },
-                    modifier = Modifier.animateItem(),
+                    modifier = Modifier,
                 )
                 ShimmerHost(
                     modifier = Modifier
@@ -201,24 +209,30 @@ fun ExploreScreen(
             }
         }
 
-        // Charts section
-        val topSongs = chartsPage?.sections
-            ?.filterNot { it.title == "Top music videos" }
-            ?.firstOrNull { section -> section.items.any { it is SongItem } }
+        // Charts section: Apple Music's ranked rows (artwork + rank) and, when the region only serves
+        // chart playlists, a row of their covers.
+        val chartSections = chartsPage?.sections?.filterNot { it.title == "Top music videos" }.orEmpty()
+        val topSongs = chartSections
+            .firstOrNull { section -> section.items.any { it is SongItem } }
             ?.items
             ?.filterIsInstance<SongItem>()
-            ?.take(8)
             ?.distinctBy { it.id }
+            ?.take(8)
             .orEmpty()
+        val chartCards = chartSections
+            .flatMap { it.items }
+            .filter { it is PlaylistItem || it is AlbumItem || it is ArtistItem }
+            .distinctBy { it.id }
+            .take(12)
 
-        if (topSongs.isNotEmpty() || chartsLoading) {
+        if (topSongs.isNotEmpty() || chartCards.isNotEmpty() || chartsLoading) {
             item(key = "charts_header") {
                 ExploreSection(
                     title = stringResource(R.string.charts),
                     onShowAllClick = {
                         navController.navigate("charts_screen")
                     },
-                    modifier = Modifier.animateItem(),
+                    modifier = Modifier,
                 )
             }
 
@@ -237,17 +251,57 @@ fun ExploreScreen(
                     }
                 }
             } else {
+                if (chartCards.isNotEmpty()) {
+                    item(key = "charts_cards") {
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+                            modifier = Modifier.fillMaxWidth(),
+                        ) {
+                            items(chartCards, key = { "explore_chart_${it.id}" }) { card ->
+                                YouTubeGridItem(
+                                    item = card,
+                                    isActive = false,
+                                    isPlaying = isPlaying,
+                                    coroutineScope = coroutineScope,
+                                    badges = {},
+                                    modifier = Modifier
+                                        .width(GridThumbnailHeight + if (gridItemSize == GridItemSize.BIG) 24.dp else (-24).dp)
+                                        .clickable {
+                                            when (card) {
+                                                is PlaylistItem -> navController.navigate("online_playlist/${card.id}")
+                                                is AlbumItem -> navController.navigate("album/${card.id}")
+                                                is ArtistItem -> navController.navigate("artist/${card.id}")
+                                                else -> Unit
+                                            }
+                                        },
+                                )
+                            }
+                        }
+                    }
+                }
                 items(topSongs.size, key = { index -> "charts_song_${topSongs[index].id}" }) { index ->
+                  Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 20.dp),
+                  ) {
+                    Text(
+                        text = "${index + 1}",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.width(24.dp),
+                    )
                     YouTubeListItem(
                         item = topSongs[index],
                         isActive = topSongs[index].id == mediaMetadata?.id,
                         isPlaying = isPlaying,
                         isSwipeable = false,
-                        albumIndex = index,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp)
-                            .animateItem()
+                            .weight(1f)
+                            .padding(end = 12.dp)
                             .combinedClickable(
                                 onClick = {
                                     if (topSongs[index].id == mediaMetadata?.id) {
@@ -272,6 +326,7 @@ fun ExploreScreen(
                                 },
                             ),
                     )
+                  }
                 }
             }
         }
@@ -282,7 +337,7 @@ fun ExploreScreen(
                 ExploreSection(
                     title = stringResource(R.string.mood_and_genres),
                     onShowAllClick = { navController.navigate("mood_and_genres") },
-                    modifier = Modifier.animateItem(),
+                    modifier = Modifier,
                 )
                 ShimmerHost(
                     modifier = Modifier
@@ -321,7 +376,7 @@ fun ExploreScreen(
                     ExploreSection(
                         title = stringResource(R.string.mood_and_genres),
                         onShowAllClick = { navController.navigate("mood_and_genres") },
-                        modifier = Modifier.animateItem(),
+                        modifier = Modifier,
                     )
                 }
             }
@@ -332,31 +387,47 @@ fun ExploreScreen(
             items(rows.size, key = { rowIndex ->
                 "mood_genres_row_${sectionIndex}_$rowIndex"
             }) { rowIndex ->
-                val row = rows[rowIndex]
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 12.dp)
-                        .padding(bottom = 12.dp)
-                        .animateItem(),
-                ) {
-                    row.forEach { item ->
-                        MoodGenreSleeve(
-                            item = item,
-                            onClick = {
-                                navController.navigate("youtube_browse/${item.endpoint.browseId}?params=${item.endpoint.params}")
-                            },
-                            modifier = Modifier.weight(1f),
-                        )
-                    }
-
-                    repeat(moodColumnsCount - row.size) {
-                        Spacer(Modifier.weight(1f))
-                    }
-                }
+                MoodGenreRow(
+                    row = rows[rowIndex],
+                    columns = moodColumnsCount,
+                    viewModel = moodAndGenresViewModel,
+                    navController = navController,
+                )
             }
         }
+    }
+}
+
+@Composable
+private fun MoodGenreRow(
+    row: List<MoodAndGenres.Item>,
+    columns: Int,
+    viewModel: MoodAndGenresViewModel,
+    navController: NavController,
+) {
+    val artworkFlow = remember(viewModel, row) {
+        viewModel.artwork.map { artwork ->
+            row.map { artwork[it.endpoint.browseId to it.endpoint.params] }
+        }.distinctUntilChanged()
+    }
+    val artwork by artworkFlow.collectAsStateWithLifecycle(initialValue = emptyList())
+
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp).padding(bottom = 12.dp),
+    ) {
+        row.forEachIndexed { index, item ->
+            LaunchedEffect(item.endpoint) { viewModel.loadArtwork(item) }
+            MoodGenreSleeve(
+                item = item,
+                artwork = artwork.getOrNull(index),
+                onClick = {
+                    navController.navigate("youtube_browse/${item.endpoint.browseId}?params=${item.endpoint.params}")
+                },
+                modifier = Modifier.weight(1f),
+            )
+        }
+        repeat(columns - row.size) { Spacer(Modifier.weight(1f)) }
     }
 }
 
@@ -391,8 +462,9 @@ private fun ExploreSection(
 }
 
 @Composable
-private fun MoodGenreSleeve(
+internal fun MoodGenreSleeve(
     item: com.metrolist.innertube.pages.MoodAndGenres.Item,
+    artwork: String?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -411,7 +483,17 @@ private fun MoodGenreSleeve(
                 .fillMaxHeight()
                 .fillMaxWidth(1f - 0.28f)
                 .background(tone.placeholder),
-        )
+        ) {
+            if (artwork != null) {
+                AsyncImage(
+                    model = artwork,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    colorFilter = tone.duotone,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
+        }
 
         Box(
             Modifier
@@ -451,7 +533,7 @@ private data class MoodTone(
 )
 
 private fun moodTone(item: com.metrolist.innertube.pages.MoodAndGenres.Item): MoodTone {
-    val base = Color(item.stripeColor.toInt()) ?: fallbackMoodColor(item.title)
+    val base = Color(item.stripeColor.toInt())
     val stripe = lerp(base, Color.Black, 0.08f)
     val shadow = lerp(base, Color.Black, 0.68f)
     val highlight = lerp(base, Color.White, 0.32f)
@@ -476,17 +558,3 @@ private fun duotone(shadow: Color, highlight: Color): ColorFilter {
         ),
     )
 }
-
-private fun fallbackMoodColor(title: String): Color = when ((title.hashCode() and Int.MAX_VALUE) % 8) {
-    0 -> Color(0xFFCC6A55)
-    1 -> Color(0xFFC07A92)
-    2 -> Color(0xFF9C8AC0)
-    3 -> Color(0xFF8090C8)
-    4 -> Color(0xFFD0A060)
-    5 -> Color(0xFF6A88B0)
-    6 -> Color(0xFF7AAED0)
-    else -> Color(0xFF86B890)
-}
-
-private operator fun FloatArray.plus(other: FloatArray): FloatArray =
-    (this.toList() + other.toList()).toFloatArray()
