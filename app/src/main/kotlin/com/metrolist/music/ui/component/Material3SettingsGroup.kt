@@ -30,23 +30,42 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+
+/**
+ * The [Material3SettingsItem.targetKey] a settings-search jump wants scrolled to and marked.
+ * Set by the search before it navigates; the matching row clears it once it has been shown.
+ */
+object SettingsSearchHighlight {
+    var pendingKey by mutableStateOf<Int?>(null)
+}
 
 /**
  * A Material 3 Expressive style settings group component
  * @param title The title of the settings group
  * @param items List of settings items to display
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Material3SettingsGroup(
     title: String? = null,
     items: List<Material3SettingsItem>,
-    useLowContrast: Boolean = false
+    useLowContrast: Boolean = false,
 ) {
+    val highlight = SettingsSearchHighlight.pendingKey
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -67,6 +86,19 @@ fun Material3SettingsGroup(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             items.forEachIndexed { index, item ->
+                val target = item.targetKey != null && item.targetKey == highlight
+                val requester = remember { BringIntoViewRequester() }
+                if (target) {
+                    LaunchedEffect(Unit) {
+                        // Wait out the navigation transition so the column has its final layout.
+                        delay(350)
+                        requester.bringIntoView()
+                        delay(2500)
+                        if (SettingsSearchHighlight.pendingKey == item.targetKey) {
+                            SettingsSearchHighlight.pendingKey = null
+                        }
+                    }
+                }
                 val shape = when {
                     items.size == 1 -> RoundedCornerShape(24.dp)
                     index == 0 -> RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 6.dp, bottomEnd = 6.dp)
@@ -77,10 +109,13 @@ fun Material3SettingsGroup(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .bringIntoViewRequester(requester)
                         .animateContentSize(),
                     shape = shape,
                     colors = CardDefaults.cardColors(
-                        containerColor = if (!useLowContrast) {
+                        containerColor = if (target) {
+                            MaterialTheme.colorScheme.primary.copy(alpha = 0.16f)
+                        } else if (!useLowContrast) {
                             MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
                         } else {
                             MaterialTheme.colorScheme.surfaceContainerLow
@@ -89,7 +124,7 @@ fun Material3SettingsGroup(
                     elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
                     border = item.borderColor?.let { BorderStroke(1.5.dp, it) }
                 ) {
-                    Material3SettingsItemRow(item = item)
+                    Material3SettingsItemRow(item = item.copy(isHighlighted = target || item.isHighlighted))
                 }
             }
         }
@@ -220,5 +255,7 @@ data class Material3SettingsItem(
     val isHighlighted: Boolean = false,
     val enabled: Boolean = true,
     val borderColor: Color? = null,
+    /** Title string id, so a settings-search result can scroll to and mark this row. */
+    val targetKey: Int? = null,
     val onClick: (() -> Unit)? = null
 )

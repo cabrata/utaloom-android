@@ -868,4 +868,73 @@
     <string name="wrapped_recap_empty_body">ยังไม่มีประวัติการฟังของปี %1$d เปิดเพลงโดยเปิดใช้ประวัติ หรือเลือกปีอื่น</string>
     <string name="wrapped_recap_listen">หาเพลงมาเปิดฟัง</string>
     <string name="open_menu">เปิดเมนู</string>
+    <string name="spotify_login_loading">กำลังโหลดการลงชื่อเข้า Spotify…</string>
+    <string name="music_sources_selection_desc">เริ่มต้นด้วย YouTube Music และอัปเกรดเสียงด้วยส่วนเสริม</string>
+    <string name="music_sources_desc">การเล่นเริ่มต้นบน YouTube Music ส่วนเสริมที่เปิดใช้งานจะถูกตรวจสอบตามลำดับเพื่อให้ตรงกันของคุณภาพที่สูงกว่าตามชื่อ ศิลปิน และระยะเวลา แตะที่ส่วนเสริมเพื่อคัดลอกลิงก์ของมัน</string>
+    <string name="music_source_youtube_desc">เริ่มการเล่น</string>
+    <string name="spotify_login_instructions">ลงชื่อเข้าด้านล่างเพื่อใช้วิดีโอ Spotify Canvas หน้าจอนี้จะปิดหลังจากเชื่อมต่อ</string>
+    <string name="spotify_login_saving">กำลังบันทึกการเชื่อมต่อ Spotify…</string>
+    <string name="spotify_login_reload">โหลดการลงชื่อเข้า Spotify ใหม่</string>
+    <string name="spotify_login_error_title">ไม่สามารถเปิด Spotify ได้</string>
+    <string name="spotify_login_error_hint">ลองโหลดหน้าลงชื่อเข้าใหม่ หรือกลับไปออก</string>
+    <string name="spotify_login_load_error">ไม่สามารถโหลดหน้าลงชื่อเข้าได้ ตรวจสอบการเชื่อมต่อของคุณแล้วลองอีกครั้ง</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">คุณภาพสูง</string>
+    <string name="audio_quality_upgrading">อัปเกรดคุณภาพ</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_reported">ป้ายคุณภาพของส่วนเสริม</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="yt_login_title">ลงชื่อเข้า YouTube Music</string>
+    <string name="yt_login_hint">ลงชื่อเข้าที่หน้า Google ด้านล่าง คุณสามารถเลือกช่อง YouTube หลังจากลงชื่อเข้า</string>
+    <string name="yt_login_switch_hint">เลือกช่อง YouTube ที่คุณต้องการใช้กับบัญชีนี้</string>
+    <string name="yt_login_checking">กำลังตรวจสอบช่อง YouTube ของคุณ…</string>
+    <string name="yt_login_switching">กำลังเปลี่ยนช่อง YouTube…</string>
+    <string name="yt_login_completing">กำลังบันทึกบัญชี YouTube Music…</string>
+    <string name="yt_login_page_error">ไม่สามารถโหลดหน้าลงชื่อเข้าได้ ตรวจสอบการเชื่อมต่อของคุณแล้วลองอีกครั้ง</string>
+    <string name="playing_from">กำลังเล่นจาก %1$s</string>
+    <string name="audio_output">เอาต์พุตเสียง</string>
+    <string name="volume_down">ลดระดับเสียง</string>
+    <string name="volume_up">เพิ่มระดับเสียง</string>
+    <string name="lyrics_by">เนื้อร้องโดย %1$s</string>
+    <string name="autoplay_queue_desc">เพลงที่คล้ายกันเลือกไว้สำหรับเล่นต่อไป</string>
+    <string name="queue_editing_lock">ล็อกการแก้ไขคิว</string>
+    <string name="player_design">ดีไซน์เครื่องเล่น</string>
+    <string name="player_design_material3">Material 3 (แบบเดิม)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">ความลึกของบิต</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">แหล่งที่มา</string>
+    <string name="audio_quality_source_addon">%1$s (ส่วนเพิ่มเติม)</string>
+    <string name="lyrics_instrumental">เครื่องดนตรี</string>
+    <string name="music_source_add">เพิ่มส่วนเพิ่มเติม</string>
+    <string name="music_source_add_desc">วางลิงก์เซิร์ฟเวอร์ส่วนเพิ่มเติมที่เข้ากันได้กับ BitChord</string>
+    <string name="music_source_add_failed">ไม่สามารถเพิ่มส่วนเพิ่มเติมนี้ได้ ตรวจสอบลิงก์และลองใหม่</string>
+    <string name="music_source_always_on">เปิดอยู่เสมอ</string>
+    <string name="music_source_auth_unsupported">ส่วนเพิ่มเติมนี้ยอมรับเฉพาะแอปพลิเคชัน BitChord</string>
+    <string name="music_source_checking">กำลังตรวจสอบ…</string>
+    <string name="music_source_downloads_allowed">อนุญาตให้ดาวน์โหลด</string>
+    <string name="music_source_error">ข้อผิดพลาด: %1$s</string>
+    <string name="music_source_quality">คุณภาพ: %1$s</string>
+    <string name="music_source_remove">ลบ %1$s</string>
+    <string name="music_source_streaming_only">เฉพาะการสตรีมเท่านั้น</string>
+    <string name="music_source_working">ทำงาน</string>
+    <string name="music_sources">แหล่งเพลง</string>
+    <string-array name="lyrics_intro_lines">
+        <item>บีตตกลงมา</item>
+        <item>เพลงเริ่มขึ้น</item>
+        <item>ให้ความร้อน</item>
+        <item>ตั้งค่าบรรยากาศ</item>
+        <item>เบสก่อน คำพูดทีหลัง</item>
+        <item>รอสักครู่</item>
+        <item>รู้สึกถึงการสร้างนั้น</item>
+        <item>ตอนนี้มีเพียง groove</item>
+        <item>Hook กำลังจะมา</item>
+        <item>ให้มันหายใจ</item>
+        <item>เปิดใช้งานเสียงร้อง</item>
+        <item>โน้ตแรกเข้า</item>
+    </string-array>
 </resources>

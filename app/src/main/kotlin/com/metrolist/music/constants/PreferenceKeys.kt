@@ -447,6 +447,13 @@ val HistoryDuration = floatPreferencesKey("historyDuration")
 
 val PlayerButtonsStyleKey = stringPreferencesKey("player_buttons_style")
 val PlayerBackgroundStyleKey = stringPreferencesKey("playerBackgroundStyle")
+
+enum class PlayerDesignStyle {
+    MATERIAL3,
+    LIQUID_GLASS,
+}
+
+val PlayerDesignStyleKey = stringPreferencesKey("playerDesignStyle")
 val ShowLyricsKey = booleanPreferencesKey("showLyrics")
 val LyricsTextPositionKey = stringPreferencesKey("lyricsTextPosition")
 val LyricsClickKey = booleanPreferencesKey("lyricsClick")

@@ -829,4 +829,73 @@
     <string name="wrapped_recap_empty_body">%1$d년의 감상 기록이 아직 없어요. 기록을 켜고 음악을 재생하거나 다른 연도를 선택하세요.</string>
     <string name="wrapped_recap_listen">재생할 곡 찾기</string>
     <string name="open_menu">메뉴 열기</string>
+    <string name="audio_output">오디오 출력</string>
+    <string name="audio_quality_bit_depth_value">%1$d비트</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">높은 품질</string>
+    <string name="audio_quality_reported">애드온 품질 레이블</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">품질 업그레이드 중</string>
+    <string name="autoplay_queue_desc">다음에 재생할 유사한 음악</string>
+    <string name="lyrics_by">%1$s의 가사</string>
+    <string name="music_source_youtube_desc">재생 시작</string>
+    <string name="music_sources_desc">재생은 YouTube Music에서 시작됩니다. 활성화된 애드온은 제목, 아티스트 및 길이로 더 높은 품질의 일치를 찾기 위해 순서대로 확인됩니다. 애드온을 눌러 링크를 복사합니다.</string>
+    <string name="music_sources_selection_desc">YouTube Music으로 시작하고 애드온으로 오디오 향상</string>
+    <string name="playing_from">%1$s에서 재생 중</string>
+    <string name="queue_editing_lock">대기열 편집 잠금</string>
+    <string name="spotify_login_error_hint">로그인 페이지를 다시 로드하려고 다시 시도하거나 뒤로 가서 나갑니다.</string>
+    <string name="spotify_login_error_title">Spotify를 열 수 없음</string>
+    <string name="spotify_login_instructions">Spotify Canvas 비디오를 사용하려면 아래에서 로그인하세요. 연결되면 이 화면은 닫힙니다.</string>
+    <string name="spotify_login_load_error">로그인 페이지를 로드할 수 없습니다. 연결을 확인한 후 다시 시도하세요.</string>
+    <string name="spotify_login_loading">Spotify 로그인 로드 중…</string>
+    <string name="spotify_login_reload">Spotify 로그인 다시 로드</string>
+    <string name="spotify_login_saving">Spotify 연결 저장 중…</string>
+    <string name="volume_down">볼륨 낮춤</string>
+    <string name="volume_up">볼륨 올림</string>
+    <string name="yt_login_checking">YouTube 채널을 확인하는 중…</string>
+    <string name="yt_login_completing">YouTube Music 계정을 저장하는 중…</string>
+    <string name="yt_login_hint">아래의 Google 페이지에서 로그인하세요. 로그인 후 YouTube 채널을 선택할 수 있습니다.</string>
+    <string name="yt_login_page_error">로그인 페이지를 로드할 수 없습니다. 연결을 확인한 후 다시 시도하세요.</string>
+    <string name="yt_login_switch_hint">이 계정으로 사용할 YouTube 채널을 선택하세요.</string>
+    <string name="yt_login_switching">YouTube 채널을 전환하는 중…</string>
+    <string name="yt_login_title">YouTube Music에 로그인</string>
+    <string name="player_design">플레이어 디자인</string>
+    <string name="player_design_material3">Material 3 (이전)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">비트 심도</string>
+    <string name="audio_quality_hires_lossless">하이 레즈 로스리스</string>
+    <string name="audio_quality_lossless">로스리스</string>
+    <string name="audio_quality_source">소스</string>
+    <string name="audio_quality_source_addon">%1$s (애드온)</string>
+    <string name="music_source_add">애드온 추가</string>
+    <string name="music_source_add_desc">BitChord 호환 애드온 서버의 링크를 붙여넣기</string>
+    <string name="music_source_add_failed">이 애드온을 추가할 수 없습니다. 링크를 확인하고 다시 시도하세요.</string>
+    <string name="music_source_always_on">항상 켜기</string>
+    <string name="music_source_auth_unsupported">이 애드온은 BitChord 앱만 허용합니다</string>
+    <string name="music_source_checking">확인 중…</string>
+    <string name="music_source_downloads_allowed">다운로드 허용됨</string>
+    <string name="music_source_error">오류: %1$s</string>
+    <string name="music_source_quality">품질: %1$s</string>
+    <string name="music_source_remove">%1$s 제거</string>
+    <string name="music_sources">음악 소스</string>
+    <string name="music_source_streaming_only">스트리밍만</string>
+    <string name="music_source_working">작동 중</string>
+    <string name="lyrics_instrumental">인스트루멘탈</string>
+    <string-array name="lyrics_intro_lines">
+        <item>비트가 올 가</item>
+        <item>노래가 시작된다</item>
+        <item>예열</item>
+        <item>분위기 설정</item>
+        <item>먼저 베이스, 나중에 단어</item>
+        <item>기다려</item>
+        <item>이 빌드를 느껴봐</item>
+        <item>지금은 그루브만</item>
+        <item>훅이 오는 중</item>
+        <item>숨 쉬게 해</item>
+        <item>보컬 신호</item>
+        <item>첫 음</item>
+    </string-array>
 </resources>

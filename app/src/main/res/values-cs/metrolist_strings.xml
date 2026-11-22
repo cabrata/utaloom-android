@@ -918,4 +918,74 @@
     <string name="wrapped_recap_empty_body">Pro rok %1$d zatím nemáme žádnou historii poslechu. Pusť si něco s povolenou historií, nebo vyber jiný rok.</string>
     <string name="wrapped_recap_listen">Najdi něco k přehrání</string>
     <string name="open_menu">Otevřít nabídku</string>
+    <string name="audio_output">Zvukový výstup</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bitový</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Vysoká Kvalita</string>
+    <string name="audio_quality_reported">Značka kvality doplňku</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">Kvalita se zlepšuje</string>
+    <string name="autoplay_queue_desc">Podobná hudba vybraná k přehrávání dále</string>
+    <string name="lyrics_by">Slova od %1$s</string>
+    <string name="music_source_youtube_desc">Zahájit přehrávání</string>
+    <string name="music_sources_desc">Přehrávání začíná na YouTube Music. Povolené doplňky se kontrolují v pořadí pro vyšší kvalitu shody podle názvu, interpreta a délky. Klepnutím na doplněk zkopírujete jeho odkaz.</string>
+    <string name="music_sources_selection_desc">Začněte s YouTube Music a vylepšete zvuk pomocí doplňků</string>
+    <string name="playing_from">Přehrávání z %1$s</string>
+    <string name="queue_editing_lock">Uzamknout úpravy fronty</string>
+    <string name="spotify_login_error_hint">Zkuste znovu načíst přihlašovací stránku nebo se vraťte a vyřaďte.</string>
+    <string name="spotify_login_error_title">Nepodařilo se otevřít Spotify</string>
+    <string name="spotify_login_instructions">Přihlaste se níže, abyste mohli používat videa Spotify Canvas. Tato obrazovka se zavře po připojení.</string>
+    <string name="spotify_login_load_error">Přihlašovací stránka se nedala načíst. Zkontrolujte své připojení a zkuste to znovu.</string>
+    <string name="spotify_login_loading">Načítání přihlášení Spotify...</string>
+    <string name="spotify_login_reload">Znovu načíst přihlášení do Spotify</string>
+    <string name="spotify_login_saving">Ukládání připojení Spotify...</string>
+    <string name="volume_down">Ztlumit</string>
+    <string name="volume_up">Zvýšit hlasitost</string>
+    <string name="yt_login_checking">Kontrola vašich kanálů YouTube…</string>
+    <string name="yt_login_completing">Ukládání vašeho účtu YouTube Music…</string>
+    <string name="yt_login_hint">Přihlaste se níže na stránku Google. Po přihlášení si můžete vybrat kanál YouTube.</string>
+    <string name="yt_login_page_error">Přihlašovací stránka se nedala načíst. Zkontrolujte své připojení a zkuste to znovu.</string>
+    <string name="yt_login_switch_hint">Vyberte kanál YouTube, který chcete používat s tímto účtem.</string>
+    <string name="yt_login_switching">Přepínání kanálu YouTube…</string>
+    <string name="yt_login_title">Přihlášení k YouTube Music</string>
+    <string name="player_design">Vzhled přehrávače</string>
+    <string name="player_design_material3">Material 3 (Předchozí)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+
+    <string name="audio_quality_bit_depth">Hloubka barev</string>
+    <string name="audio_quality_hires_lossless">Hi-Res bezztrátový</string>
+    <string name="audio_quality_lossless">Bezztrátový</string>
+    <string name="audio_quality_source">Zdroj</string>
+    <string name="audio_quality_source_addon">%1$s (doplněk)</string>
+    <string name="music_source_add">Přidat doplněk</string>
+    <string name="music_source_add_desc">Vložte odkaz serveru doplňku kompatibilního s BitChordem</string>
+    <string name="music_source_add_failed">Nepodařilo se přidat tento doplněk. Zkontrolujte odkaz a zkuste znovu.</string>
+    <string name="music_source_always_on">Vždy zapnuto</string>
+    <string name="music_source_auth_unsupported">Tento doplněk přijímá pouze aplikaci BitChord</string>
+    <string name="music_source_checking">Kontroluji…</string>
+    <string name="music_source_downloads_allowed">Stažení povoleno</string>
+    <string name="music_source_error">Chyba: %1$s</string>
+    <string name="music_source_quality">Kvalita: %1$s</string>
+    <string name="music_source_remove">Odebrat %1$s</string>
+    <string name="music_sources">Zdroje hudby</string>
+    <string name="music_source_streaming_only">Pouze streamování</string>
+    <string name="music_source_working">Funguje</string>
+    <string name="lyrics_instrumental">Instrumentální</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Tep padá</item>
+        <item>Skladba začíná</item>
+        <item>Zahřívání</item>
+        <item>Nastavení nálady</item>
+        <item>Nejdřív basu, pak slova</item>
+        <item>Čekat na to</item>
+        <item>Cítit tu stavbu</item>
+        <item>Teď jen groove</item>
+        <item>Háček je na cestě</item>
+        <item>Nech to dýchat</item>
+        <item>Volejte vokály</item>
+        <item>První noty</item>
+    </string-array>
 </resources>

@@ -900,4 +900,73 @@
     <string name="wrapped_recap_empty_body">%1$d年の再生履歴はまだありません。履歴を有効にして音楽を再生するか、別の年を選んでください。</string>
     <string name="wrapped_recap_listen">再生する曲を探す</string>
     <string name="open_menu">メニューを開く</string>
+    <string name="audio_output">オーディオ出力</string>
+    <string name="audio_quality_bit_depth_value">%1$d ビット</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">高品質</string>
+    <string name="audio_quality_reported">アドオン品質ラベル</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">品質をアップグレード中</string>
+    <string name="autoplay_queue_desc">次に再生するために選ばれた同様の音楽</string>
+    <string name="lyrics_by">%1$s の歌詞</string>
+    <string name="music_source_youtube_desc">再生を開始</string>
+    <string name="music_sources_desc">再生は YouTube Music から開始されます。有効なアドオンは、タイトル、アーティスト、長さによってより高い品質の一致を見つけるために順番に確認されます。アドオンをタップしてそのリンクをコピーします。</string>
+    <string name="music_sources_selection_desc">YouTube Music から始めて、アドオンでオーディオをアップグレード</string>
+    <string name="playing_from">%1$s から再生中</string>
+    <string name="queue_editing_lock">キュー編集をロック</string>
+    <string name="spotify_login_error_hint">サインインページを再度読み込んでみてください。またはこのページを終了してください。</string>
+    <string name="spotify_login_error_title">Spotify を開けません</string>
+    <string name="spotify_login_instructions">下記にサインインして Spotify Canvas ビデオを使用します。接続されるとこのスクリーンは閉じます。</string>
+    <string name="spotify_login_load_error">サインインページが読み込めませんでした。接続を確認して、もう一度お試しください。</string>
+    <string name="spotify_login_loading">Spotify サインインを読み込み中…</string>
+    <string name="spotify_login_reload">Spotify サインインを再読み込み</string>
+    <string name="spotify_login_saving">Spotify 接続を保存中…</string>
+    <string name="volume_down">音量を下げる</string>
+    <string name="volume_up">音量を上げる</string>
+    <string name="yt_login_checking">YouTube チャンネルを確認中…</string>
+    <string name="yt_login_completing">YouTube Music アカウントを保存中…</string>
+    <string name="yt_login_hint">下記の Google ページにサインインしてください。サインイン後、YouTube チャンネルを選択できます。</string>
+    <string name="yt_login_page_error">サインインページが読み込めませんでした。接続を確認して、もう一度お試しください。</string>
+    <string name="yt_login_switch_hint">このアカウントで使用する YouTube チャンネルを選択します。</string>
+    <string name="yt_login_switching">YouTube チャンネルを切り替え中…</string>
+    <string name="yt_login_title">YouTube Music にサインイン</string>
+    <string name="player_design">プレーヤーのデザイン</string>
+    <string name="player_design_material3">Material 3 (以前)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">ビット深度</string>
+    <string name="audio_quality_hires_lossless">ハイレゾロスレス</string>
+    <string name="audio_quality_lossless">ロスレス</string>
+    <string name="audio_quality_source">ソース</string>
+    <string name="audio_quality_source_addon">%1$s (アドオン)</string>
+    <string name="music_source_add">アドオンを追加</string>
+    <string name="music_source_add_desc">BitChord互換のアドオンサーバーのリンクを貼り付けます</string>
+    <string name="music_source_add_failed">このアドオンを追加できませんでした。リンクを確認して、もう一度お試しください。</string>
+    <string name="music_source_always_on">いつもオン</string>
+    <string name="music_source_auth_unsupported">このアドオンはBitChordアプリのみを受け入れます</string>
+    <string name="music_source_checking">確認中…</string>
+    <string name="music_source_downloads_allowed">ダウンロード許可</string>
+    <string name="music_source_error">エラー: %1$s</string>
+    <string name="music_source_quality">品質: %1$s</string>
+    <string name="music_source_remove">%1$sを削除</string>
+    <string name="music_sources">ミュージックソース</string>
+    <string name="music_source_streaming_only">ストリーミングのみ</string>
+    <string name="music_source_working">動作中</string>
+    <string name="lyrics_instrumental">インストルメンタル</string>
+    <string-array name="lyrics_intro_lines">
+        <item>ビートが来ている</item>
+        <item>曲が始まっています</item>
+        <item>ウォーミングアップ</item>
+        <item>ムード設定</item>
+        <item>まずベース、その後に言葉</item>
+        <item>待ってください</item>
+        <item>このビルドを感じてください</item>
+        <item>今はグルーヴだけ</item>
+        <item>フックが来ています</item>
+        <item>呼吸させてください</item>
+        <item>ボーカルの合図</item>
+        <item>最初の音</item>
+    </string-array>
 </resources>

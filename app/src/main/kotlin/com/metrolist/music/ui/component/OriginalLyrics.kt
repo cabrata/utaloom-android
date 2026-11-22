@@ -195,6 +195,7 @@ fun OriginalLyrics(
     sliderPositionProvider: () -> Long?,
     modifier: Modifier = Modifier,
     showLyrics: Boolean,
+    onUserScroll: (deltaY: Float, direction: Int) -> Unit = { _, _ -> },
 ) {
     val playerConnection = LocalPlayerConnection.current ?: return
     val database = LocalDatabase.current

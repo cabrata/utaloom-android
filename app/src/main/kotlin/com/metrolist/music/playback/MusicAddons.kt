@@ -8,6 +8,11 @@ package com.metrolist.music.playback
 import com.metrolist.innertube.YouTube
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -17,12 +22,16 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonPrimitive
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import okhttp3.Call
+import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.Response
 import timber.log.Timber
 import java.io.IOException
 import java.text.Normalizer
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.resumeWithException
 import kotlin.math.abs
 
 @Serializable
@@ -158,7 +167,7 @@ object MusicAddons {
         refreshed
     }
 
-    private fun fromManifest(base: String, previous: MusicAddon?): MusicAddon {
+    private suspend fun fromManifest(base: String, previous: MusicAddon?): MusicAddon {
         val manifest = get<Manifest>(base, listOf("manifest.json"), emptyMap())
         if (manifest.id.isBlank()) throw IOException("Add-on manifest has no id")
         // BitChord-signed tokens cannot be produced outside the BitChord app.
@@ -187,34 +196,47 @@ object MusicAddons {
         )
     }
 
-    /** Stream for this track from the first enabled add-on that has it, in list order. */
-    suspend fun resolve(
+    suspend fun resolveUpgrade(
         addons: List<MusicAddon>,
         title: String,
         artists: List<String>,
-        durationSec: Int?,
-    ): Stream? = withContext(Dispatchers.IO) {
-        addons.filter { it.enabled }.firstNotNullOfOrNull { addon ->
-            try {
-                resolveFrom(addon, title, artists, durationSec)
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                Timber.tag("MusicAddons").w("%s failed: %s", addon.name, e.message)
-                null
+        durationSec: Int,
+        playingBitrate: Int?,
+    ): Stream? = channelFlow {
+        // All add-ons search at once; the first worthwhile answer wins and cancels the rest.
+        addons.filter { it.enabled }.forEach { addon ->
+            launch {
+                try {
+                    resolveFrom(addon, title, artists, durationSec)?.takeIf { worthUpgrading(it, playingBitrate) }?.let { send(it) }
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    Timber.tag("MusicAddons").w("%s failed: %s", addon.name, e.message)
+                }
             }
         }
+    }.flowOn(Dispatchers.IO).firstOrNull()
+
+    internal fun worthUpgrading(stream: Stream, playingBitrate: Int?): Boolean {
+        val codec = stream.codec?.lowercase().orEmpty()
+        if (codec in setOf("flac", "alac", "audio/flac", "audio/alac")) return true
+        // A narrow bitrate gain across codecs is not worth a mid-song interruption.
+        return playingBitrate != null && stream.bitrateKbps?.let { it - playingBitrate / 1000 >= 96 } == true
     }
 
-    private fun resolveFrom(
+    private suspend fun resolveFrom(
         addon: MusicAddon,
         title: String,
         artists: List<String>,
-        durationSec: Int?,
+        durationSec: Int,
     ): Stream? {
         val tracks = get<SearchResponse>(addon.url, listOf("search"), addon.params + ("q" to searchQuery(title, artists))).tracks
-        val match = pickMatch(tracks, title, artists, durationSec) ?: return null
-        val stream = runCatching { get<StreamResponse>(addon.url, listOf("stream", match.id), addon.params) }.getOrNull()
+        val match = pickMatch(tracks, title, artists, durationSec, requireDuration = true) ?: return null
+        val stream = try {
+            get<StreamResponse>(addon.url, listOf("stream", match.id), addon.params)
+        } catch (e: IOException) {
+            null
+        }
         if (stream?.encrypted == true || stream?.manifest?.lowercase() !in setOf(null, "", "none")) return null
         // HTTPS only: the player's data source would also open file:// and content:// URIs.
         val url = (stream?.url ?: match.streamURL)?.takeIf { it.toHttpUrlOrNull()?.isHttps == true } ?: return null
@@ -237,7 +259,7 @@ object MusicAddons {
             sampleRateHz = sampleRateHz,
             bitrateKbps = stream?.bitrate?.let { if (it > 10_000) it / 1000 else it }?.toInt(),
             // Quality is part of the key: another tier is another file and must not share cached bytes.
-            cacheKey = "${addon.url}/${match.id}?${addon.quality}",
+            cacheKey = "${addon.url}/${match.id}?${addon.quality}:${stream?.quality}:$codec:$sampleRateHz:${stream?.bitDepth}:${stream?.bitrate}",
         )
     }
 
@@ -253,6 +275,7 @@ object MusicAddons {
         title: String,
         artists: List<String>,
         durationSec: Int?,
+        requireDuration: Boolean = false,
     ): Track? {
         val wantedTitle = titleKey(title)
         val wantedArtists = artists.map(::letters).filter { it.isNotEmpty() }
@@ -260,6 +283,9 @@ object MusicAddons {
             .filter { track ->
                 val drift = if (durationSec != null && track.duration != null) abs(track.duration - durationSec) else null
                 val artist = letters(track.artist)
+                if (requireDuration && (drift == null || drift > 2.0 || artist.isEmpty() || wantedArtists.isEmpty())) {
+                    return@filter false
+                }
                 val artistMatches = when {
                     // Without a credit to compare, only a confirmed length tells recordings apart.
                     artist.isEmpty() || wantedArtists.isEmpty() -> drift != null
@@ -285,7 +311,7 @@ object MusicAddons {
         return core to text.split(WORD_SPLIT).filter { it in VERSION_WORDS }.toSet()
     }
 
-    private inline fun <reified T> get(
+    private suspend inline fun <reified T> get(
         base: String,
         segments: List<String>,
         params: Map<String, String>,
@@ -295,9 +321,23 @@ object MusicAddons {
             params.forEach { (key, value) -> addQueryParameter(key, value) }
         }.build()
         val request = Request.Builder().url(url).header("Accept", "application/json").build()
-        baseClient.newBuilder().proxy(YouTube.proxy).build().newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("HTTP ${response.code}")
-            return json.decodeFromString(response.body?.string().orEmpty())
+        val call = baseClient.newBuilder().proxy(YouTube.proxy).build().newCall(request)
+        val body = suspendCancellableCoroutine { continuation ->
+            continuation.invokeOnCancellation { call.cancel() }
+            call.enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) = continuation.resumeWithException(e)
+
+                override fun onResponse(call: Call, response: Response) {
+                    val result = runCatching {
+                        response.use {
+                            if (!it.isSuccessful) throw IOException("HTTP ${it.code}")
+                            it.body?.string().orEmpty()
+                        }
+                    }
+                    continuation.resumeWith(result)
+                }
+            })
         }
+        return json.decodeFromString(body)
     }
 }

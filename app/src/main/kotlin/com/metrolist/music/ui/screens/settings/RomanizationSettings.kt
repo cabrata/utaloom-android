@@ -108,6 +108,7 @@ fun RomanizationSettings(
             items = listOf(
                 Material3SettingsItem(
                     title = { Text(stringResource(R.string.lyrics_romanize_as_main)) },
+                    targetKey = R.string.lyrics_romanize_as_main,
                     trailingContent = {
                         Switch(
                             checked = lyricsRomanizeAsMain,
@@ -127,6 +128,7 @@ fun RomanizationSettings(
                 ),
                 Material3SettingsItem(
                     title = { Text(stringResource(R.string.line_by_line_option_title)) },
+                    targetKey = R.string.line_by_line_option_title,
                     trailingContent = {
                         Switch(
                             checked = lyricsRomanizeCyrillicByLine,

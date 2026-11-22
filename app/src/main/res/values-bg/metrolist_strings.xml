@@ -783,4 +783,74 @@
     <string name="wrapped_recap_empty_body">Все още няма история на слушане за %1$d. Пусни музика с включена история или избери друга година.</string>
     <string name="wrapped_recap_listen">Намери нещо за пускане</string>
     <string name="open_menu">Отвори менюто</string>
+    <string name="audio_output">Аудио изход</string>
+    <string name="audio_quality_bit_depth_value">%1$d-бит</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Висока Качество</string>
+    <string name="audio_quality_reported">Етикет за качество на добавката</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">Качеството се подобрява</string>
+    <string name="autoplay_queue_desc">Подобна музика, подбрана да се пусне следващо</string>
+    <string name="lyrics_by">Текст от %1$s</string>
+    <string name="music_source_youtube_desc">Начало на пускане</string>
+    <string name="music_sources_desc">Пускането начина на YouTube Music. Активираните добавки се проверяват по ред за съвпадение с по-висока качество по название, артист и дължина. Докоснете добавка, за да копирате нейната връзка.</string>
+    <string name="music_sources_selection_desc">Начнете с YouTube Music и подобрете звука с добавки</string>
+    <string name="playing_from">Пускане от %1$s</string>
+    <string name="queue_editing_lock">Заключване на редактирането на опашката</string>
+    <string name="spotify_login_error_hint">Опитайте да пренаредите страницата за влизане или върнете се назад, за да излезете.</string>
+    <string name="spotify_login_error_title">Не можаше да се отвори Spotify</string>
+    <string name="spotify_login_instructions">Влезте по-долу, за да използвате видеа на Spotify Canvas. Този екран ще се затвори след свързване.</string>
+    <string name="spotify_login_load_error">Страницата за влизане не успя да се зареди. Проверете връзката си и опитайте отново.</string>
+    <string name="spotify_login_loading">Зареждане на влизането на Spotify...</string>
+    <string name="spotify_login_reload">Пренаредете влизането на Spotify</string>
+    <string name="spotify_login_saving">Запазване на връзката със Spotify...</string>
+    <string name="volume_down">Намаляване на звука</string>
+    <string name="volume_up">Увеличаване на звука</string>
+    <string name="yt_login_checking">Проверка на вашите канали на YouTube…</string>
+    <string name="yt_login_completing">Запазване на вашия акаунт на YouTube Music…</string>
+    <string name="yt_login_hint">Влезте на страницата на Google по-долу. Можете да изберете канал на YouTube след влизането.</string>
+    <string name="yt_login_page_error">Страницата за влизане не успя да се зареди. Проверете връзката си и опитайте отново.</string>
+    <string name="yt_login_switch_hint">Изберете канала на YouTube, който искате да използвате с този акаунт.</string>
+    <string name="yt_login_switching">Превключване на канала на YouTube…</string>
+    <string name="yt_login_title">Влезте в YouTube Music</string>
+    <string name="player_design">Дизайн на плейъра</string>
+    <string name="player_design_material3">Material 3 (Предишен)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+
+    <string name="audio_quality_bit_depth">Дълбочина на бита</string>
+    <string name="audio_quality_hires_lossless">Hi-Res без загуби</string>
+    <string name="audio_quality_lossless">Без загуби</string>
+    <string name="audio_quality_source">Източник</string>
+    <string name="audio_quality_source_addon">%1$s (приложение)</string>
+    <string name="music_source_add">Добавяне на приложение</string>
+    <string name="music_source_add_desc">Вставете връзката на съвместим със BitChord сервер на приложение</string>
+    <string name="music_source_add_failed">Не успя да добави това приложение. Проверете връзката и опитайте отново.</string>
+    <string name="music_source_always_on">Винаги включено</string>
+    <string name="music_source_auth_unsupported">Това приложение приема само приложението BitChord</string>
+    <string name="music_source_checking">Проверка…</string>
+    <string name="music_source_downloads_allowed">Изтеглянията са разрешени</string>
+    <string name="music_source_error">Грешка: %1$s</string>
+    <string name="music_source_quality">Качество: %1$s</string>
+    <string name="music_source_remove">Премахване %1$s</string>
+    <string name="music_sources">Музикални източници</string>
+    <string name="music_source_streaming_only">Само потоково</string>
+    <string name="music_source_working">Работи</string>
+    <string name="lyrics_instrumental">Инструментален</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Битът пада</item>
+        <item>Песента започва</item>
+        <item>Загрявка</item>
+        <item>Задаване на настроението</item>
+        <item>Баса първо, думи по-късно</item>
+        <item>Чакайте</item>
+        <item>Почувствайте това нарастване</item>
+        <item>Само groove за сега</item>
+        <item>Куката е на път</item>
+        <item>Дайте й да дръшнува</item>
+        <item>Призовете вокалите</item>
+        <item>Първи нотации</item>
+    </string-array>
 </resources>

@@ -793,4 +793,74 @@
     <string name="wrapped_recap_empty_body">لا يوجد سجل استماع لعام %1$d بعد. شغّل بعض الموسيقى مع تفعيل السجل، أو اختر عامًا آخر.</string>
     <string name="wrapped_recap_listen">ابحث عما تشغّله</string>
     <string name="open_menu">فتح القائمة</string>
+    <string name="audio_output">مخرج الصوت</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">جودة عالية</string>
+    <string name="audio_quality_reported">تسمية جودة الإضافة</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">جاري ترقية الجودة</string>
+    <string name="autoplay_queue_desc">موسيقى مشابهة، مختارة للتشغيل بعده</string>
+    <string name="lyrics_by">الكلمات من %1$s</string>
+    <string name="music_source_youtube_desc">يبدأ التشغيل</string>
+    <string name="music_sources_desc">يبدأ التشغيل على YouTube Music. يتم التحقق من الإضافات المفعّلة بالترتيب للعثور على مطابقة عالية الجودة حسب الاسم والفنان والطول. اضغط على الإضافة لنسخ رابطها.</string>
+    <string name="music_sources_selection_desc">ابدأ بـ YouTube Music وحسّن الصوت باستخدام الإضافات</string>
+    <string name="playing_from">التشغيل من %1$s</string>
+    <string name="queue_editing_lock">قفل تعديل قائمة التشغيل</string>
+    <string name="spotify_login_error_hint">حاول إعادة تحميل صفحة تسجيل الدخول، أو عد للخلف للمغادرة.</string>
+    <string name="spotify_login_error_title">تعذر فتح Spotify</string>
+    <string name="spotify_login_instructions">قم بتسجيل الدخول أدناه لاستخدام فيديوهات Spotify Canvas. ستُغلق هذه الشاشة بعد الاتصال.</string>
+    <string name="spotify_login_load_error">تعذر تحميل صفحة تسجيل الدخول. تحقق من اتصالك، ثم حاول مرة أخرى.</string>
+    <string name="spotify_login_loading">جاري تحميل تسجيل الدخول إلى Spotify...</string>
+    <string name="spotify_login_reload">إعادة تحميل تسجيل الدخول إلى Spotify</string>
+    <string name="spotify_login_saving">جاري حفظ اتصال Spotify...</string>
+    <string name="volume_down">خفض مستوى الصوت</string>
+    <string name="volume_up">رفع مستوى الصوت</string>
+    <string name="yt_login_checking">جاري التحقق من قنوات YouTube الخاصة بك…</string>
+    <string name="yt_login_completing">جاري حفظ حساب YouTube Music الخاص بك…</string>
+    <string name="yt_login_hint">قم بتسجيل الدخول على صفحة Google أدناه. يمكنك اختيار قناة YouTube بعد تسجيل الدخول.</string>
+    <string name="yt_login_page_error">تعذر تحميل صفحة تسجيل الدخول. تحقق من اتصالك، ثم حاول مرة أخرى.</string>
+    <string name="yt_login_switch_hint">اختر قناة YouTube التي تريد استخدامها مع هذا الحساب.</string>
+    <string name="yt_login_switching">جاري تبديل قناة YouTube…</string>
+    <string name="yt_login_title">تسجيل الدخول إلى YouTube Music</string>
+    <string name="player_design">تصميم المشغّل</string>
+    <string name="player_design_material3">Material 3 (السابق)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+
+    <string name="audio_quality_bit_depth">عمق البت</string>
+    <string name="audio_quality_hires_lossless">عالي الدقة بدون فقدان</string>
+    <string name="audio_quality_lossless">بدون فقدان</string>
+    <string name="audio_quality_source">المصدر</string>
+    <string name="audio_quality_source_addon">%1$s (إضافة)</string>
+    <string name="music_source_add">إضافة إضافة</string>
+    <string name="music_source_add_desc">الصق رابط خادم إضافة متوافق مع BitChord</string>
+    <string name="music_source_add_failed">تعذر إضافة هذه الإضافة. تحقق من الرابط وحاول مجددًا.</string>
+    <string name="music_source_always_on">دائماً مفعّل</string>
+    <string name="music_source_auth_unsupported">تقبل هذه الإضافة تطبيق BitChord فقط</string>
+    <string name="music_source_checking">جاري الفحص…</string>
+    <string name="music_source_downloads_allowed">التنزيلات مسموحة</string>
+    <string name="music_source_error">خطأ: %1$s</string>
+    <string name="music_source_quality">الجودة: %1$s</string>
+    <string name="music_source_remove">إزالة %1$s</string>
+    <string name="music_sources">مصادر الموسيقى</string>
+    <string name="music_source_streaming_only">بث فقط</string>
+    <string name="music_source_working">يعمل</string>
+    <string name="lyrics_instrumental">استريو</string>
+    <string-array name="lyrics_intro_lines">
+        <item>النبض يهبط</item>
+        <item>الأغنية تبدأ</item>
+        <item>تحضير</item>
+        <item>تعيين المزاج</item>
+        <item>الباص أولاً، والكلمات لاحقًا</item>
+        <item>انتظر</item>
+        <item>اشعر بهذا البناء</item>
+        <item>فقط الإيقاع الآن</item>
+        <item>الخطاف في الطريق</item>
+        <item>دع تتنفس</item>
+        <item>استدع الأصوات</item>
+        <item>النغمات الأولى</item>
+    </string-array>
 </resources>

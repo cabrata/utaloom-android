@@ -849,4 +849,74 @@
     <string name="wrapped_recap_empty_body">%1$d সালের জন্য এখনও কোনো শোনার ইতিহাস নেই। ইতিহাস চালু রেখে কিছু গান শুনুন, অথবা অন্য বছর বেছে নিন।</string>
     <string name="wrapped_recap_listen">বাজানোর মতো কিছু খুঁজুন</string>
     <string name="open_menu">মেনু খুলুন</string>
+    <string name="audio_output">অডিও আউটপুট</string>
+    <string name="audio_quality_bit_depth_value">%1$d-বিট</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">উচ্চ মানের</string>
+    <string name="audio_quality_reported">অ্যাড-অনের গুণমান লেবেল</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">গুণমান উন্নত করা হচ্ছে</string>
+    <string name="autoplay_queue_desc">একই ধরনের সঙ্গীত, পরবর্তী অনুষ্ঠানের জন্য বেছে নেওয়া</string>
+    <string name="lyrics_by">%1$s দ্বারা গীতি</string>
+    <string name="music_source_youtube_desc">প্লেব্যাক শুরু করুন</string>
+    <string name="music_sources_desc">প্লেব্যাক YouTube Music-এ শুরু হয়। সক্ষম অ্যাড-অনগুলি শিরোনাম, শিল্পী এবং দৈর্ঘ্য অনুসারে উচ্চতর-মানের ম্যাচের জন্য পরীক্ষা করা হয়। এর লিঙ্ক অনুলিপি করতে একটি অ্যাড-অনটিতে ট্যাপ করুন।</string>
+    <string name="music_sources_selection_desc">YouTube Music দিয়ে শুরু করুন এবং অ্যাড-অনগুলির সাথে অডিও উন্নত করুন</string>
+    <string name="playing_from">%1$s থেকে চলছে</string>
+    <string name="queue_editing_lock">সারি সম্পাদনা লক করুন</string>
+    <string name="spotify_login_error_hint">সাইন-ইন পৃষ্ঠা পুনরায় লোড করার চেষ্টা করুন বা চলে যাওয়ার জন্য ফিরে যান।</string>
+    <string name="spotify_login_error_title">Spotify খুলতে পারা যায়নি</string>
+    <string name="spotify_login_instructions">Spotify Canvas ভিডিও ব্যবহার করতে নীচে সাইন ইন করুন। সংযোগের পরে এই স্ক্রীনটি বন্ধ হয়ে যাবে।</string>
+    <string name="spotify_login_load_error">সাইন-ইন পৃষ্ঠা লোড করতে পারা যায়নি। আপনার সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন।</string>
+    <string name="spotify_login_loading">Spotify সাইন-ইন লোড করা হচ্ছে...</string>
+    <string name="spotify_login_reload">Spotify সাইন-ইন পুনরায় লোড করুন</string>
+    <string name="spotify_login_saving">Spotify সংযোগ সংরক্ষণ করা হচ্ছে...</string>
+    <string name="volume_down">ভলিউম কমান</string>
+    <string name="volume_up">ভলিউম বাড়ান</string>
+    <string name="yt_login_checking">আপনার YouTube চ্যানেলগুলি পরীক্ষা করা হচ্ছে…</string>
+    <string name="yt_login_completing">আপনার YouTube Music অ্যাকাউন্ট সংরক্ষণ করা হচ্ছে…</string>
+    <string name="yt_login_hint">নীচে Google পৃষ্ঠায় সাইন ইন করুন। সাইন ইন করার পরে আপনি একটি YouTube চ্যানেল বেছে নিতে পারেন।</string>
+    <string name="yt_login_page_error">সাইন-ইন পৃষ্ঠা লোড করতে পারা যায়নি। আপনার সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন।</string>
+    <string name="yt_login_switch_hint">এই অ্যাকাউন্টের সাথে ব্যবহার করতে চান এমন YouTube চ্যানেল বেছে নিন।</string>
+    <string name="yt_login_switching">YouTube চ্যানেল স্যুইচ করা হচ্ছে…</string>
+    <string name="yt_login_title">YouTube Music-এ সাইন ইন করুন</string>
+    <string name="player_design">প্লেয়ার ডিজাইন</string>
+    <string name="player_design_material3">Material 3 (পূর্ববর্তী)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+
+    <string name="audio_quality_bit_depth">বিট গভীরতা</string>
+    <string name="audio_quality_hires_lossless">হাই-রেস লসলেস</string>
+    <string name="audio_quality_lossless">লসলেস</string>
+    <string name="audio_quality_source">উৎস</string>
+    <string name="audio_quality_source_addon">%1$s (অ্যাড-অন)</string>
+    <string name="music_source_add">অ্যাড-অন যোগ করুন</string>
+    <string name="music_source_add_desc">বিটকর্ড-সামঞ্জস্যপূর্ণ অ্যাড-অন সার্ভারের লিঙ্ক পেস্ট করুন</string>
+    <string name="music_source_add_failed">এই অ্যাড-অন যোগ করা যায়নি। লিঙ্ক চেক করুন এবং আবার চেষ্টা করুন।</string>
+    <string name="music_source_always_on">সর্বদা চালু</string>
+    <string name="music_source_auth_unsupported">এই অ্যাড-অন শুধুমাত্র বিটকর্ড অ্যাপ গ্রহণ করে</string>
+    <string name="music_source_checking">চেক করা হচ্ছে…</string>
+    <string name="music_source_downloads_allowed">ডাউনলোড অনুমত</string>
+    <string name="music_source_error">ত্রুটি: %1$s</string>
+    <string name="music_source_quality">গুণমান: %1$s</string>
+    <string name="music_source_remove">%1$s সরান</string>
+    <string name="music_sources">সঙ্গীত উৎস</string>
+    <string name="music_source_streaming_only">শুধুমাত্র স্ট্রিমিং</string>
+    <string name="music_source_working">কাজ করছে</string>
+    <string name="lyrics_instrumental">যন্ত্রবাদী</string>
+    <string-array name="lyrics_intro_lines">
+        <item>বীট নামছে</item>
+        <item>গান শুরু হচ্ছে</item>
+        <item>উষ্ণায়ন</item>
+        <item>মেজাজ সেট করা</item>
+        <item>প্রথমে বেস, পরে শব্দ</item>
+        <item>এর জন্য অপেক্ষা করুন</item>
+        <item>এই বিল্ডআপ অনুভব করুন</item>
+        <item>এখন শুধু গ্রুভ</item>
+        <item>হুক আসছে</item>
+        <item>এটি শ্বাস নিতে দিন</item>
+        <item>ভোকাল কিউ করুন</item>
+        <item>প্রথম নোট</item>
+    </string-array>
 </resources>

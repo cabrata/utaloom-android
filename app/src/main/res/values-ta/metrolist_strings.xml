@@ -69,4 +69,73 @@
     <string name="wrapped_recap_empty_body">%1$d ஆண்டுக்கான கேட்பு வரலாறு இன்னும் இல்லை. வரலாற்றை இயக்கியபடி சில இசையை இயக்குங்கள், அல்லது வேறு ஆண்டைத் தேர்ந்தெடுங்கள்.</string>
     <string name="wrapped_recap_listen">இயக்க ஏதாவது கண்டுபிடியுங்கள்</string>
     <string name="open_menu">மெனுவைத் திற</string>
+    <string name="spotify_login_loading">Spotify உள்நுழைவு பதிவேற்றுகிறது…</string>
+    <string name="music_sources_selection_desc">YouTube Music ஆல் தொடங்கி, சேர்க்கைகள் மூலம் ஆடியோவை மேம்படுத்தவும்</string>
+    <string name="music_sources_desc">பதிவேற்றம் YouTube Music இல் தொடங்குகிறது. உள்ளாக்கப்பட்ட சேர்க்கைகள் பெயர், கலைஞர் மற்றும் நீளத்தின் மூலம் உயர் தரம் பொருத்தத்திற்கு வரிசைப்படி சோதிக்கப்படுகின்றன. ஒரு சேர்க்கையைத் தொட்டு அதன் இணைப்பை நகலெடுக்கவும்.</string>
+    <string name="music_source_youtube_desc">பதிவேற்றம் தொடங்குகிறது</string>
+    <string name="spotify_login_instructions">Spotify Canvas வீடியோக்களைப் பயன்படுத்த கீழே உள்நுழையவும். இந்த திரை இணைக்கப்பட்ட பிறகு மூடப்படும்.</string>
+    <string name="spotify_login_saving">Spotify இணைப்பு சேமிக்கப்படுகிறது…</string>
+    <string name="spotify_login_reload">Spotify உள்நுழைவை மீண்டும் பதிவேற்றவும்</string>
+    <string name="spotify_login_error_title">Spotify ஐ திறக்க முடியவில்லை</string>
+    <string name="spotify_login_error_hint">உள்நுழைவு பृष்ठத்தை மீண்டும் பதிவேற்ற மீண்டும் முயற்சி செய்யவும் அல்லது வெளியேற க்திற்கு பின்னிருந்து செல்லவும்.</string>
+    <string name="spotify_login_load_error">உள்நுழைவு பக்கத்தை பதிவேற்ற முடியவில்லை. உங்கள் இணைப்பை சரிபார்த்து மீண்டும் முயற்சி செய்யவும்.</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">உচ்ச தரம்</string>
+    <string name="audio_quality_upgrading">தரம் மேம்படுத்தப்படுகிறது</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_reported">சேர்க்கை தர பெயரிடல்</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="yt_login_title">YouTube Music இல் உள்நுழையவும்</string>
+    <string name="yt_login_hint">கீழே Google பக்கத்தில் உள்நுழையவும். உள்நுழைந்த பிறகு நீங்கள் YouTube சேனலைத் தேர்ந்தெடுக்கலாம்.</string>
+    <string name="yt_login_switch_hint">இந்த கணக்கில் பயன்படுத்த விரும்பும் YouTube சேனலைத் தேர்ந்தெடுக்கவும்.</string>
+    <string name="yt_login_checking">YouTube சேனல்களை சரிபார்க்கிறது…</string>
+    <string name="yt_login_switching">YouTube சேனல் மாற்றுகிறது…</string>
+    <string name="yt_login_completing">YouTube Music கணக்கு சேமிக்கப்படுகிறது…</string>
+    <string name="yt_login_page_error">உள்நுழைவு பக்கத்தை பதிவேற்ற முடியவில்லை. உங்கள் இணைப்பை சரிபார்த்து மீண்டும் முயற்சி செய்யவும்.</string>
+    <string name="playing_from">%1$s இலிருந்து பதிவேற்றுகிறது</string>
+    <string name="audio_output">ஆடியோ வெளியீடு</string>
+    <string name="volume_down">ஒலி குறைக்கவும்</string>
+    <string name="volume_up">ஒலி அதிகரிக்கவும்</string>
+    <string name="lyrics_by">%1$s மூலம் பாடல் வரிகள்</string>
+    <string name="autoplay_queue_desc">அடுத்তடுத்து பதிவேற்றுவதற்கு தேர்ந்தெடுக்கப்பட்ட இதே போன்ற இசை</string>
+    <string name="queue_editing_lock">வரிசை தொகுப்பு பூட்ட</string>
+    <string name="player_design">பிளேயர் வடிவமைப்பு</string>
+    <string name="player_design_material3">Material 3 (முந்தையது)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">பிட் ஆழம்</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">மூலம்</string>
+    <string name="audio_quality_source_addon">%1$s (ஆட்-ஆன்)</string>
+    <string name="lyrics_instrumental">இசைக்கருவி</string>
+    <string name="music_source_add">ஆட்-ஆன் சேர்க்க</string>
+    <string name="music_source_add_desc">BitChord-ஐ இணக்கமாக்கிய ஆட்-ஆன் சர்வரின் இணைப்பை ஒட்டவும்</string>
+    <string name="music_source_add_failed">இந்த ஆட்-ஆனை சேர்க்க முடியவில்லை. இணைப்பை சரிபார்த்து மீண்டும் முயற்சி செய்யவும்.</string>
+    <string name="music_source_always_on">எப்போதுமே இயக்கத்தில்</string>
+    <string name="music_source_auth_unsupported">இந்த ஆட்-ஆன் BitChord பயன்பாட்டை மட்டுமே ஏற்கும்</string>
+    <string name="music_source_checking">சரிபார்க்கப்படுகிறது…</string>
+    <string name="music_source_downloads_allowed">பதிவிறக்கங்கள் அனுமதிக்கப்பட்டுள்ளன</string>
+    <string name="music_source_error">பிழை: %1$s</string>
+    <string name="music_source_quality">தரம்: %1$s</string>
+    <string name="music_source_remove">%1$s ஐ அகற்று</string>
+    <string name="music_source_streaming_only">ஸ்ட்ரீமிங் மட்டுமே</string>
+    <string name="music_source_working">செயல்படுகிறது</string>
+    <string name="music_sources">இசை மூலங்கள்</string>
+    <string-array name="lyrics_intro_lines">
+        <item>தாளம் இறங்குகிறது</item>
+        <item>பாடல் தொடங்குகிறது</item>
+        <item>சூடாக்கல்</item>
+        <item>மனநிலை அமைத்தல்</item>
+        <item>முதலில் பாஸ், பிறகு சொற்கள்</item>
+        <item>காத்திருங்கள்</item>
+        <item>இந்த உயர்வை உணரவும்</item>
+        <item>இப்போதுதான் groove</item>
+        <item>Hook வழியில் உள்ளது</item>
+        <item>சுவாசிக்க விடுங்கள்</item>
+        <item>வோகல்களை செயல்படுத்தவும்</item>
+        <item>முதல் குறிப்புகள் உள்ளே வருகின்றன</item>
+    </string-array>
 </resources>

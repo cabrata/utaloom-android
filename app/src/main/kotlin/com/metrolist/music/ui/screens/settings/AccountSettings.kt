@@ -392,6 +392,7 @@ fun AccountSettings(
                 add(
                     Material3SettingsItem(
                         title = { Text(stringResource(R.string.integrations)) },
+                        targetKey = R.string.integrations,
                         icon = painterResource(R.drawable.integration),
                         onClick = {
                             onClose()

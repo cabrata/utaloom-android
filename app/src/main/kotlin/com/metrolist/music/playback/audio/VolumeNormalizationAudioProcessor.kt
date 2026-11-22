@@ -28,6 +28,8 @@ class VolumeNormalizationAudioProcessor : BaseAudioProcessor() {
     @Volatile
     private var currentGain = GainState(0, 1.0)
 
+    val targetGainMb: Int get() = currentGain.targetGainMb
+
     @Synchronized
     fun setTargetGain(gainMb: Int) {
         if (currentGain.targetGainMb != gainMb) {

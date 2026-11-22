@@ -338,4 +338,74 @@
     <string name="wrapped_recap_empty_body">Δεν υπάρχει ακόμη ιστορικό ακρόασης για το %1$d. Παίξε μουσική με ενεργό ιστορικό ή διάλεξε άλλη χρονιά.</string>
     <string name="wrapped_recap_listen">Βρες κάτι να παίξεις</string>
     <string name="open_menu">Άνοιγμα μενού</string>
+    <string name="audio_output">Έξοδος ήχου</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Υψηλή Ποιότητα</string>
+    <string name="audio_quality_reported">Ετικέτα ποιότητας προσθέτου</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">Η ποιότητα βελτιώνεται</string>
+    <string name="autoplay_queue_desc">Παρόμοια μουσική, επιλεγμένη για αναπαραγωγή στη συνέχεια</string>
+    <string name="lyrics_by">Στίχοι από %1$s</string>
+    <string name="music_source_youtube_desc">Έναρξη αναπαραγωγής</string>
+    <string name="music_sources_desc">Η αναπαραγωγή ξεκινά στο YouTube Music. Τα ενεργοποιημένα πρόσθετα ελέγχονται κατά σειρά για υψηλότερη ποιότητα αντιστοίχισης ανά τίτλο, καλλιτέχνη και διάρκεια. Αγγίξτε ένα πρόσθετο για να αντιγράψετε τον σύνδεσμό του.</string>
+    <string name="music_sources_selection_desc">Ξεκινήστε με YouTube Music και βελτιώστε τον ήχο με πρόσθετα</string>
+    <string name="playing_from">Αναπαραγωγή από %1$s</string>
+    <string name="queue_editing_lock">Κλείδωμα επεξεργασίας ουράς</string>
+    <string name="spotify_login_error_hint">Δοκιμάστε να επαναφορτώσετε τη σελίδα σύνδεσης ή επιστρέψτε για να κλείσετε.</string>
+    <string name="spotify_login_error_title">Δεν ήταν δυνατό να ανοίξει το Spotify</string>
+    <string name="spotify_login_instructions">Συνδεθείτε παρακάτω για να χρησιμοποιήσετε βίντεο Spotify Canvas. Αυτή η οθόνη θα κλείσει μόλις συνδεθείτε.</string>
+    <string name="spotify_login_load_error">Δεν ήταν δυνατό να φορτώσει η σελίδα σύνδεσης. Ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά.</string>
+    <string name="spotify_login_loading">Φόρτωση Spotify σύνδεσης...</string>
+    <string name="spotify_login_reload">Επαναφόρτωση σύνδεσης Spotify</string>
+    <string name="spotify_login_saving">Γίνεται αποθήκευση της σύνδεσης Spotify...</string>
+    <string name="volume_down">Χαμήλωμα ήχου</string>
+    <string name="volume_up">Ανύψωση ήχου</string>
+    <string name="yt_login_checking">Γίνεται έλεγχος των καναλιών YouTube σας…</string>
+    <string name="yt_login_completing">Γίνεται αποθήκευση του λογαριασμού YouTube Music σας…</string>
+    <string name="yt_login_hint">Συνδεθείτε στη σελίδα Google παρακάτω. Μπορείτε να επιλέξετε ένα κανάλι YouTube μετά τη σύνδεση.</string>
+    <string name="yt_login_page_error">Δεν ήταν δυνατό να φορτώσει η σελίδα σύνδεσης. Ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά.</string>
+    <string name="yt_login_switch_hint">Επιλέξτε το κανάλι YouTube που θέλετε να χρησιμοποιήσετε με αυτό το λογαριασμό.</string>
+    <string name="yt_login_switching">Γίνεται εναλλαγή καναλιού YouTube…</string>
+    <string name="yt_login_title">Σύνδεση στο YouTube Music</string>
+    <string name="player_design">Σχεδίαση αναπαραγωγέα</string>
+    <string name="player_design_material3">Material 3 (Προηγούμενο)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+
+    <string name="audio_quality_bit_depth">Βάθος bit</string>
+    <string name="audio_quality_hires_lossless">Hi-Res χωρίς απώλειες</string>
+    <string name="audio_quality_lossless">Χωρίς απώλειες</string>
+    <string name="audio_quality_source">Πηγή</string>
+    <string name="audio_quality_source_addon">%1$s (πρόσθετο)</string>
+    <string name="music_source_add">Προσθήκη προσθέτου</string>
+    <string name="music_source_add_desc">Επικολλήστε τον σύνδεσμο ενός BitChord-συμβατού διακομιστή προσθέτου</string>
+    <string name="music_source_add_failed">Δεν ήταν δυνατή η προσθήκη αυτού του προσθέτου. Ελέγξτε τον σύνδεσμο και δοκιμάστε ξανά.</string>
+    <string name="music_source_always_on">Πάντα ενεργό</string>
+    <string name="music_source_auth_unsupported">Αυτό το πρόσθετο δέχεται μόνο την εφαρμογή BitChord</string>
+    <string name="music_source_checking">Έλεγχος…</string>
+    <string name="music_source_downloads_allowed">Οι λήψεις επιτρέπονται</string>
+    <string name="music_source_error">Σφάλμα: %1$s</string>
+    <string name="music_source_quality">Ποιότητα: %1$s</string>
+    <string name="music_source_remove">Κατάργηση %1$s</string>
+    <string name="music_sources">Πηγές μουσικής</string>
+    <string name="music_source_streaming_only">Μόνο ροή</string>
+    <string name="music_source_working">Λειτουργεί</string>
+    <string name="lyrics_instrumental">Ενόργανη</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Το ρυθμό πέφτει</item>
+        <item>Το τραγούδι ξεκινάει</item>
+        <item>Θέρμανση</item>
+        <item>Ρύθμιση διάθεσης</item>
+        <item>Πρώτα μπάσο, μετά λόγια</item>
+        <item>Περιμένετε</item>
+        <item>Νιώστε αυτή την κατασκευή</item>
+        <item>Απλά groove για τώρα</item>
+        <item>Το γάντζο έρχεται</item>
+        <item>Αφήστε να αναπνέει</item>
+        <item>Καλέστε τα φωνητικά</item>
+        <item>Πρώτες σημειώσεις</item>
+    </string-array>
 </resources>

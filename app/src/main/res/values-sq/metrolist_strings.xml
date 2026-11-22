@@ -321,4 +321,73 @@
     <string name="wrapped_recap_empty_body">Ende nuk ka historik dëgjimi për %1$d. Luaj muzikë me historikun të aktivizuar ose zgjidh një vit tjetër.</string>
     <string name="wrapped_recap_listen">Gjej diçka për të luajtur</string>
     <string name="open_menu">Hap menunë</string>
+    <string name="spotify_login_loading">Po ngarkohet hyrja në Spotify…</string>
+    <string name="music_sources_selection_desc">Filloni me YouTube Music dhe përmirësoni audion me shtesa</string>
+    <string name="music_sources_desc">Riprodhimi fillon në YouTube Music. Zgjatimeve të aktivizuara u bëhet kontroll në rend për një përputhje më të mirë sipas titullit, artistit dhe kohëzgjatjes. Prekni një shtesë për të kopjuar lidhjen e saj.</string>
+    <string name="music_source_youtube_desc">Fillon riprodhimin</string>
+    <string name="spotify_login_instructions">Hyrni më poshtë për të përdorur videot Spotify Canvas. Ky ekran do të mbyllet pasi të lidhet.</string>
+    <string name="spotify_login_saving">Ruajtja e lidhjes Spotify…</string>
+    <string name="spotify_login_reload">Rilindja e hyrjes Spotify</string>
+    <string name="spotify_login_error_title">Nuk qe i mundur të hapet Spotify</string>
+    <string name="spotify_login_error_hint">Përpiquni përsëri të rilindni faqen e hyrjes, ose kthehuni për të dalë.</string>
+    <string name="spotify_login_load_error">Faqja e hyrjes nuk qe në gjendje të ngarkohet. Kontrolloni lidhjen dhe përpiquni përsëri.</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Cilësi e Lartë</string>
+    <string name="audio_quality_upgrading">Përmirësimi i cilësisë</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_reported">Etiketë cilësie shtese</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="yt_login_title">Hyni në YouTube Music</string>
+    <string name="yt_login_hint">Hyni në faqen Google më poshtë. Mund të zgjidhni një kanal YouTube pasi të hyni.</string>
+    <string name="yt_login_switch_hint">Zgjidhni kanalin YouTube që dëshironi të përdorni me këtë llogari.</string>
+    <string name="yt_login_checking">Kontrollimi i kanaleve YouTube…</string>
+    <string name="yt_login_switching">Ndërrimi i kanalit YouTube…</string>
+    <string name="yt_login_completing">Ruajtja e llogarisë YouTube Music…</string>
+    <string name="yt_login_page_error">Faqja e hyrjes nuk qe në gjendje të ngarkohet. Kontrolloni lidhjen dhe përpiquni përsëri.</string>
+    <string name="playing_from">Riprodhimi nga %1$s</string>
+    <string name="audio_output">Dalje audio</string>
+    <string name="volume_down">Zvogëloni volumin</string>
+    <string name="volume_up">Rritni volumin</string>
+    <string name="lyrics_by">Tekste nga %1$s</string>
+    <string name="autoplay_queue_desc">Muzikë e ngjashme, e zgjedhur për të luajtur më pas</string>
+    <string name="queue_editing_lock">Nguleça redaktimin e radhe</string>
+    <string name="player_design">Dizajni i luajtësit</string>
+    <string name="player_design_material3">Material 3 (I mëparshëm)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">Thellësia e bitit</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">Burimi</string>
+    <string name="audio_quality_source_addon">%1$s (shtesë)</string>
+    <string name="lyrics_instrumental">Instrumentale</string>
+    <string name="music_source_add">Shto shtesë</string>
+    <string name="music_source_add_desc">Ngjite linkun e serverit të shtesës të përputhshëm me BitChord</string>
+    <string name="music_source_add_failed">Nuk mund të shtohet kjo shtesë. Kontrolloni linkun dhe provoni përsëri.</string>
+    <string name="music_source_always_on">Përherë aktive</string>
+    <string name="music_source_auth_unsupported">Kjo shtesë pranon vetëm aplikacionin BitChord</string>
+    <string name="music_source_checking">Po kontrollohet…</string>
+    <string name="music_source_downloads_allowed">Shkarkesat e lejuara</string>
+    <string name="music_source_error">Gabim: %1$s</string>
+    <string name="music_source_quality">Cilësia: %1$s</string>
+    <string name="music_source_remove">Hiq %1$s</string>
+    <string name="music_source_streaming_only">Vetëm transmetim</string>
+    <string name="music_source_working">Funksional</string>
+    <string name="music_sources">Burimet e Muzikës</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Ritmja bie</item>
+        <item>Kënga po fillon</item>
+        <item>Ngrohje</item>
+        <item>Vendosja e ndjenjës</item>
+        <item>Para basi, më pas fjalët</item>
+        <item>Prit</item>
+        <item>Ndjeje atë ndërtimin</item>
+        <item>Vetëm groove për tani</item>
+        <item>Hook-u është në rrugë</item>
+        <item>Leje të marë frymë</item>
+        <item>Aktivizo vokalet</item>
+        <item>Hyjnë notat e para</item>
+    </string-array>
 </resources>

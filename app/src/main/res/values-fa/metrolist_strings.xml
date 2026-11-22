@@ -210,4 +210,74 @@
     <string name="wrapped_recap_empty_body">هنوز سابقه شنیدنی برای %1$d وجود ندارد. با روشن بودن سابقه موسیقی پخش کنید یا سال دیگری را انتخاب کنید.</string>
     <string name="wrapped_recap_listen">چیزی برای پخش پیدا کنید</string>
     <string name="open_menu">باز کردن منو</string>
+    <string name="audio_output">خروجی صوت</string>
+    <string name="audio_quality_bit_depth_value">%1$d-بیتی</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">کیفیت بالا</string>
+    <string name="audio_quality_reported">برچسب کیفیت افزونه</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">کیفیت بهتر می‌شود</string>
+    <string name="autoplay_queue_desc">موسیقی مشابه، انتخاب شده برای پخش بعدی</string>
+    <string name="lyrics_by">متن از %1$s</string>
+    <string name="music_source_youtube_desc">شروع پخش</string>
+    <string name="music_sources_desc">پخش از YouTube Music شروع می‌شود. افزونه‌های فعال‌شده به ترتیب برای یافتن تطابق با کیفیت بالاتر بر اساس عنوان، هنرمند و مدت بررسی می‌شوند. برای کپی کردن لینک آن روی یک افزونه ضربه بزنید.</string>
+    <string name="music_sources_selection_desc">با YouTube Music شروع کنید و صوت را با افزونه‌ها بهبود دهید</string>
+    <string name="playing_from">پخش از %1$s</string>
+    <string name="queue_editing_lock">قفل کردن ویرایش صف</string>
+    <string name="spotify_login_error_hint">صفحه ورود را دوباره بارگذاری کنید یا برگردید تا خارج شوید.</string>
+    <string name="spotify_login_error_title">نتوانست Spotify را باز کند</string>
+    <string name="spotify_login_instructions">برای استفاده از ویدیوهای Spotify Canvas در زیر وارد شوید. این صفحه پس از اتصال بسته می‌شود.</string>
+    <string name="spotify_login_load_error">صفحه ورود بارگذاری نشد. اتصال خود را بررسی کنید و دوباره تلاش کنید.</string>
+    <string name="spotify_login_loading">بارگذاری ورود Spotify...</string>
+    <string name="spotify_login_reload">بارگذاری مجدد ورود Spotify</string>
+    <string name="spotify_login_saving">ذخیره اتصال Spotify...</string>
+    <string name="volume_down">کاهش صدا</string>
+    <string name="volume_up">افزایش صدا</string>
+    <string name="yt_login_checking">بررسی کانال‌های YouTube شما…</string>
+    <string name="yt_login_completing">ذخیره حساب YouTube Music شما…</string>
+    <string name="yt_login_hint">در صفحه Google زیر وارد شوید. می‌توانید پس از ورود، کانال YouTube را انتخاب کنید.</string>
+    <string name="yt_login_page_error">صفحه ورود بارگذاری نشد. اتصال خود را بررسی کنید و دوباه تلاش کنید.</string>
+    <string name="yt_login_switch_hint">کانال YouTube را انتخاب کنید که می‌خواهید با این حساب استفاده کنید.</string>
+    <string name="yt_login_switching">تعویض کانال YouTube…</string>
+    <string name="yt_login_title">وارد YouTube Music شوید</string>
+    <string name="player_design">طراحی پخش‌کننده</string>
+    <string name="player_design_material3">Material 3 (قبلی)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+
+    <string name="audio_quality_bit_depth">عمق بیت</string>
+    <string name="audio_quality_hires_lossless">بالای وضوح بدون تلفات</string>
+    <string name="audio_quality_lossless">بدون تلفات</string>
+    <string name="audio_quality_source">منبع</string>
+    <string name="audio_quality_source_addon">%1$s (افزونه)</string>
+    <string name="music_source_add">افزودن افزونه</string>
+    <string name="music_source_add_desc">پیوند سرور افزونه سازگار با BitChord را وارد کنید</string>
+    <string name="music_source_add_failed">نتوانستیم این افزونه را اضافه کنیم. پیوند را بررسی کنید و دوباره تلاش کنید.</string>
+    <string name="music_source_always_on">همیشه روشن</string>
+    <string name="music_source_auth_unsupported">این افزونه فقط برنامه BitChord را می پذیرد</string>
+    <string name="music_source_checking">بررسی…</string>
+    <string name="music_source_downloads_allowed">دانلودها مجاز است</string>
+    <string name="music_source_error">خطا: %1$s</string>
+    <string name="music_source_quality">کیفیت: %1$s</string>
+    <string name="music_source_remove">حذف %1$s</string>
+    <string name="music_sources">منابع موسیقی</string>
+    <string name="music_source_streaming_only">تنها پخش جریانی</string>
+    <string name="music_source_working">در حال کار</string>
+    <string name="lyrics_instrumental">ابزاری</string>
+    <string-array name="lyrics_intro_lines">
+        <item>ضربان سقوط می کند</item>
+        <item>آهنگ شروع می شود</item>
+        <item>گرم کردن</item>
+        <item>تعیین حالت</item>
+        <item>ابتدا باص، بعد کلمات</item>
+        <item>برای آن منتظر باشید</item>
+        <item>آن ساختمان را احساس کنید</item>
+        <item>فقط groove در حال حاضر</item>
+        <item>قلاب راه می آید</item>
+        <item>بگذار نفس بکشد</item>
+        <item>صدایی را فراخوانید</item>
+        <item>اولین یادداشت ها</item>
+    </string-array>
 </resources>

@@ -2,7 +2,9 @@ package com.metrolist.music.playback
 
 import com.metrolist.music.playback.MusicAddons.Track
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class MusicAddonsTest {
@@ -40,6 +42,28 @@ class MusicAddonsTest {
         assertEquals("a", pick(Track("a", "Get Lucky", "", 369.0)))
         assertNull(pick(Track("a", "Get Lucky", "", null)))
         assertEquals("a", pick(Track("a", "Get Lucky", "Daft Punk", null)))
+    }
+
+    @Test
+    fun `mid-track upgrade requires matching credit and known length within two seconds`() {
+        fun pickUpgrade(vararg tracks: Track) = MusicAddons.pickMatch(
+            tracks.toList(), "Get Lucky", listOf("Daft Punk"), 369, requireDuration = true,
+        )?.id
+
+        assertNull(pickUpgrade(Track("unknown duration", "Get Lucky", "Daft Punk")))
+        assertNull(pickUpgrade(Track("unknown artist", "Get Lucky", "", 369.0)))
+        assertNull(pickUpgrade(Track("different cut", "Get Lucky", "Daft Punk", 371.1)))
+        assertEquals("same", pickUpgrade(Track("same", "Get Lucky", "Daft Punk", 370.9)))
+    }
+
+    @Test
+    fun `upgrade requires confirmed lossless codec or substantial bitrate increase`() {
+        val stream = MusicAddons.Stream("https://example.com/audio", "Provider", "1", "Provider", quality = "LOSSLESS")
+        assertFalse(MusicAddons.worthUpgrading(stream, 160_000))
+        assertTrue(MusicAddons.worthUpgrading(stream.copy(codec = "flac"), null))
+        assertFalse(MusicAddons.worthUpgrading(stream.copy(codec = "aac", bitrateKbps = 320), null))
+        assertFalse(MusicAddons.worthUpgrading(stream.copy(codec = "aac", bitrateKbps = 192), 128_000))
+        assertTrue(MusicAddons.worthUpgrading(stream.copy(codec = "aac", bitrateKbps = 320), 160_000))
     }
 
     @Test

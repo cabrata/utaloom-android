@@ -102,4 +102,73 @@
     <string name="wrapped_recap_empty_body">%1$d కోసం ఇంకా లిజనింగ్ హిస్టరీ లేదు. హిస్టరీ ఆన్ చేసి సంగీతం ప్లే చేయండి లేదా వేరే సంవత్సరం ఎంచుకోండి.</string>
     <string name="wrapped_recap_listen">ప్లే చేయడానికి ఏదైనా కనుగొనండి</string>
     <string name="open_menu">మెనూ తెరవండి</string>
+    <string name="spotify_login_loading">Spotify సైన్-ఇన్ లోడ్ చేస్తోంది…</string>
+    <string name="music_sources_selection_desc">YouTube Musicతో ప్రారంభించండి మరియు యాడ-ఆన్‌ల సహాయంతో ఆడియోని అప్‌గ్రేడ్ చేయండి</string>
+    <string name="music_sources_desc">ప్లేబ్యాక్ YouTube Musicపై ప్రారంభమవుతుంది. ఎనేబల్ చేయబడిన యాడ-ఆన్‌లను శీర్షిక, కళాకారుడు మరియు length ద్వారా అధిక-నాణ్య మ్యాచ్ కోసం ఆర్డర్‌లో చెక్ చేస్తారు. యాడ-ఆన్‌ను నొక్కి దాని లింక్‌ను కాపీ చేయండి.</string>
+    <string name="music_source_youtube_desc">ప్లేబ్యాక్‌ను ప్రారంభిస్తుంది</string>
+    <string name="spotify_login_instructions">Spotify Canvas వీడియోలను ఉపయోగించడానికి క్రింద సైన్ ఇన్ చేయండి. ఈ స్క్రీన్ కనెక్ట్ చేసిన తర్వాత మూసివేయబడుతుంది.</string>
+    <string name="spotify_login_saving">Spotify కనెక్షన్ సేవ్ చేస్తోంది…</string>
+    <string name="spotify_login_reload">Spotify సైన్-ఇన్ రిలోడ్ చేయండి</string>
+    <string name="spotify_login_error_title">Spotifyని తెరవలేకపోయింది</string>
+    <string name="spotify_login_error_hint">సైన్-ఇన్ పేజీని రీలోడ్ చేయడానికి మళ్లీ ప్రయత్నించండి లేదా నిష్క్రమించడానికి వెనుకకు వెళ్లండి.</string>
+    <string name="spotify_login_load_error">సైన్-ఇన్ పేజీని లోడ్ చేయలేకపోయింది. మీ కనెక్షన్‌ను చెక్ చేసి మళ్లీ ప్రయత్నించండి.</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">ఉచ్చ నాణ్యత</string>
+    <string name="audio_quality_upgrading">నాణ్యతను అప్‌గ్రేడ్ చేస్తోంది</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_reported">యాడ-ఆన్ నాణ్యత లేబుల్</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="yt_login_title">YouTube Musicకు సైన్ ఇన్ చేయండి</string>
+    <string name="yt_login_hint">క్రింద Google పేజీకి సైన్ ఇన్ చేయండి. సైన్ ఇన్ చేసిన తర్వాత మీరు YouTube చానెల్‌ను ఎంచుకోవచ్చు.</string>
+    <string name="yt_login_switch_hint">ఈ ఖాతాతో ఉపయోగించాలనుకుంటున్న YouTube చానెల్‌ను ఎంచుకోండి.</string>
+    <string name="yt_login_checking">మీ YouTube చానెల్‌లను చెక్ చేస్తోంది…</string>
+    <string name="yt_login_switching">YouTube చానెల్‌ను మారుస్తోంది…</string>
+    <string name="yt_login_completing">మీ YouTube Music ఖాతా సేవ్ చేస్తోంది…</string>
+    <string name="yt_login_page_error">సైన్-ఇన్ పేజీని లోడ్ చేయలేకపోయింది. మీ కనెక్షన్‌ను చెక్ చేసి మళ్లీ ప్రయత్నించండి.</string>
+    <string name="playing_from">%1$s నుండి ప్లే చేస్తోంది</string>
+    <string name="audio_output">ఆడియో ఆউట్‌పుట్</string>
+    <string name="volume_down">వాల్యూమ్ తగ్గించు</string>
+    <string name="volume_up">వాల్యూమ్ పెంచు</string>
+    <string name="lyrics_by">%1$s ద్వారా సాహిత్యం</string>
+    <string name="autoplay_queue_desc">తరువాత ప్లే చేయడానికి ఎంచుకున్న సారూప్య సంగీతం</string>
+    <string name="queue_editing_lock">క్యూ సవరణను లాక్ చేయండి</string>
+    <string name="player_design">ప్లేయర్ డిజైన్</string>
+    <string name="player_design_material3">Material 3 (మునుపటి)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">బిట్ డెప్త్</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">మూలం</string>
+    <string name="audio_quality_source_addon">%1$s (ఆడ్-ఆన్)</string>
+    <string name="lyrics_instrumental">సాధన</string>
+    <string name="music_source_add">ఆడ్-ఆన్ జోడించండి</string>
+    <string name="music_source_add_desc">BitChord-సాం్యతగల ఆడ్-ఆన్ సర్వర్ లింక్ అతికించండి</string>
+    <string name="music_source_add_failed">ఈ ఆడ్-ఆన్‌ను జోడించలేము. లింక్‌ను తనిఖీ చేసి మళ్లీ ప్రయత్నించండి.</string>
+    <string name="music_source_always_on">ఎల్లప్పుడూ ఆన్‌లో</string>
+    <string name="music_source_auth_unsupported">ఈ ఆడ్-ఆన్ BitChord అప్లికేషన్‌ను మాత్రమే అంగీకరిస్తుంది</string>
+    <string name="music_source_checking">తనిఖీ చేస్తోంది…</string>
+    <string name="music_source_downloads_allowed">డౌన్‌లోడ్‌లు అనుమతించబడతాయి</string>
+    <string name="music_source_error">దోషం: %1$s</string>
+    <string name="music_source_quality">గుణం: %1$s</string>
+    <string name="music_source_remove">%1$s తీసివేయి</string>
+    <string name="music_source_streaming_only">కేవలం స్ట్రీమింగ్</string>
+    <string name="music_source_working">పని చేస్తోంది</string>
+    <string name="music_sources">సంగీత మూలాలు</string>
+    <string-array name="lyrics_intro_lines">
+        <item>బీట్ దిగుతోంది</item>
+        <item>పాట ప్రారంభమవుతోంది</item>
+        <item>వేడిచేయడం</item>
+        <item>మూడ్ సెట్టింగ్</item>
+        <item>ముందుగా బాస్, తర్వాత పదాలు</item>
+        <item>ఎదురుచూడండి</item>
+        <item>ఆ నిర్మాణాన్ని అనుభవించండి</item>
+        <item>ప్రస్తుతానికి వర్గీకరణ</item>
+        <item>హుక్ ఆధారంపై ఉంది</item>
+        <item>శ్వాస తీసుకోనివ్వండి</item>
+        <item>వోకల్‌లను సక్రియం చేయండి</item>
+        <item>మొదటి నోట్‌లు ప్రవేశిస్తున్నాయి</item>
+    </string-array>
 </resources>

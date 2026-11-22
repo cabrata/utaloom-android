@@ -892,4 +892,73 @@
     <string name="wrapped_recap_empty_body">还没有 %1$d 年的收听记录。开启历史记录后播放音乐，或选择其他年份。</string>
     <string name="wrapped_recap_listen">找点歌来听</string>
     <string name="open_menu">打开菜单</string>
+    <string name="spotify_login_loading">正在加载 Spotify 登录…</string>
+    <string name="music_sources_selection_desc">从 YouTube Music 开始，使用插件升级音频</string>
+    <string name="music_sources_desc">播放在 YouTube Music 上开始。启用的插件按顺序检查，以通过标题、艺术家和时长获得更高质量的匹配。点按插件以复制其链接。</string>
+    <string name="music_source_youtube_desc">开始播放</string>
+    <string name="spotify_login_instructions">登录下方以使用 Spotify Canvas 视频。连接后此屏幕将关闭。</string>
+    <string name="spotify_login_saving">正在保存 Spotify 连接…</string>
+    <string name="spotify_login_reload">重新加载 Spotify 登录</string>
+    <string name="spotify_login_error_title">无法打开 Spotify</string>
+    <string name="spotify_login_error_hint">重试以重新加载登录页面，或返回退出。</string>
+    <string name="spotify_login_load_error">无法加载登录页面。检查您的连接，然后重试。</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">高质量</string>
+    <string name="audio_quality_upgrading">正在升级质量</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_reported">插件质量标签</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="yt_login_title">登录 YouTube Music</string>
+    <string name="yt_login_hint">登录下方的 Google 页面。登录后，您可以选择 YouTube 频道。</string>
+    <string name="yt_login_switch_hint">选择您要与此帐户一起使用的 YouTube 频道。</string>
+    <string name="yt_login_checking">正在检查您的 YouTube 频道…</string>
+    <string name="yt_login_switching">正在切换 YouTube 频道…</string>
+    <string name="yt_login_completing">正在保存您的 YouTube Music 帐户…</string>
+    <string name="yt_login_page_error">无法加载登录页面。检查您的连接，然后重试。</string>
+    <string name="playing_from">正在从 %1$s 播放</string>
+    <string name="audio_output">音频输出</string>
+    <string name="volume_down">音量降低</string>
+    <string name="volume_up">音量提高</string>
+    <string name="lyrics_by">歌词：%1$s</string>
+    <string name="autoplay_queue_desc">类似的音乐，选择接下来播放</string>
+    <string name="queue_editing_lock">锁定队列编辑</string>
+    <string name="player_design">播放器设计</string>
+    <string name="player_design_material3">Material 3 (旧版)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">比特深度</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">来源</string>
+    <string name="audio_quality_source_addon">%1$s (附加组件)</string>
+    <string name="lyrics_instrumental">纯音乐</string>
+    <string name="music_source_add">添加附加组件</string>
+    <string name="music_source_add_desc">粘贴与BitChord兼容的附加组件服务器链接</string>
+    <string name="music_source_add_failed">无法添加此附加组件。请检查链接后重试。</string>
+    <string name="music_source_always_on">始终开启</string>
+    <string name="music_source_auth_unsupported">此附加组件仅接受BitChord应用</string>
+    <string name="music_source_checking">正在检查…</string>
+    <string name="music_source_downloads_allowed">允许下载</string>
+    <string name="music_source_error">错误：%1$s</string>
+    <string name="music_source_quality">质量：%1$s</string>
+    <string name="music_source_remove">删除 %1$s</string>
+    <string name="music_source_streaming_only">仅流媒体</string>
+    <string name="music_source_working">工作中</string>
+    <string name="music_sources">音乐来源</string>
+    <string-array name="lyrics_intro_lines">
+        <item>节拍落下</item>
+        <item>歌曲开始</item>
+        <item>热身中</item>
+        <item>设置氛围</item>
+        <item>先低音，后歌词</item>
+        <item>等等</item>
+        <item>感受这种积累</item>
+        <item>现在只有groove</item>
+        <item>副歌即将来临</item>
+        <item>让它呼吸</item>
+        <item>激活人声</item>
+        <item>第一个音符进入</item>
+    </string-array>
 </resources>

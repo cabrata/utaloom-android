@@ -7,7 +7,6 @@ package com.metrolist.music.ui.component
 
 import android.graphics.BlurMaskFilter
 import android.os.Build
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
@@ -76,6 +75,7 @@ import com.metrolist.music.playback.PlayerConnection
 import com.metrolist.music.ui.screens.settings.LyricsPosition
 import kotlinx.coroutines.isActive
 import kotlin.math.abs
+import kotlin.math.roundToInt
 import kotlin.math.cos
 import kotlin.math.exp
 import kotlin.math.sin
@@ -92,7 +92,7 @@ internal fun LyricsLine(
     bgVisible: Boolean,
     isSelected: Boolean,
     isSelectionModeActive: Boolean,
-    currentPositionState: Long,
+    positionProvider: () -> Long,
     lyricsOffset: Long,
     playerConnection: PlayerConnection,
     lyricsTextSize: Float,
@@ -169,13 +169,14 @@ internal fun LyricsLine(
             val distance = if (isSynced && isAutoScrollEnabled && displayedCurrentLineIndex >= 0) abs(index - displayedCurrentLineIndex) else 0
             val lineScale by animateFloatAsState(
                 if (isActiveLine || !isSynced) 1f else 0.97f,
-                tween(550, easing = FastOutSlowInEasing),
+                tween(LINE_SETTLE_MS, easing = LyricsEaseInOut),
                 label = "lyricsLineScale",
             )
             val lineBlur by animateFloatAsState(
-                // ponytail: lines >6 away are offscreen, so skip their blur layer to keep the GPU idle.
-                if (isActiveLine || distance > 6) 0f else distance.coerceAtMost(4) * 0.9f,
-                tween(350),
+                // BitChord's falloff: shallow (1, 1, 1.7, 2.4dp). Lines >6 away sit under the edge fade or
+                // offscreen, so they skip the blur layer to keep the GPU idle.
+                if (isActiveLine || distance > 6) 0f else LINE_FALLOFF_BLUR[distance.coerceAtMost(LINE_FALLOFF_BLUR.lastIndex)],
+                tween(LINE_SETTLE_MS, easing = LyricsEaseInOut),
                 label = "lyricsLineBlur",
             )
             Column(
@@ -200,7 +201,7 @@ internal fun LyricsLine(
                 // render.js: lit line is white, every other line a flat 0.32 white. Released lines fade out over 350ms.
                 val focusedAlpha = PENDING_ALPHA
                 val targetAlpha = if (!isSynced || isActiveLine) 1f else INACTIVE_ALPHA
-                val animatedAlpha by animateFloatAsState(targetAlpha, tween(350), label = "lyricsLineAlpha")
+                val animatedAlpha by animateFloatAsState(targetAlpha, tween(LINE_SETTLE_MS, easing = LyricsEaseInOut), label = "lyricsLineAlpha")
                 val lineColor = expressiveAccent.copy(alpha = animatedAlpha)
                 
                 val romanizedTextState by item.romanizedTextFlow.collectAsStateWithLifecycle()
@@ -249,15 +250,15 @@ internal fun LyricsLine(
                         mainText = mainText,
                         words = effectiveWords,
                         isActiveLine = isActiveLine,
-                        currentPositionState = currentPositionState,
+                        positionProvider = positionProvider,
                         lyricsOffset = lyricsOffset,
-                        playerConnection = playerConnection,
                         lyricStyle = lyricStyle,
                         lineColor = lineColor,
                         expressiveAccent = expressiveAccent,
                         isBackground = item.isBackground,
                         focusedAlpha = focusedAlpha,
-                        alignment = agentTextAlign
+                        alignment = agentTextAlign,
+                        romanizedText = if (romanizeLyrics && enabledLanguages.isNotEmpty()) subText else null
                     )
                 } else {
                     Text(
@@ -265,18 +266,17 @@ internal fun LyricsLine(
                         style = lyricStyle.copy(color = if (isActiveLine) expressiveAccent else lineColor),
                         modifier = Modifier.fillMaxWidth()
                     )
-                }
-                
-                if (romanizeLyrics && enabledLanguages.isNotEmpty()) {
-                    subText?.let { 
-                        Text(
-                            text = it,
-                            fontSize = 18.sp,
-                            color = expressiveAccent.copy(alpha = 0.6f),
-                            textAlign = agentTextAlign,
-                            fontWeight = FontWeight.Normal,
-                            modifier = Modifier.padding(top = 2.dp)
-                        )
+                    if (romanizeLyrics && enabledLanguages.isNotEmpty()) {
+                        subText?.let {
+                            Text(
+                                text = it,
+                                fontSize = 18.sp,
+                                color = expressiveAccent.copy(alpha = 0.6f),
+                                textAlign = agentTextAlign,
+                                fontWeight = FontWeight.Normal,
+                                modifier = Modifier.padding(top = 2.dp)
+                            )
+                        }
                     }
                 }
                 
@@ -313,15 +313,15 @@ private fun WordLevelLyrics(
     mainText: String,
     words: List<WordTimestamp>,
     isActiveLine: Boolean,
-    currentPositionState: Long,
+    positionProvider: () -> Long,
     lyricsOffset: Long,
-    playerConnection: PlayerConnection,
     lyricStyle: TextStyle,
     lineColor: Color,
     expressiveAccent: Color,
     isBackground: Boolean,
     focusedAlpha: Float,
-    alignment: TextAlign
+    alignment: TextAlign,
+    romanizedText: String? = null
 ) {
     val density = LocalDensity.current
     val textMeasurer = rememberTextMeasurer()
@@ -332,33 +332,7 @@ private fun WordLevelLyrics(
         }
     }
 
-    var smoothPosition by remember { mutableLongStateOf(currentPositionState + lyricsOffset) }
-
-    LaunchedEffect(isActiveLine) {
-        if (isActiveLine) {
-            var lastPlayerPos = playerConnection.currentPosition
-            var lastUpdateTime = System.currentTimeMillis()
-            var wasPlaying = playerConnection.isEffectivelyPlaying.value
-            while (isActive) {
-                withFrameMillis {
-                    val now = System.currentTimeMillis()
-                    val isPlaying = playerConnection.isEffectivelyPlaying.value
-                    val playerPos = playerConnection.currentPosition
-                    if (playerPos != lastPlayerPos || (isPlaying && !wasPlaying)) {
-                        lastPlayerPos = playerPos
-                        lastUpdateTime = now
-                    }
-                    wasPlaying = isPlaying
-                    val elapsed = now - lastUpdateTime
-                    smoothPosition = lastPlayerPos + lyricsOffset + (if (isPlaying) elapsed else 0)
-                }
-            }
-        }
-    }
-
-    LaunchedEffect(isActiveLine, currentPositionState) {
-        if (!isActiveLine) smoothPosition = currentPositionState + lyricsOffset
-    }
+    val glowFilters = remember { HashMap<Int, BlurMaskFilter>() }
 
     // Character range of each word inside mainText (background lines have their parentheses stripped).
     val wordRanges = remember(mainText, words, isBackground) {
@@ -396,74 +370,121 @@ private fun WordLevelLyrics(
             }
         }
 
-        Canvas(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(with(density) { layoutResult.size.height.toDp() })
-                .graphicsLayer(clip = false, compositingStrategy = CompositingStrategy.Offscreen)
-        ) {
-            if (mainText.isEmpty()) return@Canvas
-            if (!isActiveLine) {
-                drawText(layoutResult, color = lineColor)
-                return@Canvas
-            }
-            val pending = expressiveAccent.copy(alpha = PENDING_ALPHA)
-            // Text outside any timed word (punctuation spacing etc.) stays at the pending level.
-            drawText(layoutResult, color = pending)
+        // Render main text with karaoke wipe
+        Column(Modifier.fillMaxWidth()) {
+            Canvas(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(with(density) { layoutResult.size.height.toDp() })
+                    // Offscreen only where the sweep erases with BlendMode.Clear; idle lines draw straight through.
+                    .graphicsLayer(
+                        clip = false,
+                        compositingStrategy = if (isActiveLine) CompositingStrategy.Offscreen else CompositingStrategy.Auto,
+                    )
+            ) {
+                if (mainText.isEmpty()) return@Canvas
+                if (!isActiveLine) {
+                    drawText(layoutResult, color = lineColor)
+                    return@Canvas
+                }
+                val pending = expressiveAccent.copy(alpha = PENDING_ALPHA)
+                // Text outside any timed word (punctuation spacing etc.) stays at the pending level.
+                drawText(layoutResult, color = pending)
 
+                // The shared lyric clock, read while drawing so a frame repaints this line and recomposes nothing.
+            val smoothPosition = positionProvider() + lyricsOffset
             val liftPx = 3.dp.toPx()
-            words.forEachIndexed { idx, word ->
-                val boxes = wordBoxes[idx]
-                if (boxes.isEmpty()) return@forEachIndexed
-                val t0 = word.startTime * 1000
-                val dur = ((word.endTime - word.startTime) * 1000).coerceAtLeast(50.0)
-                val p = ((smoothPosition - t0) / dur).coerceIn(0.0, 1.0).toFloat()
-                if (p <= 0f) return@forEachIndexed
-                // render.js: words rise 3px as they are sung, eased out over max(0.25s, duration).
-                val liftT = ((smoothPosition - t0) / maxOf(250.0, dur)).coerceIn(0.0, 1.0).toFloat()
-                val lift = -liftPx * easeOut(liftT)
-                // Long held syllables glow like Apple Music.
-                val glow = if (dur > 1000 && p < 1f) sin(p * PI.toFloat()) else 0f
+                words.forEachIndexed { idx, word ->
+                    val boxes = wordBoxes[idx]
+                    if (boxes.isEmpty()) return@forEachIndexed
+                    val t0 = word.startTime * 1000
+                    val dur = ((word.endTime - word.startTime) * 1000).coerceAtLeast(50.0)
+                    val p = ((smoothPosition - t0) / dur).coerceIn(0.0, 1.0).toFloat()
+                    if (p <= 0f) return@forEachIndexed
+                    // render.js: words rise 3px as they are sung, eased out over max(0.25s, duration).
+                    val liftT = ((smoothPosition - t0) / maxOf(250.0, dur)).coerceIn(0.0, 1.0).toFloat()
+                    val lift = -liftPx * easeOut(liftT)
+                    // Long held syllables glow like Apple Music.
+                    val glow = if (dur > 1000 && p < 1f) sin(p * PI.toFloat()) else 0f
 
-                val total = boxes.sumOf { it.width.toDouble() }.toFloat().coerceAtLeast(1f)
-                var before = 0f
-                boxes.forEach { box ->
-                    // Erase the pending text under this box, then redraw it lifted and lit.
-                    clipRect(box.left, box.top, box.right, box.bottom) {
-                        drawRect(Color.Black, blendMode = BlendMode.Clear)
-                    }
-                    val local = ((p * total - before) / box.width).coerceIn(0f, 1f)
-                    before += box.width
-                    val edge = maxOf(10.dp.toPx(), box.width * 0.25f)
-                    val gx = box.left - edge + (box.width + edge * 2) * local
-                    val brush = when {
-                        local >= 1f -> SolidColor(expressiveAccent)
-                        local <= 0f -> SolidColor(pending)
-                        else -> Brush.horizontalGradient(
-                            0f to expressiveAccent, 1f to pending,
-                            startX = gx - edge, endX = gx + edge,
-                        )
-                    }
-                    if (glow > 0.01f) {
-                        // Native blur-mask glow of just this word's slice, so neighbours never glow.
-                        val line = layoutResult.getLineForVerticalPosition(box.center.y)
-                        val start = layoutResult.getOffsetForPosition(Offset(box.left + 1f, box.center.y))
-                        val end = layoutResult.getOffsetForPosition(Offset(box.right - 1f, box.center.y)) + 1
-                        glowPaint.textSize = lyricStyle.fontSize.toPx()
-                        glowPaint.maskFilter = BlurMaskFilter(18.dp.toPx() * glow, BlurMaskFilter.Blur.NORMAL)
-                        glowPaint.color = expressiveAccent.copy(alpha = 0.55f * glow).toArgb()
-                        drawIntoCanvas {
-                            it.nativeCanvas.drawText(
-                                mainText, start, end.coerceAtMost(mainText.length),
-                                box.left, layoutResult.getLineBaseline(line) + lift, glowPaint,
+                    val total = boxes.sumOf { it.width.toDouble() }.toFloat().coerceAtLeast(1f)
+                    var before = 0f
+                    boxes.forEach { box ->
+                        // Erase the pending text under this box, then redraw it lifted and lit.
+                        clipRect(box.left, box.top, box.right, box.bottom) {
+                            drawRect(Color.Black, blendMode = BlendMode.Clear)
+                        }
+                        val local = ((p * total - before) / box.width).coerceIn(0f, 1f)
+                        before += box.width
+                        val edge = maxOf(10.dp.toPx(), box.width * 0.25f)
+                        val gx = box.left - edge + (box.width + edge * 2) * local
+                        val brush = when {
+                            local >= 1f -> SolidColor(expressiveAccent)
+                            local <= 0f -> SolidColor(pending)
+                            else -> Brush.horizontalGradient(
+                                0f to expressiveAccent, 1f to pending,
+                                startX = gx - edge, endX = gx + edge,
                             )
                         }
-                    }
-                    clipRect(box.left, box.top - liftPx, box.right, box.bottom) {
-                        translate(top = lift) {
-                            drawText(layoutResult, brush = brush)
+                        if (glow > 0.01f) {
+                            // Native blur-mask glow of just this word's slice, so neighbours never glow.
+                            val line = layoutResult.getLineForVerticalPosition(box.center.y)
+                            val start = layoutResult.getOffsetForPosition(Offset(box.left + 1f, box.center.y))
+                            val end = layoutResult.getOffsetForPosition(Offset(box.right - 1f, box.center.y)) + 1
+                            glowPaint.textSize = lyricStyle.fontSize.toPx()
+                            // One filter per whole pixel of radius, reused: a new native blur every frame per word was the costliest part of a held note.
+                            val radius = (18.dp.toPx() * glow).roundToInt().coerceAtLeast(1)
+                            glowPaint.maskFilter = glowFilters.getOrPut(radius) { BlurMaskFilter(radius.toFloat(), BlurMaskFilter.Blur.NORMAL) }
+                            glowPaint.color = expressiveAccent.copy(alpha = 0.55f * glow).toArgb()
+                            drawIntoCanvas {
+                                it.nativeCanvas.drawText(
+                                    mainText, start, end.coerceAtMost(mainText.length),
+                                    box.left, layoutResult.getLineBaseline(line) + lift, glowPaint,
+                                )
+                            }
+                        }
+                        clipRect(box.left, box.top - liftPx, box.right, box.bottom) {
+                            translate(top = lift) {
+                                drawText(layoutResult, brush = brush)
+                            }
                         }
                     }
+                }
+            }
+
+            // Romanization under the line, wiped in step with the words it spells out.
+            if (!romanizedText.isNullOrBlank()) {
+                val romanizedStyle = TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Normal,
+                    textAlign = alignment,
+                    color = expressiveAccent,
+                )
+                val romanizedLayout = remember(romanizedText, maxWidthPx, romanizedStyle) {
+                    textMeasurer.measure(
+                        text = romanizedText,
+                        style = romanizedStyle,
+                        constraints = Constraints(minWidth = maxWidthPx, maxWidth = maxWidthPx),
+                        softWrap = true,
+                    )
+                }
+                Canvas(
+                    modifier = Modifier
+                        .padding(top = 2.dp)
+                        .fillMaxWidth()
+                        .height(with(density) { romanizedLayout.size.height.toDp() }),
+                ) {
+                    if (!isActiveLine) {
+                        drawText(romanizedLayout, color = expressiveAccent.copy(alpha = 0.6f))
+                        return@Canvas
+                    }
+                    drawSungText(
+                        layout = romanizedLayout,
+                        sung = sungChars(romanizedText, words, positionProvider() + lyricsOffset),
+                        lit = expressiveAccent,
+                        pending = expressiveAccent.copy(alpha = PENDING_ALPHA),
+                        feather = 16.dp.toPx(),
+                    )
                 }
             }
         }
@@ -471,6 +492,9 @@ private fun WordLevelLyrics(
 }
 
 private const val PENDING_ALPHA = 0.38f
+/** Dim, blur and scale settle together on BitChord's curve. */
+private const val LINE_SETTLE_MS = 400
 private const val INACTIVE_ALPHA = 0.32f
+private val LINE_FALLOFF_BLUR = floatArrayOf(0f, 1f, 1f, 1.7f, 2.4f)
 
 private fun easeOut(x: Float) = 1f - (1f - x).let { it * it * it }

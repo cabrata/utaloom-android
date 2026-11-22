@@ -370,4 +370,73 @@
     <string name="wrapped_recap_empty_body">Za rok %1$d zatiaľ nie je história počúvania. Prehrajte hudbu so zapnutou históriou alebo vyberte iný rok.</string>
     <string name="wrapped_recap_listen">Nájdite niečo na prehratie</string>
     <string name="open_menu">Otvoriť ponuku</string>
+    <string name="spotify_login_loading">Načítavanie prihlásenia do Spotify…</string>
+    <string name="music_sources_selection_desc">Začnite s YouTube Music a vylepšite zvuk pomocou doplnkov</string>
+    <string name="music_sources_desc">Prehrávanie sa začína na YouTube Music. Povolené doplnky sa skontrolujú v poradí, aby sa našla vyššia kvalita podľa názvu, interpreta a dĺžky. Dotknutím doplnku skopírujete jeho odkaz.</string>
+    <string name="music_source_youtube_desc">Spustí prehrávanie</string>
+    <string name="spotify_login_instructions">Prihláste sa nižšie, aby ste mohli používať videá Spotify Canvas. Táto obrazovka sa po pripojení zatvorí.</string>
+    <string name="spotify_login_saving">Ukladá sa pripojenie k Spotify…</string>
+    <string name="spotify_login_reload">Znovu načítať prihlásenie do Spotify</string>
+    <string name="spotify_login_error_title">Nepodarilo sa otvoriť Spotify</string>
+    <string name="spotify_login_error_hint">Skúste znova zaťažiť prihlasovaciu stránku alebo sa vráťte, aby ste opustili.</string>
+    <string name="spotify_login_load_error">Nepodarilo sa načítať prihlasovaciu stránku. Skontrolujte pripojenie a skúste znova.</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Vysoká Kvalita</string>
+    <string name="audio_quality_upgrading">Zvyšovanie kvality</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_reported">Označenie kvality doplnku</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="yt_login_title">Prihláste sa do YouTube Music</string>
+    <string name="yt_login_hint">Prihláste sa na stránke Google nižšie. Po prihlásení si môžete vybrať kanál YouTube.</string>
+    <string name="yt_login_switch_hint">Vyberte kanál YouTube, ktorý chcete používať s týmto kontom.</string>
+    <string name="yt_login_checking">Kontrola kanálov YouTube…</string>
+    <string name="yt_login_switching">Prepínanie kanála YouTube…</string>
+    <string name="yt_login_completing">Ukladá sa konto YouTube Music…</string>
+    <string name="yt_login_page_error">Nepodarilo sa načítať prihlasovaciu stránku. Skontrolujte pripojenie a skúste znova.</string>
+    <string name="playing_from">Prehrává sa z %1$s</string>
+    <string name="audio_output">Výstup zvuku</string>
+    <string name="volume_down">Znížiť hlasitosť</string>
+    <string name="volume_up">Zvýšiť hlasitosť</string>
+    <string name="lyrics_by">Slová: %1$s</string>
+    <string name="autoplay_queue_desc">Podobná hudba vybraná na ďalšie prehrávanie</string>
+    <string name="queue_editing_lock">Uzavrieť úpravu poradia</string>
+    <string name="player_design">Vzhľad prehrávača</string>
+    <string name="player_design_material3">Material 3 (Predchádzajúci)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">Bitová hĺbka</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">Zdroj</string>
+    <string name="audio_quality_source_addon">%1$s (doplnok)</string>
+    <string name="lyrics_instrumental">Inštrumentálna</string>
+    <string name="music_source_add">Pridať doplnok</string>
+    <string name="music_source_add_desc">Prilepte odkaz servera doplnku kompatibilného s BitChord</string>
+    <string name="music_source_add_failed">Doplnok sa nepodarilo pridať. Skontrolujte odkaz a skúste znova.</string>
+    <string name="music_source_always_on">Vždy zapnutá</string>
+    <string name="music_source_auth_unsupported">Tento doplnok akceptuje iba aplikáciu BitChord</string>
+    <string name="music_source_checking">Kontrola…</string>
+    <string name="music_source_downloads_allowed">Sťahovanie povolené</string>
+    <string name="music_source_error">Chyba: %1$s</string>
+    <string name="music_source_quality">Kvalita: %1$s</string>
+    <string name="music_source_remove">Odstrániť %1$s</string>
+    <string name="music_source_streaming_only">Iba streamovanie</string>
+    <string name="music_source_working">Funguje</string>
+    <string name="music_sources">Zdroje hudby</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Rytmus pristáva</item>
+        <item>Pieseň sa začína</item>
+        <item>Zahriatie</item>
+        <item>Nastavenie nálady</item>
+        <item>Bass najskôr, slová neskôr</item>
+        <item>Počkajte si</item>
+        <item>Cítite to narastanie</item>
+        <item>Zatiaľ iba groove</item>
+        <item>Hook je na ceste</item>
+        <item>Nechajte to dýchať</item>
+        <item>Aktivujte vokály</item>
+        <item>Prvé noty prichádzajú</item>
+    </string-array>
 </resources>

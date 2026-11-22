@@ -284,4 +284,73 @@
     <string name="wrapped_recap_empty_body">Nog geen luistergeschiedenis voor %1$d. Speel muziek af met geschiedenis ingeschakeld, of kies een ander jaar.</string>
     <string name="wrapped_recap_listen">Zoek iets om af te spelen</string>
     <string name="open_menu">Menu openen</string>
+    <string name="audio_output">Audio-uitgang</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Hoge kwaliteit</string>
+    <string name="audio_quality_reported">Label voor add-onkwaliteit</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">Kwaliteit wordt bijgewerkt</string>
+    <string name="autoplay_queue_desc">Vergelijkbare muziek, geselecteerd voor volgende afspelen</string>
+    <string name="lyrics_by">Teksten van %1$s</string>
+    <string name="music_source_youtube_desc">Start afspelen</string>
+    <string name="music_sources_desc">Afspelen begint op YouTube Music. Ingeschakelde add-ons worden opeenvolgend gecontroleerd op een betere kwaliteitsmatch op titel, artiest en duur. Tik op een add-on om de link te kopiëren.</string>
+    <string name="music_sources_selection_desc">Begin met YouTube Music en upgrade audio met add-ons</string>
+    <string name="playing_from">Afspelen van %1$s</string>
+    <string name="queue_editing_lock">Wachtrijbewerking vergrendelen</string>
+    <string name="spotify_login_error_hint">Probeer de aanmeldingspagina opnieuw te laden of ga terug om af te sluiten.</string>
+    <string name="spotify_login_error_title">Kan Spotify niet openen</string>
+    <string name="spotify_login_instructions">Meld je hieronder aan om Spotify Canvas-video\'s te gebruiken. Dit scherm sluit wanneer je bent verbonden.</string>
+    <string name="spotify_login_load_error">De aanmeldingspagina kan niet worden geladen. Controleer uw verbinding en probeer het opnieuw.</string>
+    <string name="spotify_login_loading">Spotify-aanmelding laden…</string>
+    <string name="spotify_login_reload">Spotify-aanmelding opnieuw laden</string>
+    <string name="spotify_login_saving">Spotify-verbinding opslaan…</string>
+    <string name="volume_down">Volume omlaag</string>
+    <string name="volume_up">Volume omhoog</string>
+    <string name="yt_login_checking">Je YouTube-kanalen controleren…</string>
+    <string name="yt_login_completing">Je YouTube Music-account opslaan…</string>
+    <string name="yt_login_hint">Meld je aan op de Google-pagina hieronder. Je kunt na aanmelding een YouTube-kanaal kiezen.</string>
+    <string name="yt_login_page_error">De aanmeldingspagina kan niet worden geladen. Controleer uw verbinding en probeer het opnieuw.</string>
+    <string name="yt_login_switch_hint">Selecteer het YouTube-kanaal dat je met dit account wilt gebruiken.</string>
+    <string name="yt_login_switching">YouTube-kanaal wisselen…</string>
+    <string name="yt_login_title">Meld je aan bij YouTube Music</string>
+    <string name="player_design">Spelerontwerp</string>
+    <string name="player_design_material3">Material 3 (Vorige)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">Bitdiepte</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">Bron</string>
+    <string name="audio_quality_source_addon">%1$s (add-on)</string>
+    <string name="music_source_add">Een add-on toevoegen</string>
+    <string name="music_source_add_desc">Plak de koppeling van een BitChord-compatibele add-onserver</string>
+    <string name="music_source_add_failed">Kan deze add-on niet toevoegen. Controleer de koppeling en probeer opnieuw.</string>
+    <string name="music_source_always_on">Altijd aan</string>
+    <string name="music_source_auth_unsupported">Deze add-on accepteert alleen de BitChord-app</string>
+    <string name="music_source_checking">Controleren…</string>
+    <string name="music_source_downloads_allowed">Downloads toegestaan</string>
+    <string name="music_source_error">Fout: %1$s</string>
+    <string name="music_source_quality">Kwaliteit: %1$s</string>
+    <string name="music_source_remove">%1$s verwijderen</string>
+    <string name="music_sources">Muziekbronnen</string>
+    <string name="music_source_streaming_only">Alleen streaming</string>
+    <string name="music_source_working">Werkend</string>
+    <string name="lyrics_instrumental">Instrumentaal</string>
+    <string-array name="lyrics_intro_lines">
+        <item>De beat komt eraan</item>
+        <item>Het lied begint</item>
+        <item>Opwarmen</item>
+        <item>Sfeer instellen</item>
+        <item>Eerst bas, later woorden</item>
+        <item>Wachten</item>
+        <item>Voel deze opbouw</item>
+        <item>Voorlopig alleen groep</item>
+        <item>De hook komt eraan</item>
+        <item>Laat het ademen</item>
+        <item>Vocaalsignaal</item>
+        <item>Eerste noten</item>
+    </string-array>
 </resources>

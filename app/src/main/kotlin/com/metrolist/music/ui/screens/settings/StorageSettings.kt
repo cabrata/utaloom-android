@@ -337,6 +337,7 @@ fun StorageSettings(
                     Material3SettingsItem(
                         icon = painterResource(R.drawable.storage),
                         title = { Text(stringResource(R.string.downloaded_songs)) },
+                        targetKey = R.string.downloaded_songs,
                         description = {
                             Text(text = Formatter.formatShortFileSize(context, downloadCacheSize))
                         },
@@ -344,6 +345,7 @@ fun StorageSettings(
                     Material3SettingsItem(
                         icon = painterResource(R.drawable.graphic_eq),
                         title = { Text(stringResource(R.string.download_quality)) },
+                        targetKey = R.string.download_quality,
                         description = {
                             Text(
                                 when (downloadQuality) {
@@ -358,6 +360,7 @@ fun StorageSettings(
                     Material3SettingsItem(
                         icon = painterResource(R.drawable.wifi_proxy),
                         title = { Text(stringResource(R.string.wifi_only_downloads)) },
+                        targetKey = R.string.wifi_only_downloads,
                         description = { Text(stringResource(R.string.wifi_only_downloads_desc)) },
                         trailingContent = {
                             Switch(
@@ -379,6 +382,7 @@ fun StorageSettings(
                     Material3SettingsItem(
                         icon = painterResource(R.drawable.clear_all),
                         title = { Text(stringResource(R.string.clear_all_downloads)) },
+                        targetKey = R.string.clear_all_downloads,
                         onClick = {
                             clearDownloads = true
                         },
@@ -392,6 +396,7 @@ fun StorageSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.cached),
                     title = { Text(stringResource(R.string.enable_song_cache)) },
+                    targetKey = R.string.enable_song_cache,
                     description = { Text(stringResource(R.string.enable_song_cache_desc)) },
                     trailingContent = {
                         Switch(
@@ -413,6 +418,7 @@ fun StorageSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.cached),
                     title = { Text(stringResource(R.string.max_song_cache_size)) },
+                    targetKey = R.string.max_song_cache_size,
                     enabled = enableSongCache,
                     description = {
                         val songCacheValues =
@@ -473,6 +479,7 @@ fun StorageSettings(
                     Material3SettingsItem(
                         icon = painterResource(R.drawable.clear_all),
                         title = { Text(stringResource(R.string.clear_song_cache)) },
+                        targetKey = R.string.clear_song_cache,
                         onClick = {
                             clearCacheDialog = true
                         },
@@ -487,6 +494,7 @@ fun StorageSettings(
                     Material3SettingsItem(
                         icon = painterResource(R.drawable.manage_search),
                         title = { Text(stringResource(R.string.max_image_cache_size)) },
+                        targetKey = R.string.max_image_cache_size,
                         description = {
                             val imageCacheValues =
                                 remember { listOf(0, 128, 256, 512, 1024, 2048, 4096, 8192) }
@@ -536,6 +544,7 @@ fun StorageSettings(
                     Material3SettingsItem(
                         icon = painterResource(R.drawable.clear_all),
                         title = { Text(stringResource(R.string.clear_image_cache)) },
+                        targetKey = R.string.clear_image_cache,
                         onClick = {
                             clearImageCacheDialog = true
                         },

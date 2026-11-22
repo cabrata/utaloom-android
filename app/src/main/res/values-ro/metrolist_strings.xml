@@ -912,4 +912,73 @@
     <string name="wrapped_recap_empty_body">Încă nu există istoric de ascultare pentru %1$d. Redă muzică cu istoricul activat sau alege alt an.</string>
     <string name="wrapped_recap_listen">Găsește ceva de ascultat</string>
     <string name="open_menu">Deschide meniul</string>
+    <string name="spotify_login_loading">Se încarcă conectarea Spotify…</string>
+    <string name="music_sources_selection_desc">Pornești cu YouTube Music și îmbunătățești audio cu suplimente</string>
+    <string name="music_sources_desc">Redarea începe pe YouTube Music. Suplimentele activate sunt verificate în ordine pentru o potrivire de calitate superioară după titlu, artist și durată. Atinge un supliment pentru a-i copia linkul.</string>
+    <string name="music_source_youtube_desc">Începe redarea</string>
+    <string name="spotify_login_instructions">Conectează-te mai jos pentru a folosi videoclipurile Spotify Canvas. Acest ecran se va închide după conectare.</string>
+    <string name="spotify_login_saving">Se salvează conexiunea Spotify…</string>
+    <string name="spotify_login_reload">Reîncarcă conectarea Spotify</string>
+    <string name="spotify_login_error_title">Nu s-a putut deschide Spotify</string>
+    <string name="spotify_login_error_hint">Încearcă din nou pentru a reîncărca pagina de conectare, sau revino pentru a ieși.</string>
+    <string name="spotify_login_load_error">Pagina de conectare nu s-a putut încărca. Verifică conexiunea și încearcă din nou.</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Calitate Înaltă</string>
+    <string name="audio_quality_upgrading">Se îmbunătățește calitatea</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_reported">Etichetă calitate supliment</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="yt_login_title">Conectează-te la YouTube Music</string>
+    <string name="yt_login_hint">Conectează-te pe pagina Google de mai jos. Poți alege un canal YouTube după conectare.</string>
+    <string name="yt_login_switch_hint">Alege canalul YouTube pe care dorești să-l folosești cu acest cont.</string>
+    <string name="yt_login_checking">Se verifică canalele YouTube…</string>
+    <string name="yt_login_switching">Se schimbă canalul YouTube…</string>
+    <string name="yt_login_completing">Se salvează contul YouTube Music…</string>
+    <string name="yt_login_page_error">Pagina de conectare nu s-a putut încărca. Verifică conexiunea și încearcă din nou.</string>
+    <string name="playing_from">Se redă din %1$s</string>
+    <string name="audio_output">Ieșire audio</string>
+    <string name="volume_down">Scadea volumul</string>
+    <string name="volume_up">Crește volumul</string>
+    <string name="lyrics_by">Versuri de %1$s</string>
+    <string name="autoplay_queue_desc">Muzică similară aleasă pentru redare următoare</string>
+    <string name="queue_editing_lock">Blochează editarea cozii</string>
+    <string name="player_design">Design player</string>
+    <string name="player_design_material3">Material 3 (Anterior)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">Adâncimea de biți</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">Sursă</string>
+    <string name="audio_quality_source_addon">%1$s (supliment)</string>
+    <string name="lyrics_instrumental">Instrumental</string>
+    <string name="music_source_add">Adăugați supliment</string>
+    <string name="music_source_add_desc">Lipiți linkul serverului de supliment compatibil cu BitChord</string>
+    <string name="music_source_add_failed">Nu s-a putut adăuga acest supliment. Verificați linkul și încercați din nou.</string>
+    <string name="music_source_always_on">Întotdeauna activă</string>
+    <string name="music_source_auth_unsupported">Acest supliment acceptă doar aplicația BitChord</string>
+    <string name="music_source_checking">Se verifică…</string>
+    <string name="music_source_downloads_allowed">Descărcări permise</string>
+    <string name="music_source_error">Eroare: %1$s</string>
+    <string name="music_source_quality">Calitate: %1$s</string>
+    <string name="music_source_remove">Eliminați %1$s</string>
+    <string name="music_source_streaming_only">Numai streaming</string>
+    <string name="music_source_working">Funcţionează</string>
+    <string name="music_sources">Surse de muzică</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Bătaia cade</item>
+        <item>Cântecul începe</item>
+        <item>Încălzire</item>
+        <item>Stabilirea atmosferei</item>
+        <item>Bas mai întâi, cuvinte mai târziu</item>
+        <item>Așteptați</item>
+        <item>Simțiți acea construire</item>
+        <item>Pentru acum doar groove</item>
+        <item>Hook-ul este pe drum</item>
+        <item>Lăsați să respire</item>
+        <item>Activați vocalele</item>
+        <item>Primele note intră</item>
+    </string-array>
 </resources>

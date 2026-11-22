@@ -323,4 +323,73 @@
     <string name="wrapped_recap_empty_body">Ingen lyttehistorikk for %1$d enno. Spel musikk med historikk slått på, eller vel eit anna år.</string>
     <string name="wrapped_recap_listen">Finn noko å spele</string>
     <string name="open_menu">Opne meny</string>
+    <string name="audio_output">Lydutgang</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Høg kvalitet</string>
+    <string name="audio_quality_reported">Tillegskvalitetsetikett</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">Oppgraderer kvalitet</string>
+    <string name="autoplay_queue_desc">Liknande musikk, vald for avspeling neste</string>
+    <string name="lyrics_by">Tekst av %1$s</string>
+    <string name="music_source_youtube_desc">Startar avspeling</string>
+    <string name="music_sources_desc">Avspeling startar på YouTube Music. Aktiverte tillegg blir sjekka sekvensielt for høgare kvalitetsmatch etter tittel, artist og lengd. Trykk på eit tillegg for å kopiera lenka.</string>
+    <string name="music_sources_selection_desc">Start med YouTube Music og oppgrader lyd med tillegg</string>
+    <string name="playing_from">Spelar frå %1$s</string>
+    <string name="queue_editing_lock">Lås køyredigering</string>
+    <string name="spotify_login_error_hint">Prøv på nytt for å laste inn innloggingssida på nytt, eller gå tilbake for å avslutta.</string>
+    <string name="spotify_login_error_title">Kan ikkje opne Spotify</string>
+    <string name="spotify_login_instructions">Logg inn nedanfor for å bruke Spotify Canvas-videoar. Denne skjermen lukkatest når du er tilkopla.</string>
+    <string name="spotify_login_load_error">Innloggingssida kunne ikkje lastast inn. Sjekk tilkoplinga di og prøv igjen.</string>
+    <string name="spotify_login_loading">Lastar inn Spotify-innlogging…</string>
+    <string name="spotify_login_reload">Last inn Spotify-innlogging på nytt</string>
+    <string name="spotify_login_saving">Lagrar Spotify-tilkopling…</string>
+    <string name="volume_down">Senk volum</string>
+    <string name="volume_up">Auk volum</string>
+    <string name="yt_login_checking">Sjekkar YouTube-kanalane dine…</string>
+    <string name="yt_login_completing">Lagrar YouTube Music-kontoen din…</string>
+    <string name="yt_login_hint">Logg inn på Google-sida nedanfor. Du kan velja ein YouTube-kanal etter at du har logga inn.</string>
+    <string name="yt_login_page_error">Innloggingssida kunne ikkje lastast inn. Sjekk tilkoplinga di og prøv igjen.</string>
+    <string name="yt_login_switch_hint">Vel YouTube-kanalen du vil bruke med denne kontoen.</string>
+    <string name="yt_login_switching">Byter YouTube-kanal…</string>
+    <string name="yt_login_title">Logg inn på YouTube Music</string>
+    <string name="player_design">Spelardesign</string>
+    <string name="player_design_material3">Material 3 (Førre)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">Bitdybde</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">Kjelde</string>
+    <string name="audio_quality_source_addon">%1$s (tillegg)</string>
+    <string name="music_source_add">Legg til tillegg</string>
+    <string name="music_source_add_desc">Lim inn lenka til ein BitChord-kompatibel tilleggsserver</string>
+    <string name="music_source_add_failed">Kunne ikkje leggje til dette tillegget. Sjekk lenka og prøv igjen.</string>
+    <string name="music_source_always_on">Alltid på</string>
+    <string name="music_source_auth_unsupported">Dette tillegget godtar berre BitChord-appen</string>
+    <string name="music_source_checking">Kontrollerer…</string>
+    <string name="music_source_downloads_allowed">Nedlastingar tillata</string>
+    <string name="music_source_error">Feil: %1$s</string>
+    <string name="music_source_quality">Kvalitet: %1$s</string>
+    <string name="music_source_remove">Fjern %1$s</string>
+    <string name="music_sources">Musikkjeldor</string>
+    <string name="music_source_streaming_only">Berre direktesending</string>
+    <string name="music_source_working">Fungerer</string>
+    <string name="lyrics_instrumental">Instrumentalt</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Beatenen kjem</item>
+        <item>Songen startar</item>
+        <item>Oppvarming</item>
+        <item>Set stemningen</item>
+        <item>Bass først, ord seinare</item>
+        <item>Vent</item>
+        <item>Kjenn denne oppbygginga</item>
+        <item>Berre grooven no</item>
+        <item>Hook på veg</item>
+        <item>La det andast</item>
+        <item>Vokal-signal</item>
+        <item>Første notar</item>
+    </string-array>
 </resources>

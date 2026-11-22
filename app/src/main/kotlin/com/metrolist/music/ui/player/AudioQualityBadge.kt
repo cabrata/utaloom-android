@@ -1,16 +1,26 @@
 package com.metrolist.music.ui.player
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
+import android.animation.ValueAnimator
+import androidx.annotation.DrawableRes
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -18,22 +28,32 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.currentStateAsState
 import androidx.media3.common.C
 import androidx.media3.common.Format
 import androidx.media3.common.Player
-import androidx.media3.common.Tracks
 import com.metrolist.music.R
 import com.metrolist.music.db.entities.FormatEntity
 import com.metrolist.music.playback.MusicAddons
 import com.metrolist.music.playback.PlayerConnection
-import com.metrolist.music.ui.component.DefaultDialog
 
 internal data class AudioQualityInfo(
     val tier: Tier,
@@ -43,10 +63,9 @@ internal data class AudioQualityInfo(
     val bitDepth: Int? = null,
     val sampleRateHz: Int? = null,
     val bitrateKbps: Int? = null,
-    /** The add-on's own name for the rendition, shown on the badge as sent. */
-    val label: String? = null,
+    val reportedQuality: String? = null,
 ) {
-    enum class Tier { HI_RES, LOSSLESS, LOSSY }
+    enum class Tier { DOLBY_ATMOS, HI_RES, LOSSLESS, HIGH_QUALITY, LOSSY }
 }
 
 /** Measured on the device from the track being decoded. */
@@ -54,6 +73,7 @@ internal data class PlayedAudio(
     val bitDepth: Int? = null,
     val sampleRateHz: Int? = null,
     val bitrateKbps: Int? = null,
+    val mimeType: String? = null,
 )
 
 /** Average bitrate of a whole file, or null while its size or length is unknown. */
@@ -67,67 +87,100 @@ private fun Player.playedAudioFormat(): Format? =
 
 private val LOSSLESS_CODECS = setOf("flac", "alac", "wav", "pcm", "ape", "aiff")
 
+private fun audioCodec(value: String?): String? = when (val codec = value?.trim()?.lowercase()?.takeIf { it.isNotEmpty() }) {
+    "opus", "audio/opus" -> "opus"
+    "audio/aac", "audio/mp4a-latm" -> "aac"
+    "audio/flac", "audio/x-flac" -> "flac"
+    "audio/alac" -> "alac"
+    "audio/wav", "audio/x-wav" -> "wav"
+    "audio/raw" -> "pcm"
+    "audio/mpeg" -> "mp3"
+    "audio/eac3-joc", "ec+3", "eac3-joc" -> "eac3-joc"
+    "audio/eac3", "ec-3", "eac3" -> "eac3"
+    else -> codec?.let { if (it.startsWith("mp4a")) "aac" else it.substringAfter('/') }
+}
+
+internal val PlayedAudio.isPremiumFormat: Boolean
+    get() = audioCodec(mimeType).let { it in LOSSLESS_CODECS || it == "eac3-joc" }
+
 /** What is playing: the add-on stream when the song resolved to one, otherwise the stored YouTube format. */
 internal fun audioQualityOf(
     addonStream: MusicAddons.Stream?,
     format: FormatEntity?,
     played: PlayedAudio? = null,
 ): AudioQualityInfo? {
-    if (addonStream != null) {
-        val codec = addonStream.codec?.lowercase()
-        // What the decoder reports beats what the add-on claims.
-        val bitDepth = played?.bitDepth ?: addonStream.bitDepth
-        val sampleRateHz = played?.sampleRateHz ?: addonStream.sampleRateHz
-        val tier = when {
-            codec !in LOSSLESS_CODECS -> AudioQualityInfo.Tier.LOSSY
-            (bitDepth ?: 0) > 16 || (sampleRateHz ?: 0) > 48_000 -> AudioQualityInfo.Tier.HI_RES
-            else -> AudioQualityInfo.Tier.LOSSLESS
-        }
-        return AudioQualityInfo(
-            tier = tier,
-            codec = codec?.uppercase() ?: addonStream.source,
-            addon = addonStream.source,
-            bitDepth = bitDepth,
-            sampleRateHz = sampleRateHz,
-            bitrateKbps = played?.bitrateKbps ?: addonStream.bitrateKbps,
-            label = addonStream.quality,
-        )
-    }
-    format ?: return null
-    val codec = when {
-        format.codecs.startsWith("opus") -> "Opus"
-        format.codecs.startsWith("mp4a") -> "AAC"
-        format.codecs.isNotBlank() -> format.codecs.uppercase()
-        else -> format.mimeType.substringAfter('/').uppercase()
+    if (addonStream == null && format == null && played == null) return null
+
+    val youtubeFormat = format.takeIf { addonStream == null }
+    val codec = audioCodec(played?.mimeType ?: addonStream?.codec ?: youtubeFormat?.let {
+        it.codecs.ifBlank { it.mimeType }
+    })
+    val bitDepth = played?.bitDepth ?: addonStream?.bitDepth?.takeIf { it > 0 }
+    val sampleRateHz = played?.sampleRateHz ?: addonStream?.sampleRateHz?.takeIf { it > 0 }
+        ?: youtubeFormat?.sampleRate?.takeIf { it > 0 }
+    val bitrateKbps = played?.bitrateKbps ?: addonStream?.bitrateKbps?.takeIf { it > 0 }
+        ?: youtubeFormat?.bitrate?.div(1000)?.takeIf { it > 0 }
+    val tier = when {
+        codec == "eac3-joc" -> AudioQualityInfo.Tier.DOLBY_ATMOS
+        codec in LOSSLESS_CODECS ->
+            if ((bitDepth ?: 0) > 16 || (sampleRateHz ?: 0) > 48_000) AudioQualityInfo.Tier.HI_RES
+            else AudioQualityInfo.Tier.LOSSLESS
+        (bitrateKbps ?: 0) >= 256 -> AudioQualityInfo.Tier.HIGH_QUALITY
+        else -> AudioQualityInfo.Tier.LOSSY
     }
     return AudioQualityInfo(
-        tier = AudioQualityInfo.Tier.LOSSY,
-        codec = codec,
-        addon = null,
-        sampleRateHz = format.sampleRate,
-        bitrateKbps = format.bitrate / 1000,
+        tier = tier,
+        codec = when (codec) {
+            "opus" -> "Opus"
+            "eac3-joc" -> "E-AC-3 JOC"
+            "eac3" -> "E-AC-3"
+            else -> codec?.uppercase().orEmpty()
+        },
+        addon = addonStream?.source,
+        bitDepth = bitDepth,
+        sampleRateHz = sampleRateHz,
+        bitrateKbps = bitrateKbps,
+        reportedQuality = addonStream?.quality,
     )
 }
 
+private enum class QualityMotion { NONE, PULSE, SHIMMER }
+
+private data class QualityLabel(
+    @DrawableRes val icon: Int,
+    val text: String,
+    val motion: QualityMotion = QualityMotion.NONE,
+)
+
 @Composable
-fun AudioQualityBadge(playerConnection: PlayerConnection, color: Color) {
+fun AudioQualityBadge(
+    playerConnection: PlayerConnection,
+    color: Color,
+    modifier: Modifier = Modifier,
+    animate: Boolean = true,
+) {
     val mediaId = playerConnection.mediaMetadata.collectAsStateWithLifecycle().value?.id
     val addonStreams by playerConnection.addonStreams.collectAsStateWithLifecycle()
     val format by playerConnection.currentFormat.collectAsStateWithLifecycle(initialValue = null)
-    var showDetails by rememberSaveable { mutableStateOf(false) }
+    val upgradingMediaId by playerConnection.service.upgradingAudioMediaId.collectAsStateWithLifecycle()
+    var showDetails by rememberSaveable(mediaId) { mutableStateOf(false) }
 
     val player = playerConnection.player
-    var trackFormat by remember { mutableStateOf(player.playedAudioFormat()) }
+    var trackFormat by remember(player) {
+        mutableStateOf(player.currentMediaItem?.mediaId to player.playedAudioFormat())
+    }
     DisposableEffect(player) {
         val listener = object : Player.Listener {
-            override fun onTracksChanged(tracks: Tracks) {
-                trackFormat = player.playedAudioFormat()
+            override fun onEvents(player: Player, events: Player.Events) {
+                if (events.containsAny(Player.EVENT_TRACKS_CHANGED, Player.EVENT_MEDIA_ITEM_TRANSITION)) {
+                    trackFormat = player.currentMediaItem?.mediaId to player.playedAudioFormat()
+                }
             }
         }
         player.addListener(listener)
         onDispose { player.removeListener(listener) }
     }
-    val played = trackFormat?.let { track ->
+    val played = trackFormat.takeIf { it.first == mediaId }?.second?.let { track ->
         PlayedAudio(
             bitDepth = when (track.pcmEncoding) {
                 C.ENCODING_PCM_16BIT -> 16
@@ -137,59 +190,115 @@ fun AudioQualityBadge(playerConnection: PlayerConnection, color: Color) {
             },
             sampleRateHz = track.sampleRate.takeIf { it > 0 },
             // Lossless tracks carry no bitrate; size over length is only needed once the details are open.
-            bitrateKbps = track.bitrate.takeIf { it > 0 }?.div(1000)
+            bitrateKbps = track.bitrate.div(1000).takeIf { it > 0 }
                 ?: if (showDetails && mediaId != null) {
                     averageBitrateKbps(playerConnection.service.addonStreamBytes(mediaId), player.duration)
                 } else {
                     null
                 },
+            mimeType = track.sampleMimeType,
         )
     }
-    val info = audioQualityOf(addonStreams[mediaId], format, played) ?: return
-
-    val label = info.label ?: when (info.tier) {
-        AudioQualityInfo.Tier.HI_RES -> stringResource(R.string.audio_quality_hires_lossless)
-        AudioQualityInfo.Tier.LOSSLESS -> stringResource(R.string.audio_quality_lossless)
-        AudioQualityInfo.Tier.LOSSY -> info.codec
+    val info = audioQualityOf(addonStreams[mediaId], format?.takeIf { it.id == mediaId }, played)
+    val bitrate = info?.bitrateKbps?.let { stringResource(R.string.audio_quality_bitrate_value, it) }
+    val current = info?.let {
+        val premiumMotion = if (played?.isPremiumFormat == true) QualityMotion.SHIMMER else QualityMotion.NONE
+        when (it.tier) {
+            AudioQualityInfo.Tier.DOLBY_ATMOS -> QualityLabel(R.drawable.quality_atmos, stringResource(R.string.audio_quality_dolby_atmos), premiumMotion)
+            AudioQualityInfo.Tier.HI_RES -> QualityLabel(R.drawable.quality_lossless, stringResource(R.string.audio_quality_hires_lossless), premiumMotion)
+            AudioQualityInfo.Tier.LOSSLESS -> QualityLabel(R.drawable.quality_lossless, stringResource(R.string.audio_quality_lossless), premiumMotion)
+            AudioQualityInfo.Tier.HIGH_QUALITY -> QualityLabel(R.drawable.quality_headphones, stringResource(R.string.audio_quality_high_quality))
+            AudioQualityInfo.Tier.LOSSY -> QualityLabel(
+                if (it.addon == null) R.drawable.quality_youtube_music else R.drawable.quality_headphones,
+                when {
+                    it.codec.isNotEmpty() && bitrate != null -> stringResource(R.string.audio_quality_codec_bitrate, it.codec, bitrate)
+                    it.codec.isNotEmpty() -> it.codec
+                    else -> bitrate ?: stringResource(R.string.audio_quality)
+                },
+            )
+        }
     }
-    val shape = RoundedCornerShape(4.dp)
-    Text(
-        text = label,
-        style = MaterialTheme.typography.labelSmall,
-        color = color,
-        maxLines = 1,
-        modifier = Modifier
-            .clip(shape)
-            .clickable(role = Role.Button, onClickLabel = stringResource(R.string.audio_quality)) { showDetails = true }
-            .border(BorderStroke(1.dp, color.copy(alpha = 0.5f)), shape)
-            .padding(horizontal = 6.dp, vertical = 2.dp),
-    )
-
-    if (showDetails) {
-        DefaultDialog(
-            onDismiss = { showDetails = false },
-            title = { Text(stringResource(R.string.audio_quality)) },
-            buttons = {
-                TextButton(onClick = { showDetails = false }) { Text(stringResource(android.R.string.ok)) }
-            },
-        ) {
-            listOfNotNull(
-                stringResource(R.string.audio_quality_source) to
-                    (info.addon?.let { stringResource(R.string.audio_quality_source_addon, it) } ?: "YouTube Music"),
-                stringResource(R.string.audio_quality) to label,
-                stringResource(R.string.codecs) to info.codec,
-                info.bitDepth?.let { stringResource(R.string.audio_quality_bit_depth) to "$it-bit" },
-                info.sampleRateHz?.let { stringResource(R.string.sample_rate) to "${(it / 1000.0).toString().removeSuffix(".0")} kHz" },
-                info.bitrateKbps?.let { stringResource(R.string.bitrate) to "$it kbps" },
-            ).forEach { (name, value) ->
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
-                ) {
-                    Text(name, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Text(value)
+    val label = if (mediaId != null && upgradingMediaId == mediaId && info?.addon == null) {
+        QualityLabel(R.drawable.quality_lossless, stringResource(R.string.audio_quality_upgrading), QualityMotion.PULSE)
+    } else {
+        current
+    }
+    val lifecycleState by LocalLifecycleOwner.current.lifecycle.currentStateAsState()
+    val motionEnabled = animate && lifecycleState.isAtLeast(Lifecycle.State.RESUMED) && ValueAnimator.areAnimatorsEnabled()
+    Box(modifier, contentAlignment = Alignment.Center) {
+        Crossfade(
+            targetState = label,
+            animationSpec = tween(if (motionEnabled) 200 else 0),
+            label = "Audio quality",
+            modifier = Modifier
+                .widthIn(max = 200.dp)
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .clickable(enabled = current != null, role = Role.Button, onClickLabel = stringResource(R.string.audio_quality)) {
+                    showDetails = true
+                },
+        ) { visible ->
+            Box(
+                modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp).padding(horizontal = 2.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                if (visible != null) {
+                    Row(
+                        modifier = qualityMotion(if (motionEnabled) visible.motion else QualityMotion.NONE, color),
+                        horizontalArrangement = Arrangement.spacedBy(5.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(painterResource(visible.icon), contentDescription = null, tint = color)
+                        Text(
+                            text = visible.text,
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.Medium,
+                            color = color,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
                 }
             }
         }
     }
+
+    if (showDetails && info != null && current != null) {
+        AudioPipelineDialog(playerConnection, info, current.text, onDismiss = { showDetails = false })
+    }
+}
+
+@Composable
+private fun qualityMotion(motion: QualityMotion, color: Color): Modifier {
+    if (motion == QualityMotion.NONE) return Modifier
+    val pulsing = motion == QualityMotion.PULSE
+    val progress = rememberInfiniteTransition(label = "Quality badge").animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = if (pulsing) {
+            infiniteRepeatable(tween(900), RepeatMode.Reverse)
+        } else {
+            infiniteRepeatable(tween(1800, delayMillis = 1000, easing = LinearEasing))
+        },
+        label = "Quality motion",
+    )
+    if (pulsing) return Modifier.graphicsLayer {
+        compositingStrategy = CompositingStrategy.ModulateAlpha
+        alpha = 1f - 0.28f * progress.value
+    }
+
+    // Clip the sweep to the logo and text without recomposing the label on every frame.
+    val base = color.copy(alpha = color.alpha * 0.76f)
+    return Modifier
+        .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
+        .drawWithContent {
+            drawContent()
+            if (size.width <= 0f) return@drawWithContent
+            val halfBand = size.width * 0.35f
+            val center = -halfBand + progress.value * (size.width + 2f * halfBand)
+            drawRect(
+                brush = Brush.horizontalGradient(listOf(base, color, base), center - halfBand, center + halfBand),
+                blendMode = BlendMode.SrcIn,
+            )
+        }
 }

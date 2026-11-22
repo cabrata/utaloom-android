@@ -10,7 +10,6 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.SpringSpec
 import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.focusable
@@ -43,6 +42,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.input.pointer.util.addPointerInputChange
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
@@ -169,6 +169,7 @@ class BottomSheetState(
     private val animatable: Animatable<Dp, AnimationVector1D>,
     private val onAnchorChanged: (Int) -> Unit,
     val collapsedBound: Dp,
+    private val density: Density,
 ) : DraggableState by draggableState {
     val dismissedBound: Dp
         get() = animatable.lowerBound!!
@@ -208,28 +209,29 @@ class BottomSheetState(
         }
     }
 
-    private fun collapse() {
-        collapse(SpringSpec())
+    // Released drags glide on from the finger's speed instead of restarting from rest.
+    private fun settle(anchor: Int, target: Dp, velocity: Dp) {
+        onAnchorChanged(anchor)
+        coroutineScope.launch {
+            animatable.animateTo(target, SheetGlideSpec, velocity)
+        }
     }
 
-    private fun expand() {
-        expand(SpringSpec())
-    }
+    private fun collapse(velocity: Dp) = settle(collapsedAnchor, collapsedBound, velocity)
+
+    private fun expand(velocity: Dp) = settle(expandedAnchor, animatable.upperBound!!, velocity)
 
     fun collapseSoft() {
-        collapse(spring(stiffness = Spring.StiffnessMediumLow))
+        collapse(SheetGlideSpec)
     }
 
     fun expandSoft() {
-        expand(spring(stiffness = Spring.StiffnessMediumLow))
+        expand(SheetGlideSpec)
     }
 
-    fun dismiss() {
-        onAnchorChanged(dismissedAnchor)
-        coroutineScope.launch {
-            animatable.animateTo(animatable.lowerBound!!)
-        }
-    }
+    private fun dismiss(velocity: Dp) = settle(dismissedAnchor, animatable.lowerBound!!, velocity)
+
+    fun dismiss() = dismiss(0.dp)
     
     fun snapTo(value: Dp) {
         coroutineScope.launch {
@@ -242,14 +244,15 @@ class BottomSheetState(
     }
 
     fun performFling(velocity: Float, onDismiss: (() -> Unit)?) {
+        val glide = with(density) { velocity.toDp() }
         if (velocity > 250) {
-            expand()
+            expand(glide)
         } else if (velocity < -250) {
             if (value < collapsedBound && onDismiss != null) {
-                dismiss()
+                dismiss(glide)
                 onDismiss.invoke()
             } else {
-                collapse()
+                collapse(glide)
             }
         } else {
             val l0 = dismissedBound
@@ -260,15 +263,15 @@ class BottomSheetState(
             when (value) {
                 in l0..l1 -> {
                     if (onDismiss != null) {
-                        dismiss()
+                        dismiss(glide)
                         onDismiss.invoke()
                     } else {
-                        collapse()
+                        collapse(glide)
                     }
                 }
 
-                in l1..l2 -> collapse()
-                in l2..l3 -> expand()
+                in l1..l2 -> collapse(glide)
+                in l2..l3 -> expand(glide)
                 else -> Unit
             }
         }
@@ -326,6 +329,13 @@ class BottomSheetState(
         }
 }
 
+// BitChord's player sheet: critically damped and soft, so it glides without bouncing.
+private val SheetGlideSpec = spring(
+    dampingRatio = Spring.DampingRatioNoBouncy,
+    stiffness = 195f,
+    visibilityThreshold = 0.5.dp,
+)
+
 const val expandedAnchor = 2
 const val collapsedAnchor = 1
 const val dismissedAnchor = 0
@@ -369,7 +379,8 @@ fun rememberBottomSheetState(
             onAnchorChanged = { previousAnchor = it },
             coroutineScope = coroutineScope,
             animatable = animatable,
-            collapsedBound = collapsedBound
+            collapsedBound = collapsedBound,
+            density = density,
         )
     }
 }

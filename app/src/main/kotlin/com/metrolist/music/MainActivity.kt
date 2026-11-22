@@ -794,6 +794,9 @@ class MainActivity : FragmentActivity() {
                     derivedStateOf { navBackStackEntry?.destination?.route }
                 }
 
+                // Wrapped and web sign-in pages draw edge to edge, without the mini player or rail.
+                val isFullScreenRoute = currentRoute in setOf("wrapped", "login", "switch_channel", "settings/spotify_login")
+
                 val inSearchScreen by remember {
                     derivedStateOf { currentRoute?.startsWith("search/") == true }
                 }
@@ -1205,7 +1208,7 @@ class MainActivity : FragmentActivity() {
                             // Pre-calculate values for graphicsLayer to avoid reading state during composition
                             val navBarTotalHeight = bottomInset + NavigationBarHeight
 
-                            if (!showRail && currentRoute != "wrapped") {
+                            if (!showRail && !isFullScreenRoute) {
                                 Box {
                                     if (activePlayerConnection != null) {
                                         BottomSheetPlayer(
@@ -1268,7 +1271,7 @@ class MainActivity : FragmentActivity() {
                                     )
                                 }
                             } else {
-                                if (currentRoute != "wrapped") {
+                                if (!isFullScreenRoute) {
                                     if (activePlayerConnection != null) {
                                         BottomSheetPlayer(
                                             state = playerBottomSheetState,
@@ -1332,7 +1335,7 @@ class MainActivity : FragmentActivity() {
                                     }
                                 }
 
-                            if (showRail && currentRoute != "wrapped") {
+                            if (showRail && !isFullScreenRoute) {
                                 AppNavigationRail(
                                     navigationItems = navigationItems,
                                     currentRoute = currentRoute,

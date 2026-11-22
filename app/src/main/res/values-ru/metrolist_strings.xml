@@ -919,4 +919,73 @@
     <string name="wrapped_recap_empty_body">Истории прослушивания за %1$d год пока нет. Включите музыку при включённой истории или выберите другой год.</string>
     <string name="wrapped_recap_listen">Найдите, что включить</string>
     <string name="open_menu">Открыть меню</string>
+    <string name="spotify_login_loading">Загрузка входа в Spotify…</string>
+    <string name="music_sources_selection_desc">Начните с YouTube Music и улучшите аудио с помощью дополнений</string>
+    <string name="music_sources_desc">Воспроизведение начинается на YouTube Music. Включенные дополнения проверяются по очереди на предмет более качественного совпадения по названию, исполнителю и продолжительности. Коснитесь дополнения, чтобы скопировать его ссылку.</string>
+    <string name="music_source_youtube_desc">Начинает воспроизведение</string>
+    <string name="spotify_login_instructions">Войдите ниже, чтобы использовать видеоролики Spotify Canvas. Этот экран закроется после подключения.</string>
+    <string name="spotify_login_saving">Сохранение подключения Spotify…</string>
+    <string name="spotify_login_reload">Перезагрузить вход Spotify</string>
+    <string name="spotify_login_error_title">Не удалось открыть Spotify</string>
+    <string name="spotify_login_error_hint">Попробуйте еще раз, чтобы перезагрузить страницу входа, или вернитесь назад.</string>
+    <string name="spotify_login_load_error">Не удалось загрузить страницу входа. Проверьте соединение и попробуйте еще раз.</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Высокое Качество</string>
+    <string name="audio_quality_upgrading">Улучшение качества</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_reported">Метка качества дополнения</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="yt_login_title">Войдите в YouTube Music</string>
+    <string name="yt_login_hint">Войдите на страницу Google ниже. После входа вы можете выбрать канал YouTube.</string>
+    <string name="yt_login_switch_hint">Выберите канал YouTube, который вы хотите использовать с этой учетной записью.</string>
+    <string name="yt_login_checking">Проверка каналов YouTube…</string>
+    <string name="yt_login_switching">Переключение канала YouTube…</string>
+    <string name="yt_login_completing">Сохранение учетной записи YouTube Music…</string>
+    <string name="yt_login_page_error">Не удалось загрузить страницу входа. Проверьте соединение и попробуйте еще раз.</string>
+    <string name="playing_from">Воспроизведение из %1$s</string>
+    <string name="audio_output">Вывод звука</string>
+    <string name="volume_down">Уменьшить громкость</string>
+    <string name="volume_up">Увеличить громкость</string>
+    <string name="lyrics_by">Слова: %1$s</string>
+    <string name="autoplay_queue_desc">Похожая музыка, выбранная для воспроизведения дальше</string>
+    <string name="queue_editing_lock">Заблокировать редактирование очереди</string>
+    <string name="player_design">Дизайн плеера</string>
+    <string name="player_design_material3">Material 3 (Прежний)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">Глубина бит</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">Источник</string>
+    <string name="audio_quality_source_addon">%1$s (дополнение)</string>
+    <string name="lyrics_instrumental">Инструментальный</string>
+    <string name="music_source_add">Добавить дополнение</string>
+    <string name="music_source_add_desc">Вставьте ссылку сервера дополнений, совместимого с BitChord</string>
+    <string name="music_source_add_failed">Не удалось добавить это дополнение. Проверьте ссылку и попробуйте еще раз.</string>
+    <string name="music_source_always_on">Всегда включена</string>
+    <string name="music_source_auth_unsupported">Это дополнение принимает только приложение BitChord</string>
+    <string name="music_source_checking">Проверка…</string>
+    <string name="music_source_downloads_allowed">Скачивание разрешено</string>
+    <string name="music_source_error">Ошибка: %1$s</string>
+    <string name="music_source_quality">Качество: %1$s</string>
+    <string name="music_source_remove">Удалить %1$s</string>
+    <string name="music_source_streaming_only">Только трансляция</string>
+    <string name="music_source_working">Работает</string>
+    <string name="music_sources">Источники музыки</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Бит приземляется</item>
+        <item>Песня начинается</item>
+        <item>Прогрев</item>
+        <item>Установка атмосферы</item>
+        <item>Бас сначала, слова потом</item>
+        <item>Подожди</item>
+        <item>Почувствуй это нарастание</item>
+        <item>Пока только groove</item>
+        <item>Hook в пути</item>
+        <item>Дай ему дышать</item>
+        <item>Включи вокал</item>
+        <item>Первые ноты входят</item>
+    </string-array>
 </resources>

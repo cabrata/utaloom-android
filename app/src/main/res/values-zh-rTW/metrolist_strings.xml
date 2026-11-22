@@ -892,4 +892,73 @@
     <string name="wrapped_recap_empty_body">尚無 %1$d 年的收聽紀錄。請在開啟紀錄的情況下播放音樂，或選擇其他年份。</string>
     <string name="wrapped_recap_listen">找點歌來聽</string>
     <string name="open_menu">開啟選單</string>
+    <string name="spotify_login_loading">正在載入 Spotify 登入…</string>
+    <string name="music_sources_selection_desc">從 YouTube Music 開始，使用附加元件升級音訊</string>
+    <string name="music_sources_desc">播放在 YouTube Music 上開始。已啟用的附加元件會依順序檢查，以取得更高品質的配對 (依標題、藝術家和時長)。輕觸附加元件以複製其連結。</string>
+    <string name="music_source_youtube_desc">開始播放</string>
+    <string name="spotify_login_instructions">登入下方以使用 Spotify Canvas 影片。連線後此畫面將關閉。</string>
+    <string name="spotify_login_saving">正在儲存 Spotify 連線…</string>
+    <string name="spotify_login_reload">重新載入 Spotify 登入</string>
+    <string name="spotify_login_error_title">無法開啟 Spotify</string>
+    <string name="spotify_login_error_hint">重試以重新載入登入頁面，或返回以結束。</string>
+    <string name="spotify_login_load_error">無法載入登入頁面。檢查您的連線，然後重試。</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">高品質</string>
+    <string name="audio_quality_upgrading">正在升級品質</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_reported">附加元件品質標籤</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="yt_login_title">登入 YouTube Music</string>
+    <string name="yt_login_hint">登入下方的 Google 頁面。登入後，您可以選擇 YouTube 頻道。</string>
+    <string name="yt_login_switch_hint">選擇您想與此帳戶一起使用的 YouTube 頻道。</string>
+    <string name="yt_login_checking">正在檢查您的 YouTube 頻道…</string>
+    <string name="yt_login_switching">正在切換 YouTube 頻道…</string>
+    <string name="yt_login_completing">正在儲存您的 YouTube Music 帳戶…</string>
+    <string name="yt_login_page_error">無法載入登入頁面。檢查您的連線，然後重試。</string>
+    <string name="playing_from">正在從 %1$s 播放</string>
+    <string name="audio_output">音訊輸出</string>
+    <string name="volume_down">音量降低</string>
+    <string name="volume_up">音量提高</string>
+    <string name="lyrics_by">歌詞：%1$s</string>
+    <string name="autoplay_queue_desc">類似的音樂，選擇接下來播放</string>
+    <string name="queue_editing_lock">鎖定佇列編輯</string>
+    <string name="player_design">播放器設計</string>
+    <string name="player_design_material3">Material 3 (舊版)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">比特深度</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">來源</string>
+    <string name="audio_quality_source_addon">%1$s (附加元件)</string>
+    <string name="lyrics_instrumental">純音樂</string>
+    <string name="music_source_add">新增附加元件</string>
+    <string name="music_source_add_desc">貼上與BitChord相容的附加元件伺服器連結</string>
+    <string name="music_source_add_failed">無法新增此附加元件。請檢查連結後重試。</string>
+    <string name="music_source_always_on">始終開啟</string>
+    <string name="music_source_auth_unsupported">此附加元件僅接受BitChord應用</string>
+    <string name="music_source_checking">正在檢查…</string>
+    <string name="music_source_downloads_allowed">允許下載</string>
+    <string name="music_source_error">錯誤：%1$s</string>
+    <string name="music_source_quality">品質：%1$s</string>
+    <string name="music_source_remove">移除 %1$s</string>
+    <string name="music_source_streaming_only">僅串流</string>
+    <string name="music_source_working">運作中</string>
+    <string name="music_sources">音樂來源</string>
+    <string-array name="lyrics_intro_lines">
+        <item>節拍落下</item>
+        <item>歌曲開始</item>
+        <item>熱身中</item>
+        <item>設置氛圍</item>
+        <item>先低音，後歌詞</item>
+        <item>等等</item>
+        <item>感受這種積累</item>
+        <item>現在只有 groove</item>
+        <item>副歌即將來臨</item>
+        <item>讓它呼吸</item>
+        <item>激活人聲</item>
+        <item>第一個音符進入</item>
+    </string-array>
 </resources>

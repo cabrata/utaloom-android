@@ -733,4 +733,74 @@
     <string name="wrapped_recap_empty_body">Encara no hi ha historial d’escolta del %1$d. Reprodueix música amb l’historial activat o tria un altre any.</string>
     <string name="wrapped_recap_listen">Troba alguna cosa per escoltar</string>
     <string name="open_menu">Obre el menú</string>
+    <string name="audio_output">Sortida d\'àudio</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Qualitat Alta</string>
+    <string name="audio_quality_reported">Etiqueta de qualitat del complement</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">S\'està millorant la qualitat</string>
+    <string name="autoplay_queue_desc">Música similar, seleccionada per reproducir a continuació</string>
+    <string name="lyrics_by">Lletres de %1$s</string>
+    <string name="music_source_youtube_desc">Comença la reproducció</string>
+    <string name="music_sources_desc">La reproducció comença a YouTube Music. Els complements activats es verifiquen en ordre per a una coincidència de qualitat superior per título, artista i durada. Toca un complement per copiar el seu enllaç.</string>
+    <string name="music_sources_selection_desc">Comença amb YouTube Music i millora l\'àudio amb complements</string>
+    <string name="playing_from">S\'està reproduint des de %1$s</string>
+    <string name="queue_editing_lock">Bloqueja l\'edició de la cua</string>
+    <string name="spotify_login_error_hint">Reintenta recarregar la pàgina de connexió o torna enrere per sortir.</string>
+    <string name="spotify_login_error_title">No s\'ha pogut obrir Spotify</string>
+    <string name="spotify_login_instructions">Inicia sessió més avall per utilitzar vídeos de Spotify Canvas. Aquesta pantalla es tancarà una vegada connectat.</string>
+    <string name="spotify_login_load_error">No s\'ha pogut carregar la pàgina de connexió. Comprova la teva connexió i torna-ho a intentar.</string>
+    <string name="spotify_login_loading">S\'està carregant la iniciació de sessió de Spotify...</string>
+    <string name="spotify_login_reload">Recàrrega la iniciació de sessió de Spotify</string>
+    <string name="spotify_login_saving">S\'està guardant la connexió de Spotify...</string>
+    <string name="volume_down">Baixa el volum</string>
+    <string name="volume_up">Puja el volum</string>
+    <string name="yt_login_checking">S\'estan comprovant els teus canals de YouTube…</string>
+    <string name="yt_login_completing">S\'està guardant el teu compte de YouTube Music…</string>
+    <string name="yt_login_hint">Inicia sessió a la pàgina de Google més avall. Pots seleccionar un canal de YouTube després de fer la connexió.</string>
+    <string name="yt_login_page_error">No s\'ha pogut carregar la pàgina de connexió. Comprova la teva connexió i torna-ho a intentar.</string>
+    <string name="yt_login_switch_hint">Selecciona el canal de YouTube que vols utilitzar amb aquest compte.</string>
+    <string name="yt_login_switching">S\'està canviant el canal de YouTube…</string>
+    <string name="yt_login_title">Inicia sessió a YouTube Music</string>
+    <string name="player_design">Disseny del reproductor</string>
+    <string name="player_design_material3">Material 3 (Anterior)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+
+    <string name="audio_quality_bit_depth">Profunditat de bits</string>
+    <string name="audio_quality_hires_lossless">Hi-Res sense pèrdues</string>
+    <string name="audio_quality_lossless">Sense pèrdues</string>
+    <string name="audio_quality_source">Font</string>
+    <string name="audio_quality_source_addon">%1$s (complement)</string>
+    <string name="music_source_add">Afegir complement</string>
+    <string name="music_source_add_desc">Enganxeu l\'enllaç d\'un servidor complement compatible amb BitChord</string>
+    <string name="music_source_add_failed">No s\'ha pogut afegir aquest complement. Comproveu l\'enllaç i torneu-ho a intentar.</string>
+    <string name="music_source_always_on">Sempre activat</string>
+    <string name="music_source_auth_unsupported">Aquest complement només accepta l\'aplicació BitChord</string>
+    <string name="music_source_checking">Comprovant…</string>
+    <string name="music_source_downloads_allowed">Descàrregues permeses</string>
+    <string name="music_source_error">Error: %1$s</string>
+    <string name="music_source_quality">Qualitat: %1$s</string>
+    <string name="music_source_remove">Eliminar %1$s</string>
+    <string name="music_sources">Fonts de música</string>
+    <string name="music_source_streaming_only">Només transmissió en continu</string>
+    <string name="music_source_working">Funcionant</string>
+    <string name="lyrics_instrumental">Instrumental</string>
+    <string-array name="lyrics_intro_lines">
+        <item>El ritme cau</item>
+        <item>La cançó comença</item>
+        <item>Escalfament</item>
+        <item>Establir l\'ambient</item>
+        <item>Primer baix, després paraules</item>
+        <item>Espera-ho</item>
+        <item>Sentiu aquesta construcció</item>
+        <item>Només groove per ara</item>
+        <item>L\'enganx va arribar</item>
+        <item>Deixa\'t respirar</item>
+        <item>Cridar els vocals</item>
+        <item>Primeres notes</item>
+    </string-array>
 </resources>

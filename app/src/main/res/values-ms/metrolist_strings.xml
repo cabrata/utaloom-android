@@ -244,4 +244,73 @@
     <string name="wrapped_recap_empty_body">Belum ada sejarah pendengaran untuk %1$d. Mainkan muzik dengan sejarah dihidupkan, atau pilih tahun lain.</string>
     <string name="wrapped_recap_listen">Cari sesuatu untuk dimainkan</string>
     <string name="open_menu">Buka menu</string>
+    <string name="audio_output">Output audio</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Kualiti Tinggi</string>
+    <string name="audio_quality_reported">Label kualiti add-on</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">Menaik taraf kualiti</string>
+    <string name="autoplay_queue_desc">Musik serupa, dipilih untuk dimainkan seterusnya</string>
+    <string name="lyrics_by">Lirik oleh %1$s</string>
+    <string name="music_source_youtube_desc">Memulakan pemutaran</string>
+    <string name="music_sources_desc">Pemutaran bermula di YouTube Music. Add-on yang didayakan disemak secara berturut-turut untuk padanan kualiti lebih tinggi mengikut tajuk, artis, dan tempoh. Sentuh add-on untuk menyalin pautan.</string>
+    <string name="music_sources_selection_desc">Mulai dengan YouTube Music dan tingkatkan audio dengan add-on</string>
+    <string name="playing_from">Memainkan daripada %1$s</string>
+    <string name="queue_editing_lock">Kunci penyuntingan baris gilir</string>
+    <string name="spotify_login_error_hint">Cuba muat semula halaman log masuk atau kembali untuk keluar.</string>
+    <string name="spotify_login_error_title">Tidak dapat membuka Spotify</string>
+    <string name="spotify_login_instructions">Log masuk di bawah untuk menggunakan video Spotify Canvas. Skrin ini ditutup setelah bersambung.</string>
+    <string name="spotify_login_load_error">Halaman log masuk tidak dapat dimuatkan. Semak sambungan anda, kemudian cuba semula.</string>
+    <string name="spotify_login_loading">Memuatkan log masuk Spotify…</string>
+    <string name="spotify_login_reload">Muat semula log masuk Spotify</string>
+    <string name="spotify_login_saving">Menyimpan sambungan Spotify…</string>
+    <string name="volume_down">Kurangkan kelantangan</string>
+    <string name="volume_up">Tingkatkan kelantangan</string>
+    <string name="yt_login_checking">Menyemak saluran YouTube anda…</string>
+    <string name="yt_login_completing">Menyimpan akaun YouTube Music anda…</string>
+    <string name="yt_login_hint">Log masuk pada halaman Google di bawah. Anda boleh memilih saluran YouTube selepas log masuk.</string>
+    <string name="yt_login_page_error">Halaman log masuk tidak dapat dimuatkan. Semak sambungan anda, kemudian cuba semula.</string>
+    <string name="yt_login_switch_hint">Pilih saluran YouTube yang ingin anda gunakan dengan akaun ini.</string>
+    <string name="yt_login_switching">Menukar saluran YouTube…</string>
+    <string name="yt_login_title">Log Masuk ke YouTube Music</string>
+    <string name="player_design">Reka bentuk pemain</string>
+    <string name="player_design_material3">Material 3 (Sebelumnya)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">Kedalaman bit</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">Sumber</string>
+    <string name="audio_quality_source_addon">%1$s (add-on)</string>
+    <string name="music_source_add">Tambah add-on</string>
+    <string name="music_source_add_desc">Tampal pautan pelayan add-on yang serasi dengan BitChord</string>
+    <string name="music_source_add_failed">Tidak dapat menambah add-on ini. Semak pautan dan cuba lagi.</string>
+    <string name="music_source_always_on">Sentiasa hidup</string>
+    <string name="music_source_auth_unsupported">Add-on ini hanya menerima aplikasi BitChord</string>
+    <string name="music_source_checking">Memeriksa…</string>
+    <string name="music_source_downloads_allowed">Muat turun dibenarkan</string>
+    <string name="music_source_error">Ralat: %1$s</string>
+    <string name="music_source_quality">Kualiti: %1$s</string>
+    <string name="music_source_remove">Buang %1$s</string>
+    <string name="music_sources">Sumber muzik</string>
+    <string name="music_source_streaming_only">Strim sahaja</string>
+    <string name="music_source_working">Berfungsi</string>
+    <string name="lyrics_instrumental">Instrumental</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Ritma tiba</item>
+        <item>Lagu dimulai</item>
+        <item>Pemanasan</item>
+        <item>Tetapkan suasana</item>
+        <item>Bas dahulu, perkataan kemudian</item>
+        <item>Tunggu</item>
+        <item>Rasai pembinaan itu</item>
+        <item>Hanya groove sekarang</item>
+        <item>Hook dalam perjalanan</item>
+        <item>Biarkan ia bernafas</item>
+        <item>Isyarat vokal</item>
+        <item>Nota pertama</item>
+    </string-array>
 </resources>

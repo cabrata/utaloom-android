@@ -39,6 +39,10 @@ import com.metrolist.music.ui.component.ReleaseNotesCard
 import com.metrolist.music.ui.utils.backToMain
 import com.metrolist.music.utils.Updater
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,6 +53,8 @@ fun SettingsScreen(
     val uriHandler = LocalUriHandler.current
     val context = LocalContext.current
     val isAndroid12OrLater = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    var searchQuery by rememberSaveable { mutableStateOf("") }
+    val searching = searchQuery.isNotBlank()
     val hasAndroidAuto = remember {
         try {
             context.packageManager.getPackageInfo(
@@ -73,6 +79,15 @@ fun SettingsScreen(
                 )
             )
         )
+
+        SettingsSearchField(query = searchQuery, onQueryChange = { searchQuery = it })
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        if (searching) {
+            SettingsSearchResults(query = searchQuery, navController = navController)
+            return@Column
+        }
 
         // User Interface Section
         Material3SettingsGroup(
@@ -105,18 +120,21 @@ fun SettingsScreen(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.lyrics),
                     title = { Text(stringResource(R.string.lyrics_providers)) },
+                    targetKey = R.string.lyrics_providers,
                     description = { Text(stringResource(R.string.lyrics_provider_selection_desc)) },
                     onClick = { navController.navigate("settings/lyrics") }
                 ),
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.graphic_eq),
                     title = { Text(stringResource(R.string.music_sources)) },
+                    targetKey = R.string.music_sources,
                     description = { Text(stringResource(R.string.music_sources_selection_desc)) },
                     onClick = { navController.navigate("settings/content/music_sources") }
                 ),
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.translate),
                     title = { Text(stringResource(R.string.ai_lyrics_translation)) },
+                    targetKey = R.string.ai_lyrics_translation,
                     onClick = { navController.navigate("settings/ai") }
                 )
             )
@@ -132,6 +150,7 @@ fun SettingsScreen(
                     Material3SettingsItem(
                         icon = painterResource(R.drawable.ic_android_auto),
                         title = { Text(stringResource(R.string.android_auto)) },
+                        targetKey = R.string.android_auto,
                         onClick = { navController.navigate("settings/android_auto") }
                     )
                 )
@@ -147,6 +166,7 @@ fun SettingsScreen(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.security),
                     title = { Text(stringResource(R.string.privacy)) },
+                    targetKey = R.string.privacy,
                     onClick = { navController.navigate("settings/privacy") }
                 )
             )
@@ -161,11 +181,13 @@ fun SettingsScreen(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.storage),
                     title = { Text(stringResource(R.string.storage)) },
+                    targetKey = R.string.storage,
                     onClick = { navController.navigate("settings/storage") }
                 ),
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.restore),
                     title = { Text(stringResource(R.string.backup_restore)) },
+                    targetKey = R.string.backup_restore,
                     onClick = { navController.navigate("settings/backup_restore") }
                 )
             )
@@ -182,6 +204,7 @@ fun SettingsScreen(
                         Material3SettingsItem(
                             icon = painterResource(R.drawable.link),
                             title = { Text(stringResource(R.string.default_links)) },
+                            targetKey = R.string.default_links,
                             onClick = {
                                 try {
                                     val intent = Intent(
@@ -226,6 +249,7 @@ fun SettingsScreen(
                         Material3SettingsItem(
                             icon = painterResource(R.drawable.update),
                             title = { Text(stringResource(R.string.updater)) },
+                            targetKey = R.string.updater,
                             onClick = { navController.navigate("settings/updater") }
                         )
                     )
@@ -235,6 +259,7 @@ fun SettingsScreen(
                     Material3SettingsItem(
                         icon = painterResource(R.drawable.newspaper),
                         title = { Text(stringResource(R.string.changelog)) },
+                        targetKey = R.string.changelog,
                         onClick = { showChangelog.value = true }
                     )
                 )
@@ -242,6 +267,7 @@ fun SettingsScreen(
                     Material3SettingsItem(
                         icon = painterResource(R.drawable.info),
                         title = { Text(stringResource(R.string.about)) },
+                        targetKey = R.string.about,
                         onClick = { navController.navigate("settings/about") }
                     )
                 )

@@ -290,6 +290,7 @@ fun AndroidAutoSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.playlist_add),
                     title = { Text(stringResource(R.string.android_auto_target_playlist)) },
+                    targetKey = R.string.android_auto_target_playlist,
                     description = { Text(playlistLabels(targetPlaylist)) },
                     onClick = { showTargetPlaylistDialog = true }
                 )
@@ -305,6 +306,7 @@ fun AndroidAutoSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.queue_music),
                     title = { Text(stringResource(R.string.android_auto_youtube_playlists)) },
+                    targetKey = R.string.android_auto_youtube_playlists,
                     description = { Text(stringResource(R.string.android_auto_youtube_playlists_desc)) },
                     trailingContent = {
                         Switch(
@@ -335,6 +337,7 @@ fun AndroidAutoSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.manage_search),
                     title = { Text(stringResource(R.string.android_auto_search_local_songs_limit)) },
+                    targetKey = R.string.android_auto_search_local_songs_limit,
                     description = {
                         val limitValues =
                             remember { listOf(10, 25, 50, 75, 100, 150, 200, -1) }

@@ -906,4 +906,74 @@
     <string name="wrapped_recap_empty_body">%1$d üçün hələ dinləmə tarixçəsi yoxdur. Tarixçə aktiv ikən musiqi dinlə və ya başqa il seç.</string>
     <string name="wrapped_recap_listen">Dinləmək üçün nəsə tap</string>
     <string name="open_menu">Menyunu aç</string>
+    <string name="audio_output">Səs çıxışı</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Yüksək Keyfiyyət</string>
+    <string name="audio_quality_reported">Əlavə keyfiyyət etiketi</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">Keyfiyyət yaxşılaşdırılır</string>
+    <string name="autoplay_queue_desc">Sonrakı oynatılması üçün seçilmiş oxşar musiqi</string>
+    <string name="lyrics_by">Sözləri %1$s-dən</string>
+    <string name="music_source_youtube_desc">Oynatmanı başlat</string>
+    <string name="music_sources_desc">Oynatma YouTube Music ilə başlayır. Aktivləşdirilmiş əlavələr başlıq, artist və uzunluq üzrə daha yüksək keyfiyyətli uyğunluq üçün sırayla yoxlanılır. Onun keçidini kopyalamaq üçün əlavəyə toxunun.</string>
+    <string name="music_sources_selection_desc">YouTube Music ilə başlayın və əlavələrlə səsləndirməni yaxşılaşdırın</string>
+    <string name="playing_from">%1$s-dən oynatılır</string>
+    <string name="queue_editing_lock">Sıra redaktəsini kilidləyin</string>
+    <string name="spotify_login_error_hint">Girişin səhifəsini yenidən yükləmək üçün təkrar cəhd edin və ya çıxmaq üçün geri dönün.</string>
+    <string name="spotify_login_error_title">Spotify açıla bilmədi</string>
+    <string name="spotify_login_instructions">Spotify Canvas videolarından istifadə etmək üçün aşağıda daxil olun. Bu ekran bağlandıqdan sonra bağlanacaq.</string>
+    <string name="spotify_login_load_error">Girişin səhifəsi yüklənilərkən xəta baş verdi. Bağlantınızı yoxlayın və yenidən cəhd edin.</string>
+    <string name="spotify_login_loading">Spotify girişi yüklənir...</string>
+    <string name="spotify_login_reload">Spotify girişini yenidən yükləyin</string>
+    <string name="spotify_login_saving">Spotify bağlantısı saxlanılır...</string>
+    <string name="volume_down">Səsi azalt</string>
+    <string name="volume_up">Səsi artır</string>
+    <string name="yt_login_checking">YouTube kanallarınız yoxlanılır…</string>
+    <string name="yt_login_completing">YouTube Music hesabınız saxlanılır…</string>
+    <string name="yt_login_hint">Aşağıdakı Google səhifəsində daxil olun. Daxil oldukdan sonra YouTube kanalı seçə bilərsiniz.</string>
+    <string name="yt_login_page_error">Girişin səhifəsi yüklənilərkən xəta baş verdi. Bağlantınızı yoxlayın ve yenidən cəhd edin.</string>
+    <string name="yt_login_switch_hint">Bu hesabla istifadə etmək istədiyiniz YouTube kanalını seçin.</string>
+    <string name="yt_login_switching">YouTube kanalı dəyişdirilir…</string>
+    <string name="yt_login_title">YouTube Music-ə daxil olun</string>
+    <string name="player_design">Pleyer dizaynı</string>
+    <string name="player_design_material3">Material 3 (Əvvəlki)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+
+    <string name="audio_quality_bit_depth">Bit dərinliyi</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Ziyansız</string>
+    <string name="audio_quality_lossless">Ziyansız</string>
+    <string name="audio_quality_source">Mənbə</string>
+    <string name="audio_quality_source_addon">%1$s (Əlavə)</string>
+    <string name="music_source_add">Əlavə əlavə edin</string>
+    <string name="music_source_add_desc">BitChord-uyğun əlavə serverinin linkini yapışdırın</string>
+    <string name="music_source_add_failed">Bu əlavəni əlavə etmək olmadı. Linki yoxlayıb yenidən cəhd edin.</string>
+    <string name="music_source_always_on">Həmişə açıq</string>
+    <string name="music_source_auth_unsupported">Bu əlavə yalnız BitChord tətbiqini qəbul edir</string>
+    <string name="music_source_checking">Yoxlanılır…</string>
+    <string name="music_source_downloads_allowed">Endirilmələrə icazə verilir</string>
+    <string name="music_source_error">Xəta: %1$s</string>
+    <string name="music_source_quality">Keyfiyyət: %1$s</string>
+    <string name="music_source_remove">%1$s-i silin</string>
+    <string name="music_sources">Musiqi mənbələri</string>
+    <string name="music_source_streaming_only">Yalnız axındı</string>
+    <string name="music_source_working">İşləyir</string>
+    <string name="lyrics_instrumental">Aletin</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Ritmik enişi</item>
+        <item>Mahnı başlayır</item>
+        <item>Qızdırıq</item>
+        <item>Əhvalruhiyyə təyin etmə</item>
+        <item>Əvvəl bas, sonra sözlər</item>
+        <item>Bunun üçün gözlə</item>
+        <item>Bu quruluşu hiss edin</item>
+        <item>Hələlik sadəcə ritm</item>
+        <item>Qarmaq yolda</item>
+        <item>Nəfəs almağa icazə verin</item>
+        <item>Vokal qırmağı çağırın</item>
+        <item>İlk notalar</item>
+    </string-array>
 </resources>

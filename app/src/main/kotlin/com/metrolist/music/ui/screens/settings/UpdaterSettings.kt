@@ -139,6 +139,7 @@ fun UpdaterScreen(
                     add(
                         Material3SettingsItem(
                             title = { Text(stringResource(R.string.check_for_updates)) },
+                            targetKey = R.string.check_for_updates,
                             icon = painterResource(R.drawable.update),
                             trailingContent = {
                                 Switch(
@@ -154,6 +155,7 @@ fun UpdaterScreen(
                         add(
                             Material3SettingsItem(
                                 title = { Text(stringResource(R.string.update_notifications)) },
+                                targetKey = R.string.update_notifications,
                                 icon = painterResource(R.drawable.notification),
                                 trailingContent = {
                                     Switch(

@@ -19,10 +19,10 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.scaleIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
@@ -46,6 +46,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -55,13 +56,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
@@ -97,6 +101,25 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.util.lerp
+import androidx.compose.ui.unit.lerp
+import androidx.compose.ui.BiasAlignment
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.animateFloatAsState
+import com.metrolist.music.ui.component.CastButton
+import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.ui.input.pointer.positionChangeIgnoreConsumed
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -149,6 +172,8 @@ import com.metrolist.music.constants.HideStatusBarOnFullscreenKey
 import com.metrolist.music.constants.KeepScreenOn
 import com.metrolist.music.constants.PlayerBackgroundStyle
 import com.metrolist.music.constants.PlayerBackgroundStyleKey
+import com.metrolist.music.constants.PlayerDesignStyle
+import com.metrolist.music.constants.PlayerDesignStyleKey
 import com.metrolist.music.constants.PlayerButtonsStyle
 import com.metrolist.music.constants.PlayerButtonsStyleKey
 import com.metrolist.music.constants.PlayerHorizontalPadding
@@ -196,6 +221,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.roundToInt
 import com.metrolist.music.ui.component.Icon as MIcon
@@ -238,10 +264,16 @@ fun BottomSheetPlayer(
         mutableStateOf(false)
     }
 
-    val playerBackground by rememberEnumPreference(
+    val playerBackgroundSetting by rememberEnumPreference(
         key = PlayerBackgroundStyleKey,
         defaultValue = PlayerBackgroundStyle.BLUR,
     )
+    val playerDesign by rememberEnumPreference(PlayerDesignStyleKey, PlayerDesignStyle.LIQUID_GLASS)
+    // Liquid Glass (BitChord layout) lays itself out for portrait, landscape and tablets.
+    val heroPlayer = playerDesign == PlayerDesignStyle.LIQUID_GLASS
+    // Its white text always sits on the blurred cover, whatever background style is picked.
+    val playerBackground = if (heroPlayer) PlayerBackgroundStyle.BLUR else playerBackgroundSetting
+    var heroMode by rememberSaveable { mutableStateOf(HeroMode.Normal) }
     val playerButtonsStyle by rememberEnumPreference(
         key = PlayerButtonsStyleKey,
         defaultValue = PlayerButtonsStyle.DEFAULT,
@@ -336,10 +368,12 @@ fun BottomSheetPlayer(
     val spotifySpDc by rememberPreference(SpotifySpDcCookieKey, defaultValue = "")
     var canvasUrl by remember(mediaMetadata?.id, spotifySpDc) { mutableStateOf<String?>(null) }
 
-    LaunchedEffect(mediaMetadata?.id, playerBackground, spotifySpDc, state.isExpanded) {
+    val wantsCanvas = heroPlayer || playerBackground == PlayerBackgroundStyle.CANVAS
+    LaunchedEffect(mediaMetadata?.id, spotifySpDc, state.isExpanded, wantsCanvas) {
         val metadata = mediaMetadata
         canvasUrl = null
-        if (playerBackground == PlayerBackgroundStyle.CANVAS && metadata != null && state.isExpanded) {
+        // Without a Spotify cookie this is a no-op.
+        if (metadata != null && state.isExpanded && wantsCanvas) {
             val artistName = metadata.artists.firstOrNull()?.name.orEmpty()
             canvasUrl = SpotifyCanvasClient.Default.fetchCanvas(
                 title = metadata.title,
@@ -552,6 +586,7 @@ fun BottomSheetPlayer(
                 }
             }
         }
+
 
     // Separate colors for Previous/Next buttons in PRIMARY/TERTIARY modes
     val (sideButtonContainerColor, sideButtonContentColor) =
@@ -855,7 +890,34 @@ fun BottomSheetPlayer(
             }
         }
 
-    val backgroundAlpha = state.progress.coerceIn(0f, 1f)
+    // Read in the draw phase: a composition read here recomposed the whole player on every frame of the sheet drag.
+    val backgroundAlpha = Modifier.graphicsLayer { alpha = state.progress.coerceIn(0f, 1f) }
+
+    val buffering = !isListenTogetherGuest && !isCasting &&
+        playbackState == Player.STATE_BUFFERING && isPlaying
+    val playIcon = when {
+        isListenTogetherGuest -> if (isMuted) R.drawable.volume_off else R.drawable.volume_up
+        playbackState == STATE_ENDED && !isCasting -> R.drawable.replay
+        effectiveIsPlaying || buffering -> R.drawable.pause
+        else -> R.drawable.play
+    }
+    val playLabel = when (playIcon) {
+        R.drawable.volume_off -> R.string.unmute
+        R.drawable.volume_up -> R.string.mute
+        R.drawable.replay -> R.string.restart
+        R.drawable.pause -> R.string.player_pause
+        else -> R.string.play
+    }
+    val onPlayPause: () -> Unit = {
+        when {
+            isListenTogetherGuest -> playerConnection.toggleMute()
+            !isCasting && playbackState == STATE_ENDED -> {
+                playerConnection.player.seekTo(0, 0)
+                playerConnection.player.playWhenReady = true
+            }
+            else -> playerConnection.togglePlayPause()
+        }
+    }
 
     BottomSheet(
         state = state,
@@ -869,11 +931,19 @@ fun BottomSheetPlayer(
             ) {
                 when (playerBackground) {
                     PlayerBackgroundStyle.BLUR -> {
-                        AppleMeshBackground(
-                            thumbnailUrl = mediaMetadata?.thumbnailUrl,
-                            animate = effectiveIsPlaying && state.isExpanded,
-                            modifier = Modifier.alpha(backgroundAlpha),
-                        )
+                        if (heroPlayer) {
+                            HeroBackdrop(
+                                thumbnailUrl = mediaMetadata?.thumbnailUrl,
+                                dimmed = heroMode != HeroMode.Normal,
+                                modifier = backgroundAlpha,
+                            )
+                        } else {
+                            AppleMeshBackground(
+                                thumbnailUrl = mediaMetadata?.thumbnailUrl,
+                                animate = effectiveIsPlaying && state.isExpanded,
+                                modifier = backgroundAlpha,
+                            )
+                        }
                     }
 
                     PlayerBackgroundStyle.GRADIENT -> {
@@ -902,7 +972,7 @@ fun BottomSheetPlayer(
                                 Box(
                                     Modifier
                                         .fillMaxSize()
-                                        .alpha(backgroundAlpha)
+                                        .then(backgroundAlpha)
                                         .background(Brush.verticalGradient(colorStops = gradientColorStops))
                                         .background(Color.Black.copy(alpha = 0.2f)),
                                 )
@@ -915,7 +985,7 @@ fun BottomSheetPlayer(
                             AppleMeshBackground(
                                 thumbnailUrl = mediaMetadata?.thumbnailUrl,
                                 animate = effectiveIsPlaying && state.isExpanded,
-                                modifier = Modifier.alpha(backgroundAlpha),
+                                modifier = backgroundAlpha,
                             )
                         }
                     }
@@ -1851,7 +1921,36 @@ fun BottomSheetPlayer(
             }
         }
 
-        when (LocalConfiguration.current.orientation) {
+        if (heroPlayer) {
+            HeroPlayerContent(
+                state = state,
+                mediaMetadata = mediaMetadata,
+                mode = heroMode,
+                onModeChange = { heroMode = it },
+                canvasUrl = canvasUrl,
+                onCanvasError = { canvasUrl = null },
+                positionProvider = { effectivePosition },
+                duration = duration,
+                isPlaying = effectiveIsPlaying,
+                buffering = buffering,
+                playIcon = playIcon,
+                playLabel = playLabel,
+                onPlayPause = onPlayPause,
+                onSeek = { target ->
+                    if (isCasting) {
+                        castHandler?.seekTo(target)
+                        lastManualSeekTime = System.currentTimeMillis()
+                    } else {
+                        playerConnection.player.seekTo(target)
+                    }
+                    position = target
+                },
+                canSkipPrevious = canSkipPrevious,
+                canSkipNext = canSkipNext,
+                isListenTogetherGuest = isListenTogetherGuest,
+                focusRequester = focusRequester,
+            )
+        } else when (LocalConfiguration.current.orientation) {
             Configuration.ORIENTATION_LANDSCAPE -> {
                 // Calculate vertical padding like OuterTune
                 val density = LocalDensity.current
@@ -1999,7 +2098,7 @@ fun BottomSheetPlayer(
         }
 
         AnimatedVisibility(
-            visible = !isFullScreen,
+            visible = !isFullScreen && !heroPlayer,
             enter = slideInVertically(initialOffsetY = { it }) + fadeIn(),
             exit = shrinkVertically(shrinkTowards = Alignment.Top) + slideOutVertically(targetOffsetY = { it }) + fadeOut(),
         ) {
@@ -2033,6 +2132,7 @@ fun InlineLyricsView(
     mediaMetadata: MediaMetadata?,
     showLyrics: Boolean,
     sliderPositionProvider: () -> Long? = { null },
+    onUserScroll: (deltaY: Float, direction: Int) -> Unit = { _, _ -> },
 ) {
     val playerConnection = LocalPlayerConnection.current ?: return
     val currentLyrics by playerConnection.currentLyrics.collectAsStateWithLifecycle(initialValue = null)
@@ -2067,27 +2167,7 @@ fun InlineLyricsView(
             }
         }
 
-    LaunchedEffect(mediaMetadata?.id, currentLyrics) {
-        if (mediaMetadata != null && currentLyrics == null) {
-            delay(500)
-            coroutineScope.launch(Dispatchers.IO) {
-                try {
-                    val entryPoint =
-                        EntryPointAccessors.fromApplication(
-                            context.applicationContext,
-                            com.metrolist.music.di.LyricsHelperEntryPoint::class.java,
-                        )
-                    val lyricsHelper = entryPoint.lyricsHelper()
-                    val fetchedLyricsWithProvider = lyricsHelper.getLyrics(mediaMetadata)
-                    database.query {
-                        upsert(LyricsEntity(mediaMetadata.id, fetchedLyricsWithProvider.lyrics, fetchedLyricsWithProvider.provider))
-                    }
-                } catch (e: Exception) {
-                    // Handle error
-                }
-            }
-        }
-    }
+    FetchLyricsEffect(mediaMetadata)
 
     // Prefetch lyrics for the next queue item only while the lyrics pane is visible, the app is in the
     // foreground, and the current track's lyrics row has finished loading (avoids competing with the
@@ -2154,6 +2234,7 @@ fun InlineLyricsView(
                         sliderPositionProvider = sliderPositionProvider,
                         modifier = Modifier.padding(horizontal = 24.dp),
                         showLyrics = showLyrics,
+                        onUserScroll = onUserScroll,
                     )
                 }
                 ProvideTextStyle(
@@ -2171,7 +2252,7 @@ fun InlineLyricsView(
 }
 
 @Composable
-private fun PlayerMoreMenuButton(
+internal fun PlayerMoreMenuButton(
     mediaMetadata: MediaMetadata,
     state: BottomSheetState,
     textButtonColor: Color,
@@ -2210,5 +2291,37 @@ private fun PlayerMoreMenuButton(
             contentDescription = null,
             colorFilter = ColorFilter.tint(iconButtonColor),
         )
+    }
+}
+
+/** Fetches and stores the current song's lyrics when none are saved for it yet. */
+@Composable
+internal fun FetchLyricsEffect(mediaMetadata: MediaMetadata?) {
+    val playerConnection = LocalPlayerConnection.current ?: return
+    val currentLyrics by playerConnection.currentLyrics.collectAsStateWithLifecycle(initialValue = null)
+    val context = LocalContext.current
+    val database = LocalDatabase.current
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(mediaMetadata?.id, currentLyrics) {
+        if (mediaMetadata != null && currentLyrics == null) {
+            delay(500)
+            coroutineScope.launch(Dispatchers.IO) {
+                try {
+                    val entryPoint =
+                        EntryPointAccessors.fromApplication(
+                            context.applicationContext,
+                            com.metrolist.music.di.LyricsHelperEntryPoint::class.java,
+                        )
+                    val lyricsHelper = entryPoint.lyricsHelper()
+                    val fetchedLyricsWithProvider = lyricsHelper.getLyrics(mediaMetadata)
+                    database.query {
+                        upsert(LyricsEntity(mediaMetadata.id, fetchedLyricsWithProvider.lyrics, fetchedLyricsWithProvider.provider))
+                    }
+                } catch (e: Exception) {
+                    // Handle error
+                }
+            }
+        }
     }
 }

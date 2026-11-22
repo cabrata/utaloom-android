@@ -135,4 +135,73 @@
     <string name="wrapped_recap_empty_body">Wala pang kasaysayan ng pakikinig para sa %1$d. Magpatugtog ng musika na naka-on ang history, o pumili ng ibang taon.</string>
     <string name="wrapped_recap_listen">Maghanap ng pakikinggan</string>
     <string name="open_menu">Buksan ang menu</string>
+    <string name="audio_output">Audio output</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">High Quality</string>
+    <string name="audio_quality_reported">Add-on quality label</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">Pag-upgrade ng quality</string>
+    <string name="autoplay_queue_desc">Katulad na musika, pinili upang matugtog pagkatapos</string>
+    <string name="lyrics_by">Lyrics ni %1$s</string>
+    <string name="music_source_youtube_desc">Nagsisimula ng playback</string>
+    <string name="music_sources_desc">Ang playback ay nagsisimula sa YouTube Music. Ang mga enabled add-ons ay sinusuri sa order para sa mas mataas na kalidad na match ayon sa pamagat, artist, at haba. Tap ang add-on upang kopyahin ang link nito.</string>
+    <string name="music_sources_selection_desc">Magsimula sa YouTube Music at pahusayin ang audio gamit ang add-ons</string>
+    <string name="playing_from">Tumutugtog mula sa %1$s</string>
+    <string name="queue_editing_lock">I-lock ang queue editing</string>
+    <string name="spotify_login_error_hint">Subukan ulit upang i-reload ang sign-in page, o bumalik upang umalis.</string>
+    <string name="spotify_login_error_title">Hindi mabuksan ang Spotify</string>
+    <string name="spotify_login_instructions">Mag-sign in sa ibaba upang gamitin ang Spotify Canvas videos. Tututup ang screen na ito kapag naka-connect.</string>
+    <string name="spotify_login_load_error">Ang sign-in page ay hindi makapag-load. Suriin ang iyong connection, pagkatapos subukan muli.</string>
+    <string name="spotify_login_loading">Kinukuha ang Spotify sign-in...</string>
+    <string name="spotify_login_reload">I-reload ang Spotify sign-in</string>
+    <string name="spotify_login_saving">Sine-save ang Spotify connection...</string>
+    <string name="volume_down">Volume down</string>
+    <string name="volume_up">Volume up</string>
+    <string name="yt_login_checking">Sinusuri ang iyong YouTube channels…</string>
+    <string name="yt_login_completing">Sine-save ang iyong YouTube Music account…</string>
+    <string name="yt_login_hint">Mag-sign in sa Google page sa ibaba. Maaari kang pumili ng YouTube channel pagkatapos mag-sign in.</string>
+    <string name="yt_login_page_error">Ang sign-in page ay hindi makapag-load. Suriin ang iyong connection, pagkatapos subukan muli.</string>
+    <string name="yt_login_switch_hint">Pumili ng YouTube channel na gusto mong gamitin sa account na ito.</string>
+    <string name="yt_login_switching">Binabago ang YouTube channel…</string>
+    <string name="yt_login_title">Mag-sign in sa YouTube Music</string>
+    <string name="player_design">Disenyo ng player</string>
+    <string name="player_design_material3">Material 3 (Dati)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">Bit depth</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">Pinagkukunan</string>
+    <string name="audio_quality_source_addon">%1$s (add-on)</string>
+    <string name="music_source_add">Magdagdag ng add-on</string>
+    <string name="music_source_add_desc">I-paste ang link ng BitChord-compatible na add-on server</string>
+    <string name="music_source_add_failed">Hindi makalagay ng add-on na ito. Suriin ang link at subukan muli.</string>
+    <string name="music_source_always_on">Laging naka-on</string>
+    <string name="music_source_auth_unsupported">Ang add-on na ito ay tumatanggap lamang ng BitChord app</string>
+    <string name="music_source_checking">Sinusuri…</string>
+    <string name="music_source_downloads_allowed">Payagan ang download</string>
+    <string name="music_source_error">Error: %1$s</string>
+    <string name="music_source_quality">Kalidad: %1$s</string>
+    <string name="music_source_remove">Tanggalin ang %1$s</string>
+    <string name="music_sources">Pinagkukunan ng musika</string>
+    <string name="music_source_streaming_only">Pang-streaming lamang</string>
+    <string name="music_source_working">Gumagana</string>
+    <string name="lyrics_instrumental">Instrumental</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Ang ritmo ay bumababa</item>
+        <item>Nagsisimula ang kanta</item>
+        <item>Pag-init</item>
+        <item>Tinutukoy ang mood</item>
+        <item>Bass muna, mga salita mamaya</item>
+        <item>Maghintay</item>
+        <item>Pakiramdam ang bumubuild</item>
+        <item>Para sa ngayon lamang ang groove</item>
+        <item>Parating ang hook</item>
+        <item>Hayaan itong huminga</item>
+        <item>Patikim ang mga boses</item>
+        <item>Unang mga nota</item>
+    </string-array>
 </resources>

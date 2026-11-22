@@ -107,7 +107,13 @@
     <string name="spotify_logged_in">Connected to Spotify</string>
     <string name="spotify_logout">Disconnect Spotify</string>
     <string name="spotify_login_success">Successfully connected to Spotify</string>
-    <string name="spotify_login_loading">Signing in to Spotify...</string>
+    <string name="spotify_login_loading">Loading Spotify sign-in...</string>
+    <string name="spotify_login_instructions">Sign in below to use Spotify Canvas videos. This screen closes once connected.</string>
+    <string name="spotify_login_saving">Saving Spotify connection...</string>
+    <string name="spotify_login_reload">Reload Spotify sign-in</string>
+    <string name="spotify_login_error_title">Could not open Spotify</string>
+    <string name="spotify_login_error_hint">Retry to reload the sign-in page, or go back to leave.</string>
+    <string name="spotify_login_load_error">The sign-in page could not load. Check your connection, then try again.</string>
     <string name="spotify_manual_cookie">Enter cookie manually</string>
     <string name="spotify_login_tls_error">Cannot securely connect to Spotify. Check the device date and network, then try again.</string>
     <string name="spotify_login_save_error">Could not save the Spotify session. Please try again.</string>
@@ -164,9 +170,9 @@
     <string name="lyrics_provider_move_up">Move %1$s up</string>
     <string name="lyrics_provider_move_down">Move %1$s down</string>
     <string name="music_sources">Music sources</string>
-    <string name="music_sources_selection_desc">Play from add-ons such as lossless sources before YouTube Music</string>
-    <string name="music_sources_desc">Add-ons are tried from top to bottom. A song is matched by title, artist and length; when no add-on has it, YouTube Music plays it. Tap an add-on to copy its link.</string>
-    <string name="music_source_youtube_desc">Lossy · Full catalogue</string>
+    <string name="music_sources_selection_desc">Start with YouTube Music and upgrade audio with add-ons</string>
+    <string name="music_sources_desc">Playback starts on YouTube Music. Enabled add-ons are checked in order for a higher-quality match by title, artist, and length. Tap an add-on to copy its link.</string>
+    <string name="music_source_youtube_desc">Starts playback</string>
     <string name="music_source_always_on">Always on</string>
     <string name="music_source_add">Add an add-on</string>
     <string name="music_source_add_desc">Paste the link of a BitChord-compatible add-on server</string>
@@ -177,9 +183,46 @@
     <string name="music_source_working">Working</string>
     <string name="audio_quality_lossless">Lossless</string>
     <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">High Quality</string>
+    <string name="audio_quality_upgrading">Upgrading quality</string>
     <string name="audio_quality_source">Source</string>
     <string name="audio_quality_source_addon">%1$s (add-on)</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_reported">Add-on quality label</string>
     <string name="audio_quality_bit_depth">Bit depth</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_pipeline">Audio Pipeline</string>
+    <string name="audio_pipeline_subtitle">Live signal path, decoder to output</string>
+    <string name="pipeline_track_info">Track Info</string>
+    <string name="pipeline_decoder">Decoder</string>
+    <string name="pipeline_decoder_name">Decoder Name</string>
+    <string name="pipeline_dsp">DSP</string>
+    <string name="pipeline_output_device">Output Device</string>
+    <string name="pipeline_format">Format</string>
+    <string name="pipeline_pcm_format">PCM Format</string>
+    <string name="pipeline_channels">Channels</string>
+    <string name="pipeline_mono">Mono</string>
+    <string name="pipeline_stereo">Stereo</string>
+    <string name="pipeline_surround">%1$d (Surround)</string>
+    <string name="pipeline_io_rate">I/O Rate</string>
+    <string name="pipeline_resampler">resampler</string>
+    <string name="pipeline_gain_db">%1$s dB</string>
+    <string name="pipeline_on">On</string>
+    <string name="pipeline_off">Off</string>
+    <string name="pipeline_bit_exact">Bit-exact</string>
+    <string name="pipeline_exact_yes">Yes</string>
+    <string name="pipeline_exact_no">No (%1$s)</string>
+    <string name="pipeline_reason_lossy">lossy source</string>
+    <string name="pipeline_device_name">Device Name</string>
+    <string name="pipeline_audiotrack">AudioTrack</string>
+    <string name="pipeline_buffers">Buffer</string>
+    <string name="pipeline_system_mixer">System Mixer</string>
+    <string name="pipeline_offload">Hardware offload</string>
+    <string name="pipeline_done">Done</string>
     <string name="music_source_streaming_only">Streaming only</string>
     <string name="music_source_downloads_allowed">Downloads allowed</string>
     <string name="music_source_checking">Checking…</string>
@@ -1063,6 +1106,13 @@
     <string name="youtube_channels_failed">Couldn\'t retrieve the YouTube channels for this account. Please try again.</string>
     <string name="authentication_data_extraction_failed">Couldn\'t read the YouTube Music session. Please try again.</string>
     <string name="login_failed_with_error">Login failed: %1$s</string>
+    <string name="yt_login_title">Sign in to YouTube Music</string>
+    <string name="yt_login_hint">Sign in on the Google page below. You can choose a YouTube channel after signing in.</string>
+    <string name="yt_login_switch_hint">Choose the YouTube channel you want to use with this account.</string>
+    <string name="yt_login_checking">Checking your YouTube channels…</string>
+    <string name="yt_login_switching">Switching YouTube channel…</string>
+    <string name="yt_login_completing">Saving your YouTube Music account…</string>
+    <string name="yt_login_page_error">The sign-in page could not load. Check your connection, then try again.</string>
     <string name="stream_client">Stream client</string>
     <string name="format_player_hash">Player hash</string>
     <string name="format_cipher_support_added">Cipher support added</string>
@@ -1120,4 +1170,32 @@
     <string name="wifi_only_downloads_desc">Pause on metered connections and resume on Wi-Fi or another unmetered network. Metered Wi-Fi is excluded.</string>
     <string name="open_menu">Open menu</string>
     <string name="app_name_brand" translatable="false">Utaloom</string>
+    <string name="playing_from">Playing from %1$s</string>
+    <string name="audio_output">Audio output</string>
+    <string name="volume_down">Volume down</string>
+    <string name="volume_up">Volume up</string>
+    <string name="lyrics_by">Lyrics by %1$s</string>
+    <string name="autoplay_queue_desc">Similar music, picked to play next</string>
+    <string name="queue_editing_lock">Lock queue editing</string>
+    <string name="player_design">Player design</string>
+    <string name="player_design_material3">Material 3 (Previous)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="lyrics_instrumental">Instrumental</string>
+    <string-array name="lyrics_intro_lines">
+        <item>The beat is landing</item>
+        <item>The song is starting</item>
+        <item>Warming up</item>
+        <item>Setting the mood</item>
+        <item>Bass first, words later</item>
+        <item>Wait for it</item>
+        <item>Feel that build</item>
+        <item>Just the groove for now</item>
+        <item>The hook is on the way</item>
+        <item>Let it breathe</item>
+        <item>Cue the vocals</item>
+        <item>First notes in</item>
+    </string-array>
+    <string name="search_settings_hint">Search settings</string>
+    <string name="settings_no_results">No settings matched</string>
+    <string name="settings_search_results">Results</string>
 </resources>

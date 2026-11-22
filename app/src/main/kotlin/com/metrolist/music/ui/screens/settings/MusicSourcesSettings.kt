@@ -165,7 +165,19 @@ fun MusicSourcesSettings(navController: NavController) {
             modifier = Modifier.padding(vertical = 16.dp),
         )
         Material3SettingsGroup(
-            items = addons.mapIndexed { index, addon ->
+            items = listOf(
+                Material3SettingsItem(
+                    title = { Text("YouTube Music") },
+                    description = { Text(stringResource(R.string.music_source_youtube_desc)) },
+                    trailingContent = {
+                        Text(
+                            text = stringResource(R.string.music_source_always_on),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    },
+                ),
+            ) + addons.mapIndexed { index, addon ->
                 val setEnabled = { enabled: Boolean ->
                     save(addons.toMutableList().apply { set(index, addon.copy(enabled = enabled)) })
                 }
@@ -248,17 +260,6 @@ fun MusicSourcesSettings(navController: NavController) {
                     },
                 )
             } + listOf(
-                Material3SettingsItem(
-                    title = { Text("YouTube Music") },
-                    description = { Text(stringResource(R.string.music_source_youtube_desc)) },
-                    trailingContent = {
-                        Text(
-                            text = stringResource(R.string.music_source_always_on),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    },
-                ),
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.add),
                     title = { Text(stringResource(R.string.music_source_add)) },

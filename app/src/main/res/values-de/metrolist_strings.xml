@@ -907,4 +907,74 @@
     <string name="wrapped_recap_empty_body">Für %1$d gibt es noch keinen Hörverlauf. Spiele Musik mit aktiviertem Verlauf ab oder wähle ein anderes Jahr.</string>
     <string name="wrapped_recap_listen">Etwas zum Abspielen finden</string>
     <string name="open_menu">Menü öffnen</string>
+    <string name="audio_output">Audioausgabe</string>
+    <string name="audio_quality_bit_depth_value">%1$d-Bit</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Hohe Qualität</string>
+    <string name="audio_quality_reported">Qualitätsetikett des Add-ons</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">Qualität wird verbessert</string>
+    <string name="autoplay_queue_desc">Ähnliche Musik, ausgewählt zum nächsten Abspielen</string>
+    <string name="lyrics_by">Text von %1$s</string>
+    <string name="music_source_youtube_desc">Wiedergabe starten</string>
+    <string name="music_sources_desc">Die Wiedergabe beginnt bei YouTube Music. Aktivierte Add-ons werden der Reihe nach auf höhere Qualitätsübereinstimmung nach Titel, Künstler und Länge überprüft. Tippe auf ein Add-on, um seinen Link zu kopieren.</string>
+    <string name="music_sources_selection_desc">Beginne mit YouTube Music und verbessere den Sound mit Add-ons</string>
+    <string name="playing_from">Wiedergabe von %1$s</string>
+    <string name="queue_editing_lock">Warteschlangenbearbeitung sperren</string>
+    <string name="spotify_login_error_hint">Versuche, die Anmeldungsseite neu zu laden, oder geh zurück, um dich abzumelden.</string>
+    <string name="spotify_login_error_title">Spotify konnte nicht geöffnet werden</string>
+    <string name="spotify_login_instructions">Melde dich unten an, um Spotify-Canvas-Videos zu nutzen. Dieser Bildschirm wird nach der Verbindung geschlossen.</string>
+    <string name="spotify_login_load_error">Die Anmeldungsseite konnte nicht geladen werden. Überprüfe deine Verbindung und versuche es erneut.</string>
+    <string name="spotify_login_loading">Spotify-Anmeldung wird geladen...</string>
+    <string name="spotify_login_reload">Spotify-Anmeldung neu laden</string>
+    <string name="spotify_login_saving">Spotify-Verbindung wird gespeichert...</string>
+    <string name="volume_down">Lautstärke senken</string>
+    <string name="volume_up">Lautstärke erhöhen</string>
+    <string name="yt_login_checking">Deine YouTube-Kanäle werden überprüft…</string>
+    <string name="yt_login_completing">Dein YouTube-Music-Konto wird gespeichert…</string>
+    <string name="yt_login_hint">Melde dich unten auf der Google-Seite an. Nach dem Anmelden kannst du einen YouTube-Kanal auswählen.</string>
+    <string name="yt_login_page_error">Die Anmeldungsseite konnte nicht geladen werden. Überprüfe deine Verbindung und versuche es erneut.</string>
+    <string name="yt_login_switch_hint">Wähle den YouTube-Kanal aus, den du mit diesem Konto nutzen möchtest.</string>
+    <string name="yt_login_switching">YouTube-Kanal wird gewechselt…</string>
+    <string name="yt_login_title">Bei YouTube Music anmelden</string>
+    <string name="player_design">Player-Design</string>
+    <string name="player_design_material3">Material 3 (Vorherig)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+
+    <string name="audio_quality_bit_depth">Bittiefe</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Verlustfrei</string>
+    <string name="audio_quality_lossless">Verlustfrei</string>
+    <string name="audio_quality_source">Quelle</string>
+    <string name="audio_quality_source_addon">%1$s (Add-on)</string>
+    <string name="music_source_add">Add-on hinzufügen</string>
+    <string name="music_source_add_desc">Fügen Sie den Link eines BitChord-kompatiblen Add-on-Servers ein</string>
+    <string name="music_source_add_failed">Dieses Add-on konnte nicht hinzugefügt werden. Überprüfen Sie den Link und versuchen Sie es erneut.</string>
+    <string name="music_source_always_on">Immer aktiviert</string>
+    <string name="music_source_auth_unsupported">Dieses Add-on akzeptiert nur die BitChord-App</string>
+    <string name="music_source_checking">Wird überprüft…</string>
+    <string name="music_source_downloads_allowed">Downloads erlaubt</string>
+    <string name="music_source_error">Fehler: %1$s</string>
+    <string name="music_source_quality">Qualität: %1$s</string>
+    <string name="music_source_remove">%1$s entfernen</string>
+    <string name="music_sources">Musikquellen</string>
+    <string name="music_source_streaming_only">Nur Streaming</string>
+    <string name="music_source_working">Funktioniert</string>
+    <string name="lyrics_instrumental">Instrumentalversion</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Der Rhythmus fällt</item>
+        <item>Das Lied beginnt</item>
+        <item>Aufwärmen</item>
+        <item>Stimmung einstellen</item>
+        <item>Zuerst Bass, dann Worte</item>
+        <item>Warte darauf</item>
+        <item>Fühlen Sie diesen Aufbau</item>
+        <item>Nur Groove für jetzt</item>
+        <item>Der Hook kommt</item>
+        <item>Lass es atmen</item>
+        <item>Vocals anrufen</item>
+        <item>Erste Noten</item>
+    </string-array>
 </resources>

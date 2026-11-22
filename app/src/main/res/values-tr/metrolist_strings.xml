@@ -906,4 +906,73 @@
     <string name="wrapped_recap_empty_body">%1$d için henüz dinleme geçmişi yok. Geçmiş açıkken biraz müzik çal veya başka bir yıl seç.</string>
     <string name="wrapped_recap_listen">Çalacak bir şey bul</string>
     <string name="open_menu">Menüyü aç</string>
+    <string name="spotify_login_loading">Spotify oturum açması yükleniyor…</string>
+    <string name="music_sources_selection_desc">YouTube Music ile başlayın ve eklentilerle ses kalitesini yükseltin</string>
+    <string name="music_sources_desc">Oynatma YouTube Music\'te başlar. Etkinleştirilen eklentiler başlık, sanatçı ve süreye göre daha yüksek kalite eşleşmesi için sırayla kontrol edilir. Bağlantısını kopyalamak için bir eklentiye dokunun.</string>
+    <string name="music_source_youtube_desc">Oynatmayı başlatır</string>
+    <string name="spotify_login_instructions">Spotify Canvas videolarını kullanmak için aşağıdan oturum açın. Bu ekran bağlandıktan sonra kapanacaktır.</string>
+    <string name="spotify_login_saving">Spotify bağlantısı kaydediliyor…</string>
+    <string name="spotify_login_reload">Spotify oturum açmasını yeniden yükleyin</string>
+    <string name="spotify_login_error_title">Spotify açılamadı</string>
+    <string name="spotify_login_error_hint">Oturum açma sayfasını yeniden yüklemek için tekrar deneyin veya çıkmak için geri gidin.</string>
+    <string name="spotify_login_load_error">Oturum açma sayfası yüklenemedi. Bağlantınızı kontrol edin ve tekrar deneyin.</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Yüksek Kalite</string>
+    <string name="audio_quality_upgrading">Kalite yükseltiliyor</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_reported">Eklenti kalite etiketi</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="yt_login_title">YouTube Music\'e oturum açın</string>
+    <string name="yt_login_hint">Aşağıdaki Google sayfasında oturum açın. Oturum açtıktan sonra bir YouTube kanalı seçebilirsiniz.</string>
+    <string name="yt_login_switch_hint">Bu hesapla kullanmak istediğiniz YouTube kanalını seçin.</string>
+    <string name="yt_login_checking">YouTube kanalları kontrol ediliyor…</string>
+    <string name="yt_login_switching">YouTube kanalı değiştiriliyor…</string>
+    <string name="yt_login_completing">YouTube Music hesabı kaydediliyor…</string>
+    <string name="yt_login_page_error">Oturum açma sayfası yüklenemedi. Bağlantınızı kontrol edin ve tekrar deneyin.</string>
+    <string name="playing_from">%1$s üzerinden oynatılıyor</string>
+    <string name="audio_output">Ses çıkışı</string>
+    <string name="volume_down">Sesi azalt</string>
+    <string name="volume_up">Sesi artır</string>
+    <string name="lyrics_by">%1$s tarafından sözler</string>
+    <string name="autoplay_queue_desc">Sonraki oynatılmak üzere seçilen benzer müzik</string>
+    <string name="queue_editing_lock">Sırayı düzenlemeyi kilitle</string>
+    <string name="player_design">Oynatıcı tasarımı</string>
+    <string name="player_design_material3">Material 3 (Önceki)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">Bit Derinliği</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">Kaynak</string>
+    <string name="audio_quality_source_addon">%1$s (eklenti)</string>
+    <string name="lyrics_instrumental">Enstrümantal</string>
+    <string name="music_source_add">Eklenti Ekle</string>
+    <string name="music_source_add_desc">BitChord uyumlu eklenti sunucusunun bağlantısını yapıştırın</string>
+    <string name="music_source_add_failed">Bu eklenti eklenemedi. Bağlantıyı kontrol edin ve yeniden deneyin.</string>
+    <string name="music_source_always_on">Her Zaman Açık</string>
+    <string name="music_source_auth_unsupported">Bu eklenti yalnızca BitChord uygulamasını kabul eder</string>
+    <string name="music_source_checking">Kontrol Ediliyor…</string>
+    <string name="music_source_downloads_allowed">İndirmelere İzin Verildi</string>
+    <string name="music_source_error">Hata: %1$s</string>
+    <string name="music_source_quality">Kalite: %1$s</string>
+    <string name="music_source_remove">%1$s öğesini Kaldır</string>
+    <string name="music_source_streaming_only">Yalnızca Akış</string>
+    <string name="music_source_working">Çalışıyor</string>
+    <string name="music_sources">Müzik Kaynakları</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Ritim iniyor</item>
+        <item>Şarkı başlıyor</item>
+        <item>Isınıyor</item>
+        <item>Havayı ayarla</item>
+        <item>Önce bas, sonra sözler</item>
+        <item>Bekle</item>
+        <item>Bu inişi hisset</item>
+        <item>Şimdilik sadece groove</item>
+        <item>Koro yolda</item>
+        <item>Nefes almasına izin ver</item>
+        <item>Vokalleri etkinleştir</item>
+        <item>İlk notalar giriyor</item>
+    </string-array>
 </resources>

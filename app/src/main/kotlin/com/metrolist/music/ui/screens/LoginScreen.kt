@@ -7,13 +7,16 @@ package com.metrolist.music.ui.screens
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.webkit.CookieManager
 import android.webkit.JavascriptInterface
+import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,7 +29,10 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -38,10 +44,12 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,6 +63,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -63,7 +74,6 @@ import coil3.compose.AsyncImage
 import com.metrolist.innertube.YouTube
 import com.metrolist.innertube.models.YouTubeAccount
 import com.metrolist.innertube.utils.parseCookieString
-import com.metrolist.music.LocalPlayerAwareWindowInsets
 import com.metrolist.music.R
 import com.metrolist.music.constants.AccountChannelHandleKey
 import com.metrolist.music.constants.AccountEmailKey
@@ -115,6 +125,7 @@ fun LoginScreen(
     var accounts by remember { mutableStateOf<List<YouTubeAccount>>(emptyList()) }
     var selectedAccount by remember { mutableStateOf<YouTubeAccount?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    var isPageLoading by remember { mutableStateOf(true) }
 
     suspend fun extractAuthData(webView: WebView?): AuthData? {
         val view = webView ?: return null
@@ -296,95 +307,128 @@ fun LoginScreen(
         }
     }
 
-    Box(
+    Column(
         modifier =
             Modifier
-                .windowInsetsPadding(LocalPlayerAwareWindowInsets.current)
-                .fillMaxSize(),
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .navigationBarsPadding()
+                .imePadding(),
     ) {
-        AndroidView(
-            modifier = Modifier.fillMaxSize(),
-            factory = { webViewContext ->
-                WebView(webViewContext).apply {
-                    webViewClient =
-                        object : WebViewClient() {
-                            override fun shouldOverrideUrlLoading(
-                                view: WebView,
-                                request: WebResourceRequest,
-                            ): Boolean {
-                                val scheme = request.url.scheme
-                                if (scheme == "http" || scheme == "https") return false
+        WebLoginHeader(
+            title = stringResource(
+                if (isSwitchingChannel) R.string.switch_youtube_channel else R.string.yt_login_title,
+            ),
+            subtitle = stringResource(
+                if (isSwitchingChannel) R.string.yt_login_switch_hint else R.string.yt_login_hint,
+            ),
+            onBack = navController::navigateUp,
+            onBackLongClick = navController::backToMain,
+        )
 
-                                if (scheme == "intent") {
-                                    runCatching {
-                                        Intent.parseUri(request.url.toString(), Intent.URI_INTENT_SCHEME)
-                                            .apply {
-                                                addCategory(Intent.CATEGORY_BROWSABLE)
-                                                component = null
-                                                selector = null
-                                            }.let(context::startActivity)
+        Box(Modifier.fillMaxWidth().weight(1f)) {
+            AndroidView(
+                modifier = Modifier.fillMaxSize(),
+                factory = { webViewContext ->
+                    WebView(webViewContext).apply {
+                        webViewClient =
+                            object : WebViewClient() {
+                                override fun onPageStarted(view: WebView, url: String?, favicon: Bitmap?) {
+                                    isPageLoading = true
+                                }
+
+                                override fun onReceivedError(
+                                    view: WebView,
+                                    request: WebResourceRequest,
+                                    error: WebResourceError,
+                                ) {
+                                    if (request.isForMainFrame) {
+                                        isPageLoading = false
+                                        errorMessage = context.getString(R.string.yt_login_page_error)
                                     }
                                 }
-                                return true
-                            }
 
-                            override fun onPageFinished(
-                                view: WebView,
-                                url: String?,
-                            ) {
-                                val pageUri = url?.let(Uri::parse)
-                                if (pageUri?.scheme == "https" && pageUri.host == "music.youtube.com") {
-                                    handleAuthenticatedPage()
+                                override fun shouldOverrideUrlLoading(
+                                    view: WebView,
+                                    request: WebResourceRequest,
+                                ): Boolean {
+                                    val scheme = request.url.scheme
+                                    if (scheme == "http" || scheme == "https") return false
+
+                                    if (scheme == "intent") {
+                                        runCatching {
+                                            Intent.parseUri(request.url.toString(), Intent.URI_INTENT_SCHEME)
+                                                .apply {
+                                                    addCategory(Intent.CATEGORY_BROWSABLE)
+                                                    component = null
+                                                    selector = null
+                                                }.let(context::startActivity)
+                                        }
+                                    }
+                                    return true
+                                }
+
+                                override fun onPageFinished(
+                                    view: WebView,
+                                    url: String?,
+                                ) {
+                                    isPageLoading = false
+                                    val pageUri = url?.let(Uri::parse)
+                                    if (pageUri?.scheme == "https" && pageUri.host == "music.youtube.com") {
+                                        handleAuthenticatedPage()
+                                    }
                                 }
                             }
+                        settings.apply {
+                            javaScriptEnabled = true
+                            domStorageEnabled = true
+                            setSupportZoom(true)
+                            builtInZoomControls = true
+                            displayZoomControls = false
                         }
-                    settings.apply {
-                        javaScriptEnabled = true
-                        domStorageEnabled = true
-                        setSupportZoom(true)
-                        builtInZoomControls = true
-                        displayZoomControls = false
-                    }
-                    addJavascriptInterface(jsInterface, "Android")
-                    webViewRef = this
-                    if (isSwitchingChannel) {
-                        restoreYouTubeCookies(YouTube.cookie)
-                    }
-                    loadUrl(
+                        addJavascriptInterface(jsInterface, "Android")
+                        webViewRef = this
                         if (isSwitchingChannel) {
-                            "https://music.youtube.com"
-                        } else {
-                            "https://accounts.google.com/ServiceLogin?continue=https%3A%2F%2Fmusic.youtube.com"
-                        },
-                    )
-                }
-            },
-        )
+                            restoreYouTubeCookies(YouTube.cookie)
+                        }
+                        loadUrl(
+                            if (isSwitchingChannel) {
+                                "https://music.youtube.com"
+                            } else {
+                                "https://accounts.google.com/ServiceLogin?continue=https%3A%2F%2Fmusic.youtube.com"
+                            },
+                        )
+                    }
+                },
+            )
 
-        if (loginStage == LoginStage.CheckingAccounts || loginStage == LoginStage.Completing) {
-            CircularProgressIndicator(Modifier.align(Alignment.Center))
+            if (isPageLoading && loginStage == LoginStage.Authenticating) {
+                LinearProgressIndicator(Modifier.fillMaxWidth().align(Alignment.TopCenter))
+            }
         }
 
-        TopAppBar(
-            title = {
-                Text(
-                    stringResource(
-                        if (isSwitchingChannel) R.string.switch_youtube_channel else R.string.login,
-                    ),
-                )
-            },
-            navigationIcon = {
-                IconButton(
-                    onClick = navController::navigateUp,
-                    onLongClick = navController::backToMain,
+        val statusMessage = when (loginStage) {
+            LoginStage.CheckingAccounts -> R.string.yt_login_checking
+            LoginStage.SwitchingAccount -> R.string.yt_login_switching.takeIf { isPageLoading }
+            LoginStage.Completing -> R.string.yt_login_completing
+            else -> null
+        }
+        if (statusMessage != null && errorMessage == null) {
+            Surface(Modifier.fillMaxWidth()) {
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Icon(
-                        painterResource(R.drawable.arrow_back),
-                        contentDescription = null,
+                    CircularProgressIndicator(Modifier.size(24.dp), strokeWidth = 2.dp)
+                    Spacer(Modifier.width(12.dp))
+                    Text(
+                        text = stringResource(statusMessage),
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite },
                     )
                 }
-            },
-        )
+            }
+        }
     }
 
     if (loginStage == LoginStage.SelectingAccount) {
@@ -471,6 +515,11 @@ fun LoginScreen(
                     Text(stringResource(R.string.retry))
                 }
             },
+            dismissButton = {
+                TextButton(onClick = { errorMessage = null }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            },
         )
     }
 
@@ -478,6 +527,49 @@ fun LoginScreen(
         enabled = webViewRef?.canGoBack() == true && loginStage == LoginStage.Authenticating && errorMessage == null,
     ) {
         webViewRef?.goBack()
+    }
+}
+
+/** Compact full-screen header shared by the web sign-in screens. */
+@Composable
+internal fun WebLoginHeader(
+    title: String,
+    subtitle: String,
+    onBack: () -> Unit,
+    onBackLongClick: () -> Unit = onBack,
+    actions: @Composable RowScope.() -> Unit = {},
+) {
+    Row(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .statusBarsPadding()
+                .padding(horizontal = 8.dp, vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        IconButton(onClick = onBack, onLongClick = onBackLongClick) {
+            Icon(
+                painterResource(R.drawable.close),
+                contentDescription = stringResource(R.string.close),
+            )
+        }
+        Column(Modifier.weight(1f).padding(horizontal = 4.dp)) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                text = subtitle,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite },
+            )
+        }
+        actions()
     }
 }
 

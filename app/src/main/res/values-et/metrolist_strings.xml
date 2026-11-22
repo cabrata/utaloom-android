@@ -175,4 +175,74 @@
     <string name="wrapped_recap_empty_body">Aasta %1$d kohta pole veel kuulamisajalugu. Esita muusikat, kui ajalugu on sisse lülitatud, või vali teine aasta.</string>
     <string name="wrapped_recap_listen">Leia midagi esitamiseks</string>
     <string name="open_menu">Ava menüü</string>
+    <string name="audio_output">Heliväljund</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bitine</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Kõrge Kvaliteet</string>
+    <string name="audio_quality_reported">Lisa kvaliteedi silt</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">Kvaliteeti parandatakse</string>
+    <string name="autoplay_queue_desc">Sarnane muusika, valitud järgmiseks taasesituseks</string>
+    <string name="lyrics_by">Sõnad: %1$s</string>
+    <string name="music_source_youtube_desc">Alusta taasesitust</string>
+    <string name="music_sources_desc">Taasesitus algab YouTube Musicus. Lubatud lisasid kontrollitakse järjekorras kõrgema kvaliteediga vastavuse leidmiseks pealkirja, artisti ja pikkuse järgi. Puuduta lisa, et kopeerida selle link.</string>
+    <string name="music_sources_selection_desc">Alusta YouTube Musicust ja paranda helikvaliteeti lisadega</string>
+    <string name="playing_from">Taasesitus: %1$s</string>
+    <string name="queue_editing_lock">Lukusta järjekorra redigeerimine</string>
+    <string name="spotify_login_error_hint">Proovi uuesti laadida sisselogimise lehte või mine tagasi väljumiseks.</string>
+    <string name="spotify_login_error_title">Spotifyt ei saanud avada</string>
+    <string name="spotify_login_instructions">Logi sisse allpool, et kasutada Spotify Canvas\'i videoid. See ekraan sulgtakse pärast ühendamist.</string>
+    <string name="spotify_login_load_error">Sisselogimise lehte ei saanud laadida. Kontrolli oma ühendust ja proovi uuesti.</string>
+    <string name="spotify_login_loading">Spotifyi sisselogimise laadimine...</string>
+    <string name="spotify_login_reload">Laadige Spotifyi sisselogimine uuesti</string>
+    <string name="spotify_login_saving">Spotifyi ühenduse salvestamine...</string>
+    <string name="volume_down">Vähenda helitugevust</string>
+    <string name="volume_up">Suurenda helitugevust</string>
+    <string name="yt_login_checking">Kontrollitakse sinu YouTube kanaleid…</string>
+    <string name="yt_login_completing">Sinu YouTube Musicu konto salvestatakse…</string>
+    <string name="yt_login_hint">Logi sisse allpool olevale Google lehele. Saad valida YouTube kanali pärast sisselogimist.</string>
+    <string name="yt_login_page_error">Sisselogimise lehte ei saanud laadida. Kontrolli oma ühendust ja proovi uuesti.</string>
+    <string name="yt_login_switch_hint">Vali YouTube kanal, mida soovid selle kontoga kasutada.</string>
+    <string name="yt_login_switching">YouTube kanali vahetamine…</string>
+    <string name="yt_login_title">Logi sisse YouTube Musicusse</string>
+    <string name="player_design">Pleieri kujundus</string>
+    <string name="player_design_material3">Material 3 (Eelmine)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+
+    <string name="audio_quality_bit_depth">Bitisügavus</string>
+    <string name="audio_quality_hires_lossless">Hi-Res kadumiteta</string>
+    <string name="audio_quality_lossless">Kadumiteta</string>
+    <string name="audio_quality_source">Allikas</string>
+    <string name="audio_quality_source_addon">%1$s (lisa)</string>
+    <string name="music_source_add">Lisage lisa</string>
+    <string name="music_source_add_desc">Kleepige BitChord-ühildava lisaserveri link</string>
+    <string name="music_source_add_failed">Seda lisa ei õnnestunud lisada. Kontrollige linki ja proovige uuesti.</string>
+    <string name="music_source_always_on">Alati sisse lülitatud</string>
+    <string name="music_source_auth_unsupported">See lisa aktsepteerib ainult BitChordi rakendust</string>
+    <string name="music_source_checking">Kontrollitakse…</string>
+    <string name="music_source_downloads_allowed">Allalaadimised on lubatud</string>
+    <string name="music_source_error">Viga: %1$s</string>
+    <string name="music_source_quality">Kvaliteet: %1$s</string>
+    <string name="music_source_remove">Eemalda %1$s</string>
+    <string name="music_sources">Muusikaalllikad</string>
+    <string name="music_source_streaming_only">Ainult striimid</string>
+    <string name="music_source_working">Töötab</string>
+    <string name="lyrics_instrumental">Instrumentaal</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Löök langeb</item>
+        <item>Lugu algab</item>
+        <item>Soojendamine</item>
+        <item>Meeleolu määramine</item>
+        <item>Esmalt bass, siis sõnad</item>
+        <item>Oota seda</item>
+        <item>Tunne seda ehitust</item>
+        <item>Ainult groove praegu</item>
+        <item>Konks tuleb</item>
+        <item>Las hingata</item>
+        <item>Kutsuge vokaalid</item>
+        <item>Esimesed noodid</item>
+    </string-array>
 </resources>

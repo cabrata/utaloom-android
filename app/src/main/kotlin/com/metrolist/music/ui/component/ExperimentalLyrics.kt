@@ -14,7 +14,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationState
 import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.Easing
+import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.animateDecay
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.exponentialDecay
@@ -42,6 +42,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -113,6 +114,8 @@ import com.metrolist.music.constants.ShowIntervalIndicatorKey
 import com.metrolist.music.constants.TranslateLanguageKey
 import com.metrolist.music.constants.TranslateModeKey
 import com.metrolist.music.db.entities.LyricsEntity.Companion.LYRICS_NOT_FOUND
+import com.metrolist.music.lyrics.LyricClock
+import com.metrolist.music.lyrics.LyricsEntry
 import com.metrolist.music.lyrics.LyricsTranslationHelper
 import com.metrolist.music.lyrics.LyricsUtils.findActiveLineIndices
 import com.metrolist.music.lyrics.lyricsTextLooksSynced
@@ -139,12 +142,22 @@ private val LYRICS_ITEM_FALLBACK_HEIGHT_DP = 68.dp
 private val LYRICS_ITEM_GAP_DP = 16.dp
 private val LYRICS_FADE_TOP_DP = 130.dp
 private val LYRICS_FADE_BOTTOM_DP = 160.dp
-private const val LYRICS_STAGGER_DELAY_PER_DISTANCE = 45
-private const val LYRICS_STAGGER_DELAY_MAX_MS = 360
+// BitChord's handover: rows behind the target set off slightly later (6% per row, 3 rows at most).
+private const val LYRICS_SCROLL_MS = 450
+private const val LYRICS_STAGGER_STEPS = 3
+private const val LYRICS_STAGGER_FRACTION = 0.06f
+private const val LYRICS_ANIMATED_ROWS = 12
+private const val SCROLL_LEAD_MIN_MS = 350L
+private const val SCROLL_LEAD_MAX_MS = 500L
 private const val LYRICS_PREVIEW_TIME = 8000L
+private const val PAUSED_POLL_MS = 100L
+/** A frame time this close to System.nanoTime is on the same clock (from BitChord). */
+private const val SAME_CLOCK_NANOS = 250_000_000L
+// Line-synced lyrics light up this early so the 350 ms fade-in lands on the timestamp, not after it.
+private const val LINE_HIGHLIGHT_LEAD_MS = 200L
 
-// Cubic ease-in-out, same curve as the reference renderer's scroll.
-private val LyricsEaseInOut = Easing { x -> if (x < 0.5f) 4f * x * x * x else 1f - (-2f * x + 2f).let { it * it * it } / 2f }
+// BitChord's one curve for every handover: away quickly, in slowly and softly.
+internal val LyricsEaseInOut = CubicBezierEasing(0.41f, 0f, 0.12f, 0.99f)
 
 @OptIn(
     ExperimentalMaterial3Api::class,
@@ -156,6 +169,7 @@ fun ExperimentalLyrics(
     sliderPositionProvider: () -> Long?,
     modifier: Modifier = Modifier,
     showLyrics: Boolean,
+    onUserScroll: (deltaY: Float, direction: Int) -> Unit = { _, _ -> },
     lyricsViewModel: LyricsViewModel = hiltViewModel()
 ) {
     val playerConnection = LocalPlayerConnection.current ?: return
@@ -349,38 +363,43 @@ fun ExperimentalLyrics(
             return@LaunchedEffect
         }
         
-        var lastPlayerPos = playerConnection.currentPosition
-        var lastUpdateTime = System.currentTimeMillis()
-        var wasPlaying = playerConnection.isEffectivelyPlaying.value
-        
+        // BitChord's steered clock: readings steer one frame clock instead of setting it, so the
+        // sweep neither stutters on ExoPlayer's jittery position nor jumps back without a seek.
+        val clock = LyricClock(playerConnection.currentPosition)
         while (isActive) {
-            withFrameNanos { _ -> }
-            val now = System.currentTimeMillis()
+            val isPlaying = playerConnection.isEffectivelyPlaying.value
             val sliderPosition = sliderPositionProvider()
             isSeeking = sliderPosition != null
-            
-            val position = if (isSeeking) {
-                sliderPosition!!
-            } else {
-                val isPlaying = playerConnection.isEffectivelyPlaying.value
-                val playerPos = playerConnection.currentPosition
-                if (playerPos != lastPlayerPos || (isPlaying && !wasPlaying)) {
-                    lastPlayerPos = playerPos
-                    lastUpdateTime = now
-                }
-                wasPlaying = isPlaying
-                val elapsed = now - lastUpdateTime
-                lastPlayerPos + (if (isPlaying) elapsed else 0)
+            // Paused and untouched there is nothing to animate, so poll instead of rendering every frame.
+            val frameNanos = if (isPlaying || isSeeking) withFrameNanos { it } else {
+                delay(PAUSED_POLL_MS)
+                System.nanoTime()
             }
-            
+            val system = System.nanoTime()
+            val nowMs = (if (abs(system - frameNanos) < SAME_CLOCK_NANOS) frameNanos else system) / 1_000_000.0
+
+            val position = when {
+                isSeeking -> sliderPosition!!.also { clock.hold(it, nowMs) }
+                !isPlaying -> playerConnection.currentPosition.also { clock.hold(it, nowMs) }
+                else -> {
+                    val reported = playerConnection.currentPosition
+                    clock.frame(
+                        nowMs = nowMs,
+                        reportedMs = reported,
+                        sampledAtMs = System.nanoTime() / 1_000_000.0,
+                        discontinuity = playerConnection.positionJumps.value,
+                    )
+                }
+            }
+
             currentPositionState = position
             smoothPositionForSync = position
             
             val lyricsOffset = currentSong?.song?.lyricsOffset ?: 0
             val effectivePosition = position + lyricsOffset
             
-            val initialActiveIndices = findActiveLineIndices(lines, effectivePosition)
-            val scrollActiveIndicesRaw = findActiveLineIndices(lines, effectivePosition + (if (hasWordTimings) 0L else 250L))
+            val initialActiveIndices = findActiveLineIndices(lines, effectivePosition + (if (hasWordTimings) 0L else LINE_HIGHLIGHT_LEAD_MS))
+            val scrollActiveIndicesRaw = findActiveLineIndices(lines, effectivePosition + scrollLead(lines, effectivePosition))
             
             val scrollActiveIndices = scrollActiveIndicesRaw.toMutableSet()
             for (i in scrollActiveIndicesRaw) {
@@ -571,6 +590,11 @@ fun ExperimentalLyrics(
         val scrollClampMin = minOf(minOffset, maxOffset)
         val scrollClampMax = maxOf(minOffset, maxOffset)
 
+        // The drag handler below is keyed on Unit, so it must read these through state, not captured values.
+        val latestClampMin by rememberUpdatedState(scrollClampMin)
+        val latestClampMax by rememberUpdatedState(scrollClampMax)
+        val latestInitialLayout by rememberUpdatedState(isInitialLayout)
+        val latestOnUserScroll by rememberUpdatedState(onUserScroll)
         LaunchedEffect(scrollClampMin, scrollClampMax) {
             if (userManualOffset < scrollClampMin || userManualOffset > scrollClampMax) {
                 userManualOffset = userManualOffset.coerceIn(scrollClampMin, scrollClampMax)
@@ -688,21 +712,24 @@ fun ExperimentalLyrics(
                         awaitPointerEventScope {
                             while (true) {
                                 val down = awaitFirstDown(requireUnconsumed = false)
-                                if (isInitialLayout) continue
+                                if (latestInitialLayout) continue
                                 flingJob?.cancel()
                                 velocityTracker.resetTracking()
                                 isAutoScrollEnabled = false
                                 lastPreviewTime = System.currentTimeMillis()
                                 velocityTracker.addPosition(down.uptimeMillis, down.position)
                                 verticalDrag(down.id) { change ->
-                                    userManualOffset = (userManualOffset + change.positionChange().y).coerceIn(scrollClampMin, scrollClampMax)
+                                    val deltaY = change.positionChange().y
+                                    userManualOffset = (userManualOffset + deltaY).coerceIn(latestClampMin, latestClampMax)
                                     velocityTracker.addPosition(change.uptimeMillis, change.position)
                                     change.consume()
+                                    // Report scroll direction: positive deltaY = scrolling down (finger down), negative = up
+                                    latestOnUserScroll(deltaY, if (deltaY > 0f) 1 else -1)
                                 }
                                 val velocity = velocityTracker.calculateVelocity().y
                                 flingJob = scope.launch {
                                     AnimationState(initialValue = userManualOffset, initialVelocity = velocity).animateDecay(decayAnimSpec) {
-                                        val clamped = value.coerceIn(scrollClampMin, scrollClampMax)
+                                        val clamped = value.coerceIn(latestClampMin, latestClampMax)
                                         userManualOffset = clamped
                                         if (value != clamped) cancelAnimation()
                                     }
@@ -712,7 +739,9 @@ fun ExperimentalLyrics(
                     }
             ) {
                 val lyricsOffsetVal = (currentSong?.song?.lyricsOffset ?: 0).toLong()
-                val currentEffectivePosition = currentPositionState + lyricsOffsetVal
+                // Lambdas, not values: the position changes every frame and must not recompose the whole list.
+                val positionProvider = remember { { currentPositionState } }
+                val currentEffectivePosition = remember(lyricsOffsetVal) { { currentPositionState + lyricsOffsetVal } }
                 
                 if (isLyricsProviderShown) {
                     val targetProviderBase = anchorY + (positions[0] ?: 0f) - with(density) { 32.dp.toPx() }
@@ -720,7 +749,7 @@ fun ExperimentalLyrics(
                         targetValue = targetProviderBase,
                         animationSpec = if (isInitialLayout || !isAutoScrollEnabled) snap()
                         else {
-                            tween(550, 0, LyricsEaseInOut)
+                            tween(LYRICS_SCROLL_MS, 0, LyricsEaseInOut)
                         },
                         label = "lyricsProviderOffset"
                     )
@@ -740,14 +769,16 @@ fun ExperimentalLyrics(
                         val distance = abs(listIndex - activeListIndex)
                         val targetOffset = anchorY + positions.getOrDefault(listIndex, (listIndex - activeListIndex) * lineHeightPx)
                         val frozenOffset = remember { mutableFloatStateOf(targetOffset) }
-                        LaunchedEffect(isAutoScrollEnabled, targetOffset, isInitialLayout) {
+                        // A plain side effect, not a coroutine per line restarted on every line change.
+                        SideEffect {
                             if (isAutoScrollEnabled || isInitialLayout) frozenOffset.floatValue = targetOffset
                         }
                         val animatedOffset by animateFloatAsState(
                             targetValue = if (isAutoScrollEnabled) targetOffset else frozenOffset.floatValue,
-                            animationSpec = if (isInitialLayout || !isAutoScrollEnabled) snap() 
+                            // Rows well off screen jump: like BitChord's lazy list, only what can be seen moves.
+                            animationSpec = if (isInitialLayout || !isAutoScrollEnabled || distance > LYRICS_ANIMATED_ROWS) snap() 
                                             else {
-                                                tween(550, (distance * LYRICS_STAGGER_DELAY_PER_DISTANCE).coerceAtMost(LYRICS_STAGGER_DELAY_MAX_MS), LyricsEaseInOut)
+                                                tween(LYRICS_SCROLL_MS, (distance.coerceAtMost(LYRICS_STAGGER_STEPS) * LYRICS_STAGGER_FRACTION * LYRICS_SCROLL_MS).toInt(), LyricsEaseInOut)
                                             },
                             label = "lyricStaggeredOffset_$listIndex"
                         )
@@ -760,10 +791,12 @@ fun ExperimentalLyrics(
                         ) {
                             when (listItem) {
                                 is LyricsListItem.Indicator -> {
-                                    val visible =
-                                        isAutoScrollEnabled &&
-                                            currentEffectivePosition >= listItem.gapStartMs &&
-                                            currentEffectivePosition <= listItem.gapEndMs - 650L
+                                    val visible by remember(listItem, isAutoScrollEnabled, currentEffectivePosition) {
+                                        derivedStateOf {
+                                            isAutoScrollEnabled &&
+                                                currentEffectivePosition() in listItem.gapStartMs..(listItem.gapEndMs - 650L)
+                                        }
+                                    }
                                     IntervalIndicator(listItem.gapStartMs, listItem.gapEndMs - 650L, currentEffectivePosition, visible, expressiveAccent,
                                         Modifier.fillMaxWidth().onSizeChanged { itemHeights[listIndex] = it.height }.then(
                                             if (lyricsTextPosition == LyricsPosition.LEFT) Modifier.padding(horizontal = 11.dp).fillMaxWidth()
@@ -776,10 +809,12 @@ fun ExperimentalLyrics(
                                     val isActiveLine = activeLineIndices.contains(index)
                                     val pairedMainLineIndex = if (item.isBackground) (index - 1 downTo 0).firstOrNull { lines.getOrNull(it)?.isBackground == false } ?: -1 else -1
                                     
-                                    val isInGapWithMain = if (item.isBackground && pairedMainLineIndex != -1) {
-                                        val pairedMainLine = lines[pairedMainLineIndex]
-                                        currentEffectivePosition >= pairedMainLine.time && currentEffectivePosition <= item.time
-                                    } else false
+                                    val isInGapWithMain by remember(item, pairedMainLineIndex, currentEffectivePosition) {
+                                        derivedStateOf {
+                                            pairedMainLineIndex != -1 && item.isBackground &&
+                                                currentEffectivePosition() in lines[pairedMainLineIndex].time..item.time
+                                        }
+                                    }
                                     
                                     val bgVisible = item.isBackground && (activeLineIndices.contains(pairedMainLineIndex) || activeLineIndices.contains(index) || isInGapWithMain)
                                     
@@ -787,7 +822,7 @@ fun ExperimentalLyrics(
                                         index = index, item = item, isSynced = isSynced,
                                         isActiveLine = isActiveLine,
                                         bgVisible = bgVisible, isSelected = selectedIndices.contains(index),
-                                        isSelectionModeActive = isSelectionModeActive, currentPositionState = currentPositionState,
+                                        isSelectionModeActive = isSelectionModeActive, positionProvider = positionProvider,
                                         lyricsOffset = (currentSong?.song?.lyricsOffset ?: 0).toLong(),
                                         playerConnection = playerConnection, lyricsTextSize = 36f, lyricsLineSpacing = 1.3f,
                                         expressiveAccent = expressiveAccent, lyricsTextPosition = lyricsTextPosition,
@@ -908,4 +943,16 @@ fun ExperimentalLyrics(
             }
         )
     }
+}
+
+/**
+ * How long before the next line the list starts moving to it: the silence after the current line,
+ * bounded to 350..500 ms (BitChord's scrollLead).
+ */
+internal fun scrollLead(lines: List<LyricsEntry>, positionMs: Long): Long {
+    val current = lines.indexOfLast { it.time <= positionMs }
+    if (current < 0) return SCROLL_LEAD_MIN_MS
+    val next = lines.getOrNull(current + 1) ?: return SCROLL_LEAD_MIN_MS
+    val end = lines[current].words?.lastOrNull()?.let { (it.endTime * 1000).toLong() } ?: next.time
+    return (next.time - end).coerceIn(SCROLL_LEAD_MIN_MS, SCROLL_LEAD_MAX_MS)
 }

@@ -158,6 +158,7 @@ fun PrivacySettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.history),
                     title = { Text(stringResource(R.string.pause_listen_history)) },
+                    targetKey = R.string.pause_listen_history,
                     trailingContent = {
                         Switch(
                             checked = pauseListenHistory,
@@ -178,6 +179,7 @@ fun PrivacySettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.delete_history),
                     title = { Text(stringResource(R.string.clear_listen_history)) },
+                    targetKey = R.string.clear_listen_history,
                     onClick = { showClearListenHistoryDialog = true }
                 )
             )
@@ -191,6 +193,7 @@ fun PrivacySettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.search_off),
                     title = { Text(stringResource(R.string.pause_search_history)) },
+                    targetKey = R.string.pause_search_history,
                     trailingContent = {
                         Switch(
                             checked = pauseSearchHistory,
@@ -211,6 +214,7 @@ fun PrivacySettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.clear_all),
                     title = { Text(stringResource(R.string.clear_search_history)) },
+                    targetKey = R.string.clear_search_history,
                     onClick = { showClearSearchHistoryDialog = true }
                 )
             )
@@ -224,6 +228,7 @@ fun PrivacySettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.screenshot),
                     title = { Text(stringResource(R.string.disable_screenshot)) },
+                    targetKey = R.string.disable_screenshot,
                     description = { Text(stringResource(R.string.disable_screenshot_desc)) },
                     trailingContent = {
                         Switch(

@@ -186,4 +186,73 @@
     <string name="wrapped_recap_empty_body">Još nema povijesti slušanja za %1$d. Pusti nešto uz uključenu povijest ili odaberi drugu godinu.</string>
     <string name="wrapped_recap_listen">Pronađi nešto za slušanje</string>
     <string name="open_menu">Otvori izbornik</string>
+    <string name="audio_output">Izlaz zvuka</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bitni</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Visoka kvaliteta</string>
+    <string name="audio_quality_reported">Oznaka kvalitete dodatka</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">Poboljšavanje kvalitete</string>
+    <string name="autoplay_queue_desc">Slična glazba, odabrana za sljedeću reprodukciju</string>
+    <string name="lyrics_by">Tekst od %1$s</string>
+    <string name="music_source_youtube_desc">Započinje reprodukciju</string>
+    <string name="music_sources_desc">Reprodukcija počinje na YouTube Music. Omogućeni su dodaci provjeravani po redu za bolju kvalitetu prema naslovu, izvođaču i trajanju. Dodirnite dodatak kako biste kopirali njegovu vezu.</string>
+    <string name="music_sources_selection_desc">Počnite s YouTube Music i poboljšajte zvuk pomoću dodataka</string>
+    <string name="playing_from">Reprodukcija s %1$s</string>
+    <string name="queue_editing_lock">Zaključaj uređivanje reda čekanja</string>
+    <string name="spotify_login_error_hint">Pokušajte ponovno učitati stranicu prijave ili se vratite kako biste izašli.</string>
+    <string name="spotify_login_error_title">Nije moguće otvoriti Spotify</string>
+    <string name="spotify_login_instructions">Prijavite se ispod kako biste koristili Spotify Canvas videozapise. Ovaj se zaslon zatvara nakon što ste se spojili.</string>
+    <string name="spotify_login_load_error">Stranica prijave se nije mogla učitati. Provjerite svoju vezu, zatim pokušajte ponovno.</string>
+    <string name="spotify_login_loading">Učitavanje Spotify prijave…</string>
+    <string name="spotify_login_reload">Ponovno učitaj Spotify prijavu</string>
+    <string name="spotify_login_saving">Spremanje Spotify veze…</string>
+    <string name="volume_down">Smanjit glasnoću</string>
+    <string name="volume_up">Povećati glasnoću</string>
+    <string name="yt_login_checking">Provjera vaših YouTube kanala…</string>
+    <string name="yt_login_completing">Spremanje vašeg YouTube Music računa…</string>
+    <string name="yt_login_hint">Prijavite se na Google stranicu dolje. Nakon prijave možete odabrati YouTube kanal.</string>
+    <string name="yt_login_page_error">Stranica prijave se nije mogla učitati. Provjerite svoju vezu, zatim pokušajte ponovno.</string>
+    <string name="yt_login_switch_hint">Odaberite YouTube kanal koji želite koristiti s ovim računom.</string>
+    <string name="yt_login_switching">Prebacivanje YouTube kanala…</string>
+    <string name="yt_login_title">Prijavite se na YouTube Music</string>
+    <string name="player_design">Dizajn playera</string>
+    <string name="player_design_material3">Material 3 (Prethodni)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">Dubina bita</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">Izvor</string>
+    <string name="audio_quality_source_addon">%1$s (dodatak)</string>
+    <string name="music_source_add">Dodaj dodatak</string>
+    <string name="music_source_add_desc">Zalijepi vezu BitChord-kompatibilnog dodatka servera</string>
+    <string name="music_source_add_failed">Nije moguće dodati ovaj dodatak. Provjeri vezu i pokušaj ponovno.</string>
+    <string name="music_source_always_on">Uvijek uključeno</string>
+    <string name="music_source_auth_unsupported">Ovaj dodatak prihvaća samo BitChord aplikaciju</string>
+    <string name="music_source_checking">Provjera…</string>
+    <string name="music_source_downloads_allowed">Preuzimanja dopuštena</string>
+    <string name="music_source_error">Greška: %1$s</string>
+    <string name="music_source_quality">Kvaliteta: %1$s</string>
+    <string name="music_source_remove">Ukloni %1$s</string>
+    <string name="music_sources">Izvori glazbe</string>
+    <string name="music_source_streaming_only">Samo streaming</string>
+    <string name="music_source_working">Radi</string>
+    <string name="lyrics_instrumental">Instrumentalno</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Beat stiže</item>
+        <item>Pjesma počinje</item>
+        <item>Zagrijavanje</item>
+        <item>Postavljanje raspoloženja</item>
+        <item>Prvo bas, kasnije reči</item>
+        <item>Čekaj</item>
+        <item>Osjetiš taj rast</item>
+        <item>Samo grum za sada</item>
+        <item>Refreni dolaze</item>
+        <item>Neka diše</item>
+        <item>Signalni vokali</item>
+        <item>Prve note</item>
+    </string-array>
 </resources>

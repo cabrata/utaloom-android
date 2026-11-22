@@ -400,4 +400,74 @@
     <string name="wrapped_recap_empty_body">Пакуль няма гісторыі праслухоўванняў за %1$d. Уключыце музыку з уключанай гісторыяй або абярыце іншы год.</string>
     <string name="wrapped_recap_listen">Знайсці, што паслухаць</string>
     <string name="open_menu">Адкрыць меню</string>
+    <string name="audio_output">Выхад аўдыё</string>
+    <string name="audio_quality_bit_depth_value">%1$d-бітная</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Высокая якасць</string>
+    <string name="audio_quality_reported">Пазнака якасці дапаможніка</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">Якасць павялічваецца</string>
+    <string name="autoplay_queue_desc">Падобная музыка, пабраная для наступнага прайгравання</string>
+    <string name="lyrics_by">Словы ад %1$s</string>
+    <string name="music_source_youtube_desc">Пачаць прайграванне</string>
+    <string name="music_sources_desc">Прайграванне пачынаецца на YouTube Music. Уключаныя дапаможнікі праверяюцца па парадку для адпавіднасці большай якасці па назве, выканаўцы і даўжыні. Дакраніцеся да дапаможніка, каб скапіяваць яго спасылку.</string>
+    <string name="music_sources_selection_desc">Пачніце з YouTube Music і паляпшыце аўдыё з дапаможнікамі</string>
+    <string name="playing_from">Прайграе з %1$s</string>
+    <string name="queue_editing_lock">Заблакаваць рэдагаванне чаргі</string>
+    <string name="spotify_login_error_hint">Паўтарыце спробу перазагрузіць страницу ўваходу або вярніцеся назад, каб выйсці.</string>
+    <string name="spotify_login_error_title">Не атрымалася адкрыць Spotify</string>
+    <string name="spotify_login_instructions">Увайдзіце ніжэй, каб выкарыстоўваць відэа Spotify Canvas. Гэты экран закроецца пасля падключэння.</string>
+    <string name="spotify_login_load_error">Страница ўваходу не змагла загрузіцца. Праверце вашу злучэнне і паўтарыце спробу.</string>
+    <string name="spotify_login_loading">Загрузка Spotify ўваходу...</string>
+    <string name="spotify_login_reload">Перазагрузіць Spotify ўход</string>
+    <string name="spotify_login_saving">Захаванне під\'яднання Spotify...</string>
+    <string name="volume_down">Паніжыць гучнасць</string>
+    <string name="volume_up">Павялічыць гучнасць</string>
+    <string name="yt_login_checking">Праверка вашых каналаў YouTube…</string>
+    <string name="yt_login_completing">Захаванне вашага конта YouTube Music…</string>
+    <string name="yt_login_hint">Увайдзіце на страніцу Google ніжэй. Вы можаце выбраць канал YouTube пасля ўваходу.</string>
+    <string name="yt_login_page_error">Страница ўваходу не змагла загрузіцца. Праверце вашу злучэнне і паўтарыце спробу.</string>
+    <string name="yt_login_switch_hint">Выберыце канал YouTube, які вы хочаце выкарыстоўваць з гэтым контам.</string>
+    <string name="yt_login_switching">Пераключэнне канала YouTube…</string>
+    <string name="yt_login_title">Увайдзіце ў YouTube Music</string>
+    <string name="player_design">Дызайн плэера</string>
+    <string name="player_design_material3">Material 3 (Папярэдні)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+
+    <string name="audio_quality_bit_depth">Глыбіня біта</string>
+    <string name="audio_quality_hires_lossless">Hi-Res без страт</string>
+    <string name="audio_quality_lossless">Без страт</string>
+    <string name="audio_quality_source">Крыніца</string>
+    <string name="audio_quality_source_addon">%1$s (модуль)</string>
+    <string name="music_source_add">Дадаць модуль</string>
+    <string name="music_source_add_desc">Вставце спасылку на сумяшчальны з BitChord сервер модуля</string>
+    <string name="music_source_add_failed">Не ўдалося дадаць гэты модуль. Праверце спасылку і спробуйце ізноў.</string>
+    <string name="music_source_always_on">Заўсёды ўключаны</string>
+    <string name="music_source_auth_unsupported">Гэты модуль прымае толькі додатак BitChord</string>
+    <string name="music_source_checking">Праверка…</string>
+    <string name="music_source_downloads_allowed">Загрузкі дазволены</string>
+    <string name="music_source_error">Памылка: %1$s</string>
+    <string name="music_source_quality">Якасць: %1$s</string>
+    <string name="music_source_remove">Выдаліць %1$s</string>
+    <string name="music_sources">Крыніцы музыкі</string>
+    <string name="music_source_streaming_only">Толькі трансляцыя</string>
+    <string name="music_source_working">Працуе</string>
+    <string name="lyrics_instrumental">Інструментальны</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Бит падає</item>
+        <item>Песня пачынаецца</item>
+        <item>Прагрэв</item>
+        <item>Усталёўка настроя</item>
+        <item>Баса спачатку, слова позней</item>
+        <item>Чакайце</item>
+        <item>Адчуйце гэта пастаўленне</item>
+        <item>Толькі грув нараз</item>
+        <item>Крючок іде</item>
+        <item>Дайце дыхаць</item>
+        <item>Выклічце вакалы</item>
+        <item>Першыя ноты</item>
+    </string-array>
 </resources>

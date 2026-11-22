@@ -676,4 +676,73 @@
     <string name="wrapped_recap_empty_body">אין עדיין היסטוריית האזנה ל-%1$d. הפעל מוזיקה כשההיסטוריה מופעלת, או בחר שנה אחרת.</string>
     <string name="wrapped_recap_listen">מצא משהו להשמעה</string>
     <string name="open_menu">פתח תפריט</string>
+    <string name="audio_output">פלט אודיו</string>
+    <string name="audio_quality_bit_depth_value">%1$d-ביט</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">איכות גבוהה</string>
+    <string name="audio_quality_reported">תווית איכות תוספת</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">שדרוג איכות</string>
+    <string name="autoplay_queue_desc">מוזיקה דומה, שנבחרה לניגון הבא</string>
+    <string name="lyrics_by">מילים מאת %1$s</string>
+    <string name="music_source_youtube_desc">מתחיל ניגון</string>
+    <string name="music_sources_desc">הניגון מתחיל ב-YouTube Music. תוספות מופעלות מסומנות בסדר לתאימה באיכות גבוהה יותר לפי כותרת, אמן ואורך. הקש על תוספת כדי להעתיק את הקישור שלה.</string>
+    <string name="music_sources_selection_desc">התחל ב-YouTube Music ושפר אודיו עם תוספות</string>
+    <string name="playing_from">מנגן מ-%1$s</string>
+    <string name="queue_editing_lock">נעל עריכת תור</string>
+    <string name="spotify_login_error_hint">נסה שוב לטעון מחדש את דף הכניסה, או חזור לצאת.</string>
+    <string name="spotify_login_error_title">לא ניתן לפתוח Spotify</string>
+    <string name="spotify_login_instructions">היכנס למטה כדי להשתמש בסרטוני Spotify Canvas. המסך הזה סגור לאחר החיבור.</string>
+    <string name="spotify_login_load_error">לא ניתן לטעון את דף הכניסה. בדוק את החיבור שלך, ואז נסה שוב.</string>
+    <string name="spotify_login_loading">טוען כניסה Spotify…</string>
+    <string name="spotify_login_reload">טען מחדש כניסה Spotify</string>
+    <string name="spotify_login_saving">שומר חיבור Spotify…</string>
+    <string name="volume_down">הנמך קול</string>
+    <string name="volume_up">הגבה קול</string>
+    <string name="yt_login_checking">בדיקת ערוצי YouTube שלך…</string>
+    <string name="yt_login_completing">שומר את חשבון YouTube Music שלך…</string>
+    <string name="yt_login_hint">היכנס לדף Google למטה. תוכל לבחור ערוץ YouTube לאחר הכניסה.</string>
+    <string name="yt_login_page_error">לא ניתן לטעון את דף הכניסה. בדוק את החיבור שלך, ואז נסה שוב.</string>
+    <string name="yt_login_switch_hint">בחר את ערוץ YouTube שברצונך להשתמש בו עם חשבון זה.</string>
+    <string name="yt_login_switching">החלפת ערוץ YouTube…</string>
+    <string name="yt_login_title">היכנס ל-YouTube Music</string>
+    <string name="player_design">עיצוב הנגן</string>
+    <string name="player_design_material3">Material 3 (קודם)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">עומק ביט</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">מקור</string>
+    <string name="audio_quality_source_addon">%1$s (תוסף)</string>
+    <string name="music_source_add">הוסף תוסף</string>
+    <string name="music_source_add_desc">הדבק קישור של שרת תוסף תואם BitChord</string>
+    <string name="music_source_add_failed">לא ניתן להוסיף תוסף זה. בדוק את הקישור ונסה שוב.</string>
+    <string name="music_source_always_on">תמיד פעיל</string>
+    <string name="music_source_auth_unsupported">תוסף זה מקבל רק את אפליקציית BitChord</string>
+    <string name="music_source_checking">בדיקה…</string>
+    <string name="music_source_downloads_allowed">הורדות מורשות</string>
+    <string name="music_source_error">שגיאה: %1$s</string>
+    <string name="music_source_quality">איכות: %1$s</string>
+    <string name="music_source_remove">הסר את %1$s</string>
+    <string name="music_sources">מקורות מוזיקה</string>
+    <string name="music_source_streaming_only">סטרימינג בלבד</string>
+    <string name="music_source_working">פעיל</string>
+    <string name="lyrics_instrumental">אינסטרומנטלי</string>
+    <string-array name="lyrics_intro_lines">
+        <item>הקצב מגיע</item>
+        <item>השיר מתחיל</item>
+        <item>התחממות</item>
+        <item>הגדרת ההמשך</item>
+        <item>קודם כל בס, אחרי זה מילים</item>
+        <item>חכה</item>
+        <item>הרגש את הבנייה הזו</item>
+        <item>רק הגרוב עכשיו</item>
+        <item>הקולע בדרך</item>
+        <item>תן לזה לנשום</item>
+        <item>אות ווקאלים</item>
+        <item>תווים ראשונים</item>
+    </string-array>
 </resources>

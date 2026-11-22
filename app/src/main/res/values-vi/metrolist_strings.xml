@@ -901,4 +901,73 @@
     <string name="wrapped_recap_empty_body">Chưa có lịch sử nghe cho năm %1$d. Hãy phát nhạc khi bật lịch sử hoặc chọn năm khác.</string>
     <string name="wrapped_recap_listen">Tìm bài để phát</string>
     <string name="open_menu">Mở menu</string>
+    <string name="spotify_login_loading">Đang tải đăng nhập Spotify…</string>
+    <string name="music_sources_selection_desc">Bắt đầu với YouTube Music và nâng cấp âm thanh bằng các tiện ích bổ sung</string>
+    <string name="music_sources_desc">Phát lại bắt đầu trên YouTube Music. Các tiện ích bổ sung được bật được kiểm tra theo thứ tự để khớp chất lượng cao hơn theo tiêu đề, nghệ sĩ và thời lượng. Chạm vào tiện ích bổ sung để sao chép liên kết của nó.</string>
+    <string name="music_source_youtube_desc">Bắt đầu phát lại</string>
+    <string name="spotify_login_instructions">Đăng nhập dưới đây để sử dụng video Spotify Canvas. Màn hình này sẽ đóng sau khi kết nối.</string>
+    <string name="spotify_login_saving">Đang lưu kết nối Spotify…</string>
+    <string name="spotify_login_reload">Tải lại đăng nhập Spotify</string>
+    <string name="spotify_login_error_title">Không thể mở Spotify</string>
+    <string name="spotify_login_error_hint">Thử lại để tải lại trang đăng nhập hoặc quay lại để thoát.</string>
+    <string name="spotify_login_load_error">Không thể tải trang đăng nhập. Kiểm tra kết nối của bạn và thử lại.</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Chất Lượng Cao</string>
+    <string name="audio_quality_upgrading">Nâng cấp chất lượng</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_reported">Nhãn chất lượng tiện ích bổ sung</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="yt_login_title">Đăng nhập YouTube Music</string>
+    <string name="yt_login_hint">Đăng nhập vào trang Google dưới đây. Bạn có thể chọn kênh YouTube sau khi đăng nhập.</string>
+    <string name="yt_login_switch_hint">Chọn kênh YouTube bạn muốn sử dụng với tài khoản này.</string>
+    <string name="yt_login_checking">Đang kiểm tra các kênh YouTube…</string>
+    <string name="yt_login_switching">Đang chuyển đổi kênh YouTube…</string>
+    <string name="yt_login_completing">Đang lưu tài khoản YouTube Music…</string>
+    <string name="yt_login_page_error">Không thể tải trang đăng nhập. Kiểm tra kết nối của bạn và thử lại.</string>
+    <string name="playing_from">Đang phát từ %1$s</string>
+    <string name="audio_output">Đầu ra âm thanh</string>
+    <string name="volume_down">Giảm âm lượng</string>
+    <string name="volume_up">Tăng âm lượng</string>
+    <string name="lyrics_by">Lời bài hát bởi %1$s</string>
+    <string name="autoplay_queue_desc">Nhạc tương tự, được chọn để phát tiếp</string>
+    <string name="queue_editing_lock">Khóa chỉnh sửa hàng chờ</string>
+    <string name="player_design">Thiết kế trình phát</string>
+    <string name="player_design_material3">Material 3 (Trước đây)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">Độ sâu bit</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">Nguồn</string>
+    <string name="audio_quality_source_addon">%1$s (tiện ích)</string>
+    <string name="lyrics_instrumental">Hòa Âm</string>
+    <string name="music_source_add">Thêm tiện ích</string>
+    <string name="music_source_add_desc">Dán liên kết máy chủ tiện ích tương thích với BitChord</string>
+    <string name="music_source_add_failed">Không thể thêm tiện ích này. Kiểm tra liên kết và thử lại.</string>
+    <string name="music_source_always_on">Luôn bật</string>
+    <string name="music_source_auth_unsupported">Tiện ích này chỉ chấp nhận ứng dụng BitChord</string>
+    <string name="music_source_checking">Đang kiểm tra…</string>
+    <string name="music_source_downloads_allowed">Cho phép tải xuống</string>
+    <string name="music_source_error">Lỗi: %1$s</string>
+    <string name="music_source_quality">Chất lượng: %1$s</string>
+    <string name="music_source_remove">Loại bỏ %1$s</string>
+    <string name="music_source_streaming_only">Chỉ Phát Trực Tuyến</string>
+    <string name="music_source_working">Đang Hoạt Động</string>
+    <string name="music_sources">Nguồn Âm Nhạc</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Nhịp đó rơi</item>
+        <item>Bài hát bắt đầu</item>
+        <item>Khởi động</item>
+        <item>Thiết lập tâm trạng</item>
+        <item>Bass trước, lời sau</item>
+        <item>Hãy chờ</item>
+        <item>Cảm nhận sự xây dựng đó</item>
+        <item>Chỉ groove tạm thời</item>
+        <item>Hook đang đến</item>
+        <item>Để nó thở</item>
+        <item>Kích hoạt giọng hát</item>
+        <item>Nốt đầu tiên vào</item>
+    </string-array>
 </resources>

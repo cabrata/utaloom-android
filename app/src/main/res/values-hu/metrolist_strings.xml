@@ -884,4 +884,73 @@
     <string name="wrapped_recap_empty_body">%1$d évhez még nincsenek hallgatási előzmények. Játssz le zenét bekapcsolt előzményekkel, vagy válassz másik évet.</string>
     <string name="wrapped_recap_listen">Találj valamit lejátszani</string>
     <string name="open_menu">Menü megnyitása</string>
+    <string name="audio_output">Audiokimenet</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Magas minőség</string>
+    <string name="audio_quality_reported">Bővítmény minőségi címkéje</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">Minőség fejlesztése</string>
+    <string name="autoplay_queue_desc">Hasonló zene, a következő lejátszásra kiválasztva</string>
+    <string name="lyrics_by">Szöveg: %1$s</string>
+    <string name="music_source_youtube_desc">Elindítja a lejátszást</string>
+    <string name="music_sources_desc">A lejátszás YouTube Music alkalmazáson kezdődik. Az engedélyezett bővítmények sorban ellenőrzésre kerülnek a cím, előadó és hossz szerint magasabb minőségű egyezéshez. Érintse meg a bővítményt a linket másolásához.</string>
+    <string name="music_sources_selection_desc">Kezdje a YouTube Music alkalmazással és javítsa a hangot bővítményekkel</string>
+    <string name="playing_from">Lejátszás: %1$s</string>
+    <string name="queue_editing_lock">Sor szerkesztésének zárolása</string>
+    <string name="spotify_login_error_hint">Próbálja meg újra betölteni a bejelentkezési oldalt, vagy lépjen vissza a kilépéshez.</string>
+    <string name="spotify_login_error_title">Nem lehet megnyitni a Spotifyt</string>
+    <string name="spotify_login_instructions">Jelentkezzen be lent a Spotify Canvas videók használatához. Ez a képernyő csukódik csukódik után csatlakozás után.</string>
+    <string name="spotify_login_load_error">A bejelentkezési oldal nem töltődött be. Ellenőrizze a kapcsolatot, majd próbálja újra.</string>
+    <string name="spotify_login_loading">Spotify bejelentkezés betöltése…</string>
+    <string name="spotify_login_reload">Spotify bejelentkezés újratöltése</string>
+    <string name="spotify_login_saving">Spotify-kapcsolat mentése…</string>
+    <string name="volume_down">Hangerő csökkentése</string>
+    <string name="volume_up">Hangerő növelése</string>
+    <string name="yt_login_checking">A YouTube-csatornák ellenőrzése…</string>
+    <string name="yt_login_completing">YouTube Music-fiók mentése…</string>
+    <string name="yt_login_hint">Jelentkezzen be az alábbi Google oldalon. A bejelentkezés után kiválaszthatja a YouTube-csatornát.</string>
+    <string name="yt_login_page_error">A bejelentkezési oldal nem töltődött be. Ellenőrizze a kapcsolatot, majd próbálja újra.</string>
+    <string name="yt_login_switch_hint">Válassza ki azt a YouTube-csatornát, amelyet ezzel a fiókkal szeretne használni.</string>
+    <string name="yt_login_switching">YouTube-csatorna váltása…</string>
+    <string name="yt_login_title">Jelentkezzen be a YouTube Music-ba</string>
+    <string name="player_design">Lejátszó kinézete</string>
+    <string name="player_design_material3">Material 3 (Korábbi)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">Bitmélység</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">Forrás</string>
+    <string name="audio_quality_source_addon">%1$s (bővítmény)</string>
+    <string name="music_source_add">Bővítmény hozzáadása</string>
+    <string name="music_source_add_desc">Illessze be egy BitChord-kompatibilis bővítménykiszolgáló hivatkozását</string>
+    <string name="music_source_add_failed">Nem sikerült hozzáadni ezt a bővítményt. Ellenőrizd a linket és próbáld újra.</string>
+    <string name="music_source_always_on">Mindig bekapcsolva</string>
+    <string name="music_source_auth_unsupported">Ez a bővítmény csak a BitChord alkalmazást fogadja el</string>
+    <string name="music_source_checking">Ellenőrzés…</string>
+    <string name="music_source_downloads_allowed">Letöltések engedélyezve</string>
+    <string name="music_source_error">Hiba: %1$s</string>
+    <string name="music_source_quality">Minőség: %1$s</string>
+    <string name="music_source_remove">%1$s eltávolítása</string>
+    <string name="music_sources">Zeneforvások</string>
+    <string name="music_source_streaming_only">Csak adatfolyam</string>
+    <string name="music_source_working">Működik</string>
+    <string name="lyrics_instrumental">Instrumentális</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Az ütem érkezik</item>
+        <item>A dal kezdődik</item>
+        <item>Bemelegítés</item>
+        <item>Hangulat beállítása</item>
+        <item>Első basszus, később szöveg</item>
+        <item>Várakozz</item>
+        <item>Érezd ezt az építkezést</item>
+        <item>Csak a groove most</item>
+        <item>Az utánzat érkezik</item>
+        <item>Hagyd hogy lélegezzen</item>
+        <item>Vokálok jele</item>
+        <item>Első hangok</item>
+    </string-array>
 </resources>

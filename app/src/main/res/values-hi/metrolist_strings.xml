@@ -80,4 +80,73 @@
     <string name="wrapped_recap_empty_body">%1$d के लिए अभी तक सुनने का इतिहास नहीं है। इतिहास चालू करके कुछ संगीत चलाएँ, या कोई दूसरा साल चुनें।</string>
     <string name="wrapped_recap_listen">चलाने के लिए कुछ खोजें</string>
     <string name="open_menu">मेनू खोलें</string>
+    <string name="audio_output">ऑडियो आउटपुट</string>
+    <string name="audio_quality_bit_depth_value">%1$d-बिट</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">उच्च गुणवत्ता</string>
+    <string name="audio_quality_reported">ऐड-ऑन गुणवत्ता लेबल</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">गुणवत्ता अपग्रेड की जा रही है</string>
+    <string name="autoplay_queue_desc">समान संगीत, अगला चलाने के लिए चुना गया</string>
+    <string name="lyrics_by">%1$s द्वारा गीत</string>
+    <string name="music_source_youtube_desc">प्लेबैक शुरू करता है</string>
+    <string name="music_sources_desc">प्लेबैक YouTube Music पर शुरू होता है। सक्षम ऐड-ऑन को शीर्षक, कलाकार और लंबाई से उच्च गुणवत्ता वाले मिल के लिए क्रम में जांचा जाता है। लिंक कॉपी करने के लिए ऐड-ऑन पर टैप करें।</string>
+    <string name="music_sources_selection_desc">YouTube Music से शुरू करें और ऐड-ऑन से ऑडियो अपग्रेड करें</string>
+    <string name="playing_from">%1$s से चला जा रहा है</string>
+    <string name="queue_editing_lock">कतार संपादन को लॉक करें</string>
+    <string name="spotify_login_error_hint">साइन-इन पृष्ठ को फिर से लोड करने के लिए फिर से प्रयास करें, या बाहर निकलने के लिए वापस जाएं।</string>
+    <string name="spotify_login_error_title">Spotify नहीं खोल सकते</string>
+    <string name="spotify_login_instructions">Spotify Canvas वीडियो का उपयोग करने के लिए नीचे साइन इन करें। कनेक्ट होने के बाद यह स्क्रीन बंद हो जाएगी।</string>
+    <string name="spotify_login_load_error">साइन-इन पृष्ठ लोड नहीं हो सके। अपना कनेक्शन जांचें, फिर से कोशिश करें।</string>
+    <string name="spotify_login_loading">Spotify साइन-इन लोड किया जा रहा है…</string>
+    <string name="spotify_login_reload">Spotify साइन-इन को रीलोड करें</string>
+    <string name="spotify_login_saving">Spotify कनेक्शन सहेजा जा रहा है…</string>
+    <string name="volume_down">वॉल्यूम कम करें</string>
+    <string name="volume_up">वॉल्यूम बढ़ाएं</string>
+    <string name="yt_login_checking">आपके YouTube चैनल की जांच की जा रही है…</string>
+    <string name="yt_login_completing">आपका YouTube Music खाता सहेजा जा रहा है…</string>
+    <string name="yt_login_hint">नीचे Google पृष्ठ पर साइन इन करें। साइन इन करने के बाद आप YouTube चैनल चुन सकते हैं।</string>
+    <string name="yt_login_page_error">साइन-इन पृष्ठ लोड नहीं हो सके। अपना कनेक्शन जांचें, फिर से कोशिश करें।</string>
+    <string name="yt_login_switch_hint">वह YouTube चैनल चुनें जिसे आप इस खाते के साथ उपयोग करना चाहते हैं।</string>
+    <string name="yt_login_switching">YouTube चैनल स्विच किया जा रहा है…</string>
+    <string name="yt_login_title">YouTube Music में साइन इन करें</string>
+    <string name="player_design">प्लेयर डिज़ाइन</string>
+    <string name="player_design_material3">Material 3 (पिछला)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">बिट गहराई</string>
+    <string name="audio_quality_hires_lossless">हाई-रेज़ लॉसलेस</string>
+    <string name="audio_quality_lossless">लॉसलेस</string>
+    <string name="audio_quality_source">स्रोत</string>
+    <string name="audio_quality_source_addon">%1$s (ऐड-ऑन)</string>
+    <string name="music_source_add">ऐड-ऑन जोड़ें</string>
+    <string name="music_source_add_desc">BitChord-संगत ऐड-ऑन सर्वर की लिंक पेस्ट करें</string>
+    <string name="music_source_add_failed">इस ऐड-ऑन को जोड़ा नहीं जा सका। लिंक जांचें और फिर से कोशिश करें।</string>
+    <string name="music_source_always_on">हमेशा चालू</string>
+    <string name="music_source_auth_unsupported">यह ऐड-ऑन केवल BitChord ऐप को स्वीकार करता है</string>
+    <string name="music_source_checking">जांच जारी है…</string>
+    <string name="music_source_downloads_allowed">डाउनलोड की अनुमति</string>
+    <string name="music_source_error">त्रुटि: %1$s</string>
+    <string name="music_source_quality">गुणवत्ता: %1$s</string>
+    <string name="music_source_remove">%1$s को हटाएं</string>
+    <string name="music_sources">संगीत स्रोत</string>
+    <string name="music_source_streaming_only">केवल स्ट्रीमिंग</string>
+    <string name="music_source_working">काम कर रहा है</string>
+    <string name="lyrics_instrumental">वाद्य यंत्र</string>
+    <string-array name="lyrics_intro_lines">
+        <item>बीट आ रही है</item>
+        <item>गीत शुरू हो रहा है</item>
+        <item>तैयारी</item>
+        <item>माहौल सेट करना</item>
+        <item>पहले बास, फिर शब्द</item>
+        <item>प्रतीक्षा करें</item>
+        <item>इस बिल्डअप को महसूस करें</item>
+        <item>अभी के लिए सिर्फ ग्रूव</item>
+        <item>हुक आ रहा है</item>
+        <item>इसे सांस लेने दें</item>
+        <item>वोकल्स का संकेत</item>
+        <item>पहली आवाजें</item>
+    </string-array>
 </resources>

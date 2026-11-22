@@ -8,29 +8,40 @@ package com.metrolist.music.ui.screens.settings
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.net.http.SslError
+import android.view.View
 import android.view.ViewGroup
 import android.webkit.CookieManager
 import android.webkit.SslErrorHandler
 import android.webkit.WebChromeClient
+import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -43,9 +54,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import com.metrolist.music.R
+import com.metrolist.music.ui.screens.WebLoginHeader
 import com.metrolist.music.canvas.extractSpDc
 import com.metrolist.music.constants.SpotifySpDcCookieKey
 import com.metrolist.music.utils.safeDataStoreEdit
@@ -61,6 +78,8 @@ fun SpotifyLoginScreen(
     val coroutineScope = rememberCoroutineScope()
     var webViewRef by remember { mutableStateOf<WebView?>(null) }
     var progress by remember { mutableIntStateOf(0) }
+    var isLoading by remember { mutableStateOf(true) }
+    var loadError by remember { mutableStateOf<Int?>(null) }
     var hasCaptured by remember { mutableStateOf(false) }
 
     fun checkAndSaveCookie() {
@@ -92,7 +111,7 @@ fun SpotifyLoginScreen(
         }
     }
 
-    BackHandler {
+    fun goBack() {
         if (webViewRef?.canGoBack() == true) {
             webViewRef?.goBack()
         } else {
@@ -100,34 +119,47 @@ fun SpotifyLoginScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.spotify_login_title)) },
-                navigationIcon = {
-                    IconButton(onClick = navController::navigateUp) {
-                        Icon(
-                            painter = painterResource(R.drawable.arrow_back),
-                            contentDescription = null,
-                        )
-                    }
+    fun reload() {
+        webViewRef?.let { view ->
+            loadError = null
+            progress = 0
+            isLoading = true
+            view.reload()
+        }
+    }
+
+    BackHandler(onBack = ::goBack)
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .navigationBarsPadding()
+            .imePadding(),
+    ) {
+        WebLoginHeader(
+            title = stringResource(R.string.spotify_login_title),
+            subtitle = stringResource(
+                when {
+                    hasCaptured -> R.string.spotify_login_saving
+                    loadError != null -> R.string.spotify_login_error_hint
+                    isLoading -> R.string.spotify_login_loading
+                    else -> R.string.spotify_login_instructions
                 },
-                actions = {
-                    IconButton(onClick = { webViewRef?.reload() }) {
-                        Icon(
-                            painter = painterResource(R.drawable.sync),
-                            contentDescription = null,
-                        )
-                    }
-                },
-            )
-        },
-    ) { innerPadding ->
+            ),
+            onBack = navController::navigateUp,
+        ) {
+            IconButton(onClick = ::reload, enabled = webViewRef != null) {
+                Icon(
+                    painter = painterResource(R.drawable.sync),
+                    contentDescription = stringResource(R.string.spotify_login_reload),
+                )
+            }
+        }
         Box(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .background(MaterialTheme.colorScheme.background),
+                .fillMaxWidth()
+                .weight(1f),
         ) {
             AndroidView(
                 modifier = Modifier.fillMaxSize(),
@@ -174,10 +206,14 @@ fun SpotifyLoginScreen(
                             }
 
                             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                                loadError = null
+                                progress = 0
+                                isLoading = true
                                 checkAndSaveCookie()
                             }
 
                             override fun onPageFinished(view: WebView?, url: String?) {
+                                isLoading = false
                                 checkAndSaveCookie()
                             }
 
@@ -185,9 +221,32 @@ fun SpotifyLoginScreen(
                                 checkAndSaveCookie()
                             }
 
+                            override fun onReceivedError(
+                                view: WebView?,
+                                request: WebResourceRequest?,
+                                error: WebResourceError?,
+                            ) {
+                                if (request?.isForMainFrame == true) {
+                                    isLoading = false
+                                    loadError = R.string.spotify_login_load_error
+                                }
+                            }
+
+                            override fun onReceivedHttpError(
+                                view: WebView?,
+                                request: WebResourceRequest?,
+                                errorResponse: WebResourceResponse?,
+                            ) {
+                                if (request?.isForMainFrame == true) {
+                                    isLoading = false
+                                    loadError = R.string.spotify_login_load_error
+                                }
+                            }
+
                             override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
                                 handler?.cancel()
-                                Toast.makeText(ctx, R.string.spotify_login_tls_error, Toast.LENGTH_LONG).show()
+                                isLoading = false
+                                loadError = R.string.spotify_login_tls_error
                             }
                         }
 
@@ -195,15 +254,62 @@ fun SpotifyLoginScreen(
                         loadUrl("https://accounts.spotify.com/login?continue=https%3A%2F%2Fopen.spotify.com%2F")
                     }
                 },
+                update = { view ->
+                    view.visibility = if (loadError == null) View.VISIBLE else View.INVISIBLE
+                },
+                onRelease = { view ->
+                    if (webViewRef === view) webViewRef = null
+                    view.destroy()
+                },
             )
 
-            if (progress in 1..99) {
-                LinearProgressIndicator(
-                    progress = { progress / 100f },
+            if (loadError == null && (isLoading || hasCaptured)) {
+                val progressModifier = Modifier.fillMaxWidth().align(Alignment.TopCenter)
+                if (hasCaptured || progress == 0) {
+                    LinearProgressIndicator(modifier = progressModifier)
+                } else {
+                    LinearProgressIndicator(
+                        progress = { progress / 100f },
+                        modifier = progressModifier,
+                    )
+                }
+            }
+
+            loadError?.let { error ->
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.TopCenter),
-                )
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background)
+                        .verticalScroll(rememberScrollState())
+                        .padding(24.dp)
+                        .semantics { liveRegion = LiveRegionMode.Polite },
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.error),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.size(40.dp),
+                    )
+                    Spacer(Modifier.height(16.dp))
+                    Text(
+                        text = stringResource(R.string.spotify_login_error_title),
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Center,
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        text = stringResource(error),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center,
+                    )
+                    Spacer(Modifier.height(20.dp))
+                    Button(onClick = ::reload) {
+                        Text(stringResource(R.string.retry))
+                    }
+                }
             }
         }
     }

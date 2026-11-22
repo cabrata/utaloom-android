@@ -180,6 +180,7 @@ fun BackupAndRestore(
                 listOf(
                     Material3SettingsItem(
                         title = { Text(stringResource(R.string.action_backup)) },
+                        targetKey = R.string.action_backup,
                         icon = painterResource(R.drawable.backup),
                         onClick = {
                             val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
@@ -192,6 +193,7 @@ fun BackupAndRestore(
                     ),
                     Material3SettingsItem(
                         title = { Text(stringResource(R.string.action_restore)) },
+                        targetKey = R.string.action_restore,
                         icon = painterResource(R.drawable.restore),
                         onClick = {
                             restoreLauncher.launch(arrayOf("application/octet-stream"))
@@ -199,6 +201,7 @@ fun BackupAndRestore(
                     ),
                     Material3SettingsItem(
                         title = { Text(stringResource(R.string.import_online)) },
+                        targetKey = R.string.import_online,
                         icon = painterResource(R.drawable.playlist_add),
                         onClick = {
                             importM3uLauncherOnline.launch(arrayOf("audio/*"))
@@ -206,6 +209,7 @@ fun BackupAndRestore(
                     ),
                     Material3SettingsItem(
                         title = { Text(stringResource(R.string.import_csv)) },
+                        targetKey = R.string.import_csv,
                         icon = painterResource(R.drawable.playlist_add),
                         onClick = {
                             importPlaylistFromCsv.launch(

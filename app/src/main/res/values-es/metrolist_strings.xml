@@ -912,4 +912,74 @@
     <string name="wrapped_recap_empty_body">Aún no hay historial de reproducción de %1$d. Reproduce música con el historial activado o elige otro año.</string>
     <string name="wrapped_recap_listen">Busca algo para reproducir</string>
     <string name="open_menu">Abrir menú</string>
+    <string name="audio_output">Salida de audio</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Alta Calidad</string>
+    <string name="audio_quality_reported">Etiqueta de calidad del complemento</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">Se está mejorando la calidad</string>
+    <string name="autoplay_queue_desc">Música similar, seleccionada para reproducir a continuación</string>
+    <string name="lyrics_by">Letra de %1$s</string>
+    <string name="music_source_youtube_desc">Comenzar reproducción</string>
+    <string name="music_sources_desc">La reproducción comienza en YouTube Music. Los complementos habilitados se verifican en orden para una coincidencia de mayor calidad por título, artista y duración. Toca un complemento para copiar su enlace.</string>
+    <string name="music_sources_selection_desc">Comienza con YouTube Music y mejora el audio con complementos</string>
+    <string name="playing_from">Reproduciendo desde %1$s</string>
+    <string name="queue_editing_lock">Bloquear edición de cola</string>
+    <string name="spotify_login_error_hint">Intenta recargar la página de inicio de sesión o vuelve atrás para salir.</string>
+    <string name="spotify_login_error_title">No se pudo abrir Spotify</string>
+    <string name="spotify_login_instructions">Inicia sesión a continuación para usar vídeos de Spotify Canvas. Esta pantalla se cerrará una vez conectado.</string>
+    <string name="spotify_login_load_error">No se pudo cargar la página de inicio de sesión. Comprueba tu conexión e intenta de nuevo.</string>
+    <string name="spotify_login_loading">Cargando inicio de sesión de Spotify...</string>
+    <string name="spotify_login_reload">Recargar inicio de sesión de Spotify</string>
+    <string name="spotify_login_saving">Guardando conexión de Spotify...</string>
+    <string name="volume_down">Bajar volumen</string>
+    <string name="volume_up">Subir volumen</string>
+    <string name="yt_login_checking">Comprobando tus canales de YouTube…</string>
+    <string name="yt_login_completing">Guardando tu cuenta de YouTube Music…</string>
+    <string name="yt_login_hint">Inicia sesión en la página de Google a continuación. Puedes elegir un canal de YouTube después de iniciar sesión.</string>
+    <string name="yt_login_page_error">No se pudo cargar la página de inicio de sesión. Comprueba tu conexión e intenta de nuevo.</string>
+    <string name="yt_login_switch_hint">Elige el canal de YouTube que deseas usar con esta cuenta.</string>
+    <string name="yt_login_switching">Cambiando canal de YouTube…</string>
+    <string name="yt_login_title">Iniciar sesión en YouTube Music</string>
+    <string name="player_design">Diseño del reproductor</string>
+    <string name="player_design_material3">Material 3 (Anterior)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+
+    <string name="audio_quality_bit_depth">Profundidad de bits</string>
+    <string name="audio_quality_hires_lossless">Hi-Res sin pérdidas</string>
+    <string name="audio_quality_lossless">Sin pérdidas</string>
+    <string name="audio_quality_source">Fuente</string>
+    <string name="audio_quality_source_addon">%1$s (complemento)</string>
+    <string name="music_source_add">Añadir complemento</string>
+    <string name="music_source_add_desc">Pegue el enlace de un servidor de complemento compatible con BitChord</string>
+    <string name="music_source_add_failed">No se pudo añadir este complemento. Compruebe el enlace e intente de nuevo.</string>
+    <string name="music_source_always_on">Siempre activado</string>
+    <string name="music_source_auth_unsupported">Este complemento solo acepta la aplicación BitChord</string>
+    <string name="music_source_checking">Comprobando…</string>
+    <string name="music_source_downloads_allowed">Descargas permitidas</string>
+    <string name="music_source_error">Error: %1$s</string>
+    <string name="music_source_quality">Calidad: %1$s</string>
+    <string name="music_source_remove">Eliminar %1$s</string>
+    <string name="music_sources">Fuentes de música</string>
+    <string name="music_source_streaming_only">Solo transmisión</string>
+    <string name="music_source_working">Funcionando</string>
+    <string name="lyrics_instrumental">Instrumental</string>
+    <string-array name="lyrics_intro_lines">
+        <item>El ritmo cae</item>
+        <item>La canción comienza</item>
+        <item>Calentamiento</item>
+        <item>Establecer el ambiente</item>
+        <item>Primero el bajo, después las palabras</item>
+        <item>Espera</item>
+        <item>Siente esa construcción</item>
+        <item>Solo groove por ahora</item>
+        <item>El gancho viene</item>
+        <item>Que respire</item>
+        <item>Llama a los vocales</item>
+        <item>Primeras notas</item>
+    </string-array>
 </resources>

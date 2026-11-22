@@ -4,7 +4,9 @@ import com.metrolist.music.db.entities.FormatEntity
 import com.metrolist.music.playback.MusicAddons
 import com.metrolist.music.ui.player.AudioQualityInfo.Tier
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class AudioQualityInfoTest {
@@ -31,16 +33,48 @@ class AudioQualityInfoTest {
     }
 
     @Test
-    fun `badge uses the add-on's quality and measured values beat reported ones`() {
+    fun `badge tier uses measured values and keeps the add-on label as detail`() {
         val reported = stream("flac", 16, 44_100).copy(quality = "LOSSLESS", bitrateKbps = 900)
         val info = audioQualityOf(reported, opus, PlayedAudio(bitDepth = 24, sampleRateHz = 96_000, bitrateKbps = 2_900))!!
-        assertEquals("LOSSLESS", info.label)
+        assertEquals("LOSSLESS", info.reportedQuality)
         assertEquals(Tier.HI_RES, info.tier)
         assertEquals(24, info.bitDepth)
         assertEquals(96_000, info.sampleRateHz)
         assertEquals(2_900, info.bitrateKbps)
         assertEquals(900, audioQualityOf(reported, opus, PlayedAudio())!!.bitrateKbps)
-        assertNull(audioQualityOf(null, opus)!!.label)
+        assertNull(audioQualityOf(null, opus)!!.reportedQuality)
+    }
+
+    @Test
+    fun `selected track beats the format and quality claimed by the add-on`() {
+        val reported = stream("flac", 24, 96_000).copy(quality = "HI-RES")
+        val played = PlayedAudio(sampleRateHz = 48_000, bitrateKbps = 128, mimeType = "audio/mp4a-latm")
+        val result = audioQualityOf(reported, opus, played)!!
+        assertEquals(Tier.LOSSY, result.tier)
+        assertEquals("AAC", result.codec)
+        assertEquals(128, result.bitrateKbps)
+        assertEquals(Tier.LOSSY, audioQualityOf(null, opus, played)!!.tier)
+        assertEquals("AAC", audioQualityOf(null, null, played)!!.codec)
+    }
+
+    @Test
+    fun `high quality needs at least 256 kbps and Atmos needs JOC`() {
+        val aac = stream("aac").copy(quality = "HIGH", bitrateKbps = 255)
+        assertEquals(Tier.LOSSY, audioQualityOf(aac, null)!!.tier)
+        assertEquals(Tier.HIGH_QUALITY, audioQualityOf(aac.copy(bitrateKbps = 256), null)!!.tier)
+        assertEquals(Tier.LOSSY, audioQualityOf(stream("ec-3").copy(quality = "DOLBY"), null)!!.tier)
+        val atmos = audioQualityOf(aac, null, PlayedAudio(mimeType = "audio/eac3-joc"))!!
+        assertEquals(Tier.DOLBY_ATMOS, atmos.tier)
+        assertEquals("E-AC-3 JOC", atmos.codec)
+    }
+
+    @Test
+    fun `only confirmed premium codecs get the quality shimmer`() {
+        assertTrue(PlayedAudio(mimeType = "audio/x-flac").isPremiumFormat)
+        assertTrue(PlayedAudio(mimeType = "audio/eac3-joc").isPremiumFormat)
+        assertFalse(PlayedAudio(mimeType = "audio/eac3").isPremiumFormat)
+        assertFalse(PlayedAudio(mimeType = "audio/opus").isPremiumFormat)
+        assertFalse(PlayedAudio().isPremiumFormat)
     }
 
     @Test

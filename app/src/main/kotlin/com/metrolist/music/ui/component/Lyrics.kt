@@ -18,6 +18,7 @@ fun Lyrics(
     sliderPositionProvider: () -> Long?,
     modifier: Modifier = Modifier,
     showLyrics: Boolean,
+    onUserScroll: (deltaY: Float, direction: Int) -> Unit = { _, _ -> },
     lyricsViewModel: LyricsViewModel = hiltViewModel()
 ) {
     val (experimentalLyrics, _) = rememberPreference(key = ExperimentalLyricsKey, defaultValue = true)
@@ -27,13 +28,15 @@ fun Lyrics(
             sliderPositionProvider = sliderPositionProvider,
             modifier = modifier,
             showLyrics = showLyrics,
+            onUserScroll = onUserScroll,
             lyricsViewModel = lyricsViewModel
         )
     } else {
         OriginalLyrics(
             sliderPositionProvider = sliderPositionProvider,
             modifier = modifier,
-            showLyrics = showLyrics
+            showLyrics = showLyrics,
+            onUserScroll = onUserScroll
         )
     }
 }

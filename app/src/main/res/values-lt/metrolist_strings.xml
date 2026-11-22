@@ -404,4 +404,73 @@
     <string name="wrapped_recap_empty_body">%1$d m. klausymo istorijos dar nėra. Pagrok muzikos su įjungta istorija arba pasirink kitus metus.</string>
     <string name="wrapped_recap_listen">Rask, ką paleisti</string>
     <string name="open_menu">Atidaryti meniu</string>
+    <string name="audio_output">Garso išvestis</string>
+    <string name="audio_quality_bit_depth_value">%1$d bitų</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Aukšta kokybė</string>
+    <string name="audio_quality_reported">Priedo kokybės etiketas</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">Kokybės gerinimas</string>
+    <string name="autoplay_queue_desc">Panašus dainas, pasirinktas groti toliau</string>
+    <string name="lyrics_by">Žodžiai: %1$s</string>
+    <string name="music_source_youtube_desc">Pradedamas grojimas</string>
+    <string name="music_sources_desc">Grojimas pradedamas nuo YouTube Music. Įgalinti priedai patikrinami iš eilės, kad būtų rasti geresnius kokybės atitikimus pagal pavadinimą, atlikėją ir trukmę. Palieskite priedą, kad nukopijuotumėte jo nuorodą.</string>
+    <string name="music_sources_selection_desc">Pradėkite nuo YouTube Music ir pagerintą garso naudodami priedus</string>
+    <string name="playing_from">Grajama iš %1$s</string>
+    <string name="queue_editing_lock">Užrakinti eilės redagavimą</string>
+    <string name="spotify_login_error_hint">Bandykite dar kartą iš naujo įkelti prisijungimo puslapį arba grįžkite, kad išeitumėte.</string>
+    <string name="spotify_login_error_title">Negalima atidaryti Spotify</string>
+    <string name="spotify_login_instructions">Prisijunkite žemiau, kad naudotumėte Spotify Canvas vaizdo įrašus. Šis ekranas uždarytas, kai prie jo prijungiama.</string>
+    <string name="spotify_login_load_error">Nepavyko įkelti prisijungimo puslapio. Patikrinkite savo ryšį ir bandykite dar kartą.</string>
+    <string name="spotify_login_loading">Įkeliama Spotify prisijungti…</string>
+    <string name="spotify_login_reload">Iš naujo įkelti Spotify prisijungti</string>
+    <string name="spotify_login_saving">Išsaugoma Spotify ryšis…</string>
+    <string name="volume_down">Sumažinti garsumą</string>
+    <string name="volume_up">Padidinti garsumą</string>
+    <string name="yt_login_checking">Tikrinami jūsų YouTube kanalai…</string>
+    <string name="yt_login_completing">Išsaugoma jūsų YouTube Music paskyra…</string>
+    <string name="yt_login_hint">Prisijunkite prie žemiau esančio Google puslapio. Po prisijungimo galite pasirinkti YouTube kanalą.</string>
+    <string name="yt_login_page_error">Nepavyko įkelti prisijungimo puslapio. Patikrinkite savo ryšį ir bandykite dar kartą.</string>
+    <string name="yt_login_switch_hint">Pasirinkite YouTube kanalą, kurį norite naudoti su šia paskyra.</string>
+    <string name="yt_login_switching">Perjungiamas YouTube kanalas…</string>
+    <string name="yt_login_title">Prisijunkite prie YouTube Music</string>
+    <string name="player_design">Grotuvo dizainas</string>
+    <string name="player_design_material3">Material 3 (Ankstesnis)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="audio_quality_bit_depth">Bitų gylis</string>
+    <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
+    <string name="audio_quality_lossless">Lossless</string>
+    <string name="audio_quality_source">Šaltinis</string>
+    <string name="audio_quality_source_addon">%1$s (papildinys)</string>
+    <string name="music_source_add">Pridėti papildinį</string>
+    <string name="music_source_add_desc">Įklijuokite BitChord suderinamą papildinio serverio nuorodą</string>
+    <string name="music_source_add_failed">Nepavyko pridėti šio papildinio. Patikrinkite nuorodą ir bandykite dar kartą.</string>
+    <string name="music_source_always_on">Visada įjungta</string>
+    <string name="music_source_auth_unsupported">Šis papildinys priima tik BitChord programą</string>
+    <string name="music_source_checking">Tikrinimas…</string>
+    <string name="music_source_downloads_allowed">Leisti atsisiuntimus</string>
+    <string name="music_source_error">Klaida: %1$s</string>
+    <string name="music_source_quality">Kokybė: %1$s</string>
+    <string name="music_source_remove">Pašalinti %1$s</string>
+    <string name="music_sources">Muzikos šaltiniai</string>
+    <string name="music_source_streaming_only">Tik transliavimas</string>
+    <string name="music_source_working">Veikia</string>
+    <string name="lyrics_instrumental">Instrumentinė</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Ritmas atkeliauja</item>
+        <item>Daina prasideda</item>
+        <item>Šildymasis</item>
+        <item>Nuotaikos nustatymas</item>
+        <item>Pirma bas, paskui žodžiai</item>
+        <item>Palauk</item>
+        <item>Jausk šį užbigą</item>
+        <item>Tik grovas dabar</item>
+        <item>Kabliukas jau beveik čia</item>
+        <item>Leisk jam kvėpuoti</item>
+        <item>Vokalinė signalas</item>
+        <item>Pirmosios natos</item>
+    </string-array>
 </resources>

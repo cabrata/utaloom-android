@@ -126,11 +126,16 @@ class SleepTimer(
         updateVolumeMultiplier(1f)
     }
 
+    private var lastMediaId: String? = null
+
     override fun onMediaItemTransition(
         mediaItem: MediaItem?,
         reason: Int,
     ) {
-        if (pauseWhenSongEnd) {
+        // A quality upgrade replaces the current item with the same song; the song has not ended.
+        val sameSong = reason == Player.MEDIA_ITEM_TRANSITION_REASON_PLAYLIST_CHANGED && mediaItem?.mediaId == lastMediaId
+        lastMediaId = mediaItem?.mediaId
+        if (pauseWhenSongEnd && !sameSong) {
             completeTimerAndPause()
         }
     }

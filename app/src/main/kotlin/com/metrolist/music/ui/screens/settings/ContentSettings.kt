@@ -433,6 +433,7 @@ fun ContentSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.offline),
                     title = { Text(stringResource(R.string.offline_mode)) },
+                    targetKey = R.string.offline_mode,
                     description = { Text(stringResource(R.string.offline_mode_desc)) },
                     trailingContent = {
                         Switch(checked = offlineMode, onCheckedChange = onOfflineModeChange)
@@ -442,6 +443,7 @@ fun ContentSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.language),
                     title = { Text(stringResource(R.string.content_language)) },
+                    targetKey = R.string.content_language,
                     description = {
                         Text(
                             LanguageCodeToName.getOrElse(contentLanguage) { stringResource(R.string.system_default) }
@@ -452,6 +454,7 @@ fun ContentSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.location_on),
                     title = { Text(stringResource(R.string.content_country)) },
+                    targetKey = R.string.content_country,
                     description = {
                         Text(
                             CountryCodeToName.getOrElse(contentCountry) { stringResource(R.string.system_default) }
@@ -462,6 +465,7 @@ fun ContentSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.explicit),
                     title = { Text(stringResource(R.string.hide_explicit)) },
+                    targetKey = R.string.hide_explicit,
                     trailingContent = {
                         Switch(
                             checked = hideExplicit,
@@ -482,6 +486,7 @@ fun ContentSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.slow_motion_video),
                     title = { Text(stringResource(R.string.hide_video_songs)) },
+                    targetKey = R.string.hide_video_songs,
                     trailingContent = {
                         Switch(
                             checked = hideVideoSongs,
@@ -502,6 +507,7 @@ fun ContentSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.hide_image),
                     title = { Text(stringResource(R.string.hide_youtube_shorts)) },
+                    targetKey = R.string.hide_youtube_shorts,
                     trailingContent = {
                         Switch(
                             checked = hideYoutubeShorts,
@@ -530,6 +536,7 @@ fun ContentSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.playlist_add),
                     title = { Text(stringResource(R.string.add_to_playlist_position)) },
+                    targetKey = R.string.add_to_playlist_position,
                     description = {
                         Text(
                             when (addToPlaylistPosition) {
@@ -551,6 +558,7 @@ fun ContentSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.info),
                     title = { Text(stringResource(R.string.show_artist_description)) },
+                    targetKey = R.string.show_artist_description,
                     trailingContent = {
                         Switch(
                             checked = showArtistDescription,
@@ -571,6 +579,7 @@ fun ContentSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.person),
                     title = { Text(stringResource(R.string.show_artist_subscriber_count)) },
+                    targetKey = R.string.show_artist_subscriber_count,
                     trailingContent = {
                         Switch(
                             checked = showArtistSubscriberCount,
@@ -591,6 +600,7 @@ fun ContentSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.person),
                     title = { Text(stringResource(R.string.show_artist_monthly_listeners)) },
+                    targetKey = R.string.show_artist_monthly_listeners,
                     trailingContent = {
                         Switch(
                             checked = showMonthlyListeners,
@@ -620,6 +630,7 @@ fun ContentSettings(
                     Material3SettingsItem(
                         icon = painterResource(R.drawable.language),
                         title = { Text(stringResource(R.string.app_language)) },
+                        targetKey = R.string.app_language,
                         onClick = {
                             context.startActivity(
                                 Intent(
@@ -633,6 +644,7 @@ fun ContentSettings(
                     Material3SettingsItem(
                         icon = painterResource(R.drawable.language),
                         title = { Text(stringResource(R.string.app_language)) },
+                        targetKey = R.string.app_language,
                         description = {
                             Text(
                                 LanguageCodeToName.getOrElse(appLanguage) { stringResource(R.string.system_default) }
@@ -653,6 +665,7 @@ fun ContentSettings(
                     Material3SettingsItem(
                         icon = painterResource(R.drawable.wifi_proxy),
                         title = { Text(stringResource(R.string.enable_proxy)) },
+                        targetKey = R.string.enable_proxy,
                         trailingContent = {
                             Switch(
                                 checked = proxyEnabled,
@@ -676,6 +689,7 @@ fun ContentSettings(
                         Material3SettingsItem(
                             icon = painterResource(R.drawable.settings),
                             title = { Text(stringResource(R.string.config_proxy)) },
+                            targetKey = R.string.config_proxy,
                             onClick = { showProxyConfigurationDialog = true }
                         )
                     )
@@ -691,6 +705,7 @@ fun ContentSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.graphic_eq),
                     title = { Text(stringResource(R.string.music_sources)) },
+                    targetKey = R.string.music_sources,
                     description = { Text(stringResource(R.string.music_sources_selection_desc)) },
                     onClick = { navController.navigate("settings/content/music_sources") }
                 ),
@@ -705,12 +720,14 @@ fun ContentSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.lyrics),
                     title = { Text(stringResource(R.string.lyrics_providers)) },
+                    targetKey = R.string.lyrics_providers,
                     description = { Text(stringResource(R.string.lyrics_provider_selection_desc)) },
                     onClick = { navController.navigate("settings/lyrics") }
                 ),
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.language_korean_latin),
                     title = { Text(stringResource(R.string.lyrics_romanization)) },
+                    targetKey = R.string.lyrics_romanization,
                     onClick = { navController.navigate("settings/content/romanization") }
                 )
             )
@@ -724,6 +741,7 @@ fun ContentSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.stats),
                     title = { Text(stringResource(R.string.show_most_stats_playlists)) },
+                    targetKey = R.string.show_most_stats_playlists,
                     description = { Text(stringResource(R.string.show_most_stats_playlists_desc)) },
                     trailingContent = {
                         Switch(
@@ -745,6 +763,7 @@ fun ContentSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.trending_up),
                     title = { Text(stringResource(R.string.show_wrapped_card)) },
+                    targetKey = R.string.show_wrapped_card,
                     trailingContent = {
                         Switch(
                             checked = showWrappedCard,
@@ -765,6 +784,7 @@ fun ContentSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.replay),
                     title = { Text(stringResource(R.string.wrapped_recap_view)) },
+                    targetKey = R.string.wrapped_recap_view,
                     onClick = { navController.navigate("wrapped") }
                 )
             )
@@ -778,6 +798,7 @@ fun ContentSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.shuffle),
                     title = { Text(stringResource(R.string.randomize_home_order)) },
+                    targetKey = R.string.randomize_home_order,
                     description = { Text(stringResource(R.string.randomize_home_order_desc)) },
                     trailingContent = {
                         Switch(
@@ -799,12 +820,14 @@ fun ContentSettings(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.trending_up),
                     title = { Text(stringResource(R.string.top_length)) },
+                    targetKey = R.string.top_length,
                     description = { Text(lengthTop) },
                     onClick = { showTopLengthDialog = true }
                 ),
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.home_outlined),
                     title = { Text(stringResource(R.string.set_quick_picks)) },
+                    targetKey = R.string.set_quick_picks,
                     description = {
                         Text(
                             when (quickPicks) {

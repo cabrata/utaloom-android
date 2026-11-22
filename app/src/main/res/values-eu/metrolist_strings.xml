@@ -540,4 +540,74 @@
     <string name="wrapped_recap_empty_body">Oraindik ez dago entzute-historialik %1$d urterako. Erreproduzitu musika historia gaituta edo aukeratu beste urte bat.</string>
     <string name="wrapped_recap_listen">Bilatu zer erreproduzitu</string>
     <string name="open_menu">Ireki menua</string>
+    <string name="audio_output">Audio irtenbidea</string>
+    <string name="audio_quality_bit_depth_value">%1$d-bit</string>
+    <string name="audio_quality_bitrate_value">%1$d kbps</string>
+    <string name="audio_quality_codec_bitrate">%1$s · %2$s</string>
+    <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
+    <string name="audio_quality_high_quality">Kalitate Altua</string>
+    <string name="audio_quality_reported">Gehigarriaren kalitate etiketa</string>
+    <string name="audio_quality_sample_rate_value">%1$s kHz</string>
+    <string name="audio_quality_source_youtube">YouTube Music</string>
+    <string name="audio_quality_upgrading">Kalitatea hobetzen ari da</string>
+    <string name="autoplay_queue_desc">Antzeko musika, ondorenez erreproduzitzeko aukeratua</string>
+    <string name="lyrics_by">Hitzak %1$s-ren aldetik</string>
+    <string name="music_source_youtube_desc">Hasi erreprodukzioa</string>
+    <string name="music_sources_desc">Erreprodukzioa YouTube Musican hasten da. Gaituazko gehigarriak ordenan egiaztatzen dira kalitate altuko bat bilatzeko izenburuaren, artistaren eta luzeraren arabera. Sakatu gehigarria bere lotura kopiatzen.</string>
+    <string name="music_sources_selection_desc">YouTube Musicarekin hasi eta hobetu audioa gehigarriekin</string>
+    <string name="playing_from">Erreproduzitzen %1$s-tik</string>
+    <string name="queue_editing_lock">Ilara editatzea blokeatu</string>
+    <string name="spotify_login_error_hint">Saioa hasteko orria berriz kargatzen saia zaitez edo atzera jo irtetzeko.</string>
+    <string name="spotify_login_error_title">Spotifya ezin da ireki</string>
+    <string name="spotify_login_instructions">Saioa hasi behean Spotify Canvas bideoak erabiltzeko. Pantaila hau konektatzen denean itxiko da.</string>
+    <string name="spotify_login_load_error">Saioa hasteko orria ezin da kargatu. Zure konexioa egiaztatu eta berriz saia zaitez.</string>
+    <string name="spotify_login_loading">Spotifyren saioa kargatzen...</string>
+    <string name="spotify_login_reload">Spotifyren saioa berriz kargatu</string>
+    <string name="spotify_login_saving">Spotifyren konexioa gordetzen...</string>
+    <string name="volume_down">Bolumena jaitsi</string>
+    <string name="volume_up">Bolumena igo</string>
+    <string name="yt_login_checking">Zure YouTube kanalak egiaztatzen…</string>
+    <string name="yt_login_completing">Zure YouTube Music kontua gordetzen…</string>
+    <string name="yt_login_hint">Saioa hasi Google orrira behean. YouTube kanala aukera dezakezu saioa hastean.</string>
+    <string name="yt_login_page_error">Saioa hasteko orria ezin da kargatu. Zure konexioa egiaztatu eta berriz saia zaitez.</string>
+    <string name="yt_login_switch_hint">Aukera ezazu kontu honekin erabili nahi duzun YouTube kanala.</string>
+    <string name="yt_login_switching">YouTube kanala aldatzen…</string>
+    <string name="yt_login_title">YouTube Musicera saioa hasi</string>
+    <string name="player_design">Erreproduzitzailearen diseinua</string>
+    <string name="player_design_material3">Material 3 (Aurrekoa)</string>
+    <string name="player_design_liquid_glass">Liquid Glass</string>
+
+    <string name="audio_quality_bit_depth">Bit sakonena</string>
+    <string name="audio_quality_hires_lossless">Hi-Res galera gabe</string>
+    <string name="audio_quality_lossless">Galera gabe</string>
+    <string name="audio_quality_source">Iturria</string>
+    <string name="audio_quality_source_addon">%1$s (gehigarria)</string>
+    <string name="music_source_add">Gehigarria gehitu</string>
+    <string name="music_source_add_desc">Itsatsi BitChord-bateragarri gehigarri zerbitzariaren lotura</string>
+    <string name="music_source_add_failed">Ezin izan da gehigarri hau gehitu. Egiaztatu lotura eta saiatu berriro.</string>
+    <string name="music_source_always_on">Beti aktibatuta</string>
+    <string name="music_source_auth_unsupported">Gehigarri honek BitChord aplikazioa bakarrik onartzen du</string>
+    <string name="music_source_checking">Egiaztatzean…</string>
+    <string name="music_source_downloads_allowed">Deskargak baimenduta</string>
+    <string name="music_source_error">Errorea: %1$s</string>
+    <string name="music_source_quality">Kalitatea: %1$s</string>
+    <string name="music_source_remove">Kendu %1$s</string>
+    <string name="music_sources">Musika iturriak</string>
+    <string name="music_source_streaming_only">Streaming soilik</string>
+    <string name="music_source_working">Lanean ari</string>
+    <string name="lyrics_instrumental">Instrumentala</string>
+    <string-array name="lyrics_intro_lines">
+        <item>Erritmoa jota</item>
+        <item>Abestia hasten</item>
+        <item>Beroa</item>
+        <item>Airea ezarritze</item>
+        <item>Lehenbabesa, gero hitzak</item>
+        <item>Itxaron</item>
+        <item>Eraikuntza horren zentzua</item>
+        <item>Groove soilik orain</item>
+        <item>Angulua bIDEN</item>
+        <item>Utzi dute arnasa</item>
+        <item>Deitu bokalak</item>
+        <item>Lehenengo notak</item>
+    </string-array>
 </resources>

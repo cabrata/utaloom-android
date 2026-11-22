@@ -501,6 +501,7 @@ fun AiSettings(navController: NavController) {
                     Material3SettingsItem(
                         icon = painterResource(R.drawable.explore_outlined),
                         title = { Text(stringResource(R.string.ai_provider)) },
+                        targetKey = R.string.ai_provider,
                         description = { Text(if (aiProvider == GoogleTranslationService.PROVIDER) stringResource(R.string.ai_provider_google) else aiProvider) },
                         onClick = { showProviderDialog = true },
                         trailingContent = {
@@ -517,6 +518,7 @@ fun AiSettings(navController: NavController) {
                         Material3SettingsItem(
                             icon = painterResource(R.drawable.link),
                             title = { Text(stringResource(R.string.ai_base_url)) },
+                            targetKey = R.string.ai_base_url,
                             description = { Text(openRouterBaseUrl.ifBlank { stringResource(R.string.not_set) }) },
                             onClick = { showBaseUrlDialog = true },
                         )
@@ -562,6 +564,7 @@ fun AiSettings(navController: NavController) {
                             Material3SettingsItem(
                                 icon = painterResource(R.drawable.tune),
                                 title = { Text(stringResource(R.string.ai_deepl_formality)) },
+                                targetKey = R.string.ai_deepl_formality,
                                 description = {
                                     Text(
                                         when (deeplFormality) {
@@ -580,6 +583,7 @@ fun AiSettings(navController: NavController) {
                             Material3SettingsItem(
                                 icon = painterResource(R.drawable.key),
                                 title = { Text(stringResource(R.string.ai_api_key)) },
+                                targetKey = R.string.ai_api_key,
                                 description = {
                                     Text(
                                         if (openRouterApiKey.isNotEmpty()) {
@@ -596,6 +600,7 @@ fun AiSettings(navController: NavController) {
                             Material3SettingsItem(
                                 icon = painterResource(R.drawable.discover_tune),
                                 title = { Text(stringResource(R.string.ai_model)) },
+                                targetKey = R.string.ai_model,
                                 description = { Text(openRouterModel.ifBlank { stringResource(R.string.not_set) }) },
                                 onClick = { showModelDialog = true },
                             ),
@@ -615,6 +620,7 @@ fun AiSettings(navController: NavController) {
                             Material3SettingsItem(
                                 icon = painterResource(R.drawable.translate),
                                 title = { Text(stringResource(R.string.ai_translation_mode)) },
+                                targetKey = R.string.ai_translation_mode,
                                 description = {
                                     Text(
                                         when (translateMode) {
@@ -640,6 +646,7 @@ fun AiSettings(navController: NavController) {
                             Material3SettingsItem(
                                 icon = painterResource(R.drawable.edit),
                                 title = { Text(stringResource(R.string.ai_system_prompt)) },
+                                targetKey = R.string.ai_system_prompt,
                                 description = {
                                     Text(
                                         if (aiSystemPrompt.isNotBlank()) {
@@ -659,6 +666,7 @@ fun AiSettings(navController: NavController) {
                         Material3SettingsItem(
                             icon = painterResource(R.drawable.language),
                             title = { Text(stringResource(R.string.ai_target_language)) },
+                            targetKey = R.string.ai_target_language,
                             description = { Text(LanguageCodeToName[translateLanguage] ?: translateLanguage) },
                             onClick = { showLanguageDialog = true },
                         ),

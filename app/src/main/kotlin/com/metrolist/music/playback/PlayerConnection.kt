@@ -613,6 +613,17 @@ class PlayerConnection(
         }
     }
 
+    /** Bumped on every jump of the playhead (seek or item change) so the lyric clock may move backwards. */
+    val positionJumps = MutableStateFlow(0L)
+
+    override fun onPositionDiscontinuity(
+        oldPosition: Player.PositionInfo,
+        newPosition: Player.PositionInfo,
+        reason: Int,
+    ) {
+        positionJumps.value++
+    }
+
     override fun onPlaybackStateChanged(state: Int) {
         playbackState.value = state
         error.value = player.playerError

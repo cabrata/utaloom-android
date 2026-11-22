@@ -9,14 +9,18 @@ import android.content.Context
 import android.graphics.Matrix
 import android.view.TextureView
 import androidx.annotation.OptIn
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -26,11 +30,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -56,10 +58,11 @@ fun CanvasPlayerView(
     thumbnailUrl: String?,
     isPlaying: Boolean,
     isExpanded: Boolean,
-    bottomColor: Color,
-    isLandscape: Boolean = false,
     modifier: Modifier = Modifier,
     onError: () -> Unit = {},
+    // Full-screen Material 3 canvas: black backdrop plus edge gradients fading into this color. Null = bare video.
+    bottomColor: Color? = null,
+    isLandscape: Boolean = false,
 ) {
     val context = LocalContext.current
     val currentOnError by rememberUpdatedState(onError)
@@ -68,6 +71,7 @@ fun CanvasPlayerView(
     var videoHeight by remember { mutableIntStateOf(0) }
     val videoAlpha by animateFloatAsState(
         targetValue = if (isVideoReady) 1f else 0f,
+        animationSpec = tween(durationMillis = 420, easing = FastOutSlowInEasing),
         label = "canvasAlpha",
     )
 
@@ -139,7 +143,7 @@ fun CanvasPlayerView(
         modifier = modifier
             .fillMaxSize()
             .clipToBounds()
-            .background(Color.Black),
+            .then(if (bottomColor != null) Modifier.background(Color.Black) else Modifier),
     ) {
         // Fallback: Artwork image
         if (!thumbnailUrl.isNullOrBlank()) {
@@ -171,55 +175,57 @@ fun CanvasPlayerView(
             )
         }
 
-        // Top vignette
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(90.dp)
-                .align(Alignment.TopCenter)
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Black.copy(alpha = 0.5f),
-                            Color.Transparent,
-                        ),
-                    ),
-                ),
-        )
-
-        // Gradient border separating Canvas from Player controls
-        if (isLandscape) {
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(120.dp)
-                    .align(Alignment.CenterEnd)
-                    .background(
-                        Brush.horizontalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                bottomColor.copy(alpha = 0.7f),
-                                bottomColor,
-                            ),
-                        ),
-                    ),
-            )
-        } else {
+        if (bottomColor != null) {
+            // Top vignette
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(140.dp)
-                    .align(Alignment.BottomCenter)
+                    .height(90.dp)
+                    .align(Alignment.TopCenter)
                     .background(
                         Brush.verticalGradient(
                             colors = listOf(
+                                Color.Black.copy(alpha = 0.5f),
                                 Color.Transparent,
-                                bottomColor.copy(alpha = 0.7f),
-                                bottomColor,
                             ),
                         ),
                     ),
             )
+
+            // Gradient border separating Canvas from Player controls
+            if (isLandscape) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(120.dp)
+                        .align(Alignment.CenterEnd)
+                        .background(
+                            Brush.horizontalGradient(
+                                colors = listOf(
+                                    Color.Transparent,
+                                    bottomColor.copy(alpha = 0.7f),
+                                    bottomColor,
+                                ),
+                            ),
+                        ),
+                )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(140.dp)
+                        .align(Alignment.BottomCenter)
+                        .background(
+                            Brush.verticalGradient(
+                                colors = listOf(
+                                    Color.Transparent,
+                                    bottomColor.copy(alpha = 0.7f),
+                                    bottomColor,
+                                ),
+                            ),
+                        ),
+                )
+            }
         }
     }
 }

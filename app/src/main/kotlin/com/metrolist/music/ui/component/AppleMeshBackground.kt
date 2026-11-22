@@ -41,6 +41,8 @@ import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.sin
 
+private const val MeshDownscale = 4f
+
 private val Saturate = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(1.6f) })
 
 /**
@@ -78,13 +80,21 @@ fun AppleMeshBackground(
         label = "appleMeshBackground",
     ) { url ->
         Box(Modifier.fillMaxSize()) {
+        BoxWithConstraints(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        // Drawn at 1/MeshDownscale size and scaled up, so the blur re-run on every animated frame
+        // touches 1/16 of the pixels a full-screen pass would. The colours are a 12px cover anyway.
         BoxWithConstraints(
-            Modifier.fillMaxSize().graphicsLayer {
-                // Smooths bilinear creases like render.js's blur pass. API < 31 just skips it.
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    renderEffect = BlurEffect(40.dp.toPx(), 40.dp.toPx(), TileMode.Clamp)
-                }
-            },
+            Modifier
+                .requiredSize(maxWidth / MeshDownscale, maxHeight / MeshDownscale)
+                .graphicsLayer {
+                    scaleX = MeshDownscale
+                    scaleY = MeshDownscale
+                    // Smooths bilinear creases like render.js's blur pass. API < 31 just skips it.
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        val radius = 40.dp.toPx() / MeshDownscale
+                        renderEffect = BlurEffect(radius, radius, TileMode.Clamp)
+                    }
+                },
             contentAlignment = Alignment.Center,
         ) {
             if (url != null) {
@@ -119,6 +129,7 @@ fun AppleMeshBackground(
                     )
                 }
             }
+        }
         }
             Box(Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.38f)))
         }
