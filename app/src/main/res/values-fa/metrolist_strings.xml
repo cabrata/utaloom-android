@@ -245,7 +245,7 @@
     <string name="yt_login_title">وارد YouTube Music شوید</string>
     <string name="player_design">طراحی پخش‌کننده</string>
     <string name="player_design_material3">Material 3 (قبلی)</string>
-    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="player_design_utaloom_glass">Utaloom Glass</string>
 
     <string name="audio_quality_bit_depth">عمق بیت</string>
     <string name="audio_quality_hires_lossless">بالای وضوح بدون تلفات</string>

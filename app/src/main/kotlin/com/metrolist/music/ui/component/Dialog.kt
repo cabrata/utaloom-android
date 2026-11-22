@@ -5,9 +5,11 @@
 
 package com.metrolist.music.ui.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +23,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -47,9 +50,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -60,10 +65,45 @@ import androidx.compose.ui.window.DialogProperties
 import com.metrolist.music.LocalNavController
 import com.metrolist.music.R
 import com.metrolist.music.ui.screens.settings.AccountSettings
+import com.metrolist.music.ui.theme.GlassShapes
+import com.metrolist.music.ui.theme.isUtaloomGlass
 import kotlinx.coroutines.delay
 
 @Composable
 fun DefaultDialog(
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
+    icon: (@Composable () -> Unit)? = null,
+    title: (@Composable () -> Unit)? = null,
+    buttons: (@Composable RowScope.() -> Unit)? = null,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    if (isUtaloomGlass) {
+        GlassDefaultDialog(
+            onDismiss = onDismiss,
+            modifier = modifier,
+            icon = icon,
+            title = title,
+            buttons = buttons,
+            horizontalAlignment = horizontalAlignment,
+            content = content,
+        )
+    } else {
+        Material3DefaultDialog(
+            onDismiss = onDismiss,
+            modifier = modifier,
+            icon = icon,
+            title = title,
+            buttons = buttons,
+            horizontalAlignment = horizontalAlignment,
+            content = content,
+        )
+    }
+}
+
+@Composable
+private fun Material3DefaultDialog(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     icon: (@Composable () -> Unit)? = null,
@@ -125,6 +165,96 @@ fun DefaultDialog(
                         CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.primary) {
                             ProvideTextStyle(
                                 value = MaterialTheme.typography.labelLarge,
+                            ) {
+                                buttons()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun GlassDefaultDialog(
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
+    icon: (@Composable () -> Unit)? = null,
+    title: (@Composable () -> Unit)? = null,
+    buttons: (@Composable RowScope.() -> Unit)? = null,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.28f))
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onDismiss,
+                ),
+            contentAlignment = Alignment.Center,
+        ) {
+            Surface(
+                modifier = Modifier
+                    .width(270.dp)
+                    .clip(GlassShapes.Alert)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        onClick = {},
+                    ),
+                shape = GlassShapes.Alert,
+                color = MaterialTheme.colorScheme.surfaceContainer,
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = modifier,
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 19.dp),
+                    ) {
+                        if (icon != null) {
+                            icon()
+                            Spacer(Modifier.height(16.dp))
+                        }
+                        if (title != null) {
+                            ProvideTextStyle(
+                                MaterialTheme.typography.bodyLarge.copy(
+                                    fontWeight = FontWeight.W600,
+                                )
+                            ) {
+                                Box(Modifier.align(Alignment.CenterHorizontally)) {
+                                    title()
+                                }
+                            }
+                            Spacer(Modifier.height(4.dp))
+                        }
+
+                        content()
+                    }
+
+                    if (buttons != null) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(0.5.dp)
+                                .background(MaterialTheme.colorScheme.outlineVariant),
+                        )
+
+                        CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.primary) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .heightIn(min = 44.dp),
+                                verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 buttons()
                             }
@@ -245,6 +375,19 @@ fun ListDialog(
     modifier: Modifier = Modifier,
     content: LazyListScope.() -> Unit,
 ) {
+    if (isUtaloomGlass) {
+        GlassListDialog(onDismiss = onDismiss, modifier = modifier, content = content)
+    } else {
+        Material3ListDialog(onDismiss = onDismiss, modifier = modifier, content = content)
+    }
+}
+
+@Composable
+private fun Material3ListDialog(
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: LazyListScope.() -> Unit,
+) {
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(usePlatformDefaultWidth = false),
@@ -263,6 +406,52 @@ fun ListDialog(
                         .imePadding(),
             ) {
                 LazyColumn(content = content)
+            }
+        }
+    }
+}
+
+@Composable
+private fun GlassListDialog(
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: LazyListScope.() -> Unit,
+) {
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.28f))
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onDismiss,
+                ),
+            contentAlignment = Alignment.Center,
+        ) {
+            Surface(
+                modifier = Modifier
+                    .width(270.dp)
+                    .clip(GlassShapes.Alert)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        onClick = {},
+                    ),
+                shape = GlassShapes.Alert,
+                color = MaterialTheme.colorScheme.surfaceContainer,
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = modifier
+                        .padding(vertical = 0.dp)
+                        .imePadding(),
+                ) {
+                    LazyColumn(content = content)
+                }
             }
         }
     }

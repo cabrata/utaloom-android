@@ -373,7 +373,7 @@
     <string name="yt_login_title">Σύνδεση στο YouTube Music</string>
     <string name="player_design">Σχεδίαση αναπαραγωγέα</string>
     <string name="player_design_material3">Material 3 (Προηγούμενο)</string>
-    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="player_design_utaloom_glass">Utaloom Glass</string>
 
     <string name="audio_quality_bit_depth">Βάθος bit</string>
     <string name="audio_quality_hires_lossless">Hi-Res χωρίς απώλειες</string>

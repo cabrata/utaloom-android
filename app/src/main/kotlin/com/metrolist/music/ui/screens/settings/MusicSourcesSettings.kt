@@ -56,6 +56,7 @@ import com.metrolist.music.ui.component.ListDialog
 import com.metrolist.music.ui.component.Material3SettingsGroup
 import com.metrolist.music.ui.component.Material3SettingsItem
 import com.metrolist.music.ui.component.TextFieldDialog
+import com.metrolist.music.ui.component.SettingsSwitch
 import com.metrolist.music.ui.utils.backToMain
 import com.metrolist.music.utils.rememberPreference
 import kotlinx.coroutines.CancellationException
@@ -224,9 +225,10 @@ fun MusicSourcesSettings(navController: NavController) {
                     },
                     trailingContent = {
                         Column(horizontalAlignment = Alignment.End) {
-                            Switch(
+                            SettingsSwitch(
                                 checked = addon.enabled,
                                 onCheckedChange = setEnabled,
+                                showIcons = false,
                                 modifier = Modifier.padding(end = 8.dp).semantics {
                                     contentDescription = addon.name
                                 },

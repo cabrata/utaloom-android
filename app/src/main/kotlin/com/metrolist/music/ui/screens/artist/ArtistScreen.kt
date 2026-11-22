@@ -5,6 +5,8 @@
 
 package com.metrolist.music.ui.screens.artist
 
+import com.metrolist.music.ui.glass.GlassFabAction
+import com.metrolist.music.ui.glass.GlassFab
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -78,6 +80,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import com.metrolist.music.ui.theme.isUtaloomGlass
+import com.metrolist.music.ui.glass.GlassArtistHeader
 import com.metrolist.innertube.YouTube
 import com.metrolist.innertube.models.AlbumItem
 import com.metrolist.innertube.models.ArtistItem
@@ -297,35 +301,56 @@ fun ArtistScreen(
                 item(key = "header") {
                     val thumbnail = artistPage?.artist?.thumbnail ?: libraryArtist?.artist?.thumbnailUrl
 
-                    Box {
-                        // Artist Image with offset
-                        if (thumbnail != null) {
-                            Box(
-                                modifier =
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .aspectRatio(1f)
-                                        .offset {
-                                            IntOffset(x = 0, y = headerOffset)
-                                        },
-                            ) {
-                                AsyncImage(
-                                    model = thumbnail.resize(1200, 1200),
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Crop,
+                    if (isUtaloomGlass) {
+                        // Glass mode artist header
+                        GlassArtistHeader(
+                            name = displayArtistName ?: "Unknown",
+                            imageUrl = thumbnail?.resize(1200, 1200),
+                            onShuffle = {
+                                artistPage?.artist?.shuffleEndpoint?.let { shuffleEndpoint ->
+                                    playerConnection?.playQueue(YouTubeQueue(shuffleEndpoint))
+                                }
+                            },
+                            onSubscribe = {
+                                viewModel.toggleChannelSubscription()
+                            },
+                            isSubscribed = isChannelSubscribed,
+                            onRadio = {
+                                artistPage?.artist?.radioEndpoint?.let { radioEndpoint ->
+                                    playerConnection?.playQueue(YouTubeQueue(radioEndpoint))
+                                }
+                            },
+                        )
+                    } else {
+                        Box {
+                            // Artist Image with offset
+                            if (thumbnail != null) {
+                                Box(
                                     modifier =
                                         Modifier
                                             .fillMaxWidth()
-                                            .align(Alignment.TopCenter)
-                                            .fadingEdge(
-                                                bottom = 200.dp,
-                                            ),
-                                )
+                                            .aspectRatio(1f)
+                                            .offset {
+                                                IntOffset(x = 0, y = headerOffset)
+                                            },
+                                ) {
+                                    AsyncImage(
+                                        model = thumbnail.resize(1200, 1200),
+                                        contentDescription = null,
+                                        contentScale = ContentScale.Crop,
+                                        modifier =
+                                            Modifier
+                                                .fillMaxWidth()
+                                                .align(Alignment.TopCenter)
+                                                .fadingEdge(
+                                                    bottom = 200.dp,
+                                                ),
+                                    )
+                                }
                             }
-                        }
 
-                        // Artist Name and Controls Section - positioned at bottom of image
-                        Column(
+                            // Artist Name and Controls Section - positioned at bottom of image
+                            Column(
                             modifier =
                                 Modifier
                                     .fillMaxWidth()
@@ -450,7 +475,8 @@ fun ArtistScreen(
                             Spacer(modifier = Modifier.height(16.dp))
                         }
                     }
-                }
+                        }
+                    }
 
                 // About Artist Section
                 if (!showLocal && (showArtistDescription || showArtistSubscriberCount || showMonthlyListeners)) {
@@ -978,7 +1004,9 @@ fun ArtistScreen(
                     }
                 }
 
-                if (showLocalFab) {
+                if (isUtaloomGlass) {
+                    GlassFab(GlassFabAction(R.drawable.play, "Play All", onPlayAllClick), Modifier.padding(16.dp))
+                } else if (showLocalFab) {
                     androidx.compose.material3.SmallFloatingActionButton(
                         modifier = Modifier.padding(16.dp).offset(x = (-4).dp), // Align center with standard FAB (56dp vs 48dp)
                         onClick = onPlayAllClick,

@@ -954,7 +954,7 @@
     <string name="queue_editing_lock">Заблокировать редактирование очереди</string>
     <string name="player_design">Дизайн плеера</string>
     <string name="player_design_material3">Material 3 (Прежний)</string>
-    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="player_design_utaloom_glass">Utaloom Glass</string>
     <string name="audio_quality_bit_depth">Глубина бит</string>
     <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
     <string name="audio_quality_lossless">Lossless</string>

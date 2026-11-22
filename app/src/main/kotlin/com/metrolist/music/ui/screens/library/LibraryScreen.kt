@@ -5,6 +5,8 @@
 
 package com.metrolist.music.ui.screens.library
 
+import androidx.activity.compose.BackHandler
+import com.metrolist.music.ui.theme.isUtaloomGlass
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -56,9 +58,14 @@ fun LibraryScreen() {
         }
     }
 
+    // Glass opens on the folder list; back from a filtered view returns to it.
+    BackHandler(enabled = isUtaloomGlass && filterType != LibraryFilter.LIBRARY) { filterType = LibraryFilter.LIBRARY }
+
     Box(modifier = Modifier.fillMaxSize()) {
         when (filterType) {
-            LibraryFilter.LIBRARY -> LibraryMixScreen(
+            LibraryFilter.LIBRARY -> if (isUtaloomGlass) {
+                GlassLibraryHome(navController = navController, onOpenFilter = { filterType = it })
+            } else LibraryMixScreen(
                 navController = navController,
                 filterContent = filterContent,
                 viewType = libraryViewType,

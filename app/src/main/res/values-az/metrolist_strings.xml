@@ -941,7 +941,7 @@
     <string name="yt_login_title">YouTube Music-ə daxil olun</string>
     <string name="player_design">Pleyer dizaynı</string>
     <string name="player_design_material3">Material 3 (Əvvəlki)</string>
-    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="player_design_utaloom_glass">Utaloom Glass</string>
 
     <string name="audio_quality_bit_depth">Bit dərinliyi</string>
     <string name="audio_quality_hires_lossless">Hi-Res Ziyansız</string>

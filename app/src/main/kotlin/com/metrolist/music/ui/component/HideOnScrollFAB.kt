@@ -7,6 +7,10 @@ package com.metrolist.music.ui.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.BoxScope
@@ -32,6 +36,9 @@ import androidx.compose.ui.unit.dp
 import com.metrolist.music.LocalPlayerAwareWindowInsets
 import com.metrolist.music.R
 import com.metrolist.music.ui.utils.isScrollingUp
+import com.metrolist.music.ui.glass.GlassFab
+import com.metrolist.music.ui.glass.GlassFabAction
+import com.metrolist.music.ui.theme.isUtaloomGlass
 
 @Composable
 fun BoxScope.HideOnScrollFAB(
@@ -41,10 +48,12 @@ fun BoxScope.HideOnScrollFAB(
     onClick: () -> Unit,
     onRecognitionClick: (() -> Unit)? = null,
 ) {
+    val glass = isUtaloomGlass
     AnimatedVisibility(
         visible = visible && lazyListState.isScrollingUp(),
-        enter = slideInVertically { it },
-        exit = slideOutVertically { it },
+        // Sliding down would carry the buttons under the glass mini player; glass fades in place.
+        enter = if (glass) fadeIn() + scaleIn(initialScale = 0.85f) else slideInVertically { it },
+        exit = if (glass) fadeOut() + scaleOut(targetScale = 0.85f) else slideOutVertically { it },
         modifier =
         Modifier
             .align(Alignment.BottomEnd)
@@ -57,7 +66,13 @@ fun BoxScope.HideOnScrollFAB(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(16.dp)
         ) {
-            if (onRecognitionClick != null) {
+            if (glass) {
+                if (onRecognitionClick != null) {
+                    GlassFab(GlassFabAction(R.drawable.mic, stringResource(R.string.recognize_music), onRecognitionClick), size = 44.dp)
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
+                GlassFab(GlassFabAction(icon, null, onClick))
+            } else if (onRecognitionClick != null) {
                 SmallFloatingActionButton(
                     onClick = onRecognitionClick,
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -72,7 +87,7 @@ fun BoxScope.HideOnScrollFAB(
                 }
                 Spacer(modifier = Modifier.height(12.dp))
             }
-            FloatingActionButton(
+            if (!glass) FloatingActionButton(
                 onClick = onClick,
             ) {
                 Icon(

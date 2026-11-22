@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.background
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -31,13 +32,49 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.metrolist.music.ui.theme.GlassShapes
+import com.metrolist.music.ui.theme.isUtaloomGlass
 
 @Composable
 private fun NewActionButton(
+    icon: @Composable () -> Unit,
+    text: String,
+    onClick: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    backgroundColor: Color = MaterialTheme.colorScheme.surfaceVariant,
+    contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+) {
+    if (isUtaloomGlass) {
+        GlassActionButton(
+            icon = icon,
+            text = text,
+            onClick = onClick,
+            modifier = modifier,
+            enabled = enabled,
+            backgroundColor = backgroundColor,
+            contentColor = contentColor,
+        )
+    } else {
+        Material3ActionButton(
+            icon = icon,
+            text = text,
+            onClick = onClick,
+            modifier = modifier,
+            enabled = enabled,
+            backgroundColor = backgroundColor,
+            contentColor = contentColor,
+        )
+    }
+}
+
+@Composable
+private fun Material3ActionButton(
     icon: @Composable () -> Unit,
     text: String,
     onClick: @Composable () -> Unit,
@@ -110,6 +147,73 @@ private fun NewActionButton(
 }
 
 @Composable
+private fun GlassActionButton(
+    icon: @Composable () -> Unit,
+    text: String,
+    onClick: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    backgroundColor: Color = MaterialTheme.colorScheme.surfaceVariant,
+    contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+) {
+    val animatedBackground by animateColorAsState(
+        targetValue = if (enabled) backgroundColor else backgroundColor.copy(alpha = 0.5f),
+        animationSpec = tween(200),
+        label = "background",
+    )
+
+    val animatedContent by animateColorAsState(
+        targetValue = if (enabled) contentColor else contentColor.copy(alpha = 0.5f),
+        animationSpec = tween(200),
+        label = "content",
+    )
+
+    var performAction by remember { mutableStateOf(false) }
+
+    if (performAction) {
+        onClick()
+        LaunchedEffect(Unit) {
+            performAction = false
+        }
+    }
+
+    Box(
+        modifier = modifier
+            .clip(GlassShapes.Button)
+            .background(animatedBackground)
+            .clickable(enabled = enabled) { performAction = true },
+        contentAlignment = Alignment.Center,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Box(
+                modifier = Modifier.size(23.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                icon()
+            }
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            Text(
+                text = text,
+                style = MaterialTheme.typography.labelSmall,
+                color = animatedContent,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.basicMarquee(),
+            )
+        }
+    }
+}
+
+@Composable
 fun NewActionGrid(
     actions: List<NewAction>,
     modifier: Modifier = Modifier,
@@ -137,6 +241,8 @@ fun NewActionGrid(
                                 Color.Unspecified
                             ) {
                                 action.backgroundColor
+                            } else if (isUtaloomGlass) {
+                                MaterialTheme.colorScheme.surfaceContainerHigh
                             } else {
                                 MaterialTheme.colorScheme.surfaceVariant
                             },
@@ -145,6 +251,8 @@ fun NewActionGrid(
                                 Color.Unspecified
                             ) {
                                 action.contentColor
+                            } else if (isUtaloomGlass) {
+                                MaterialTheme.colorScheme.onSurface
                             } else {
                                 MaterialTheme.colorScheme.onSurfaceVariant
                             },

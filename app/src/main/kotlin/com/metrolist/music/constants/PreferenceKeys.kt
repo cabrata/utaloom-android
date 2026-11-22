@@ -448,12 +448,13 @@ val HistoryDuration = floatPreferencesKey("historyDuration")
 val PlayerButtonsStyleKey = stringPreferencesKey("player_buttons_style")
 val PlayerBackgroundStyleKey = stringPreferencesKey("playerBackgroundStyle")
 
-enum class PlayerDesignStyle {
+// App-wide visual style. The stored key keeps its old name so existing choices survive.
+enum class AppDesignStyle {
     MATERIAL3,
-    LIQUID_GLASS,
+    UTALOOM_GLASS,
 }
 
-val PlayerDesignStyleKey = stringPreferencesKey("playerDesignStyle")
+val AppDesignStyleKey = stringPreferencesKey("playerDesignStyle")
 val ShowLyricsKey = booleanPreferencesKey("showLyrics")
 val LyricsTextPositionKey = stringPreferencesKey("lyricsTextPosition")
 val LyricsClickKey = booleanPreferencesKey("lyricsClick")

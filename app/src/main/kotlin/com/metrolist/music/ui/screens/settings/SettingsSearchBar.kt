@@ -180,7 +180,7 @@ private fun buildIndex(context: Context): List<Entry> = buildList {
     e(R.drawable.palette, R.string.enable_dynamic_theme, ap, a, "colors album artwork")
     e(R.drawable.palette, R.string.enable_dynamic_icon, ap, a, "launcher icon color")
     e(R.drawable.palette, R.string.theme, ap, a, "light dark system")
-    e(R.drawable.play, R.string.player_design, ap, a, "liquid glass material3")
+    e(R.drawable.play, R.string.app_style, ap, a, "utaloom glass liquid material3 theme style")
     e(R.drawable.play, R.string.new_mini_player_design, ap, a, "mini player")
     e(R.drawable.play, R.string.new_player_design, ap, a, "player")
     e(R.drawable.play, R.string.player_background_style, ap, a, "gradient blur mesh")

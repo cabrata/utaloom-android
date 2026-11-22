@@ -98,6 +98,8 @@ import com.metrolist.music.ui.component.IconButton
 import com.metrolist.music.ui.component.LocalMenuState
 import com.metrolist.music.ui.component.YouTubeListItem
 import com.metrolist.music.ui.menu.YouTubePlaylistMenu
+import com.metrolist.music.ui.theme.isUtaloomGlass
+import com.metrolist.music.ui.glass.GlassDetailHeader
 import com.metrolist.music.ui.menu.YouTubeSelectionSongMenu
 import com.metrolist.music.ui.menu.YouTubeSongMenu
 import com.metrolist.music.ui.utils.backToMain
@@ -499,7 +501,96 @@ private fun OnlinePlaylistHeader(
     val menuState = LocalMenuState.current
     val syncUtils = LocalSyncUtils.current
 
-    Column(
+    if (isUtaloomGlass) {
+        // Glass mode header
+        val author = playlist.author
+        val authorName = author?.name ?: ""
+        val totalDuration = songs.sumOf { it.duration ?: 0 }
+        val nSongs = pluralStringResource(
+            if (isPodcastPlaylist) R.plurals.n_episode else R.plurals.n_song,
+            songs.size,
+            songs.size,
+        )
+        val metadataText = buildString {
+            append(nSongs)
+            if (totalDuration > 0) {
+                append(" · ")
+                append(makeTimeString(totalDuration * 1000L))
+            }
+        }
+
+        GlassDetailHeader(
+            title = playlist.title,
+            artistText = authorName,
+            metadataText = metadataText,
+            thumbnailUrl = playlist.thumbnail?.resize(1080, 1080),
+            onPlay = {
+                if (!isListenTogetherGuest && songs.isNotEmpty()) {
+                    playerConnection.playQueue(
+                        YouTubePlaylistQueue(
+                            playlistId = playlist.id,
+                            playlistTitle = playlist.title,
+                            initialSongs = songs,
+                            initialContinuation = continuation,
+                        ),
+                    )
+                }
+            },
+            onLikeClick = {
+                if (dbPlaylist != null) {
+                    database.transaction {
+                        val currentPlaylist = dbPlaylist.playlist
+                        update(currentPlaylist, playlist)
+                        update(currentPlaylist.toggleLike())
+                    }
+                } else {
+                    coroutineScope.launch(Dispatchers.IO) {
+                        val playlistEntity =
+                            PlaylistEntity(
+                                name = playlist.title,
+                                browseId = playlist.id,
+                                thumbnailUrl = playlist.thumbnail,
+                                isEditable = playlist.isEditable,
+                                remoteSongCount =
+                                    playlist.songCountText?.let {
+                                        Regex("""\d+""").find(it)?.value?.toIntOrNull()
+                                    },
+                                playEndpointParams = playlist.playEndpoint?.params,
+                                shuffleEndpointParams = playlist.shuffleEndpoint?.params,
+                                radioEndpointParams = playlist.radioEndpoint?.params,
+                            ).toggleLike()
+                        val songMetadata = songs.map { it.toMediaMetadata() }
+                        database.withTransaction {
+                            insert(playlistEntity)
+                            songMetadata.onEach { insert(it) }
+                            val songIds = songMetadata.map { it.id to it.setVideoId }
+                            val createdPlaylist =
+                                database.playlistBlocking(playlistEntity.id)
+                                    ?: throw IllegalStateException("Failed to create playlist")
+                            database.addSongsToPlaylist(createdPlaylist, songIds)
+                        }
+                    }
+                }
+            },
+            isLiked = dbPlaylist?.playlist?.bookmarkedAt != null,
+            onMenuClick = {
+                menuState.show {
+                    YouTubePlaylistMenu(
+                        playlist = playlist,
+                        songs = songs,
+                        coroutineScope = coroutineScope,
+                        onDismiss = menuState::dismiss,
+                    )
+                }
+            },
+            onArtistClick = {
+                if (author?.id != null) {
+                    navController.navigate("artist/${author.id}")
+                }
+            },
+        )
+    } else {
+        Column(
         modifier =
             modifier
                 .fillMaxWidth()
@@ -742,5 +833,6 @@ private fun OnlinePlaylistHeader(
                 }
             }
         }
+    }
     }
 }

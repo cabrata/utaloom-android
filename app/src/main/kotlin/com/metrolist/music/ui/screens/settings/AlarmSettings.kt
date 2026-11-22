@@ -60,6 +60,7 @@ import com.metrolist.music.playback.alarm.MusicAlarmStore
 import com.metrolist.music.ui.component.DefaultDialog
 import com.metrolist.music.ui.component.Material3SettingsGroup
 import com.metrolist.music.ui.component.Material3SettingsItem
+import com.metrolist.music.ui.component.SettingsSwitch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -234,7 +235,7 @@ fun AlarmSettingsSection(showTitle: Boolean = true) {
                             description = { Text(description) },
                             trailingContent = {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
-                                    AlarmSwitch(
+                                    AlarmSettingsSwitch(
                                         checked = alarm.enabled,
                                         onCheckedChange = { enabled ->
                                             persistAndSchedule { current ->
@@ -304,22 +305,15 @@ private fun AlarmTimePickerDialog(
 }
 
 @Composable
-private fun AlarmSwitch(
+private fun AlarmSettingsSwitch(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     enabled: Boolean = true
 ) {
-    Switch(
+    SettingsSwitch(
         checked = checked,
         onCheckedChange = onCheckedChange,
         enabled = enabled,
-        thumbContent = {
-            Icon(
-                painter = painterResource(if (checked) R.drawable.check else R.drawable.close),
-                contentDescription = null,
-                modifier = Modifier.size(SwitchDefaults.IconSize)
-            )
-        }
     )
 }
 
@@ -486,7 +480,7 @@ private fun AlarmEditorDialog(
                     text = stringResource(R.string.alarm_enabled),
                     modifier = Modifier.weight(1f)
                 )
-                AlarmSwitch(checked = enabled, onCheckedChange = { enabled = it })
+                AlarmSettingsSwitch(checked = enabled, onCheckedChange = { enabled = it })
             }
 
             FilledTonalButton(
@@ -525,7 +519,7 @@ private fun AlarmEditorDialog(
                     text = stringResource(R.string.alarm_random_song),
                     modifier = Modifier.weight(1f)
                 )
-                AlarmSwitch(checked = randomSong, onCheckedChange = { randomSong = it })
+                AlarmSettingsSwitch(checked = randomSong, onCheckedChange = { randomSong = it })
             }
 
             if (hasSameTimeAlarm) {

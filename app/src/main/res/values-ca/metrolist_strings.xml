@@ -768,7 +768,7 @@
     <string name="yt_login_title">Inicia sessió a YouTube Music</string>
     <string name="player_design">Disseny del reproductor</string>
     <string name="player_design_material3">Material 3 (Anterior)</string>
-    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="player_design_utaloom_glass">Utaloom Glass</string>
 
     <string name="audio_quality_bit_depth">Profunditat de bits</string>
     <string name="audio_quality_hires_lossless">Hi-Res sense pèrdues</string>

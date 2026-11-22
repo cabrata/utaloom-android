@@ -61,6 +61,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.metrolist.music.ui.screens.Screens
+import com.metrolist.music.ui.theme.isUtaloomGlass
+import com.metrolist.music.ui.theme.GlassShapes
+import com.metrolist.music.ui.glass.liquidGlass
+import com.metrolist.music.ui.glass.liquidGlassRim
+import com.metrolist.music.ui.glass.glassContentColor
+import com.metrolist.music.ui.glass.glassIndicatorColor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 
@@ -88,12 +94,13 @@ fun AppNavigationRail(
     onSearchLongClick: (() -> Unit)? = null,
     onHomeLongHold: (() -> Unit)? = null,
 ) {
-    val containerColor = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer
+    val glass = isUtaloomGlass
+    val containerColor = if (glass) Color.Transparent else if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer
     val haptics = LocalHapticFeedback.current
     val viewConfiguration = LocalViewConfiguration.current
 
     NavigationRail(
-        modifier = modifier,
+        modifier = modifier.then(if (glass) Modifier.liquidGlass(shape = GlassShapes.Group) else Modifier),
         containerColor = containerColor
     ) {
         Spacer(modifier = Modifier.weight(1f))
@@ -170,11 +177,12 @@ fun AppNavigationBar(
     onSearchLongClick: (() -> Unit)? = null,
     onHomeLongHold: (() -> Unit)? = null,
 ) {
+    val glass = isUtaloomGlass
     val colors = MaterialTheme.colorScheme
-    val containerColor = if (pureBlack) Color.Black else colors.surfaceContainerHigh
-    val contentColor = if (pureBlack) Color.White else colors.onSurfaceVariant
-    val indicatorColor = if (pureBlack) colors.primary.copy(alpha = 0.24f) else colors.secondaryContainer
-    val selectedColor = if (pureBlack) Color.White else colors.onSecondaryContainer
+    val containerColor = if (glass) Color.Transparent else if (pureBlack) Color.Black else colors.surfaceContainerHigh
+    val contentColor = if (glass) glassContentColor() else if (pureBlack) Color.White else colors.onSurfaceVariant
+    val indicatorColor = if (glass) glassIndicatorColor() else if (pureBlack) colors.primary.copy(alpha = 0.24f) else colors.secondaryContainer
+    val selectedColor = if (glass) contentColor else if (pureBlack) Color.White else colors.onSecondaryContainer
     val haptics = LocalHapticFeedback.current
     val viewConfiguration = LocalViewConfiguration.current
     val selectedIndex = navigationItems.indexOfFirst { isRouteSelected(currentRoute, it.route, navigationItems) }
@@ -190,25 +198,36 @@ fun AppNavigationBar(
             shape = CircleShape,
             color = containerColor,
             contentColor = contentColor,
-            shadowElevation = 6.dp,
-            border = if (pureBlack) BorderStroke(1.dp, colors.outlineVariant) else null,
+            shadowElevation = if (glass) 0.dp else 6.dp,
+            border = if (pureBlack && !glass) BorderStroke(1.dp, colors.outlineVariant) else null,
             modifier = Modifier
                 .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal))
                 .padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
                 .widthIn(max = 480.dp)
                 .fillMaxWidth()
-                .height(if (slimNav) 52.dp else 64.dp),
+                .height(if (slimNav) 52.dp else 64.dp)
+                .then(if (glass) Modifier.liquidGlass(shape = GlassShapes.Capsule) else Modifier),
         ) {
             BoxWithConstraints(Modifier.padding(4.dp)) {
                 val itemWidth = maxWidth / navigationItems.size.coerceAtLeast(1)
                 if (selectedIndex >= 0) {
                     Box(
                         Modifier
-                            .graphicsLayer { translationX = itemWidth.toPx() * indicatorPosition }
+                            .graphicsLayer {
+                                translationX = itemWidth.toPx() * indicatorPosition
+                                if (glass) {
+                                    // BitChord's pill lifts out of the bar while it travels and settles on landing.
+                                    val travel = (selectedIndex - indicatorPosition).coerceIn(-1f, 1f)
+                                    val lift = 1f + 0.14f * kotlin.math.abs(travel).coerceAtMost(1f)
+                                    scaleX = lift
+                                    scaleY = lift
+                                }
+                            }
                             .width(itemWidth)
                             .fillMaxHeight()
                             .clip(CircleShape)
-                            .background(indicatorColor),
+                            .background(indicatorColor)
+                            .then(if (glass) Modifier.liquidGlassRim(CircleShape) else Modifier),
                     )
                 }
                 Row(Modifier.fillMaxSize().selectableGroup()) {

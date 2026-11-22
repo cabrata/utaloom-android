@@ -78,6 +78,9 @@ import com.metrolist.music.LocalPlayerConnection
 import com.metrolist.music.R
 import com.metrolist.music.models.toMediaMetadata
 import com.metrolist.music.extensions.toMediaItem
+import com.metrolist.music.ui.theme.isUtaloomGlass
+import com.metrolist.music.ui.glass.GlassDetailHeader
+import com.metrolist.music.utils.makeTimeString
 import com.metrolist.music.playback.queues.ListQueue
 import com.metrolist.music.ui.component.IconButton
 import com.metrolist.music.ui.component.LocalMenuState
@@ -309,96 +312,112 @@ private fun PodcastHeader(
 ) {
     val context = LocalContext.current
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        AsyncImage(
-            model = ImageRequest.Builder(context)
-                .data(podcast.thumbnail?.resize(1080, 1080))
-                .build(),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
+    if (isUtaloomGlass) {
+        // Glass mode header - simplified version without full UI
+        val authorName = podcast.author?.name ?: ""
+        val metadataText = podcast.episodeCountText ?: "$episodeCount episodes"
+
+        GlassDetailHeader(
+            title = podcast.title,
+            artistText = authorName,
+            metadataText = metadataText,
+            thumbnailUrl = podcast.thumbnail?.resize(1080, 1080),
+            onPlay = onLibraryClick,
+            onMenuClick = onViewChannelClick,
+            isLiked = inLibrary,
+        )
+    } else {
+        Column(
             modifier = Modifier
-                .size(200.dp)
-                .clip(RoundedCornerShape(8.dp))
-        )
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            AsyncImage(
+                model = ImageRequest.Builder(context)
+                    .data(podcast.thumbnail?.resize(1080, 1080))
+                    .build(),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(200.dp)
+                    .clip(RoundedCornerShape(8.dp))
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Text(
-            text = podcast.title,
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
+            Text(
+                text = podcast.title,
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
 
-        podcast.author?.name?.let { authorName ->
+            podcast.author?.name?.let { authorName ->
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = authorName,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center
+                )
+            }
+
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = authorName,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center
+                text = podcast.episodeCountText ?: "$episodeCount episodes",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-        }
 
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = podcast.episodeCountText ?: "$episodeCount episodes",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            OutlinedButton(
-                onClick = onLibraryClick,
-                colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = if (inLibrary)
-                        MaterialTheme.colorScheme.secondaryContainer
-                    else
-                        Color.Transparent
-                ),
-                shape = RoundedCornerShape(50),
-                modifier = Modifier.height(40.dp)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Icon(
-                    painter = painterResource(if (inLibrary) R.drawable.library_add_check else R.drawable.library_add),
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.size(8.dp))
-                Text(
-                    text = stringResource(if (inLibrary) R.string.remove_from_library else R.string.add_to_library)
-                )
+                OutlinedButton(
+                    onClick = onLibraryClick,
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        containerColor = if (inLibrary)
+                            MaterialTheme.colorScheme.secondaryContainer
+                        else
+                            Color.Transparent
+                    ),
+                    shape = RoundedCornerShape(50),
+                    modifier = Modifier.height(40.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(if (inLibrary) R.drawable.library_add_check else R.drawable.library_add),
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.size(8.dp))
+                    Text(
+                        text = stringResource(if (inLibrary) R.string.remove_from_library else R.string.add_to_library)
+                    )
+                }
+
+                OutlinedButton(
+                    onClick = onViewChannelClick,
+                    shape = RoundedCornerShape(50),
+                    modifier = Modifier.height(40.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.person),
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.size(8.dp))
+                    Text(
+                        text = stringResource(R.string.view_channel)
+                    )
+                }
             }
 
-            OutlinedButton(
-                onClick = onViewChannelClick,
-                shape = RoundedCornerShape(50),
-                modifier = Modifier.height(40.dp)
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.person),
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.size(8.dp))
-                Text(
-                    text = stringResource(R.string.view_channel)
-                )
-            }
+            Spacer(modifier = Modifier.height(16.dp))
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
     }
 }

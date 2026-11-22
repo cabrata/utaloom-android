@@ -53,6 +53,7 @@ import com.metrolist.music.constants.MediaSessionConstants
 import com.metrolist.music.ui.component.IconButton
 import com.metrolist.music.ui.component.Material3SettingsGroup
 import com.metrolist.music.ui.component.Material3SettingsItem
+import com.metrolist.music.ui.component.SettingsSwitch
 import com.metrolist.music.ui.utils.backToMain
 import com.metrolist.music.utils.rememberPreference
 import kotlinx.coroutines.flow.map
@@ -206,7 +207,7 @@ fun AndroidAutoSettings(
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
                                 Spacer(Modifier.width(12.dp))
-                                Switch(
+                                SettingsSwitch(
                                     checked = enabled,
                                     onCheckedChange = { newValue ->
                                         sections = sections.map { (s, e) ->
@@ -214,15 +215,6 @@ fun AndroidAutoSettings(
                                         }
                                         onSectionsChange(serializeSections(sections))
                                     },
-                                    thumbContent = {
-                                        Icon(
-                                            painter = painterResource(
-                                                if (enabled) R.drawable.check else R.drawable.close
-                                            ),
-                                            contentDescription = null,
-                                            modifier = Modifier.size(SwitchDefaults.IconSize),
-                                        )
-                                    }
                                 )
                             }
                         },
@@ -309,18 +301,9 @@ fun AndroidAutoSettings(
                     targetKey = R.string.android_auto_youtube_playlists,
                     description = { Text(stringResource(R.string.android_auto_youtube_playlists_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = youtubePlaylistsEnabled,
                             onCheckedChange = onYoutubePlaylistsChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        if (youtubePlaylistsEnabled) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize),
-                                )
-                            }
                         )
                     },
                     onClick = { onYoutubePlaylistsChange(!youtubePlaylistsEnabled) }

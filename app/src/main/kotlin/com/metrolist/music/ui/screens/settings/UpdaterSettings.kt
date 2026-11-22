@@ -44,6 +44,7 @@ import com.metrolist.music.constants.UpdateNotificationsEnabledKey
 import com.metrolist.music.ui.component.IconButton
 import com.metrolist.music.ui.component.Material3SettingsGroup
 import com.metrolist.music.ui.component.Material3SettingsItem
+import com.metrolist.music.ui.component.SettingsSwitch
 import com.metrolist.music.ui.utils.backToMain
 import com.metrolist.music.utils.Updater
 import com.metrolist.music.utils.rememberPreference
@@ -142,9 +143,10 @@ fun UpdaterScreen(
                             targetKey = R.string.check_for_updates,
                             icon = painterResource(R.drawable.update),
                             trailingContent = {
-                                Switch(
+                                SettingsSwitch(
                                     checked = checkForUpdates,
                                     onCheckedChange = onCheckForUpdatesChange,
+                                    showIcons = false,
                                 )
                             },
                             onClick = { onCheckForUpdatesChange(!checkForUpdates) },
@@ -158,9 +160,10 @@ fun UpdaterScreen(
                                 targetKey = R.string.update_notifications,
                                 icon = painterResource(R.drawable.notification),
                                 trailingContent = {
-                                    Switch(
+                                    SettingsSwitch(
                                         checked = updateNotifications,
                                         onCheckedChange = onUpdateNotificationsChange,
+                                        showIcons = false,
                                     )
                                 },
                                 onClick = { onUpdateNotificationsChange(!updateNotifications) },

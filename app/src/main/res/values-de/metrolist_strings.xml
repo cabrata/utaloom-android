@@ -942,7 +942,7 @@
     <string name="yt_login_title">Bei YouTube Music anmelden</string>
     <string name="player_design">Player-Design</string>
     <string name="player_design_material3">Material 3 (Vorherig)</string>
-    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="player_design_utaloom_glass">Utaloom Glass</string>
 
     <string name="audio_quality_bit_depth">Bittiefe</string>
     <string name="audio_quality_hires_lossless">Hi-Res Verlustfrei</string>

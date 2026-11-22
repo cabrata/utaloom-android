@@ -32,6 +32,7 @@ import com.metrolist.music.constants.LyricsProviderOrderKey
 import com.metrolist.music.lyrics.LyricsProviderRegistry
 import com.metrolist.music.ui.component.Material3SettingsGroup
 import com.metrolist.music.ui.component.Material3SettingsItem
+import com.metrolist.music.ui.component.SettingsSwitch
 import com.metrolist.music.ui.utils.backToMain
 import com.metrolist.music.utils.rememberPreference
 import com.metrolist.music.ui.component.IconButton as NavigationIconButton
@@ -85,9 +86,10 @@ fun LyricsProviderSettings(navController: NavController) {
                         description = { Text(stringResource(description)) },
                         trailingContent = {
                             Column(horizontalAlignment = Alignment.End) {
-                                Switch(
+                                SettingsSwitch(
                                     checked = enabled,
                                     onCheckedChange = onEnabledChange,
+                                    showIcons = false,
                                     modifier = Modifier.padding(end = 8.dp).semantics {
                                         contentDescription = provider.name
                                     },

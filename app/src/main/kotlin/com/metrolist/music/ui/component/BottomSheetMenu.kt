@@ -40,6 +40,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.metrolist.music.ui.theme.GlassShapes
+import com.metrolist.music.ui.theme.isUtaloomGlass
 
 val LocalMenuState = compositionLocalOf { MenuState() }
 
@@ -133,15 +135,23 @@ fun BottomSheetMenu(
             state.isVisible = false
         },
         sheetState = sheetState,
-        containerColor = background,
+        shape = if (isUtaloomGlass) GlassShapes.Sheet else BottomSheetDefaults.ExpandedShape,
+        containerColor = if (isUtaloomGlass) MaterialTheme.colorScheme.surfaceContainer else background,
         contentColor = MaterialTheme.colorScheme.onSurface,
         dragHandle = {
             Box(
                 modifier = Modifier
                     .padding(vertical = 12.dp)
-                    .size(width = 40.dp, height = 4.dp)
+                    .size(
+                        width = if (isUtaloomGlass) 32.dp else 40.dp,
+                        height = 4.dp
+                    )
                     .clip(RoundedCornerShape(2.dp))
-                    .background(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f))
+                    .background(
+                        MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                            alpha = if (isUtaloomGlass) 0.3f else 0.4f
+                        )
+                    )
             )
         },
         modifier = modifier.fillMaxHeight()
@@ -149,9 +159,15 @@ fun BottomSheetMenu(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = if (isUtaloomGlass) 16.dp else 20.dp)
         ) {
-            state.content(this)
+            if (isUtaloomGlass) {
+                // Rows that paint `surface` (ListItem) blend into the sheet instead of drawing a black box.
+                val colors = MaterialTheme.colorScheme
+                MaterialTheme(colorScheme = colors.copy(surface = colors.surfaceContainer)) { state.content(this) }
+            } else {
+                state.content(this)
+            }
         }
     }
 }

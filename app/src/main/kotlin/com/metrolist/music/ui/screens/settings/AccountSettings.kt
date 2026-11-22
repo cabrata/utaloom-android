@@ -68,6 +68,7 @@ import com.metrolist.music.ui.component.InfoLabel
 import com.metrolist.music.ui.component.Material3SettingsGroup
 import com.metrolist.music.ui.component.Material3SettingsItem
 import com.metrolist.music.ui.component.TextFieldDialog
+import com.metrolist.music.ui.component.SettingsSwitch
 import com.metrolist.music.utils.Updater
 import com.metrolist.music.utils.rememberPreference
 import com.metrolist.music.viewmodels.AccountSettingsViewModel
@@ -340,22 +341,13 @@ fun AccountSettings(
                     title = { Text(stringResource(R.string.more_content)) },
                     icon = painterResource(R.drawable.cached),
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             enabled = isLoggedIn,
                             checked = useLoginForBrowse,
                             onCheckedChange = {
                                 YouTube.useLoginForBrowse = it
                                 onUseLoginForBrowseChange(it)
                             },
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (useLoginForBrowse) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     enabled = isLoggedIn
@@ -364,19 +356,10 @@ fun AccountSettings(
                     title = { Text(stringResource(R.string.yt_sync)) },
                     icon = painterResource(R.drawable.cached),
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             enabled = isLoggedIn,
                             checked = ytmSync,
                             onCheckedChange = onYtmSyncChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (ytmSync) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     enabled = isLoggedIn

@@ -884,7 +884,7 @@
     <string name="yt_login_title">YouTube Music-এ সাইন ইন করুন</string>
     <string name="player_design">প্লেয়ার ডিজাইন</string>
     <string name="player_design_material3">Material 3 (পূর্ববর্তী)</string>
-    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="player_design_utaloom_glass">Utaloom Glass</string>
 
     <string name="audio_quality_bit_depth">বিট গভীরতা</string>
     <string name="audio_quality_hires_lossless">হাই-রেস লসলেস</string>

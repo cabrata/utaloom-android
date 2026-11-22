@@ -172,8 +172,8 @@ import com.metrolist.music.constants.HideStatusBarOnFullscreenKey
 import com.metrolist.music.constants.KeepScreenOn
 import com.metrolist.music.constants.PlayerBackgroundStyle
 import com.metrolist.music.constants.PlayerBackgroundStyleKey
-import com.metrolist.music.constants.PlayerDesignStyle
-import com.metrolist.music.constants.PlayerDesignStyleKey
+import com.metrolist.music.constants.AppDesignStyle
+import com.metrolist.music.constants.AppDesignStyleKey
 import com.metrolist.music.constants.PlayerButtonsStyle
 import com.metrolist.music.constants.PlayerButtonsStyleKey
 import com.metrolist.music.constants.PlayerHorizontalPadding
@@ -268,9 +268,9 @@ fun BottomSheetPlayer(
         key = PlayerBackgroundStyleKey,
         defaultValue = PlayerBackgroundStyle.BLUR,
     )
-    val playerDesign by rememberEnumPreference(PlayerDesignStyleKey, PlayerDesignStyle.LIQUID_GLASS)
+    val playerDesign by rememberEnumPreference(AppDesignStyleKey, AppDesignStyle.UTALOOM_GLASS)
     // Liquid Glass (BitChord layout) lays itself out for portrait, landscape and tablets.
-    val heroPlayer = playerDesign == PlayerDesignStyle.LIQUID_GLASS
+    val heroPlayer = playerDesign == AppDesignStyle.UTALOOM_GLASS
     // Its white text always sits on the blurred cover, whatever background style is picked.
     val playerBackground = if (heroPlayer) PlayerBackgroundStyle.BLUR else playerBackgroundSetting
     var heroMode by rememberSaveable { mutableStateOf(HeroMode.Normal) }

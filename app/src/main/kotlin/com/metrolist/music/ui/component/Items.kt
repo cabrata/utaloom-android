@@ -7,6 +7,9 @@
 
 package com.metrolist.music.ui.component
 
+import androidx.compose.runtime.ReadOnlyComposable
+import com.metrolist.music.ui.theme.GlassShapes
+import com.metrolist.music.ui.theme.isUtaloomGlass
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animate
@@ -295,7 +298,7 @@ inline fun ListItem(
                         .align(Alignment.Center)
                         .background(
                             Color.Black.copy(alpha = 0.25f),
-                            RoundedCornerShape(ThumbnailCornerRadius)
+                            thumbnailShape
                         )
                 ) {
                     Icon(
@@ -551,7 +554,7 @@ fun SongListItem(
                      isSelected = isSelected,
                      isActive = isActive,
                      isPlaying = isPlaying,
-                     shape = RoundedCornerShape(ThumbnailCornerRadius),
+                     shape = thumbnailShape,
                      modifier = Modifier.size(ListThumbnailSize)
                  )
              },
@@ -629,7 +632,7 @@ fun SongGridItem(
             thumbnailUrl = song.song.thumbnailUrl,
             isActive = isActive,
             isPlaying = isPlaying,
-            shape = RoundedCornerShape(ThumbnailCornerRadius),
+            shape = thumbnailShape,
             modifier = Modifier.size(gridHeight)
         )
         if (!isActive) {
@@ -777,7 +780,7 @@ fun AlbumListItem(
             thumbnailUrl = album.album.thumbnailUrl,
             isActive = isActive,
             isPlaying = isPlaying,
-            shape = RoundedCornerShape(ThumbnailCornerRadius),
+            shape = thumbnailShape,
             modifier = Modifier.size(ListThumbnailSize)
         )
     },
@@ -857,7 +860,7 @@ fun AlbumGridItem(
             thumbnailUrl = album.album.thumbnailUrl,
             isActive = isActive,
             isPlaying = isPlaying,
-            shape = RoundedCornerShape(ThumbnailCornerRadius),
+            shape = thumbnailShape,
         )
 
         AlbumPlayButton(
@@ -952,7 +955,7 @@ fun PlaylistListItem(
                     modifier = Modifier.size(ListThumbnailSize / 2)
                 )
             },
-            shape = RoundedCornerShape(ThumbnailCornerRadius)
+            shape = thumbnailShape
         )
     },
     trailingContent = trailingContent,
@@ -1057,7 +1060,7 @@ fun PlaylistGridItem(
                     )
                 }
             },
-            shape = RoundedCornerShape(ThumbnailCornerRadius)
+            shape = thumbnailShape
         )
     },
     fillMaxWidth = fillMaxWidth,
@@ -1106,7 +1109,7 @@ fun MediaMetadataListItem(
                 isSelected = isSelected,
                 isActive = isActive,
                 isPlaying = isPlaying,
-                shape = RoundedCornerShape(ThumbnailCornerRadius),
+                shape = thumbnailShape,
                 modifier = Modifier.size(ListThumbnailSize)
             )
         },
@@ -1207,7 +1210,7 @@ fun YouTubeListItem(
                     isSelected = isSelected,
                     isActive = isActive,
                     isPlaying = isPlaying,
-                    shape = if (item is ArtistItem) CircleShape else RoundedCornerShape(ThumbnailCornerRadius),
+                    shape = if (item is ArtistItem) CircleShape else thumbnailShape,
                     modifier = Modifier.size(ListThumbnailSize)
                 )
             },
@@ -1306,7 +1309,7 @@ fun YouTubeGridItem(
             thumbnailUrl = item.thumbnail,
             isActive = isActive,
             isPlaying = isPlaying,
-            shape = if (item is ArtistItem) CircleShape else RoundedCornerShape(ThumbnailCornerRadius),
+            shape = if (item is ArtistItem) CircleShape else thumbnailShape,
         )
 
         if (item is SongItem && !isActive) {
@@ -1372,7 +1375,7 @@ fun LocalSongsGrid(
             thumbnailUrl = thumbnailUrl,
             isActive = isActive,
             isPlaying = isPlaying,
-            shape = RoundedCornerShape(ThumbnailCornerRadius),
+            shape = thumbnailShape,
             modifier = if (fillMaxWidth) Modifier.fillMaxWidth() else Modifier,
             showCenterPlay = true,
             playButtonVisible = false
@@ -1456,7 +1459,7 @@ fun LocalAlbumsGrid(
             thumbnailUrl = thumbnailUrl,
             isActive = isActive,
             isPlaying = isPlaying,
-            shape = RoundedCornerShape(ThumbnailCornerRadius),
+            shape = thumbnailShape,
             modifier = if (fillMaxWidth) Modifier.fillMaxWidth() else Modifier,
             showCenterPlay = false,
             playButtonVisible = true
@@ -1976,3 +1979,13 @@ object Icon {
         )
     }
 }
+
+@PublishedApi
+internal val MaterialThumbnailShape = RoundedCornerShape(ThumbnailCornerRadius)
+
+// Apple Music rounds artwork with continuous corners; Material keeps its near-square tiles.
+@PublishedApi
+internal val thumbnailShape: Shape
+    @Composable
+    @ReadOnlyComposable
+    get() = if (isUtaloomGlass) GlassShapes.Artwork else MaterialThumbnailShape

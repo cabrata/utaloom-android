@@ -122,6 +122,10 @@ import coil3.toBitmap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.metrolist.music.ui.theme.PlayerColorExtractor
+import com.metrolist.music.ui.glass.glassContentColor
+import com.metrolist.music.ui.glass.liquidGlass
+import com.metrolist.music.ui.theme.GlassShapes
+import com.metrolist.music.ui.theme.isUtaloomGlass
 
 /**
  * Stable wrapper for progress state - reads values only during draw phase
@@ -293,13 +297,15 @@ private fun NewMiniPlayer(
         MiniPlayerBackgroundStyle.GRADIENT   -> MaterialTheme.colorScheme.surfaceContainer
         MiniPlayerBackgroundStyle.PURE_BLACK -> Color.Black
     }
-    val forceLightColors = !useDarkTheme && (miniPlayerBackground == MiniPlayerBackgroundStyle.PURE_BLACK ||
+    val glass = isUtaloomGlass
+    val forceLightColors = !glass && !useDarkTheme && (miniPlayerBackground == MiniPlayerBackgroundStyle.PURE_BLACK ||
             miniPlayerBackground == MiniPlayerBackgroundStyle.BLUR ||
             miniPlayerBackground == MiniPlayerBackgroundStyle.GRADIENT)
 
-    val primaryColor = if (forceLightColors) Color.White else MaterialTheme.colorScheme.primary
-    val outlineColor = if (forceLightColors) Color.White else MaterialTheme.colorScheme.outline
-    val onSurfaceColor = if (forceLightColors) Color.White else MaterialTheme.colorScheme.onSurface
+    val glassContent = glassContentColor()
+    val primaryColor = if (glass) glassContent else if (forceLightColors) Color.White else MaterialTheme.colorScheme.primary
+    val outlineColor = if (glass) glassContent else if (forceLightColors) Color.White else MaterialTheme.colorScheme.outline
+    val onSurfaceColor = if (glass) glassContent else if (forceLightColors) Color.White else MaterialTheme.colorScheme.onSurface
     val errorColor = if (forceLightColors) Color(0xFFFF6B6B) else MaterialTheme.colorScheme.error
 
     Box(
@@ -379,15 +385,23 @@ private fun NewMiniPlayer(
                     .then(if (isTabletLandscape) Modifier.width(500.dp).align(Alignment.Center) else Modifier.fillMaxWidth())
                     .height(64.dp)
                     .offset { IntOffset(offsetXAnimatable.value.roundToInt(), 0) }
-                    .clip(RoundedCornerShape(32.dp))
-                    .background(color = backgroundColor)
-                    // Liquid glass rim: bright specular top edge fading out, no runtime blur needed.
-                    .border(
-                        1.dp,
-                        Brush.verticalGradient(
-                            listOf(Color.White.copy(alpha = 0.45f), outlineColor.copy(alpha = 0.12f)),
-                        ),
-                        RoundedCornerShape(32.dp),
+                    .then(
+                        if (glass) {
+                            // Glass first so its shadow falls outside the clip.
+                            Modifier.liquidGlass(GlassShapes.Capsule).clip(GlassShapes.Capsule)
+                        } else {
+                            Modifier
+                                .clip(RoundedCornerShape(32.dp))
+                                .background(color = backgroundColor)
+                                // Liquid glass rim: bright specular top edge fading out, no runtime blur needed.
+                                .border(
+                                    1.dp,
+                                    Brush.verticalGradient(
+                                        listOf(Color.White.copy(alpha = 0.45f), outlineColor.copy(alpha = 0.12f)),
+                                    ),
+                                    RoundedCornerShape(32.dp),
+                                )
+                        },
                     )
                     .clickable(
                         interactionSource = interactionSource,
@@ -395,7 +409,7 @@ private fun NewMiniPlayer(
                         onClick = onClick
                     ),
         ) {
-            when (miniPlayerBackground) {
+            when (if (glass) MiniPlayerBackgroundStyle.DEFAULT else miniPlayerBackground) {
                 MiniPlayerBackgroundStyle.BLUR -> {
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
                         mediaMetadata?.thumbnailUrl?.let { url ->
@@ -432,7 +446,17 @@ private fun NewMiniPlayer(
                 }
                 else -> {}
             }
-            Row(
+            if (glass) {
+                GlassMiniPlayerRow(
+                    playerConnection = playerConnection,
+                    mediaMetadata = mediaMetadata,
+                    playbackState = playbackState,
+                    isCasting = isCasting,
+                    castHandler = castHandler,
+                    listenTogetherManager = listenTogetherManager,
+                    canSkipNext = canSkipNext,
+                )
+            } else Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxSize().padding(horizontal = 8.dp, vertical = 8.dp),
             ) {
@@ -494,6 +518,100 @@ private fun NewMiniPlayer(
                 )
                 }
             }
+        }
+    }
+}
+
+/** BitChord's glass mini player row: artwork, title and artist, play/pause and next. */
+@Composable
+private fun GlassMiniPlayerRow(
+    playerConnection: PlayerConnection,
+    mediaMetadata: MediaMetadata?,
+    playbackState: Int,
+    isCasting: Boolean,
+    castHandler: CastConnectionHandler?,
+    listenTogetherManager: ListenTogetherManager?,
+    canSkipNext: Boolean,
+) {
+    val isPlaying by playerConnection.isPlaying.collectAsState()
+    val castIsPlaying by castHandler?.castIsPlaying?.collectAsState() ?: remember { mutableStateOf(false) }
+    val effectiveIsPlaying = if (isCasting) castIsPlaying else isPlaying
+    val isListenTogetherGuest = listenTogetherManager?.let { it.isInRoom && !it.isHost } ?: false
+    val isMuted by playerConnection.isMuted.collectAsStateWithLifecycle()
+    val content = glassContentColor()
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxSize().padding(horizontal = 12.dp, vertical = 8.dp),
+    ) {
+        AsyncImage(
+            model = remember(mediaMetadata?.thumbnailUrl) { mediaMetadata?.thumbnailUrl?.resize(120, 120) },
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(40.dp)
+                .clip(GlassShapes.Artwork)
+                .background(MaterialTheme.colorScheme.surfaceVariant),
+        )
+        Spacer(Modifier.width(10.dp))
+        Column(Modifier.weight(1f)) {
+            Text(
+                text = mediaMetadata?.title.orEmpty(),
+                style = MaterialTheme.typography.titleMedium,
+                color = content,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            mediaMetadata?.artists?.takeIf { artists -> artists.any { it.name.isNotBlank() } }?.let { artists ->
+                Text(
+                    text = artists.joinToArtistString(" ${stringResource(R.string.and)} ") { it.name },
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        }
+        IconButton(
+            onClick = {
+                when {
+                    isListenTogetherGuest -> playerConnection.toggleMute()
+                    isCasting -> if (castIsPlaying) castHandler?.pause() else castHandler?.play()
+                    playbackState == Player.STATE_ENDED -> {
+                        playerConnection.player.seekTo(0, 0)
+                        playerConnection.player.playWhenReady = true
+                    }
+                    else -> playerConnection.togglePlayPause()
+                }
+            },
+            modifier = Modifier.size(40.dp),
+        ) {
+            Icon(
+                painter = painterResource(
+                    when {
+                        isListenTogetherGuest -> if (isMuted) R.drawable.volume_off else R.drawable.volume_up
+                        playbackState == Player.STATE_ENDED -> R.drawable.replay
+                        effectiveIsPlaying -> R.drawable.pause
+                        else -> R.drawable.play
+                    },
+                ),
+                contentDescription = stringResource(if (effectiveIsPlaying) R.string.pause else R.string.play),
+                tint = content,
+                modifier = Modifier.size(28.dp),
+            )
+        }
+        Spacer(Modifier.width(8.dp))
+        IconButton(
+            onClick = { playerConnection.player.seekToNext() },
+            enabled = canSkipNext && !isListenTogetherGuest,
+            modifier = Modifier.size(40.dp),
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.skip_next),
+                contentDescription = stringResource(R.string.next),
+                tint = content.copy(alpha = if (canSkipNext && !isListenTogetherGuest) 1f else 0.3f),
+                modifier = Modifier.size(28.dp),
+            )
         }
     }
 }

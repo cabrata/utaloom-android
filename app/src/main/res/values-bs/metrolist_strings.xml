@@ -177,7 +177,7 @@
     <string name="yt_login_title">Prijavite se na YouTube Music</string>
     <string name="player_design">Dizajn plejera</string>
     <string name="player_design_material3">Material 3 (Prethodni)</string>
-    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="player_design_utaloom_glass">Utaloom Glass</string>
 
     <string name="audio_quality_bit_depth">Dubina bita</string>
     <string name="audio_quality_hires_lossless">Hi-Res bez gubitaka</string>

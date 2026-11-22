@@ -935,7 +935,7 @@
     <string name="yt_login_title">YouTube Music にサインイン</string>
     <string name="player_design">プレーヤーのデザイン</string>
     <string name="player_design_material3">Material 3 (以前)</string>
-    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="player_design_utaloom_glass">Utaloom Glass</string>
     <string name="audio_quality_bit_depth">ビット深度</string>
     <string name="audio_quality_hires_lossless">ハイレゾロスレス</string>
     <string name="audio_quality_lossless">ロスレス</string>

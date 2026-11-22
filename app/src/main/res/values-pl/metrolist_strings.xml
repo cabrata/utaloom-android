@@ -878,7 +878,7 @@
     <string name="queue_editing_lock">Zablokuj edycję kolejki</string>
     <string name="player_design">Wygląd odtwarzacza</string>
     <string name="player_design_material3">Material 3 (Poprzedni)</string>
-    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="player_design_utaloom_glass">Utaloom Glass</string>
     <string name="audio_quality_bit_depth">Głębia bitowa</string>
     <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
     <string name="audio_quality_lossless">Lossless</string>

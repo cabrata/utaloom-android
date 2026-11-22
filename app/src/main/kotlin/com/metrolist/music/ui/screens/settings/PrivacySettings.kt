@@ -42,6 +42,7 @@ import com.metrolist.music.ui.component.DefaultDialog
 import com.metrolist.music.ui.component.IconButton
 import com.metrolist.music.ui.component.Material3SettingsGroup
 import com.metrolist.music.ui.component.Material3SettingsItem
+import com.metrolist.music.ui.component.SettingsSwitch
 import com.metrolist.music.ui.utils.backToMain
 import com.metrolist.music.utils.rememberPreference
 
@@ -160,18 +161,9 @@ fun PrivacySettings(
                     title = { Text(stringResource(R.string.pause_listen_history)) },
                     targetKey = R.string.pause_listen_history,
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = pauseListenHistory,
                             onCheckedChange = onPauseListenHistoryChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (pauseListenHistory) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(androidx.compose.material3.SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onPauseListenHistoryChange(!pauseListenHistory) }
@@ -195,18 +187,9 @@ fun PrivacySettings(
                     title = { Text(stringResource(R.string.pause_search_history)) },
                     targetKey = R.string.pause_search_history,
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = pauseSearchHistory,
                             onCheckedChange = onPauseSearchHistoryChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (pauseSearchHistory) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(androidx.compose.material3.SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onPauseSearchHistoryChange(!pauseSearchHistory) }
@@ -231,18 +214,9 @@ fun PrivacySettings(
                     targetKey = R.string.disable_screenshot,
                     description = { Text(stringResource(R.string.disable_screenshot_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = disableScreenshot,
                             onCheckedChange = onDisableScreenshotChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (disableScreenshot) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(androidx.compose.material3.SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onDisableScreenshotChange(!disableScreenshot) }

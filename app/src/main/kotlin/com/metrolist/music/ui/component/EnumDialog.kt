@@ -5,6 +5,11 @@
 
 package com.metrolist.music.ui.component
 
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
+import androidx.compose.ui.res.painterResource
+import com.metrolist.music.R
+import com.metrolist.music.ui.theme.isUtaloomGlass
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -43,13 +48,16 @@ fun <T> EnumDialog(
                     }
                     .padding(horizontal = 16.dp, vertical = 12.dp),
             ) {
-                RadioButton(
-                    selected = value == current,
-                    onClick = null,
-                )
+                // iOS marks the chosen row with a trailing checkmark instead of a radio button.
+                if (!isUtaloomGlass) {
+                    RadioButton(
+                        selected = value == current,
+                        onClick = null,
+                    )
+                }
 
                 Column(
-                    modifier = Modifier.padding(start = 16.dp),
+                    modifier = if (isUtaloomGlass) Modifier.weight(1f) else Modifier.padding(start = 16.dp),
                 ) {
                     Text(
                         text = valueText(value),
@@ -61,6 +69,14 @@ fun <T> EnumDialog(
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
+                }
+                if (isUtaloomGlass && value == current) {
+                    Icon(
+                        painter = painterResource(R.drawable.check),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(20.dp),
+                    )
                 }
             }
         }

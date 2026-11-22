@@ -74,6 +74,7 @@ import com.metrolist.music.ui.component.EnumDialog
 import com.metrolist.music.ui.component.IconButton
 import com.metrolist.music.ui.component.Material3SettingsGroup
 import com.metrolist.music.ui.component.Material3SettingsItem
+import com.metrolist.music.ui.component.SettingsSwitch
 import com.metrolist.music.ui.utils.backToMain
 import com.metrolist.music.utils.rememberEnumPreference
 import com.metrolist.music.utils.rememberPreference
@@ -309,18 +310,9 @@ fun PlayerSettings(
                     targetKey = R.string.crossfade,
                     description = { Text(stringResource(R.string.crossfade_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = crossfadeEnabled,
                             onCheckedChange = onCrossfadeEnabledChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (crossfadeEnabled) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onCrossfadeEnabledChange(!crossfadeEnabled) }
@@ -348,18 +340,9 @@ fun PlayerSettings(
                         targetKey = R.string.crossfade_gapless,
                         description = { Text(stringResource(R.string.crossfade_gapless_desc)) },
                         trailingContent = {
-                            Switch(
+                            SettingsSwitch(
                                 checked = crossfadeGapless,
                                 onCheckedChange = onCrossfadeGaplessChange,
-                                thumbContent = {
-                                    Icon(
-                                        painter = painterResource(
-                                            id = if (crossfadeGapless) R.drawable.check else R.drawable.close
-                                        ),
-                                        contentDescription = null,
-                                        modifier = Modifier.size(SwitchDefaults.IconSize)
-                                    )
-                                }
                             )
                         },
                         onClick = { onCrossfadeGaplessChange(!crossfadeGapless) }
@@ -386,18 +369,9 @@ fun PlayerSettings(
                     targetKey = R.string.skip_silence,
                     description = { Text(stringResource(R.string.skip_silence_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = skipSilence,
                             onCheckedChange = onSkipSilenceChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (skipSilence) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onSkipSilenceChange(!skipSilence) }
@@ -408,19 +382,10 @@ fun PlayerSettings(
                     targetKey = R.string.skip_silence_instant,
                     description = { Text(stringResource(R.string.skip_silence_instant_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = skipSilenceInstant,
                             onCheckedChange = { onSkipSilenceInstantChange(it) },
                             enabled = skipSilence,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (skipSilenceInstant) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { if (skipSilence) onSkipSilenceInstantChange(!skipSilenceInstant) }
@@ -430,18 +395,9 @@ fun PlayerSettings(
                     title = { Text(stringResource(R.string.audio_normalization)) },
                     targetKey = R.string.audio_normalization,
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = audioNormalization,
                             onCheckedChange = onAudioNormalizationChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (audioNormalization) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onAudioNormalizationChange(!audioNormalization) }
@@ -468,19 +424,10 @@ fun PlayerSettings(
                         )
                     },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = if (crossfadeEnabled) false else audioOffload,
                             onCheckedChange = onAudioOffloadChange,
                             enabled = !crossfadeEnabled,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (!crossfadeEnabled && audioOffload) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { if (!crossfadeEnabled) onAudioOffloadChange(!audioOffload) }
@@ -495,18 +442,9 @@ fun PlayerSettings(
                         )
                     },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = varispeed,
                             onCheckedChange = onVarispeedChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (varispeed) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onVarispeedChange(!varispeed) }
@@ -519,18 +457,9 @@ fun PlayerSettings(
                         Text(stringResource(R.string.audio_track_playback_params_description))
                     },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = audioTrackPlaybackParams,
                             onCheckedChange = onAudioTrackPlaybackParamsChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (audioTrackPlaybackParams) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onAudioTrackPlaybackParamsChange(!audioTrackPlaybackParams) }
@@ -543,18 +472,9 @@ fun PlayerSettings(
                         targetKey = R.string.google_cast,
                         description = { Text(stringResource(R.string.google_cast_description)) },
                         trailingContent = {
-                            Switch(
+                            SettingsSwitch(
                                 checked = enableGoogleCast,
                                 onCheckedChange = onEnableGoogleCastChange,
-                                thumbContent = {
-                                    Icon(
-                                        painter = painterResource(
-                                            id = if (enableGoogleCast) R.drawable.check else R.drawable.close
-                                        ),
-                                        contentDescription = null,
-                                        modifier = Modifier.size(SwitchDefaults.IconSize)
-                                    )
-                                }
                             )
                         },
                         onClick = { onEnableGoogleCastChange(!enableGoogleCast) }
@@ -566,18 +486,9 @@ fun PlayerSettings(
                     targetKey = R.string.seek_seconds_addup,
                     description = { Text(stringResource(R.string.seek_seconds_addup_description)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = seekExtraSeconds,
                             onCheckedChange = onSeekExtraSeconds,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (seekExtraSeconds) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onSeekExtraSeconds(!seekExtraSeconds) }
@@ -656,18 +567,9 @@ fun PlayerSettings(
                         targetKey = R.string.enable_automatic_sleeptimer,
                         description = { Text(stringResource(R.string.sleeptimer_description)) },
                         trailingContent = {
-                            Switch(
+                            SettingsSwitch(
                                 checked = sleepTimerEnabled,
                                 onCheckedChange = onSleepTimerEnabledChange,
-                                thumbContent = {
-                                    Icon(
-                                        painter = painterResource(
-                                            id = if (sleepTimerEnabled) R.drawable.check else R.drawable.close
-                                        ),
-                                        contentDescription = null,
-                                        modifier = Modifier.size(SwitchDefaults.IconSize)
-                                    )
-                                }
                             )
                         },
                         onClick = { onSleepTimerEnabledChange(!sleepTimerEnabled) }
@@ -685,18 +587,9 @@ fun PlayerSettings(
                                 )
                             },
                             trailingContent = {
-                                Switch(
+                                SettingsSwitch(
                                     checked = sleepTimerEnabled,
                                     onCheckedChange = {showSleepTimerDialog = true},
-                                    thumbContent = {
-                                        Icon(
-                                            painter = painterResource(
-                                                id = if (sleepTimerEnabled) R.drawable.check else R.drawable.close
-                                            ),
-                                            contentDescription = null,
-                                            modifier = Modifier.size(SwitchDefaults.IconSize)
-                                        )
-                                    }
                                 )
                             },
                             onClick = { showSleepTimerDialog = true }
@@ -711,18 +604,9 @@ fun PlayerSettings(
                         targetKey = R.string.sleep_timer_stop_after_current_song_title,
                         description = { Text(stringResource(R.string.sleep_timer_stop_after_current_song_description)) },
                         trailingContent = {
-                            Switch(
+                            SettingsSwitch(
                                 checked = sleepTimerStopAfterCurrentSong,
                                 onCheckedChange = onSleepTimerStopAfterCurrentSongChange,
-                                thumbContent = {
-                                    Icon(
-                                        painter = painterResource(
-                                            id = if (sleepTimerStopAfterCurrentSong) R.drawable.check else R.drawable.close
-                                        ),
-                                        contentDescription = null,
-                                        modifier = Modifier.size(SwitchDefaults.IconSize)
-                                    )
-                                }
                             )
                         },
                         onClick = { onSleepTimerStopAfterCurrentSongChange(!sleepTimerStopAfterCurrentSong) }
@@ -736,18 +620,9 @@ fun PlayerSettings(
                         targetKey = R.string.sleep_timer_fade_out_title,
                         description = { Text(stringResource(R.string.sleep_timer_fade_out_description)) },
                         trailingContent = {
-                            Switch(
+                            SettingsSwitch(
                                 checked = sleepTimerFadeOut,
                                 onCheckedChange = onSleepTimerFadeOutChange,
-                                thumbContent = {
-                                    Icon(
-                                        painter = painterResource(
-                                            id = if (sleepTimerFadeOut) R.drawable.check else R.drawable.close
-                                        ),
-                                        contentDescription = null,
-                                        modifier = Modifier.size(SwitchDefaults.IconSize)
-                                    )
-                                }
                             )
                         },
                         onClick = { onSleepTimerFadeOutChange(!sleepTimerFadeOut) }
@@ -772,18 +647,9 @@ fun PlayerSettings(
                     targetKey = R.string.persistent_queue,
                     description = { Text(stringResource(R.string.persistent_queue_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = persistentQueue,
                             onCheckedChange = onPersistentQueueChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (persistentQueue) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onPersistentQueueChange(!persistentQueue) }
@@ -794,18 +660,9 @@ fun PlayerSettings(
                     targetKey = R.string.auto_load_more,
                     description = { Text(stringResource(R.string.auto_load_more_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = autoLoadMore,
                             onCheckedChange = onAutoLoadMoreChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (autoLoadMore) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onAutoLoadMoreChange(!autoLoadMore) }
@@ -816,18 +673,9 @@ fun PlayerSettings(
                     targetKey = R.string.auto_radio_queue,
                     description = { Text(stringResource(R.string.auto_radio_queue_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = autoRadioQueue,
                             onCheckedChange = onAutoRadioQueueChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (autoRadioQueue) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onAutoRadioQueueChange(!autoRadioQueue) }
@@ -838,18 +686,9 @@ fun PlayerSettings(
                     targetKey = R.string.autoplay,
                     description = { Text(stringResource(R.string.autoplay_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = autoplay,
                             onCheckedChange = onAutoplayChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (autoplay) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onAutoplayChange(!autoplay) }
@@ -860,18 +699,9 @@ fun PlayerSettings(
                     targetKey = R.string.disable_load_more_when_repeat_all,
                     description = { Text(stringResource(R.string.disable_load_more_when_repeat_all_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = disableLoadMoreWhenRepeatAll,
                             onCheckedChange = onDisableLoadMoreWhenRepeatAllChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (disableLoadMoreWhenRepeatAll) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onDisableLoadMoreWhenRepeatAllChange(!disableLoadMoreWhenRepeatAll) }
@@ -882,18 +712,9 @@ fun PlayerSettings(
                     targetKey = R.string.auto_download_on_like,
                     description = { Text(stringResource(R.string.auto_download_on_like_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = autoDownloadOnLike,
                             onCheckedChange = onAutoDownloadOnLikeChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (autoDownloadOnLike) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onAutoDownloadOnLikeChange(!autoDownloadOnLike) }
@@ -904,18 +725,9 @@ fun PlayerSettings(
                     targetKey = R.string.enable_similar_content,
                     description = { Text(stringResource(R.string.similar_content_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = similarContentEnabled,
                             onCheckedChange = similarContentEnabledChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (similarContentEnabled) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { similarContentEnabledChange(!similarContentEnabled) }
@@ -926,18 +738,9 @@ fun PlayerSettings(
                     targetKey = R.string.persistent_shuffle_title,
                     description = { Text(stringResource(R.string.persistent_shuffle_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = persistentShuffleAcrossQueues,
                             onCheckedChange = onPersistentShuffleAcrossQueuesChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (persistentShuffleAcrossQueues) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onPersistentShuffleAcrossQueuesChange(!persistentShuffleAcrossQueues) }
@@ -948,18 +751,9 @@ fun PlayerSettings(
                     targetKey = R.string.remember_shuffle_and_repeat,
                     description = { Text(stringResource(R.string.remember_shuffle_and_repeat_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = rememberShuffleAndRepeat,
                             onCheckedChange = onRememberShuffleAndRepeatChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (rememberShuffleAndRepeat) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onRememberShuffleAndRepeatChange(!rememberShuffleAndRepeat) }
@@ -970,18 +764,9 @@ fun PlayerSettings(
                     targetKey = R.string.shuffle_playlist_first,
                     description = { Text(stringResource(R.string.shuffle_playlist_first_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = shufflePlaylistFirst,
                             onCheckedChange = onShufflePlaylistFirstChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (shufflePlaylistFirst) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onShufflePlaylistFirstChange(!shufflePlaylistFirst) }
@@ -992,18 +777,9 @@ fun PlayerSettings(
                     targetKey = R.string.smart_shuffle,
                     description = { Text(stringResource(R.string.smart_shuffle_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = smartShuffle,
                             onCheckedChange = onSmartShuffleChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (smartShuffle) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onSmartShuffleChange(!smartShuffle) }
@@ -1014,18 +790,9 @@ fun PlayerSettings(
                     targetKey = R.string.prevent_duplicate_tracks_in_queue,
                     description = { Text(stringResource(R.string.prevent_duplicate_tracks_in_queue_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = preventDuplicateTracksInQueue,
                             onCheckedChange = onPreventDuplicateTracksInQueueChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (preventDuplicateTracksInQueue) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onPreventDuplicateTracksInQueueChange(!preventDuplicateTracksInQueue) }
@@ -1036,18 +803,9 @@ fun PlayerSettings(
                     targetKey = R.string.auto_skip_next_on_error,
                     description = { Text(stringResource(R.string.auto_skip_next_on_error_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = autoSkipNextOnError,
                             onCheckedChange = onAutoSkipNextOnErrorChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (autoSkipNextOnError) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onAutoSkipNextOnErrorChange(!autoSkipNextOnError) }
@@ -1065,18 +823,9 @@ fun PlayerSettings(
                     title = { Text(stringResource(R.string.stop_music_on_task_clear)) },
                     targetKey = R.string.stop_music_on_task_clear,
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = stopMusicOnTaskClear,
                             onCheckedChange = onStopMusicOnTaskClearChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (stopMusicOnTaskClear) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onStopMusicOnTaskClearChange(!stopMusicOnTaskClear) }
@@ -1086,18 +835,9 @@ fun PlayerSettings(
                     title = { Text(stringResource(R.string.pause_music_when_media_is_muted)) },
                     targetKey = R.string.pause_music_when_media_is_muted,
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = pauseOnMute,
                             onCheckedChange = onPauseOnMuteChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (pauseOnMute) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onPauseOnMuteChange(!pauseOnMute) }
@@ -1107,18 +847,9 @@ fun PlayerSettings(
                     title = { Text(stringResource(R.string.resume_on_bluetooth_connect)) },
                     targetKey = R.string.resume_on_bluetooth_connect,
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = resumeOnBluetoothConnect,
                             onCheckedChange = onResumeOnBluetoothConnectChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (resumeOnBluetoothConnect) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onResumeOnBluetoothConnectChange(!resumeOnBluetoothConnect) }
@@ -1128,18 +859,9 @@ fun PlayerSettings(
                     title = { Text(stringResource(R.string.keep_screen_on_when_player_is_expanded)) },
                     targetKey = R.string.keep_screen_on_when_player_is_expanded,
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = keepScreenOn,
                             onCheckedChange = onKeepScreenOnChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (keepScreenOn) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onKeepScreenOnChange(!keepScreenOn) }

@@ -5,6 +5,8 @@
 
 package com.metrolist.music.ui.screens
 
+import com.metrolist.music.ui.screens.explore.ExploreScreen
+import com.metrolist.music.ui.screens.radio.RadioScreen
 import android.app.Activity
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -112,6 +114,14 @@ fun NavGraphBuilder.navigationBuilder(
         } else {
             LibraryScreen()
         }
+    }
+
+    composable(Screens.Explore.route) {
+        ExploreScreen(navController)
+    }
+
+    composable(Screens.Radio.route) {
+        RadioScreen(navController)
     }
 
     composable(Screens.ListenTogether.route) {

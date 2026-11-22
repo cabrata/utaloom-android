@@ -864,7 +864,7 @@
     <string name="yt_login_title">YouTube Music에 로그인</string>
     <string name="player_design">플레이어 디자인</string>
     <string name="player_design_material3">Material 3 (이전)</string>
-    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="player_design_utaloom_glass">Utaloom Glass</string>
     <string name="audio_quality_bit_depth">비트 심도</string>
     <string name="audio_quality_hires_lossless">하이 레즈 로스리스</string>
     <string name="audio_quality_lossless">로스리스</string>

@@ -45,7 +45,24 @@ sealed class Screens(
         route = "library"
     )
 
+    object Explore : Screens(
+        titleId = R.string.explore,
+        iconIdInactive = R.drawable.explore_outlined,
+        iconIdActive = R.drawable.explore_outlined,
+        route = "explore"
+    )
+
+    object Radio : Screens(
+        titleId = R.string.radio,
+        iconIdInactive = R.drawable.radio,
+        iconIdActive = R.drawable.radio,
+        route = "radio"
+    )
+
     companion object {
         val MainScreens = listOf(Home, Search, ListenTogether, Library)
+
+        // Apple Music's tab order for Utaloom Glass.
+        val GlassMainScreens = listOf(Home, Explore, Radio, Library, Search)
     }
 }

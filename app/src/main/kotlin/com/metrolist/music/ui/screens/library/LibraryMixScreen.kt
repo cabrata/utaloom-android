@@ -5,6 +5,9 @@
 
 package com.metrolist.music.ui.screens.library
 
+import com.metrolist.music.ui.glass.GlassFabAction
+import com.metrolist.music.ui.glass.GlassFabRow
+import com.metrolist.music.ui.theme.isUtaloomGlass
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -1060,7 +1063,22 @@ fun LibraryMixScreen(
         }
 
         // Always visible + button (no scroll hiding)
-        SmallFloatingActionButton(
+        if (isUtaloomGlass) {
+            GlassFabRow(
+                actions = listOf(
+                    GlassFabAction(R.drawable.link, stringResource(R.string.import_from_link)) { showLinkImport = true },
+                    GlassFabAction(R.drawable.add, stringResource(R.string.create_playlist)) { showCreatePlaylistDialog = true },
+                ),
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .windowInsetsPadding(
+                        LocalPlayerAwareWindowInsets.current
+                            .only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal)
+                    )
+                    .padding(16.dp),
+            )
+        }
+        if (!isUtaloomGlass) SmallFloatingActionButton(
             onClick = { showLinkImport = true },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -1076,7 +1094,7 @@ fun LibraryMixScreen(
             )
         }
 
-        FloatingActionButton(
+        if (!isUtaloomGlass) FloatingActionButton(
             onClick = { showCreatePlaylistDialog = true },
             modifier = Modifier
                 .align(Alignment.BottomEnd)

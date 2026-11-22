@@ -1178,8 +1178,9 @@
     <string name="autoplay_queue_desc">Similar music, picked to play next</string>
     <string name="queue_editing_lock">Lock queue editing</string>
     <string name="player_design">Player design</string>
-    <string name="player_design_material3">Material 3 (Previous)</string>
-    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="player_design_material3">Material 3</string>
+    <string name="app_style">App style</string>
+    <string name="player_design_utaloom_glass">Utaloom Glass</string>
     <string name="lyrics_instrumental">Instrumental</string>
     <string-array name="lyrics_intro_lines">
         <item>The beat is landing</item>
@@ -1198,4 +1199,11 @@
     <string name="search_settings_hint">Search settings</string>
     <string name="settings_no_results">No settings matched</string>
     <string name="settings_search_results">Results</string>
+    <string name="explore">Explore</string>
+    <string name="show_all">Show all</string>
+    <string name="radio_stations_for_you">Stations for you</string>
+    <string name="radio_artist_stations">Artist stations</string>
+    <string name="radio_station_name">%1$s Station</string>
+    <string name="radio_continue_listening">Continue from your last song</string>
+    <string name="radio_empty">Play some music and your stations will appear here</string>
 </resources>

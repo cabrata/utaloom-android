@@ -71,6 +71,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.media3.exoplayer.offline.Download
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import com.metrolist.music.playback.queues.ListQueue
+import com.metrolist.music.extensions.toMediaItem
 import com.metrolist.music.LocalDatabase
 import com.metrolist.music.LocalDownloadUtil
 import com.metrolist.music.LocalListenTogetherManager
@@ -93,6 +95,8 @@ import com.metrolist.music.ui.menu.SongMenu
 import com.metrolist.music.ui.menu.YouTubeAlbumMenu
 import com.metrolist.music.ui.utils.backToMain
 import com.metrolist.music.ui.utils.resize
+import com.metrolist.music.ui.theme.isUtaloomGlass
+import com.metrolist.music.ui.glass.GlassDetailHeader
 import com.metrolist.music.utils.makeTimeString
 import com.metrolist.music.utils.rememberPreference
 import com.metrolist.music.viewmodels.AlbumViewModel
@@ -191,15 +195,76 @@ fun AlbumScreen(
         val albumWithSongs = albumWithSongs
         if (albumWithSongs != null && albumWithSongs.songs.isNotEmpty()) {
             item(key = "album_header") {
-                Column(
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(top = 8.dp, bottom = 20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    // Album Thumbnail - Large centered with shadow
-                    Surface(
+                if (isUtaloomGlass) {
+                    GlassDetailHeader(
+                        title = albumWithSongs.album.title,
+                        artistText = albumWithSongs.artists.joinToString(", ") { it.name },
+                        metadataText = buildString {
+                            if (albumWithSongs.album.year != null) {
+                                append(albumWithSongs.album.year.toString())
+                                append(" · ")
+                            }
+                            append(
+                                pluralStringResource(
+                                    R.plurals.n_song,
+                                    albumWithSongs.songs.size,
+                                    albumWithSongs.songs.size,
+                                ),
+                            )
+                            val totalDuration = albumWithSongs.songs.sumOf { it.song.duration }
+                            if (totalDuration > 0) {
+                                append(" · ")
+                                append(makeTimeString(totalDuration * 1000L))
+                            }
+                        },
+                        thumbnailUrl = albumWithSongs.album.thumbnailUrl?.resize(1080, 1080),
+                        onPlay = {
+                            if (!isListenTogetherGuest) {
+                                playerConnection.service.getAutomix(playlistId)
+                                playerConnection.playQueue(
+                                    LocalAlbumRadio(albumWithSongs),
+                                )
+                            }
+                        },
+                        onShuffle = {
+                            if (!isListenTogetherGuest) {
+                                playerConnection.playQueue(
+                                    ListQueue(
+                                        title = albumWithSongs.album.title,
+                                        items = albumWithSongs.songs.shuffled().map { it.toMediaItem() },
+                                    ),
+                                )
+                            }
+                        },
+                        onLikeClick = {
+                            database.query {
+                                update(albumWithSongs.album.toggleLike())
+                            }
+                        },
+                        isLiked = albumWithSongs.album.bookmarkedAt != null,
+                        onMenuClick = {
+                            menuState.show {
+                                AlbumMenu(
+                                    originalAlbum =
+                                        Album(
+                                            albumWithSongs.album,
+                                            albumWithSongs.artists,
+                                        ),
+                                    onDismiss = menuState::dismiss,
+                                )
+                            }
+                        },
+                    )
+                } else {
+                    Column(
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(top = 8.dp, bottom = 20.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        // Album Thumbnail - Large centered with shadow
+                        Surface(
                         modifier =
                             Modifier
                                 .size(240.dp)
@@ -388,6 +453,7 @@ fun AlbumScreen(
                                 )
                             }
                         }
+                    }
                     }
                 }
             }

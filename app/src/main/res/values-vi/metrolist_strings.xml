@@ -936,7 +936,7 @@
     <string name="queue_editing_lock">Khóa chỉnh sửa hàng chờ</string>
     <string name="player_design">Thiết kế trình phát</string>
     <string name="player_design_material3">Material 3 (Trước đây)</string>
-    <string name="player_design_liquid_glass">Liquid Glass</string>
+    <string name="player_design_utaloom_glass">Utaloom Glass</string>
     <string name="audio_quality_bit_depth">Độ sâu bit</string>
     <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
     <string name="audio_quality_lossless">Lossless</string>

@@ -84,6 +84,7 @@ import com.metrolist.music.ui.component.EnumDialog
 import com.metrolist.music.ui.component.IconButton
 import com.metrolist.music.ui.component.Material3SettingsGroup
 import com.metrolist.music.ui.component.Material3SettingsItem
+import com.metrolist.music.ui.component.SettingsSwitch
 import com.metrolist.music.ui.utils.backToMain
 import com.metrolist.music.utils.rememberEnumPreference
 import com.metrolist.music.utils.rememberPreference
@@ -219,7 +220,8 @@ fun ContentSettings(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(stringResource(R.string.enable_authentication))
-                        Switch(
+                        SettingsSwitch(
+                            showIcons = false,
                             checked = authEnabled,
                             onCheckedChange = {
                                 authEnabled = it
@@ -436,7 +438,7 @@ fun ContentSettings(
                     targetKey = R.string.offline_mode,
                     description = { Text(stringResource(R.string.offline_mode_desc)) },
                     trailingContent = {
-                        Switch(checked = offlineMode, onCheckedChange = onOfflineModeChange)
+                        SettingsSwitch(checked = offlineMode, onCheckedChange = onOfflineModeChange, showIcons = false)
                     },
                     onClick = { onOfflineModeChange(!offlineMode) },
                 ),
@@ -467,18 +469,9 @@ fun ContentSettings(
                     title = { Text(stringResource(R.string.hide_explicit)) },
                     targetKey = R.string.hide_explicit,
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = hideExplicit,
                             onCheckedChange = onHideExplicitChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (hideExplicit) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onHideExplicitChange(!hideExplicit) }
@@ -488,18 +481,9 @@ fun ContentSettings(
                     title = { Text(stringResource(R.string.hide_video_songs)) },
                     targetKey = R.string.hide_video_songs,
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = hideVideoSongs,
                             onCheckedChange = onHideVideoSongsChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (hideVideoSongs) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onHideVideoSongsChange(!hideVideoSongs) }
@@ -509,18 +493,9 @@ fun ContentSettings(
                     title = { Text(stringResource(R.string.hide_youtube_shorts)) },
                     targetKey = R.string.hide_youtube_shorts,
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = hideYoutubeShorts,
                             onCheckedChange = onHideYoutubeShortsChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (hideYoutubeShorts) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onHideYoutubeShortsChange(!hideYoutubeShorts) }
@@ -560,18 +535,9 @@ fun ContentSettings(
                     title = { Text(stringResource(R.string.show_artist_description)) },
                     targetKey = R.string.show_artist_description,
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = showArtistDescription,
                             onCheckedChange = onShowArtistDescriptionChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (showArtistDescription) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onShowArtistDescriptionChange(!showArtistDescription) }
@@ -581,18 +547,9 @@ fun ContentSettings(
                     title = { Text(stringResource(R.string.show_artist_subscriber_count)) },
                     targetKey = R.string.show_artist_subscriber_count,
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = showArtistSubscriberCount,
                             onCheckedChange = onShowArtistSubscriberCountChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (showArtistSubscriberCount) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onShowArtistSubscriberCountChange(!showArtistSubscriberCount) }
@@ -602,18 +559,9 @@ fun ContentSettings(
                     title = { Text(stringResource(R.string.show_artist_monthly_listeners)) },
                     targetKey = R.string.show_artist_monthly_listeners,
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = showMonthlyListeners,
                             onCheckedChange = onShowMonthlyListenersChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (showMonthlyListeners) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onShowMonthlyListenersChange(!showMonthlyListeners) }
@@ -667,18 +615,9 @@ fun ContentSettings(
                         title = { Text(stringResource(R.string.enable_proxy)) },
                         targetKey = R.string.enable_proxy,
                         trailingContent = {
-                            Switch(
+                            SettingsSwitch(
                                 checked = proxyEnabled,
                                 onCheckedChange = onProxyEnabledChange,
-                                thumbContent = {
-                                    Icon(
-                                        painter = painterResource(
-                                            id = if (proxyEnabled) R.drawable.check else R.drawable.close
-                                        ),
-                                        contentDescription = null,
-                                        modifier = Modifier.size(SwitchDefaults.IconSize)
-                                    )
-                                }
                             )
                         },
                         onClick = { onProxyEnabledChange(!proxyEnabled) }
@@ -744,18 +683,9 @@ fun ContentSettings(
                     targetKey = R.string.show_most_stats_playlists,
                     description = { Text(stringResource(R.string.show_most_stats_playlists_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = showMostStatsPlaylists,
                             onCheckedChange = onShowMostStatsPlaylistsChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (showMostStatsPlaylists) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onShowMostStatsPlaylistsChange(!showMostStatsPlaylists) }
@@ -765,18 +695,9 @@ fun ContentSettings(
                     title = { Text(stringResource(R.string.show_wrapped_card)) },
                     targetKey = R.string.show_wrapped_card,
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = showWrappedCard,
                             onCheckedChange = onShowWrappedCardChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (showWrappedCard) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onShowWrappedCardChange(!showWrappedCard) }
@@ -801,18 +722,9 @@ fun ContentSettings(
                     targetKey = R.string.randomize_home_order,
                     description = { Text(stringResource(R.string.randomize_home_order_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = randomizeHomeOrder,
                             onCheckedChange = onRandomizeHomeOrderChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (randomizeHomeOrder) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onRandomizeHomeOrderChange(!randomizeHomeOrder) }

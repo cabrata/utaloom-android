@@ -30,6 +30,7 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -205,9 +206,17 @@ import com.metrolist.music.ui.screens.wrapped.rememberWrappedYear
 import com.metrolist.music.ui.theme.ColorSaver
 import com.metrolist.music.ui.theme.DefaultThemeColor
 import com.metrolist.music.ui.theme.MetrolistTheme
+import com.metrolist.music.constants.AppDesignStyle
+import com.metrolist.music.constants.AppDesignStyleKey
+import com.metrolist.music.ui.glass.backdrop.backdrops.layerBackdrop
+import com.metrolist.music.ui.glass.backdrop.backdrops.rememberLayerBackdrop
 import com.metrolist.music.ui.theme.extractThemeColor
 import com.metrolist.music.ui.utils.appBarScrollBehavior
 import com.metrolist.music.ui.utils.resetHeightOffset
+import com.metrolist.music.ui.glass.GlassTopBar
+import com.metrolist.music.ui.glass.rememberIosOverscrollFactory
+import com.metrolist.music.ui.glass.isGlassSupported
+import com.metrolist.music.ui.glass.LocalAppBackdrop
 import com.metrolist.music.utils.ReleaseInfo
 import com.metrolist.music.utils.SearchRoutes
 import com.metrolist.music.utils.SyncUtils
@@ -663,11 +672,26 @@ class MainActivity : FragmentActivity() {
                 }
         }
 
+        val appDesignStyle by rememberEnumPreference(AppDesignStyleKey, AppDesignStyle.UTALOOM_GLASS)
+        val glassStyle = appDesignStyle == AppDesignStyle.UTALOOM_GLASS
+
         MetrolistTheme(
             darkTheme = useDarkTheme,
             pureBlack = pureBlack,
             themeColor = themeColor,
+            designStyle = appDesignStyle,
         ) {
+            // Pages paint no background of their own, so the recording gets the window's floor;
+            // otherwise glass would see through to sharp text where nothing is drawn.
+            val windowBackground = MaterialTheme.colorScheme.background
+            val appBackdrop = rememberLayerBackdrop(
+                onDraw = remember(windowBackground) {
+                    {
+                        drawRect(windowBackground)
+                        drawContent()
+                    }
+                },
+            )
             val currentDensity = LocalDensity.current
             val windowInfo = LocalWindowInfo.current
             val containerSize = windowInfo.containerDpSize
@@ -724,8 +748,10 @@ class MainActivity : FragmentActivity() {
 
                 val (listenTogetherInTopBar) = rememberPreference(ListenTogetherInTopBarKey, defaultValue = true)
                 val navigationItems =
-                    remember(listenTogetherInTopBar) {
-                        if (listenTogetherInTopBar) {
+                    remember(listenTogetherInTopBar, glassStyle) {
+                        if (glassStyle) {
+                            Screens.GlassMainScreens
+                        } else if (listenTogetherInTopBar) {
                             Screens.MainScreens.filter { it != Screens.ListenTogether }
                         } else {
                             Screens.MainScreens
@@ -760,6 +786,8 @@ class MainActivity : FragmentActivity() {
                             Screens.Home.route,
                             Screens.Library.route,
                             Screens.ListenTogether.route,
+                            Screens.Explore.route,
+                            Screens.Radio.route,
                             "settings",
                         )
                     }
@@ -1015,6 +1043,8 @@ class MainActivity : FragmentActivity() {
                             Screens.Home.route -> R.string.home
                             Screens.Search.route -> R.string.search
                             Screens.Library.route -> R.string.filter_library
+                            Screens.Explore.route -> R.string.explore
+                            Screens.Radio.route -> R.string.radio
                             Screens.ListenTogether.route -> R.string.together
                             else -> null
                         }
@@ -1030,8 +1060,15 @@ class MainActivity : FragmentActivity() {
                         !(pauseListenHistory && eventCount == 0)
                     }
 
-                val baseBg = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer
+                // Glass lets the page run under the system navigation bar instead of a grey band.
+                val baseBg = if (glassStyle) Color.Transparent else if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer
                 val artistNameAliases by ArtistNameAliases.aliases.collectAsStateWithLifecycle()
+
+                val iosOverscrollFactory = if (glassStyle && isGlassSupported()) {
+                    rememberIosOverscrollFactory()
+                } else {
+                    null
+                }
 
                 CompositionLocalProvider(
                     LocalDatabase provides database,
@@ -1045,6 +1082,8 @@ class MainActivity : FragmentActivity() {
                     LocalListenTogetherManager provides listenTogetherManager,
                     LocalChangelogState provides showChangelog,
                     LocalArtistNameAliases provides artistNameAliases,
+                    LocalAppBackdrop provides appBackdrop.takeIf { glassStyle && isGlassSupported() },
+                    LocalOverscrollFactory provides iosOverscrollFactory,
                 ) {
                     if (showChangelog.value) {
                         ChangelogScreen(onDismiss = { showChangelog.value = false })
@@ -1058,88 +1097,98 @@ class MainActivity : FragmentActivity() {
                                 enter = fadeIn(animationSpec = tween(durationMillis = 300)),
                                 exit = fadeOut(animationSpec = tween(durationMillis = 200)),
                             ) {
-                                Row {
-                                    TopAppBar(
-                                        title = {
-                                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                                UtaloomLogo(Modifier.size(36.dp))
-                                                Spacer(Modifier.width(12.dp))
-                                                Spacer(
-                                                    Modifier
-                                                        .width(1.dp)
-                                                        .height(28.dp)
-                                                        .background(MaterialTheme.colorScheme.outlineVariant),
-                                                )
-                                                Column(Modifier.padding(start = 12.dp)) {
-                                                    Text(
-                                                        text = stringResource(R.string.app_name_brand),
-                                                        style = MaterialTheme.typography.labelSmall,
-                                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                                        maxLines = 1,
-                                                    )
-                                                    Text(
-                                                        text = currentTitleRes?.let { stringResource(it) } ?: "",
-                                                        style = MaterialTheme.typography.titleLarge,
-                                                        fontWeight = FontWeight.Bold,
-                                                        maxLines = 1,
-                                                        overflow = TextOverflow.Ellipsis,
-                                                    )
-                                                }
-                                            }
-                                        },
-                                        navigationIcon = {
-                                            IconButton(onClick = { showDrawer = true }) {
-                                                Icon(
-                                                    painter = painterResource(R.drawable.menu),
-                                                    contentDescription = stringResource(R.string.open_menu),
-                                                )
-                                            }
-                                        },
-                                        actions = {
-                                            IconButton(onClick = { showAccountDialog = true }) {
-                                                BadgedBox(badge = {
-                                                    if (latestVersionName != BuildConfig.BASE_VERSION_NAME) {
-                                                        Badge()
-                                                    }
-                                                }) {
-                                                    if (accountImageUrl != null) {
-                                                        AsyncImage(
-                                                            model = accountImageUrl,
-                                                            contentDescription = stringResource(R.string.account),
-                                                            modifier =
-                                                                Modifier
-                                                                    .size(24.dp)
-                                                                    .clip(CircleShape),
-                                                        )
-                                                    } else {
-                                                        Icon(
-                                                            painter = painterResource(R.drawable.account),
-                                                            contentDescription = stringResource(R.string.account),
-                                                            modifier = Modifier.size(24.dp),
-                                                        )
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        scrollBehavior = topAppBarScrollBehavior,
-                                        colors =
-                                            TopAppBarDefaults.topAppBarColors(
-                                                containerColor = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer,
-                                                scrolledContainerColor = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer,
-                                                titleContentColor = MaterialTheme.colorScheme.onSurface,
-                                                actionIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                                navigationIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                            ),
-                                        modifier =
-                                            Modifier.windowInsetsPadding(
-                                                if (showRail) {
-                                                    WindowInsets(left = NavigationBarHeight)
-                                                        .add(cutoutInsets.only(WindowInsetsSides.Start))
-                                                } else {
-                                                    cutoutInsets.only(WindowInsetsSides.Start + WindowInsetsSides.End)
-                                                },
-                                            ),
+                                if (glassStyle && isGlassSupported()) {
+                                    GlassTopBar(
+                                        title = currentTitleRes?.let { stringResource(it) } ?: "",
+                                        accountImageUrl = accountImageUrl,
+                                        onMenuClick = { showDrawer = true },
+                                        onAccountClick = { showAccountDialog = true },
+                                        hasUpdateBadge = latestVersionName != BuildConfig.BASE_VERSION_NAME,
                                     )
+                                } else {
+                                    Row {
+                                        TopAppBar(
+                                            title = {
+                                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                                    UtaloomLogo(Modifier.size(36.dp))
+                                                    Spacer(Modifier.width(12.dp))
+                                                    Spacer(
+                                                        Modifier
+                                                            .width(1.dp)
+                                                            .height(28.dp)
+                                                            .background(MaterialTheme.colorScheme.outlineVariant),
+                                                    )
+                                                    Column(Modifier.padding(start = 12.dp)) {
+                                                        Text(
+                                                            text = stringResource(R.string.app_name_brand),
+                                                            style = MaterialTheme.typography.labelSmall,
+                                                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                            maxLines = 1,
+                                                        )
+                                                        Text(
+                                                            text = currentTitleRes?.let { stringResource(it) } ?: "",
+                                                            style = MaterialTheme.typography.titleLarge,
+                                                            fontWeight = FontWeight.Bold,
+                                                            maxLines = 1,
+                                                            overflow = TextOverflow.Ellipsis,
+                                                        )
+                                                    }
+                                                }
+                                            },
+                                            navigationIcon = {
+                                                IconButton(onClick = { showDrawer = true }) {
+                                                    Icon(
+                                                        painter = painterResource(R.drawable.menu),
+                                                        contentDescription = stringResource(R.string.open_menu),
+                                                    )
+                                                }
+                                            },
+                                            actions = {
+                                                IconButton(onClick = { showAccountDialog = true }) {
+                                                    BadgedBox(badge = {
+                                                        if (latestVersionName != BuildConfig.BASE_VERSION_NAME) {
+                                                            Badge()
+                                                        }
+                                                    }) {
+                                                        if (accountImageUrl != null) {
+                                                            AsyncImage(
+                                                                model = accountImageUrl,
+                                                                contentDescription = stringResource(R.string.account),
+                                                                modifier =
+                                                                    Modifier
+                                                                        .size(24.dp)
+                                                                        .clip(CircleShape),
+                                                            )
+                                                        } else {
+                                                            Icon(
+                                                                painter = painterResource(R.drawable.account),
+                                                                contentDescription = stringResource(R.string.account),
+                                                                modifier = Modifier.size(24.dp),
+                                                            )
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            scrollBehavior = topAppBarScrollBehavior,
+                                            colors =
+                                                TopAppBarDefaults.topAppBarColors(
+                                                    containerColor = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer,
+                                                    scrolledContainerColor = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer,
+                                                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                                                    actionIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                    navigationIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                ),
+                                            modifier =
+                                                Modifier.windowInsetsPadding(
+                                                    if (showRail) {
+                                                        WindowInsets(left = NavigationBarHeight)
+                                                            .add(cutoutInsets.only(WindowInsetsSides.Start))
+                                                    } else {
+                                                        cutoutInsets.only(WindowInsetsSides.Start + WindowInsetsSides.End)
+                                                    },
+                                                ),
+                                        )
+                                    }
                                 }
                             }
                         },
@@ -1345,7 +1394,11 @@ class MainActivity : FragmentActivity() {
                                     onHomeLongHold = { showAccountDialog = true },
                                 )
                             }
-                            Box(Modifier.weight(1f)) {
+                            Box(
+                                Modifier
+                                    .weight(1f)
+                                    .then(if (glassStyle && isGlassSupported()) Modifier.layerBackdrop(appBackdrop) else Modifier),
+                            ) {
                                 // NavHost with animations (Material 3 Expressive style)
                                 NavHost(
                                     navController = navController,

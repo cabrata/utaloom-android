@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -28,6 +29,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,6 +39,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
+import com.metrolist.music.R
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
@@ -43,6 +48,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
+import com.metrolist.music.ui.theme.isUtaloomGlass
+import com.metrolist.music.ui.theme.GlassShapes
+import com.metrolist.music.ui.glass.GlassSwitch
 import kotlinx.coroutines.delay
 
 /**
@@ -66,6 +74,7 @@ fun Material3SettingsGroup(
     useLowContrast: Boolean = false,
 ) {
     val highlight = SettingsSearchHighlight.pendingKey
+    val glass = isUtaloomGlass
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -74,16 +83,30 @@ fun Material3SettingsGroup(
         title?.let {
             Text(
                 text = it,
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(bottom = 8.dp, top = 8.dp)
+                style = if (glass) MaterialTheme.typography.labelSmall else MaterialTheme.typography.labelLarge,
+                color = if (glass) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(
+                    start = if (glass) 16.dp else 0.dp,
+                    end = if (glass) 16.dp else 0.dp,
+                    bottom = if (glass) 8.dp else 8.dp,
+                    top = if (glass) 26.dp else 8.dp
+                )
             )
         }
 
         // Settings items
         Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .let {
+                    if (glass) {
+                        it.clip(GlassShapes.Group)
+                            .background(MaterialTheme.colorScheme.surfaceContainer)
+                    } else {
+                        it
+                    }
+                },
+            verticalArrangement = if (glass) Arrangement.spacedBy(0.dp) else Arrangement.spacedBy(4.dp)
         ) {
             items.forEachIndexed { index, item ->
                 val target = item.targetKey != null && item.targetKey == highlight
@@ -99,32 +122,50 @@ fun Material3SettingsGroup(
                         }
                     }
                 }
-                val shape = when {
-                    items.size == 1 -> RoundedCornerShape(24.dp)
-                    index == 0 -> RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 6.dp, bottomEnd = 6.dp)
-                    index == items.size - 1 -> RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp, bottomStart = 24.dp, bottomEnd = 24.dp)
-                    else -> RoundedCornerShape(6.dp)
-                }
 
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .bringIntoViewRequester(requester)
-                        .animateContentSize(),
-                    shape = shape,
-                    colors = CardDefaults.cardColors(
-                        containerColor = if (target) {
-                            MaterialTheme.colorScheme.primary.copy(alpha = 0.16f)
-                        } else if (!useLowContrast) {
-                            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
-                        } else {
-                            MaterialTheme.colorScheme.surfaceContainerLow
-                        }
-                    ),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-                    border = item.borderColor?.let { BorderStroke(1.5.dp, it) }
-                ) {
-                    Material3SettingsItemRow(item = item.copy(isHighlighted = target || item.isHighlighted))
+                if (glass) {
+                    // Glass mode: no card, dividers between rows, no background
+                    if (index > 0) {
+                        Box(
+                            modifier = Modifier
+                                .padding(start = 60.dp) // past the row padding, icon tile and gap
+                                .fillMaxWidth()
+                                .height(0.5.dp)
+                                .background(MaterialTheme.colorScheme.outlineVariant)
+                        )
+                    }
+                    Box(Modifier.fillMaxWidth().bringIntoViewRequester(requester)) {
+                        Material3SettingsItemRow(item = item.copy(isHighlighted = target || item.isHighlighted), glassMode = true)
+                    }
+                } else {
+                    // Material 3 mode: use cards
+                    val shape = when {
+                        items.size == 1 -> RoundedCornerShape(24.dp)
+                        index == 0 -> RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 6.dp, bottomEnd = 6.dp)
+                        index == items.size - 1 -> RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp, bottomStart = 24.dp, bottomEnd = 24.dp)
+                        else -> RoundedCornerShape(6.dp)
+                    }
+
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .bringIntoViewRequester(requester)
+                            .animateContentSize(),
+                        shape = shape,
+                        colors = CardDefaults.cardColors(
+                            containerColor = if (target) {
+                                MaterialTheme.colorScheme.primary.copy(alpha = 0.16f)
+                            } else if (!useLowContrast) {
+                                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
+                            } else {
+                                MaterialTheme.colorScheme.surfaceContainerLow
+                            }
+                        ),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+                        border = item.borderColor?.let { BorderStroke(1.5.dp, it) }
+                    ) {
+                        Material3SettingsItemRow(item = item.copy(isHighlighted = target || item.isHighlighted))
+                    }
                 }
             }
         }
@@ -136,7 +177,8 @@ fun Material3SettingsGroup(
  */
 @Composable
 private fun Material3SettingsItemRow(
-    item: Material3SettingsItem
+    item: Material3SettingsItem,
+    glassMode: Boolean = false,
 ) {
     Row(
         modifier = Modifier
@@ -145,21 +187,25 @@ private fun Material3SettingsItemRow(
                 enabled = item.enabled && item.onClick != null,
                 onClick = { item.onClick?.invoke() }
             )
-            .padding(horizontal = 20.dp, vertical = 16.dp),
+            .padding(
+                horizontal = if (glassMode) 16.dp else 20.dp,
+                vertical = if (glassMode) 10.dp else 16.dp
+            )
+            .heightIn(min = if (glassMode) 44.dp else 0.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Custom leading content or Icon with background
         if (item.leadingContent != null) {
             item.leadingContent.invoke()
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(if (glassMode) 12.dp else 16.dp))
         } else if (item.icon != null) {
             Box(
                 modifier = Modifier
-                    .size(40.dp)
-                    .clip(RoundedCornerShape(12.dp))
+                    .size(if (glassMode) 32.dp else 40.dp)
+                    .clip(RoundedCornerShape(if (glassMode) 8.dp else 12.dp))
                     .background(
                         MaterialTheme.colorScheme.primary.copy(
-                            alpha = if (item.isHighlighted) 0.15f else 0.1f
+                            alpha = if (item.isHighlighted) 0.15f else if (glassMode) 0.12f else 0.1f
                         )
                     ),
                 contentAlignment = Alignment.Center
@@ -181,7 +227,7 @@ private fun Material3SettingsItemRow(
                                 MaterialTheme.colorScheme.primary
                             else
                                 MaterialTheme.colorScheme.primary.copy(alpha = 0.9f),
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(if (glassMode) 20.dp else 24.dp)
                         )
                     }
                 } else {
@@ -194,12 +240,12 @@ private fun Material3SettingsItemRow(
                             MaterialTheme.colorScheme.primary
                         else
                             MaterialTheme.colorScheme.primary.copy(alpha = 0.9f),
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(if (glassMode) 20.dp else 24.dp)
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(if (glassMode) 12.dp else 16.dp))
         }
 
         // Title and description
@@ -208,7 +254,8 @@ private fun Material3SettingsItemRow(
         ) {
             // Title content
             ProvideTextStyle(
-                MaterialTheme.typography.titleMedium.copy(
+                // iOS rows set their label in body weight; only headings are bold.
+                (if (glassMode) MaterialTheme.typography.bodyLarge else MaterialTheme.typography.titleMedium).copy(
                     color = if (!item.enabled) 
                         MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
                     else
@@ -239,6 +286,54 @@ private fun Material3SettingsItemRow(
             Spacer(modifier = Modifier.width(8.dp))
             trailing()
         }
+        if (glassMode && item.trailingContent == null && item.onClick != null) {
+            Icon(
+                painter = painterResource(R.drawable.navigate_next),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(20.dp),
+            )
+        }
+    }
+}
+
+/**
+ * Factory for switch that uses GlassSwitch in glass mode, Material3 Switch otherwise.
+ * Pass this directly as trailingContent in Material3SettingsItem for automatic glass support.
+ */
+@Composable
+fun SettingsSwitch(
+    checked: Boolean,
+    onCheckedChange: ((Boolean) -> Unit)?,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    showIcons: Boolean = true,
+) {
+    if (isUtaloomGlass) {
+        GlassSwitch(
+            checked = checked,
+            onCheckedChange = onCheckedChange ?: {},
+            modifier = modifier,
+            enabled = enabled && onCheckedChange != null,
+        )
+    } else {
+        Switch(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            modifier = modifier,
+            enabled = enabled,
+            thumbContent = if (!showIcons) null else {
+                {
+                    Icon(
+                        painter = painterResource(
+                            id = if (checked) R.drawable.check else R.drawable.close,
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier.size(SwitchDefaults.IconSize),
+                    )
+                }
+            },
+        )
     }
 }
 

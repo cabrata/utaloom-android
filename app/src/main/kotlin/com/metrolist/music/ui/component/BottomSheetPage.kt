@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarDefaults
@@ -31,6 +32,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import com.metrolist.music.ui.theme.GlassShapes
+import com.metrolist.music.ui.theme.isUtaloomGlass
 
 val LocalBottomSheetPageState = compositionLocalOf { BottomSheetPageState() }
 
@@ -69,7 +72,8 @@ fun BottomSheetPage(
             state.isVisible = false
         },
         sheetState = sheetState,
-        containerColor = background,
+        shape = if (isUtaloomGlass) GlassShapes.Sheet else BottomSheetDefaults.ExpandedShape,
+        containerColor = if (isUtaloomGlass) MaterialTheme.colorScheme.surfaceContainer else background,
         contentColor = MaterialTheme.colorScheme.onSurface,
         dragHandle = {
             Box(
@@ -77,7 +81,11 @@ fun BottomSheetPage(
                     .padding(vertical = 12.dp)
                     .size(width = 32.dp, height = 4.dp)
                     .clip(RoundedCornerShape(2.dp))
-                    .background(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f))
+                    .background(
+                        MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                            alpha = if (isUtaloomGlass) 0.3f else 0.4f
+                        )
+                    )
             )
         },
         modifier = modifier.fillMaxHeight()
@@ -88,7 +96,13 @@ fun BottomSheetPage(
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 16.dp)
         ) {
-            state.content(this)
+            if (isUtaloomGlass) {
+                // Rows that paint `surface` (ListItem) blend into the sheet instead of drawing a black box.
+                val colors = MaterialTheme.colorScheme
+                MaterialTheme(colorScheme = colors.copy(surface = colors.surfaceContainer)) { state.content(this) }
+            } else {
+                state.content(this)
+            }
         }
     }
 }

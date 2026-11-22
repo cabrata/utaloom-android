@@ -5,6 +5,8 @@
 
 package com.metrolist.music.ui.component
 
+import com.metrolist.music.ui.glass.GlassChip
+import com.metrolist.music.ui.theme.isUtaloomGlass
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -80,7 +82,9 @@ fun <E> ChipsRow(
 
         chips.forEach { (value, label) ->
             val selected = currentValue == value
-            FilterChip(
+            if (isUtaloomGlass) {
+                GlassChip(label = label, selected = selected, onSelect = { onValueUpdate(value) })
+            } else FilterChip(
                 label = { Text(label, fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium) },
                 selected = selected,
                 leadingIcon = icons[value]?.let { icon ->

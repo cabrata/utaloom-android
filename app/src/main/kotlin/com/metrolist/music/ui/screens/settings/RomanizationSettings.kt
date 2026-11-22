@@ -38,6 +38,7 @@ import com.metrolist.music.constants.LyricsRomanizeList
 import com.metrolist.music.ui.component.IconButton
 import com.metrolist.music.ui.component.Material3SettingsGroup
 import com.metrolist.music.ui.component.Material3SettingsItem
+import com.metrolist.music.ui.component.SettingsSwitch
 import com.metrolist.music.ui.utils.backToMain
 import com.metrolist.music.utils.rememberPreference
 
@@ -110,18 +111,9 @@ fun RomanizationSettings(
                     title = { Text(stringResource(R.string.lyrics_romanize_as_main)) },
                     targetKey = R.string.lyrics_romanize_as_main,
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = lyricsRomanizeAsMain,
                             onCheckedChange = onLyricsRomanizeAsMainChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (lyricsRomanizeAsMain) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize),
-                                )
-                            }
                         )
                     },
                     icon = painterResource(R.drawable.queue_music)
@@ -130,18 +122,9 @@ fun RomanizationSettings(
                     title = { Text(stringResource(R.string.line_by_line_option_title)) },
                     targetKey = R.string.line_by_line_option_title,
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = lyricsRomanizeCyrillicByLine,
                             onCheckedChange = onLyricsRomanizeCyrillicByLineChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (lyricsRomanizeCyrillicByLine) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize),
-                                )
-                            }
                         )
                     },
                     icon = painterResource(R.drawable.info)

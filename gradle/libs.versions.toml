@@ -25,6 +25,7 @@ hiltNavigation = "1.4.0"
 datastore = "1.2.1"
 composeReorderable = "3.1.0"
 shimmer = "1.5.0"
+haze = "2.1.0"
 palette = "1.0.0"
 desugaring = "2.1.5"
 junit = "4.13.2"
@@ -68,6 +69,8 @@ coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version
 ucrop = { module = "com.github.yalantis:ucrop", version.ref = "ucrop" }
 
 shimmer = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "shimmer" }
+haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
+haze-blur = { module = "dev.chrisbanes.haze:haze-blur", version.ref = "haze" }
 
 palette = { module = "androidx.palette:palette", version.ref = "palette" }
 

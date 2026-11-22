@@ -62,6 +62,7 @@ import com.metrolist.music.ui.component.EnumDialog
 import com.metrolist.music.ui.component.IconButton
 import com.metrolist.music.ui.component.Material3SettingsGroup
 import com.metrolist.music.ui.component.Material3SettingsItem
+import com.metrolist.music.ui.component.SettingsSwitch
 import android.text.format.Formatter
 import com.metrolist.music.ui.utils.backToMain
 import com.metrolist.music.utils.rememberEnumPreference
@@ -363,18 +364,9 @@ fun StorageSettings(
                         targetKey = R.string.wifi_only_downloads,
                         description = { Text(stringResource(R.string.wifi_only_downloads_desc)) },
                         trailingContent = {
-                            Switch(
+                            SettingsSwitch(
                                 checked = wifiOnlyDownloads,
                                 onCheckedChange = onWifiOnlyDownloadsChange,
-                                thumbContent = {
-                                    Icon(
-                                        painter = painterResource(
-                                            id = if (wifiOnlyDownloads) R.drawable.check else R.drawable.close
-                                        ),
-                                        contentDescription = null,
-                                        modifier = Modifier.size(SwitchDefaults.IconSize)
-                                    )
-                                }
                             )
                         },
                         onClick = { onWifiOnlyDownloadsChange(!wifiOnlyDownloads) },
@@ -399,18 +391,9 @@ fun StorageSettings(
                     targetKey = R.string.enable_song_cache,
                     description = { Text(stringResource(R.string.enable_song_cache_desc)) },
                     trailingContent = {
-                        Switch(
+                        SettingsSwitch(
                             checked = enableSongCache,
                             onCheckedChange = onEnableSongCacheChange,
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (enableSongCache) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
                         )
                     },
                     onClick = { onEnableSongCacheChange(!enableSongCache) }
