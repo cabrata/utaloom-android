@@ -962,12 +962,13 @@ fun HeroBottomRow(
                 if (queue) {
                     HeroPlaybackModes(enabled = controlsEnabled)
                 } else {
+                    val glyph = rememberOutputGlyph()
                     IconButton(onClick = openOutputs) {
                         Icon(
-                            painter = painterResource(R.drawable.headphones),
+                            painter = painterResource(glyph.res),
                             contentDescription = stringResource(R.string.audio_output),
                             tint = Color.White.copy(alpha = 0.75f),
-                            modifier = Modifier.size(28.dp),
+                            modifier = Modifier.size(glyph.size),
                         )
                     }
                 }

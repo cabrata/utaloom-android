@@ -8,11 +8,15 @@ package com.metrolist.music.ui.player
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothClass
+import android.bluetooth.BluetoothManager
 import android.media.AudioAttributes
 import android.media.AudioDeviceInfo
 import android.media.AudioManager
 import android.os.Build
 import androidx.activity.compose.BackHandler
+import androidx.annotation.DrawableRes
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -85,6 +89,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -131,8 +136,9 @@ private fun bluetoothNamesAllowed(context: Context): Boolean =
 internal fun AudioOutputButton(tint: Color, modifier: Modifier = Modifier) {
     var open by remember { mutableStateOf(false) }
     val openOutputs = rememberAudioOutputPicker { open = true }
+    val glyph = rememberOutputGlyph()
     IconButton(onClick = openOutputs, modifier = modifier) {
-        Icon(painterResource(R.drawable.headphones), stringResource(R.string.audio_output), tint = tint)
+        Icon(painterResource(glyph.res), stringResource(R.string.audio_output), tint = tint, modifier = Modifier.size(glyph.size))
     }
     if (open) AudioOutputSheet(onDismiss = { open = false })
 }
@@ -367,7 +373,7 @@ private fun AudioOutputDeviceRows(playerConnection: PlayerConnection) {
         OutputRow(
             title = outputDeviceName(device, context),
             subtitle = if (active) stringResource(R.string.audio_output_playing) else null,
-            iconRes = outputDeviceIcon(device.type),
+            iconRes = outputDeviceIcon(device, context),
             active = active,
             onClick = { playerConnection.selectAudioDevice(device.id) },
         )
@@ -494,10 +500,96 @@ internal fun OutputRow(
     }
 }
 
-internal fun outputDeviceIcon(type: Int): Int = when (outputKind(type)) {
-    OutputKind.BLUETOOTH -> R.drawable.bluetooth
+internal fun outputDeviceIcon(device: AudioDeviceInfo, context: Context): Int = when (outputKind(device.type)) {
+    OutputKind.BLUETOOTH -> when (bluetoothForm(device, context)) {
+        BluetoothForm.BUDS -> R.drawable.ic_output_buds
+        BluetoothForm.SPEAKER -> R.drawable.ic_output_speaker
+        BluetoothForm.CAR -> R.drawable.ic_output_car
+        BluetoothForm.HEADPHONES, BluetoothForm.UNKNOWN -> R.drawable.headphones
+    }
     OutputKind.WIRED, OutputKind.USB -> R.drawable.headphones
-    OutputKind.PHONE, OutputKind.HDMI, null -> R.drawable.volume_up
+    OutputKind.HDMI -> R.drawable.ic_output_tv
+    OutputKind.PHONE, null -> R.drawable.volume_up
+}
+
+internal enum class BluetoothForm { BUDS, HEADPHONES, SPEAKER, CAR, UNKNOWN }
+
+private val HeadphoneNames = listOf(
+    "headphone", "airpods max", "wh-", "qc35", "qc45", "quietcomfort ultra headphones", "momentum 4",
+    "studio pro", "solo", "major iv", "major v", "monitor ii",
+)
+private val BudsNames = listOf(
+    "buds", "airpods", "pods", "earbud", "earphone", "wf-", "tws", "liberty", "freebuds", "nothing ear",
+    "jabra elite", "motif", "minor iv", "earfun",
+)
+private val SpeakerNames = listOf(
+    "speaker", "soundbar", "sound bar", "emberton", "kilburn", "stanmore", "acton", "woburn", "middleton",
+    "willen", "tufton", "stockwell", "uxbridge", "jbl flip", "jbl charge", "jbl go", "jbl clip", "jbl xtreme",
+    "jbl boombox", "jbl pulse", "partybox", "wonderboom", "megaboom", "boom 3", "everboom", "hyperboom",
+    "soundlink", "srs-", "ult field", "soundcore motion", "soundcore flare", "soundcore boom", "stormbox",
+    "beats pill", "sonos", "homepod", "echo", "nest audio", "bose home", "beosound", "beoplay a", "boombox",
+)
+
+/**
+ * What a Bluetooth output is, so its glyph can say so. LE speakers and hearing aids say it themselves; else the
+ * name, worn things first so "Echo Buds" lands on the head; else the paired device's class. That last read
+ * needs BLUETOOTH_CONNECT and is skipped without it, leaving [BluetoothForm.UNKNOWN] (the plain headphones).
+ */
+internal fun bluetoothForm(device: AudioDeviceInfo, context: Context): BluetoothForm {
+    when (device.type) {
+        AudioDeviceInfo.TYPE_BLE_SPEAKER -> return BluetoothForm.SPEAKER
+        AudioDeviceInfo.TYPE_HEARING_AID -> return BluetoothForm.BUDS
+    }
+    val name = device.productName?.toString()?.lowercase().orEmpty()
+    when {
+        HeadphoneNames.any { it in name } -> return BluetoothForm.HEADPHONES
+        BudsNames.any { it in name } -> return BluetoothForm.BUDS
+        SpeakerNames.any { it in name } -> return BluetoothForm.SPEAKER
+    }
+    if (!bluetoothNamesAllowed(context) || !BluetoothAdapter.checkBluetoothAddress(device.address)) return BluetoothForm.UNKNOWN
+    val deviceClass = runCatching {
+        context.getSystemService(BluetoothManager::class.java)?.adapter
+            ?.getRemoteDevice(device.address)?.bluetoothClass?.deviceClass
+    }.getOrNull()
+    return when (deviceClass) {
+        BluetoothClass.Device.AUDIO_VIDEO_WEARABLE_HEADSET, BluetoothClass.Device.AUDIO_VIDEO_HANDSFREE -> BluetoothForm.BUDS
+        BluetoothClass.Device.AUDIO_VIDEO_HEADPHONES -> BluetoothForm.HEADPHONES
+        BluetoothClass.Device.AUDIO_VIDEO_LOUDSPEAKER, BluetoothClass.Device.AUDIO_VIDEO_PORTABLE_AUDIO,
+        BluetoothClass.Device.AUDIO_VIDEO_HIFI_AUDIO, BluetoothClass.Device.AUDIO_VIDEO_VIDEO_DISPLAY_AND_LOUDSPEAKER,
+        -> BluetoothForm.SPEAKER
+        BluetoothClass.Device.AUDIO_VIDEO_CAR_AUDIO -> BluetoothForm.CAR
+        else -> BluetoothForm.UNKNOWN
+    }
+}
+
+/** A glyph and the size that makes it match the others, as BitChord's output button does. */
+internal class OutputGlyph(@DrawableRes val res: Int, val size: Dp)
+
+/**
+ * The output button's glyph follows where the music is going, as Apple Music's does: AirPlay for the phone itself
+ * (the button's job there is to send it elsewhere), buds, speaker, car, headphones, TV, or Cast while casting.
+ */
+@Composable
+internal fun rememberOutputGlyph(): OutputGlyph {
+    val context = LocalContext.current
+    val connection = LocalPlayerConnection.current
+    val devices by connection?.audioOutputDevices?.collectAsStateWithLifecycle() ?: remember { mutableStateOf(emptyList()) }
+    val selectedId by connection?.selectedAudioDeviceId?.collectAsStateWithLifecycle() ?: remember { mutableStateOf(null) }
+    val casting by connection?.service?.castConnectionHandler?.isCasting?.collectAsStateWithLifecycle()
+        ?: remember { mutableStateOf(false) }
+    if (casting) return OutputGlyph(R.drawable.cast_connected, 26.dp)
+    val device = activeOutputDevice(context, devices, selectedId) ?: return OutputGlyph(R.drawable.ic_output_airplay, 24.dp)
+    return when (outputKind(device.type)) {
+        OutputKind.PHONE, null -> OutputGlyph(R.drawable.ic_output_airplay, 24.dp)
+        OutputKind.BLUETOOTH -> when (bluetoothForm(device, context)) {
+            BluetoothForm.BUDS -> OutputGlyph(R.drawable.ic_output_buds, 34.dp)
+            BluetoothForm.SPEAKER -> OutputGlyph(R.drawable.ic_output_speaker, 28.dp)
+            BluetoothForm.CAR -> OutputGlyph(R.drawable.ic_output_car, 28.dp)
+            BluetoothForm.HEADPHONES, BluetoothForm.UNKNOWN -> OutputGlyph(R.drawable.headphones, 28.dp)
+        }
+        OutputKind.WIRED, OutputKind.USB -> OutputGlyph(R.drawable.headphones, 28.dp)
+        OutputKind.HDMI -> OutputGlyph(R.drawable.ic_output_tv, 26.dp)
+    }
 }
 
 internal enum class OutputKind { PHONE, WIRED, USB, BLUETOOTH, HDMI }
