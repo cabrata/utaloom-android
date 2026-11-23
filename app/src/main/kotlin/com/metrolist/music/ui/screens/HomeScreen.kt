@@ -144,9 +144,9 @@ import com.metrolist.music.ui.component.SongListItem
 import com.metrolist.music.ui.component.SpeedDialGridItem
 import com.metrolist.music.ui.component.YouTubeGridItem
 import com.metrolist.music.ui.component.YouTubeListItem
-import com.metrolist.music.ui.screens.wrapped.WrappedHomeCard
+import com.metrolist.music.ui.screens.encore.EncoreHomeCard
 import com.metrolist.music.ui.theme.isUtaloomGlass
-import com.metrolist.music.ui.screens.wrapped.rememberWrappedYear
+import com.metrolist.music.ui.screens.encore.rememberEncoreYear
 import com.metrolist.music.ui.component.shimmer.GridItemPlaceHolder
 import com.metrolist.music.ui.component.shimmer.ShimmerHost
 import com.metrolist.music.ui.component.shimmer.TextPlaceholder
@@ -697,8 +697,8 @@ fun HomeScreen(
 
     LaunchedEffect(Unit) { viewModel.loadHomeData() }
 
-    val wrappedYear = rememberWrappedYear()
-    val shouldShowWrappedCard by remember(viewModel, wrappedYear) { viewModel.showWrappedCard(wrappedYear) }.collectAsStateWithLifecycle()
+    val encoreYear = rememberEncoreYear()
+    val shouldShowEncoreCard by remember(viewModel, encoreYear) { viewModel.showEncoreCard(encoreYear) }.collectAsStateWithLifecycle()
 
     val isLoggedIn =
         remember(innerTubeCookie) {
@@ -757,9 +757,9 @@ fun HomeScreen(
     val scrollToTop =
         backStackEntry?.savedStateHandle?.getStateFlow("scrollToTop", false)?.collectAsStateWithLifecycle()
 
-    val wrappedSeenYear by backStackEntry
+    val encoreSeenYear by backStackEntry
         ?.savedStateHandle
-        ?.getStateFlow("wrapped_seen_year", 0)
+        ?.getStateFlow("encore_seen_year", 0)
         ?.collectAsStateWithLifecycle() ?: remember { mutableIntStateOf(0) }
 
     var randomSeed by rememberSaveable { mutableLongStateOf(System.currentTimeMillis()) }
@@ -770,10 +770,10 @@ fun HomeScreen(
         }
     }
 
-    LaunchedEffect(wrappedSeenYear) {
-        if (wrappedSeenYear != 0) {
-            viewModel.markWrappedAsSeen(wrappedSeenYear)
-            backStackEntry?.savedStateHandle?.set("wrapped_seen_year", 0)
+    LaunchedEffect(encoreSeenYear) {
+        if (encoreSeenYear != 0) {
+            viewModel.markEncoreAsSeen(encoreSeenYear)
+            backStackEntry?.savedStateHandle?.set("encore_seen_year", 0)
         }
     }
 
@@ -1368,11 +1368,11 @@ fun HomeScreen(
                 }
 
                 if (selectedChip == null) {
-                    item(key = "wrapped_card") {
-                        AnimatedVisibility(visible = shouldShowWrappedCard) {
-                            WrappedHomeCard(
-                                year = wrappedYear,
-                                onClick = { navController.navigate("wrapped") },
+                    item(key = "encore_card") {
+                        AnimatedVisibility(visible = shouldShowEncoreCard) {
+                            EncoreHomeCard(
+                                year = encoreYear,
+                                onClick = { navController.navigate("encore") },
                                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
                             )
                         }

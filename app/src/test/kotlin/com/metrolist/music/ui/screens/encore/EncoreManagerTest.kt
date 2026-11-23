@@ -3,7 +3,7 @@
  * Licensed under GPL-3.0 | See git history for contributors
  */
 
-package com.metrolist.music.ui.screens.wrapped
+package com.metrolist.music.ui.screens.encore
 
 import android.content.Context
 import androidx.room.Room
@@ -37,10 +37,10 @@ import java.time.LocalDateTime
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [33])
-class WrappedManagerTest {
+class EncoreManagerTest {
     private lateinit var room: InternalDatabase
     private lateinit var database: MusicDatabase
-    private lateinit var manager: WrappedManager
+    private lateinit var manager: EncoreManager
     private val appScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     @Before
@@ -48,7 +48,7 @@ class WrappedManagerTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
         room = Room.inMemoryDatabaseBuilder(context, InternalDatabase::class.java).build()
         database = MusicDatabase(room)
-        manager = WrappedManager(room.dao, context, database, appScope)
+        manager = EncoreManager(room.dao, context, database, appScope)
     }
 
     @After
@@ -60,7 +60,7 @@ class WrappedManagerTest {
 
     @Test
     fun `prepare includes millisecond year boundaries and saves selected year locally`() = runBlocking {
-        val year = WrappedConstants.YEAR - 1
+        val year = EncoreConstants.YEAR - 1
         val before = SongEntity("before", "Before")
         val first = SongEntity("first", "First")
         val top = SongEntity("top", "Top", thumbnailUrl = "top.jpg")
@@ -84,7 +84,7 @@ class WrappedManagerTest {
         assertEquals(2, state.uniqueSongCount)
         assertEquals(3L, state.totalMinutes)
         assertTrue(year in state.availableYears)
-        assertTrue(WrappedConstants.YEAR in state.availableYears)
+        assertTrue(EncoreConstants.YEAR in state.availableYears)
 
         manager.createPlaylist()
         val saved = withTimeout(5_000) {
@@ -101,7 +101,7 @@ class WrappedManagerTest {
 
     @Test
     fun `annual artist totals preserve durations larger than integer milliseconds`() = runBlocking {
-        val year = WrappedConstants.YEAR - 1
+        val year = EncoreConstants.YEAR - 1
         val song = SongEntity("annual-favorite", "Annual favorite", thumbnailUrl = "favorite.jpg")
         val artist = ArtistEntity(id = "annual-artist", name = "Annual artist")
         withContext(Dispatchers.IO) {
@@ -122,13 +122,13 @@ class WrappedManagerTest {
 
     @Test
     fun `empty history keeps current year selectable and returns zero data`() = runBlocking {
-        manager.prepare(WrappedConstants.YEAR)
+        manager.prepare(EncoreConstants.YEAR)
 
         val state = manager.state.value
         assertTrue(state.isDataReady)
         assertFalse(state.isLoading)
         assertFalse(state.hasError)
-        assertEquals(listOf(WrappedConstants.YEAR), state.availableYears)
+        assertEquals(listOf(EncoreConstants.YEAR), state.availableYears)
         assertEquals(0, state.uniqueSongCount)
         assertEquals(0, state.uniqueArtistCount)
         assertEquals(0, state.totalAlbums)
@@ -139,11 +139,11 @@ class WrappedManagerTest {
 
     @Test
     fun `preparation failure clears loading and can be retried`() = runBlocking {
-        manager.prepare(WrappedConstants.YEAR + 1)
+        manager.prepare(EncoreConstants.YEAR + 1)
         assertFalse(manager.state.value.isLoading)
         assertTrue(manager.state.value.hasError)
 
-        manager.prepare(WrappedConstants.YEAR, force = true)
+        manager.prepare(EncoreConstants.YEAR, force = true)
         assertTrue(manager.state.value.isDataReady)
         assertFalse(manager.state.value.isLoading)
         assertFalse(manager.state.value.hasError)

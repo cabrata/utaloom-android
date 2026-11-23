@@ -1,4 +1,4 @@
-package com.metrolist.music.ui.screens.wrapped
+package com.metrolist.music.ui.screens.encore
 
 import android.app.Activity
 import android.content.ClipData
@@ -12,13 +12,13 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.IOException
 
-internal suspend fun shareWrapped(context: Context, bitmap: Bitmap, year: Int) {
+internal suspend fun shareEncore(context: Context, bitmap: Bitmap, year: Int) {
     val uri = withContext(Dispatchers.IO) {
         val directory = File(context.cacheDir, "images")
         if (!directory.mkdirs() && !directory.isDirectory) {
             throw IOException("Could not create recap cache directory")
         }
-        val image = File.createTempFile("utaloom-wrapped-$year-", ".png", directory)
+        val image = File.createTempFile("utaloom-encore-$year-", ".png", directory)
         image.outputStream().use { output ->
             if (!bitmap.compress(Bitmap.CompressFormat.PNG, 100, output)) {
                 throw IOException("Could not encode recap image")
@@ -28,7 +28,7 @@ internal suspend fun shareWrapped(context: Context, bitmap: Bitmap, year: Int) {
     }
 
     withContext(Dispatchers.Main) {
-        val title = context.getString(R.string.wrapped_recap_share)
+        val title = context.getString(R.string.encore_recap_share)
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
             type = "image/png"
             putExtra(Intent.EXTRA_STREAM, uri)

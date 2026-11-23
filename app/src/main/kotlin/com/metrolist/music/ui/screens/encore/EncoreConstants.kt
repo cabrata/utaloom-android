@@ -3,7 +3,7 @@
  * Licensed under GPL-3.0 | See git history for contributors
  */
 
-package com.metrolist.music.ui.screens.wrapped
+package com.metrolist.music.ui.screens.encore
 
 import androidx.compose.ui.text.font.DeviceFontFamilyName
 import androidx.compose.ui.text.font.Font
@@ -14,16 +14,16 @@ import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 // Tall condensed numerals fit one line at large sizes; extended faces get squashed flat by autosize.
-internal val WrappedDisplayFont = FontFamily(Font(DeviceFontFamilyName("sans-serif-condensed"), FontWeight.Black))
+internal val EncoreDisplayFont = FontFamily(Font(DeviceFontFamilyName("sans-serif-condensed"), FontWeight.Black))
 
-object WrappedConstants {
+object EncoreConstants {
     val YEAR: Int
         get() = LocalDate.now().year
     val PLAYLIST_NAME: String
         get() = "Utaloom $YEAR"
 }
 
-internal data class WrappedPeriod(
+internal data class EncorePeriod(
     val start: LocalDateTime,
     val endInclusive: LocalDateTime,
 ) {
@@ -32,9 +32,9 @@ internal data class WrappedPeriod(
         get() = start.minus(1, ChronoUnit.MILLIS)
 }
 
-internal fun wrappedPeriod(year: Int, now: LocalDateTime = LocalDateTime.now()): WrappedPeriod {
-    require(year in 1..now.year) { "Wrapped year must not be in the future" }
+internal fun encorePeriod(year: Int, now: LocalDateTime = LocalDateTime.now()): EncorePeriod {
+    require(year in 1..now.year) { "Encore year must not be in the future" }
     val start = LocalDate.of(year, 1, 1).atStartOfDay()
     val end = if (year == now.year) now else start.plusYears(1).minus(1, ChronoUnit.MILLIS)
-    return WrappedPeriod(start, end.truncatedTo(ChronoUnit.MILLIS))
+    return EncorePeriod(start, end.truncatedTo(ChronoUnit.MILLIS))
 }

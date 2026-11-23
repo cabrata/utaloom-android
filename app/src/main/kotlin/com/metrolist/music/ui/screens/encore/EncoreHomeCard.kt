@@ -1,4 +1,4 @@
-package com.metrolist.music.ui.screens.wrapped
+package com.metrolist.music.ui.screens.encore
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
@@ -59,10 +59,10 @@ import com.metrolist.music.ui.glass.lightweightLiquidGlass
 import kotlin.math.roundToInt
 
 @Composable
-internal fun WrappedHomeCard(year: Int, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    val action = stringResource(R.string.wrapped_recap_view)
+internal fun EncoreHomeCard(year: Int, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val action = stringResource(R.string.encore_recap_view)
     val glass = glassActive()
-    val ink = if (glass) glassContentColor() else WrappedInk
+    val ink = if (glass) glassContentColor() else EncoreInk
     val accent = MaterialTheme.colorScheme.primary
     // The card's own glow, recorded so the bubbles and the arrow can refract it. The page's backdrop
     // can't be used here: the card is part of that recording.
@@ -72,9 +72,9 @@ internal fun WrappedHomeCard(year: Int, onClick: () -> Unit, modifier: Modifier 
             .fillMaxWidth()
             .then(
                 if (glass) {
-                    Modifier.lightweightLiquidGlass(GlassCardShape, fallbackColor = WrappedCoral)
+                    Modifier.lightweightLiquidGlass(GlassCardShape, fallbackColor = EncoreCoral)
                 } else {
-                    Modifier.clip(RoundedCornerShape(20.dp)).background(WrappedCoral)
+                    Modifier.clip(RoundedCornerShape(20.dp)).background(EncoreCoral)
                 },
             )
             .clickable(onClick = onClick)
@@ -105,7 +105,7 @@ internal fun WrappedHomeCard(year: Int, onClick: () -> Unit, modifier: Modifier 
                     radius = unit * 0.8f,
                     center = Offset(size.width * 0.3f, size.height),
                 )
-                // The Wrapped rings in the theme colour, so the lenses have edges to bend.
+                // The Encore rings in the theme colour, so the lenses have edges to bend.
                 drawCircle(accent.copy(alpha = 0.45f), unit * 0.62f, Offset(size.width - unit * 0.18f, unit * 0.08f), style = Stroke(unit * 0.025f))
                 drawCircle(accent.copy(alpha = 0.35f), unit * 0.2f, Offset(size.width * 0.58f, size.height * 1.02f), style = Stroke(unit * 0.06f))
             }
@@ -114,8 +114,8 @@ internal fun WrappedHomeCard(year: Int, onClick: () -> Unit, modifier: Modifier 
             // Same shape language as the stories, so the banner reads as their cover.
             Canvas(Modifier.matchParentSize()) {
                 val unit = size.height
-                drawCircle(WrappedPeach, unit * 0.62f, Offset(size.width - unit * 0.18f, unit * 0.08f))
-                drawCircle(WrappedPeach, unit * 0.2f, Offset(size.width * 0.58f, size.height * 1.02f), style = Stroke(unit * 0.07f))
+                drawCircle(EncorePeach, unit * 0.62f, Offset(size.width - unit * 0.18f, unit * 0.08f))
+                drawCircle(EncorePeach, unit * 0.2f, Offset(size.width * 0.58f, size.height * 1.02f), style = Stroke(unit * 0.07f))
             }
         }
         Row(
@@ -125,7 +125,7 @@ internal fun WrappedHomeCard(year: Int, onClick: () -> Unit, modifier: Modifier 
         ) {
             Column(Modifier.weight(1f)) {
                 Text(
-                    stringResource(R.string.wrapped_recap_title, year),
+                    stringResource(R.string.encore_recap_title, year),
                     color = ink,
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.Bold,
@@ -133,19 +133,19 @@ internal fun WrappedHomeCard(year: Int, onClick: () -> Unit, modifier: Modifier 
                 Text(
                     year.toString(),
                     color = if (glass) accent else ink,
-                    fontFamily = WrappedDisplayFont,
+                    fontFamily = EncoreDisplayFont,
                     fontWeight = FontWeight.Black,
                     fontSize = 56.sp,
                     lineHeight = 56.sp,
                 )
                 Text(
-                    stringResource(R.string.wrapped_recap_open),
+                    stringResource(R.string.encore_recap_open),
                     color = ink,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    stringResource(R.string.wrapped_recap_home_subtitle),
+                    stringResource(R.string.encore_recap_home_subtitle),
                     color = ink,
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(top = 2.dp),
@@ -162,10 +162,10 @@ internal fun WrappedHomeCard(year: Int, onClick: () -> Unit, modifier: Modifier 
                 }
             } else {
                 Box(
-                    Modifier.size(48.dp).clip(CircleShape).background(WrappedInk),
+                    Modifier.size(48.dp).clip(CircleShape).background(EncoreInk),
                     contentAlignment = Alignment.Center,
                 ) {
-                    Icon(painterResource(R.drawable.arrow_forward), null, tint = WrappedCoral, modifier = Modifier.size(24.dp))
+                    Icon(painterResource(R.drawable.arrow_forward), null, tint = EncoreCoral, modifier = Modifier.size(24.dp))
                 }
             }
         }

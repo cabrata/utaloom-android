@@ -78,7 +78,7 @@ import com.metrolist.music.constants.ShowArtistDescriptionKey
 import com.metrolist.music.constants.ShowMostStatsPlaylistsKey
 import com.metrolist.music.constants.ShowArtistSubscriberCountKey
 import com.metrolist.music.constants.ShowMonthlyListenersKey
-import com.metrolist.music.constants.ShowWrappedCardKey
+import com.metrolist.music.constants.ShowEncoreCardKey
 import com.metrolist.music.constants.TopSize
 import com.metrolist.music.ui.component.EnumDialog
 import com.metrolist.music.ui.component.IconButton
@@ -116,7 +116,7 @@ fun ContentSettings(
     val (proxyPassword, onProxyPasswordChange) = rememberPreference(key = ProxyPasswordKey, defaultValue = "password")
     val (lengthTop, onLengthTopChange) = rememberPreference(key = TopSize, defaultValue = "50")
     val (quickPicks, onQuickPicksChange) = rememberEnumPreference(key = QuickPicksKey, defaultValue = QuickPicks.QUICK_PICKS)
-    val (showWrappedCard, onShowWrappedCardChange) = rememberPreference(key = ShowWrappedCardKey, defaultValue = false)
+    val (showEncoreCard, onShowEncoreCardChange) = rememberPreference(key = ShowEncoreCardKey, defaultValue = false)
     val (showMostStatsPlaylists, onShowMostStatsPlaylistsChange) =
         rememberPreference(key = ShowMostStatsPlaylistsKey, defaultValue = true)
     val (randomizeHomeOrder, onRandomizeHomeOrderChange) = rememberPreference(
@@ -675,7 +675,7 @@ fun ContentSettings(
         Spacer(modifier = Modifier.height(27.dp))
 
         Material3SettingsGroup(
-            title = "Wrapped",
+            title = "Encore",
             items = listOf(
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.stats),
@@ -692,21 +692,21 @@ fun ContentSettings(
                 ),
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.trending_up),
-                    title = { Text(stringResource(R.string.show_wrapped_card)) },
-                    targetKey = R.string.show_wrapped_card,
+                    title = { Text(stringResource(R.string.show_encore_card)) },
+                    targetKey = R.string.show_encore_card,
                     trailingContent = {
                         SettingsSwitch(
-                            checked = showWrappedCard,
-                            onCheckedChange = onShowWrappedCardChange,
+                            checked = showEncoreCard,
+                            onCheckedChange = onShowEncoreCardChange,
                         )
                     },
-                    onClick = { onShowWrappedCardChange(!showWrappedCard) }
+                    onClick = { onShowEncoreCardChange(!showEncoreCard) }
                 ),
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.replay),
-                    title = { Text(stringResource(R.string.wrapped_recap_view)) },
-                    targetKey = R.string.wrapped_recap_view,
-                    onClick = { navController.navigate("wrapped") }
+                    title = { Text(stringResource(R.string.encore_recap_view)) },
+                    targetKey = R.string.encore_recap_view,
+                    onClick = { navController.navigate("encore") }
                 )
             )
         )

@@ -207,7 +207,7 @@ import com.metrolist.music.ui.screens.navigationBuilder
 import com.metrolist.music.ui.screens.settings.ChangelogScreen
 import com.metrolist.music.ui.screens.settings.DarkMode
 import com.metrolist.music.ui.screens.settings.NavigationTab
-import com.metrolist.music.ui.screens.wrapped.rememberWrappedYear
+import com.metrolist.music.ui.screens.encore.rememberEncoreYear
 import com.metrolist.music.ui.theme.ColorSaver
 import com.metrolist.music.ui.theme.DefaultThemeColor
 import com.metrolist.music.ui.theme.MetrolistTheme
@@ -823,8 +823,8 @@ class MainActivity : FragmentActivity() {
                     derivedStateOf { navBackStackEntry?.destination?.route }
                 }
 
-                // Wrapped and web sign-in pages draw edge to edge, without the mini player or rail.
-                val isFullScreenRoute = currentRoute in setOf("wrapped", "login", "add_account", "switch_channel", "settings/spotify_login")
+                // Encore and web sign-in pages draw edge to edge, without the mini player or rail.
+                val isFullScreenRoute = currentRoute in setOf("encore", "login", "add_account", "switch_channel", "settings/spotify_login")
 
                 val inSearchScreen by remember {
                     derivedStateOf { currentRoute?.startsWith("search/") == true }
@@ -873,7 +873,7 @@ class MainActivity : FragmentActivity() {
                     )
 
                 LifecycleResumeEffect(useDarkTheme, playerBottomSheetState.isExpanded, currentRoute) {
-                    if (!playerBottomSheetState.isExpanded && currentRoute?.startsWith("wrapped") != true) {
+                    if (!playerBottomSheetState.isExpanded && currentRoute?.startsWith("encore") != true) {
                         setSystemBarAppearance(useDarkTheme)
                     }
                     onPauseOrDispose {}
@@ -1485,7 +1485,7 @@ class MainActivity : FragmentActivity() {
                         }
                     }
 
-                    val wrappedYear = rememberWrappedYear()
+                    val encoreYear = rememberEncoreYear()
                     AppDrawer(
                         visible = showDrawer,
                         onDismiss = { showDrawer = false },
@@ -1499,7 +1499,7 @@ class MainActivity : FragmentActivity() {
                             )
                             if (showHistoryButton) entry(stringResource(R.string.history), R.drawable.history, "history")
                             entry(stringResource(R.string.stats), R.drawable.stats, "stats")
-                            entry(stringResource(R.string.wrapped_recap_title, wrappedYear), R.drawable.music_note, "wrapped")
+                            entry(stringResource(R.string.encore_recap_title, encoreYear), R.drawable.music_note, "encore")
                             if (listenTogetherInTopBar) {
                                 entry(stringResource(R.string.together), R.drawable.group_outlined, "listen_together_from_topbar")
                             }

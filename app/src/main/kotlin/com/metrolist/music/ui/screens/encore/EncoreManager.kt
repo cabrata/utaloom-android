@@ -3,7 +3,7 @@
  * Licensed under GPL-3.0 | See git history for contributors
  */
 
-package com.metrolist.music.ui.screens.wrapped
+package com.metrolist.music.ui.screens.encore
 
 import android.content.Context
 import com.metrolist.music.db.DatabaseDao
@@ -34,26 +34,26 @@ sealed class PlaylistCreationState {
     object Success : PlaylistCreationState()
 }
 
-class WrappedManager(
+class EncoreManager(
     private val databaseDao: DatabaseDao,
     context: Context,
     private val database: MusicDatabase = EntryPointAccessors.fromApplication(
         context.applicationContext,
-        WrappedEntryPoint::class.java,
+        EncoreEntryPoint::class.java,
     ).database(),
     applicationScope: CoroutineScope = EntryPointAccessors.fromApplication(
         context.applicationContext,
-        WrappedEntryPoint::class.java,
+        EncoreEntryPoint::class.java,
     ).applicationScope(),
 ) {
     private val job = SupervisorJob(applicationScope.coroutineContext[Job])
     private val scope = CoroutineScope(applicationScope.coroutineContext + job)
     private val preparationMutex = Mutex()
-    private val _state = MutableStateFlow(WrappedState())
+    private val _state = MutableStateFlow(EncoreState())
     val state = _state.asStateFlow()
 
     @Suppress("UNUSED_PARAMETER")
-    fun createPlaylist(imageResName: String = "wrapped_playlistv1") {
+    fun createPlaylist(imageResName: String = "encore_playlistv1") {
         val year = _state.value.year
         scope.launch {
             preparationMutex.withLock {
@@ -67,13 +67,13 @@ class WrappedManager(
                 }
                 try {
                     val playlistId = withContext(Dispatchers.IO) {
-                        val period = wrappedPeriod(year)
+                        val period = encorePeriod(year)
                         val songs = databaseDao.mostPlayedSongsStats(
                             fromTimeStamp = period.rankingStart,
                             toTimeStamp = period.endInclusive,
                             limit = 100,
                         ).first()
-                        check(songs.isNotEmpty()) { "No songs to save for Wrapped $year" }
+                        check(songs.isNotEmpty()) { "No songs to save for Encore $year" }
                         val playlist = PlaylistEntity(
                             name = "Utaloom $year",
                             thumbnailUrl = snapshot.topSongs.first().thumbnailUrl,
@@ -88,7 +88,7 @@ class WrappedManager(
                                 songs.map { it.id to null },
                             )
                             check(playlistSongIds(playlist.id) == songs.map { it.id }) {
-                                "Wrapped playlist songs were not inserted"
+                                "Encore playlist songs were not inserted"
                             }
                         }
                         playlist.id
@@ -100,7 +100,7 @@ class WrappedManager(
                     _state.update { it.copy(playlistCreationState = PlaylistCreationState.Idle) }
                     throw e
                 } catch (e: Exception) {
-                    Timber.tag("WrappedManager").e(e, "Error saving Wrapped playlist for %d", year)
+                    Timber.tag("EncoreManager").e(e, "Error saving Encore playlist for %d", year)
                     _state.update {
                         it.copy(playlistCreationState = PlaylistCreationState.Idle, playlistError = true)
                     }
@@ -109,11 +109,11 @@ class WrappedManager(
         }
     }
 
-    suspend fun prepare(year: Int = WrappedConstants.YEAR, force: Boolean = false) {
+    suspend fun prepare(year: Int = EncoreConstants.YEAR, force: Boolean = false) {
         preparationMutex.withLock {
             val previous = _state.value
             if (previous.year == year && previous.isDataReady && !force) return@withLock
-            val loading = WrappedState(
+            val loading = EncoreState(
                 year = year,
                 availableYears = previous.availableYears,
                 isLoading = true,
@@ -124,7 +124,7 @@ class WrappedManager(
             try {
                 val loaded = withContext(Dispatchers.IO) {
                     val now = LocalDateTime.now()
-                    val period = wrappedPeriod(year, now)
+                    val period = encorePeriod(year, now)
                     val years = async {
                         val cursor = database.openHelper.readableDatabase.query(
                             "SELECT MIN(timestamp) FROM event",
@@ -193,7 +193,7 @@ class WrappedManager(
                 _state.update { it.copy(isLoading = false) }
                 throw e
             } catch (e: Exception) {
-                Timber.tag("WrappedManager").e(e, "Error preparing Wrapped for %d", year)
+                Timber.tag("EncoreManager").e(e, "Error preparing Encore for %d", year)
                 _state.update { it.copy(isLoading = false, hasError = true) }
             }
         }

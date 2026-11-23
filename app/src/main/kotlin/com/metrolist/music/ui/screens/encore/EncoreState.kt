@@ -3,14 +3,14 @@
  * Licensed under GPL-3.0 | See git history for contributors
  */
 
-package com.metrolist.music.ui.screens.wrapped
+package com.metrolist.music.ui.screens.encore
 
 import com.metrolist.innertube.models.AccountInfo
 import com.metrolist.music.db.entities.Album
 import com.metrolist.music.db.entities.Artist
 import com.metrolist.music.db.entities.SongWithStats
 
-data class WrappedState(
+data class EncoreState(
     val accountInfo: AccountInfo? = null,
     val totalMinutes: Long = 0,
     val topSongs: List<SongWithStats> = emptyList(),
@@ -22,8 +22,8 @@ data class WrappedState(
     val totalAlbums: Int = 0,
     val isDataReady: Boolean = false,
     val playlistCreationState: PlaylistCreationState = PlaylistCreationState.Idle,
-    val year: Int = WrappedConstants.YEAR,
-    val availableYears: List<Int> = listOf(WrappedConstants.YEAR),
+    val year: Int = EncoreConstants.YEAR,
+    val availableYears: List<Int> = listOf(EncoreConstants.YEAR),
     val isLoading: Boolean = false,
     val hasError: Boolean = false,
     val playlistId: String? = null,

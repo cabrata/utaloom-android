@@ -3,7 +3,7 @@
  * Licensed under GPL-3.0 | See git history for contributors
  */
 
-package com.metrolist.music.ui.screens.wrapped
+package com.metrolist.music.ui.screens.encore
 
 import android.view.accessibility.AccessibilityManager
 import androidx.activity.compose.BackHandler
@@ -120,13 +120,13 @@ import java.time.Duration
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
-sealed class WrappedScreenType {
-    object Welcome : WrappedScreenType()
-    object MinutesReveal : WrappedScreenType()
-    object TopSongReveal : WrappedScreenType()
-    object Top5Songs : WrappedScreenType()
-    object TopArtistReveal : WrappedScreenType()
-    object Conclusion : WrappedScreenType()
+sealed class EncoreScreenType {
+    object Welcome : EncoreScreenType()
+    object MinutesReveal : EncoreScreenType()
+    object TopSongReveal : EncoreScreenType()
+    object Top5Songs : EncoreScreenType()
+    object TopArtistReveal : EncoreScreenType()
+    object Conclusion : EncoreScreenType()
 }
 
 private const val STORY_DURATION_MS = 7_000
@@ -134,17 +134,17 @@ private const val STORY_DURATION_MS = 7_000
 private data class StoryStyle(val background: Color, val content: Color, val accent: Color, val shapes: Int)
 
 // Accents sit behind text, so each pair keeps at least 3:1 against the content color.
-private fun WrappedScreenType.style() = when (this) {
-    WrappedScreenType.Welcome -> StoryStyle(WrappedInk, WrappedPeach, WrappedEmber, 0)
-    WrappedScreenType.MinutesReveal -> StoryStyle(WrappedCoral, WrappedInk, WrappedPeach, 1)
-    WrappedScreenType.TopSongReveal -> StoryStyle(WrappedPlum, WrappedPaper, WrappedEmber, 2)
-    WrappedScreenType.Top5Songs -> StoryStyle(WrappedPeach, WrappedInk, WrappedCoral, 1)
-    WrappedScreenType.TopArtistReveal -> StoryStyle(WrappedEmber, WrappedPaper, WrappedPlum, 0)
-    WrappedScreenType.Conclusion -> StoryStyle(WrappedInk, WrappedPaper, WrappedEmber, 2)
+private fun EncoreScreenType.style() = when (this) {
+    EncoreScreenType.Welcome -> StoryStyle(EncoreInk, EncorePeach, EncoreEmber, 0)
+    EncoreScreenType.MinutesReveal -> StoryStyle(EncoreCoral, EncoreInk, EncorePeach, 1)
+    EncoreScreenType.TopSongReveal -> StoryStyle(EncorePlum, EncorePaper, EncoreEmber, 2)
+    EncoreScreenType.Top5Songs -> StoryStyle(EncorePeach, EncoreInk, EncoreCoral, 1)
+    EncoreScreenType.TopArtistReveal -> StoryStyle(EncoreEmber, EncorePaper, EncorePlum, 0)
+    EncoreScreenType.Conclusion -> StoryStyle(EncoreInk, EncorePaper, EncoreEmber, 2)
 }
 
 @Composable
-internal fun rememberWrappedYear(): Int {
+internal fun rememberEncoreYear(): Int {
     var year by remember { mutableStateOf(LocalDate.now().year) }
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(lifecycleOwner) {
@@ -161,23 +161,23 @@ internal fun rememberWrappedYear(): Int {
 }
 
 @Composable
-fun WrappedScreen(playMusic: Boolean = true) {
+fun EncoreScreen(playMusic: Boolean = true) {
     val navController = LocalNavController.current
     val context = LocalContext.current
-    val manager = remember { provideWrappedManager(context) }
+    val manager = remember { provideEncoreManager(context) }
     val state by manager.state.collectAsStateWithLifecycle()
-    val currentYear = rememberWrappedYear()
+    val currentYear = rememberEncoreYear()
     var chosenYear by rememberSaveable { mutableStateOf<Int?>(null) }
     val year = chosenYear ?: currentYear
     var showYears by remember { mutableStateOf(false) }
     val screens = remember(state.topArtists.isNotEmpty()) {
         buildList {
-            add(WrappedScreenType.Welcome)
-            add(WrappedScreenType.MinutesReveal)
-            add(WrappedScreenType.TopSongReveal)
-            add(WrappedScreenType.Top5Songs)
-            if (state.topArtists.isNotEmpty()) add(WrappedScreenType.TopArtistReveal)
-            add(WrappedScreenType.Conclusion)
+            add(EncoreScreenType.Welcome)
+            add(EncoreScreenType.MinutesReveal)
+            add(EncoreScreenType.TopSongReveal)
+            add(EncoreScreenType.Top5Songs)
+            if (state.topArtists.isNotEmpty()) add(EncoreScreenType.TopArtistReveal)
+            add(EncoreScreenType.Conclusion)
         }
     }
     val pager = rememberPagerState(pageCount = { screens.size })
@@ -186,17 +186,17 @@ fun WrappedScreen(playMusic: Boolean = true) {
     val layer = rememberGraphicsLayer()
     var sharing by remember { mutableStateOf(false) }
     var held by remember { mutableStateOf(false) }
-    val shareError = stringResource(R.string.wrapped_recap_share_error)
+    val shareError = stringResource(R.string.encore_recap_share_error)
     val ready = state.isDataReady && !state.isLoading && state.year == year
     val stories = ready && !state.hasError && state.topSongs.isNotEmpty()
-    val style = (if (stories) screens.getOrElse(pager.currentPage) { screens.last() } else WrappedScreenType.Welcome).style()
-    val background by animateColorAsState(style.background, label = "wrapped_background")
-    val content by animateColorAsState(style.content, label = "wrapped_content")
+    val style = (if (stories) screens.getOrElse(pager.currentPage) { screens.last() } else EncoreScreenType.Welcome).style()
+    val background by animateColorAsState(style.background, label = "encore_background")
+    val content by animateColorAsState(style.content, label = "encore_content")
     // TalkBack users move with swipe or custom actions; stories must not advance under them.
     val autoAdvance = remember(context) {
         context.getSystemService(AccessibilityManager::class.java)?.isTouchExplorationEnabled != true
     }
-    val audio = if (playMusic && stories) rememberWrappedMusic(state.topSongs.first().id) else null
+    val audio = if (playMusic && stories) rememberEncoreMusic(state.topSongs.first().id) else null
     val muted = audio?.isMuted?.collectAsStateWithLifecycle()?.value == true
     fun goTo(target: Int): Boolean {
         if (target !in 0 until pager.pageCount) return false
@@ -206,7 +206,7 @@ fun WrappedScreen(playMusic: Boolean = true) {
 
     val onClose: () -> Unit = {
         if (ready && state.topSongs.isNotEmpty()) {
-            navController.previousBackStackEntry?.savedStateHandle?.set("wrapped_seen_year", state.year)
+            navController.previousBackStackEntry?.savedStateHandle?.set("encore_seen_year", state.year)
         }
         navController.popBackStack()
     }
@@ -264,28 +264,28 @@ fun WrappedScreen(playMusic: Boolean = true) {
         CompositionLocalProvider(LocalContentColor provides content) {
             when {
                 state.hasError -> StoryColumn {
-                    StoryTitle(stringResource(R.string.wrapped_recap_error))
+                    StoryTitle(stringResource(R.string.encore_recap_error))
                     StoryButton(stringResource(R.string.retry), style) {
                         scope.launch { manager.prepare(year, force = true) }
                     }
                 }
                 !ready -> StoryColumn {
                     CircularProgressIndicator(color = content)
-                    Text(stringResource(R.string.wrapped_recap_loading))
+                    Text(stringResource(R.string.encore_recap_loading))
                 }
                 state.topSongs.isEmpty() -> StoryColumn {
                     Icon(painterResource(R.drawable.music_note), null, Modifier.size(64.dp))
-                    StoryTitle(stringResource(R.string.wrapped_recap_empty_title))
+                    StoryTitle(stringResource(R.string.encore_recap_empty_title))
                     Text(
-                        stringResource(R.string.wrapped_recap_empty_body, year),
+                        stringResource(R.string.encore_recap_empty_body, year),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.bodyLarge,
                     )
-                    StoryButton(stringResource(R.string.wrapped_recap_listen), style, onClose)
+                    StoryButton(stringResource(R.string.encore_recap_listen), style, onClose)
                 }
                 else -> {
-                    val previousLabel = stringResource(R.string.wrapped_recap_previous)
-                    val nextLabel = stringResource(R.string.wrapped_recap_next)
+                    val previousLabel = stringResource(R.string.encore_recap_previous)
+                    val nextLabel = stringResource(R.string.encore_recap_next)
                     HorizontalPager(
                         state = pager,
                         modifier = Modifier
@@ -333,7 +333,7 @@ fun WrappedScreen(playMusic: Boolean = true) {
                                         sharing = true
                                         scope.launch {
                                             try {
-                                                shareWrapped(context, layer.toImageBitmap().asAndroidBitmap(), state.year)
+                                                shareEncore(context, layer.toImageBitmap().asAndroidBitmap(), state.year)
                                             } catch (cancelled: CancellationException) {
                                                 throw cancelled
                                             } catch (_: Exception) {
@@ -361,7 +361,7 @@ fun WrappedScreen(playMusic: Boolean = true) {
 
             Column(Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 12.dp, vertical = 8.dp)) {
                 if (stories) {
-                    val pageLabel = stringResource(R.string.wrapped_recap_page, pager.currentPage + 1, pager.pageCount)
+                    val pageLabel = stringResource(R.string.encore_recap_page, pager.currentPage + 1, pager.pageCount)
                     Row(
                         Modifier.fillMaxWidth().padding(horizontal = 4.dp).semantics { contentDescription = pageLabel },
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -384,7 +384,7 @@ fun WrappedScreen(playMusic: Boolean = true) {
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        stringResource(R.string.wrapped_recap_brand),
+                        stringResource(R.string.encore_recap_brand),
                         modifier = Modifier.padding(start = 4.dp).weight(1f),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Black,
@@ -393,13 +393,13 @@ fun WrappedScreen(playMusic: Boolean = true) {
                         overflow = TextOverflow.Ellipsis,
                     )
                     Box {
-                        val chooseYear = stringResource(R.string.wrapped_recap_select_year)
+                        val chooseYear = stringResource(R.string.encore_recap_select_year)
                         TextButton(
                             onClick = { showYears = true },
                             colors = ButtonDefaults.textButtonColors(contentColor = content),
                             modifier = Modifier.semantics { contentDescription = chooseYear },
                         ) {
-                            Text(stringResource(R.string.wrapped_recap_title, year), fontWeight = FontWeight.Bold)
+                            Text(stringResource(R.string.encore_recap_title, year), fontWeight = FontWeight.Bold)
                             Icon(painterResource(R.drawable.expand_more), null, Modifier.size(18.dp))
                         }
                         DropdownMenu(expanded = showYears, onDismissRequest = { showYears = false }) {
@@ -423,7 +423,7 @@ fun WrappedScreen(playMusic: Boolean = true) {
                         }
                     }
                     IconButton(onClick = onClose) {
-                        Icon(painterResource(R.drawable.close), stringResource(R.string.wrapped_close))
+                        Icon(painterResource(R.drawable.close), stringResource(R.string.encore_close))
                     }
                 }
             }
@@ -433,11 +433,11 @@ fun WrappedScreen(playMusic: Boolean = true) {
 }
 
 @Composable
-private fun rememberWrappedMusic(songId: String): WrappedAudioService {
+private fun rememberEncoreMusic(songId: String): EncoreAudioService {
     val context = LocalContext.current
     val playerConnection = LocalPlayerConnection.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val audio = remember { WrappedAudioService(context.applicationContext) }
+    val audio = remember { EncoreAudioService(context.applicationContext) }
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             when (event) {
@@ -461,8 +461,8 @@ private fun rememberWrappedMusic(songId: String): WrappedAudioService {
 
 @Composable
 private fun StoryPage(
-    screen: WrappedScreenType,
-    state: WrappedState,
+    screen: EncoreScreenType,
+    state: EncoreState,
     isCurrentYear: Boolean,
     style: StoryStyle,
     reveal: () -> Float,
@@ -476,39 +476,39 @@ private fun StoryPage(
 ) {
     val numbers = remember { NumberFormat.getIntegerInstance() }
     when (screen) {
-        WrappedScreenType.Welcome -> StoryColumn {
+        EncoreScreenType.Welcome -> StoryColumn {
             Text(
-                stringResource(if (isCurrentYear) R.string.wrapped_recap_year_so_far else R.string.wrapped_recap_full_year),
+                stringResource(if (isCurrentYear) R.string.encore_recap_year_so_far else R.string.encore_recap_full_year),
                 Modifier.reveal(reveal, 0),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
             )
             DisplayText(state.year.toString(), Modifier.reveal(reveal, 1), maxSize = 140)
-            StoryTitle(stringResource(R.string.wrapped_recap_open), Modifier.reveal(reveal, 2))
-            Text(stringResource(R.string.wrapped_recap_intro), Modifier.reveal(reveal, 3), textAlign = TextAlign.Center)
+            StoryTitle(stringResource(R.string.encore_recap_open), Modifier.reveal(reveal, 2))
+            Text(stringResource(R.string.encore_recap_intro), Modifier.reveal(reveal, 3), textAlign = TextAlign.Center)
             Box(Modifier.reveal(reveal, 4)) {
-                StoryButton(stringResource(R.string.wrapped_recap_start), style, onStart)
+                StoryButton(stringResource(R.string.encore_recap_start), style, onStart)
             }
         }
-        WrappedScreenType.MinutesReveal -> StoryColumn {
-            StoryTitle(stringResource(R.string.wrapped_recap_time_title), Modifier.reveal(reveal, 0))
-            Text(stringResource(R.string.wrapped_recap_time_subtitle), Modifier.reveal(reveal, 1), textAlign = TextAlign.Center)
+        EncoreScreenType.MinutesReveal -> StoryColumn {
+            StoryTitle(stringResource(R.string.encore_recap_time_title), Modifier.reveal(reveal, 0))
+            Text(stringResource(R.string.encore_recap_time_subtitle), Modifier.reveal(reveal, 1), textAlign = TextAlign.Center)
             val counted = FastOutSlowInEasing.transform(((reveal() - 0.2f) / 0.6f).coerceIn(0f, 1f))
             DisplayText(numbers.format((state.totalMinutes * counted).toLong()), Modifier.reveal(reveal, 1))
             Text(
-                stringResource(R.string.wrapped_recap_minutes),
+                stringResource(R.string.encore_recap_minutes),
                 Modifier.reveal(reveal, 2),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
             )
             Row(Modifier.fillMaxWidth().reveal(reveal, 3), horizontalArrangement = Arrangement.SpaceEvenly) {
-                StoryCount(numbers.format(state.uniqueSongCount), stringResource(R.string.wrapped_recap_songs))
-                StoryCount(numbers.format(state.uniqueArtistCount), stringResource(R.string.wrapped_recap_artists))
+                StoryCount(numbers.format(state.uniqueSongCount), stringResource(R.string.encore_recap_songs))
+                StoryCount(numbers.format(state.uniqueArtistCount), stringResource(R.string.encore_recap_artists))
             }
         }
-        WrappedScreenType.TopSongReveal -> StoryColumn {
+        EncoreScreenType.TopSongReveal -> StoryColumn {
             val song = state.topSongs.first()
-            StoryTitle(stringResource(R.string.wrapped_recap_top_song), Modifier.reveal(reveal, 0))
+            StoryTitle(stringResource(R.string.encore_recap_top_song), Modifier.reveal(reveal, 0))
             StoryArtwork(song.thumbnailUrl, style.accent, Modifier.reveal(reveal, 1))
             Text(
                 song.title,
@@ -520,7 +520,7 @@ private fun StoryPage(
             Text(song.artists.joinToString { it.name }.ifBlank { song.artistName.orEmpty() }, Modifier.reveal(reveal, 2), textAlign = TextAlign.Center)
             Text(
                 stringResource(
-                    R.string.wrapped_recap_song_detail,
+                    R.string.encore_recap_song_detail,
                     numbers.format(song.songCountListened),
                     numbers.format((song.timeListened ?: 0L) / 60_000),
                 ),
@@ -528,8 +528,8 @@ private fun StoryPage(
                 style = MaterialTheme.typography.labelLarge,
             )
         }
-        WrappedScreenType.Top5Songs -> StoryColumn {
-            StoryTitle(stringResource(R.string.wrapped_recap_top_songs), Modifier.reveal(reveal, 0))
+        EncoreScreenType.Top5Songs -> StoryColumn {
+            StoryTitle(stringResource(R.string.encore_recap_top_songs), Modifier.reveal(reveal, 0))
             state.topSongs.take(5).forEachIndexed { index, song ->
                 StoryRank(
                     rank = index + 1,
@@ -541,8 +541,8 @@ private fun StoryPage(
                 )
             }
         }
-        WrappedScreenType.TopArtistReveal -> StoryColumn {
-            StoryTitle(stringResource(R.string.wrapped_recap_top_artist), Modifier.reveal(reveal, 0))
+        EncoreScreenType.TopArtistReveal -> StoryColumn {
+            StoryTitle(stringResource(R.string.encore_recap_top_artist), Modifier.reveal(reveal, 0))
             state.topArtists.firstOrNull()?.let { artist ->
                 StoryArtwork(artist.thumbnailUrl, style.accent, Modifier.reveal(reveal, 1), circle = true)
                 Text(
@@ -553,7 +553,7 @@ private fun StoryPage(
                     textAlign = TextAlign.Center,
                 )
                 Text(
-                    stringResource(R.string.wrapped_recap_artist_detail, numbers.format((artist.timeListened ?: 0) / 60_000)),
+                    stringResource(R.string.encore_recap_artist_detail, numbers.format((artist.timeListened ?: 0) / 60_000)),
                     Modifier.reveal(reveal, 2),
                     style = MaterialTheme.typography.labelLarge,
                 )
@@ -562,18 +562,18 @@ private fun StoryPage(
                 StoryRank(index + 2, artist.title, null, artist.thumbnailUrl, style.accent, Modifier.reveal(reveal, 3))
             }
         }
-        WrappedScreenType.Conclusion -> StoryColumn(spacing = 12) {
-            StoryTitle(stringResource(R.string.wrapped_recap_summary), Modifier.reveal(reveal, 0))
-            WrappedSummaryCard(state, summaryModifier.reveal(reveal, 1))
+        EncoreScreenType.Conclusion -> StoryColumn(spacing = 12) {
+            StoryTitle(stringResource(R.string.encore_recap_summary), Modifier.reveal(reveal, 0))
+            EncoreSummaryCard(state, summaryModifier.reveal(reveal, 1))
             Column(Modifier.reveal(reveal, 2), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button(
                     enabled = !sharing,
                     onClick = onShare,
-                    colors = ButtonDefaults.buttonColors(containerColor = WrappedCoral, contentColor = WrappedInk),
+                    colors = ButtonDefaults.buttonColors(containerColor = EncoreCoral, contentColor = EncoreInk),
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Icon(painterResource(R.drawable.share), null, Modifier.padding(end = 8.dp).size(20.dp))
-                    Text(stringResource(if (sharing) R.string.wrapped_recap_sharing else R.string.wrapped_recap_share))
+                    Text(stringResource(if (sharing) R.string.encore_recap_sharing else R.string.encore_recap_share))
                 }
                 OutlinedButton(
                     onClick = onPlaylist,
@@ -585,17 +585,17 @@ private fun StoryPage(
                     if (state.playlistCreationState == PlaylistCreationState.Creating) {
                         CircularProgressIndicator(Modifier.size(20.dp), color = LocalContentColor.current, strokeWidth = 2.dp)
                     } else {
-                        Text(stringResource(if (state.playlistId != null) R.string.wrapped_recap_playlist_open else R.string.wrapped_create_playlist))
+                        Text(stringResource(if (state.playlistId != null) R.string.encore_recap_playlist_open else R.string.encore_create_playlist))
                     }
                 }
                 if (state.playlistError) {
                     TextButton(onClick = onPlaylistRetry, modifier = Modifier.fillMaxWidth()) {
-                        Text(stringResource(R.string.wrapped_recap_playlist_error), color = LocalContentColor.current)
+                        Text(stringResource(R.string.encore_recap_playlist_error), color = LocalContentColor.current)
                     }
                 }
                 TextButton(onClick = onReplay, modifier = Modifier.fillMaxWidth()) {
                     Icon(painterResource(R.drawable.replay), null, Modifier.padding(end = 8.dp).size(20.dp), tint = LocalContentColor.current)
-                    Text(stringResource(R.string.wrapped_recap_replay), color = LocalContentColor.current)
+                    Text(stringResource(R.string.encore_recap_replay), color = LocalContentColor.current)
                 }
             }
         }
@@ -668,7 +668,7 @@ private fun DisplayText(text: String, modifier: Modifier = Modifier, maxSize: In
         modifier.fillMaxWidth(),
         style = TextStyle(
             color = LocalContentColor.current,
-            fontFamily = WrappedDisplayFont,
+            fontFamily = EncoreDisplayFont,
             fontWeight = FontWeight.Black,
             textAlign = TextAlign.Center,
         ),
@@ -735,7 +735,7 @@ private fun StoryRank(
         Text(
             rank.toString(),
             Modifier.widthIn(min = 32.dp),
-            fontFamily = WrappedDisplayFont,
+            fontFamily = EncoreDisplayFont,
             fontWeight = FontWeight.Black,
             fontSize = 32.sp,
         )

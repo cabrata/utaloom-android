@@ -252,7 +252,7 @@
     <string name="playlist_position_beginning_desc">Newly added songs appear before existing songs</string>
     <string name="playlist_position_end">End of playlist</string>
     <string name="playlist_position_end_desc">Newly added songs appear after existing songs</string>
-    <string name="show_wrapped_card">Show Wrapped card</string>
+    <string name="show_encore_card">Show Encore card</string>
     <string name="skip_silence_desc">Fast-forward through silent parts of songs</string>
     <string name="skip_silence_instant">Instantly skip silence</string>
     <string name="skip_silence_instant_desc">Jump ahead during silent moments instead of speeding up playback</string>
@@ -544,77 +544,77 @@
     <string name="lyrics_animation_style_title">Word-by-word animation style</string>
     <string name="none">None</string>
     <string name="album_art_for">Album art for %s</string>
-    <string name="wrapped_total_albums_title">You\'ve listened to</string>
-    <string name="wrapped_total_albums_subtitle">unique albums!</string>
-    <string name="wrapped_top_album_title">Your top album is</string>
-    <string name="wrapped_playlist_ready">Your personal playlist is ready!</string>
-    <string name="wrapped_top_5_albums_title">Your top 5 albums</string>
-    <string name="wrapped_album_listening_time">You\'ve listened to this album for %d minutes!</string>
-    <string name="wrapped_album_listening_time_minutes">%d minutes</string>
-    <string name="wrapped_no_data">No data available</string>
-    <string name="wrapped_top_5_artists_title">Your top artists of the year</string>
-    <string name="wrapped_artist_listening_time">%d minutes</string>
-    <string name="wrapped_top_5_songs_title">Your top songs of the year</string>
-    <string name="wrapped_top_song_album_art_content_description">Album art</string>
-    <string name="wrapped_top_artist_title">Your top artist of the year is</string>
-    <string name="wrapped_top_artist_image_content_description">Top artist image</string>
-    <string name="wrapped_top_artist_listening_time">You\'ve listened to them for %d minutes!</string>
-    <string name="wrapped_top_song_title">Your most played song is</string>
-    <string name="wrapped_top_song_listening_time">You\'ve listened for %d minutes!</string>
-    <string name="wrapped_total_artists_title">You\'ve listened to</string>
-    <string name="wrapped_total_artists_subtitle">unique artists!</string>
-    <string name="wrapped_total_songs_title">You\'ve listened to</string>
-    <string name="wrapped_total_songs_subtitle">unique songs!</string>
-    <string name="wrapped_intro_title">METROLIST</string>
-    <string name="wrapped_intro_subtitle">it\'s time to see what you\'ve been listening to all this year…</string>
-    <string name="wrapped_intro_button">let\'s go!</string>
-    <string name="wrapped_logo_content_description">Metrolist Logo</string>
-    <string name="wrapped_year">2025</string>
-    <string name="wrapped_ready_title">YOUR WRAPPED IS READY!</string>
-    <string name="wrapped_ready_subtitle">Time to see what you loved all this year…</string>
-    <string name="wrapped_thank_you">Thank you for listening!</string>
-    <string name="wrapped_special_thanks">Special thanks to MO Agamy for creating Metrolist</string>
-    <string name="wrapped_close">Close Wrapped</string>
-    <string name="wrapped_playlist_title">Your %s Wrapped</string>
-    <string name="wrapped_create_playlist">Create playlist</string>
-    <string name="wrapped_playlist_saved">Playlist saved</string>
-    <string name="wrapped_recap_brand" translatable="false">UTALOOM</string>
-    <string name="wrapped_recap_title">%1$d Wrapped</string>
-    <string name="wrapped_recap_open">Your year, on repeat.</string>
-    <string name="wrapped_recap_home_subtitle">The songs and artists that made your year.</string>
-    <string name="wrapped_recap_view">View your Wrapped</string>
-    <string name="wrapped_recap_intro">Every repeat. Every discovery.\nThis is your soundtrack.</string>
-    <string name="wrapped_recap_start">Let’s rewind</string>
-    <string name="wrapped_recap_year_so_far">Your year so far</string>
-    <string name="wrapped_recap_full_year">Your year in music</string>
-    <string name="wrapped_recap_minutes">Minutes listened</string>
-    <string name="wrapped_recap_time_title">Time well spent.</string>
-    <string name="wrapped_recap_time_subtitle">Music kept you company. Here’s how much.</string>
-    <string name="wrapped_recap_top_song">You kept coming back.</string>
-    <string name="wrapped_recap_top_songs">Top songs</string>
-    <string name="wrapped_recap_song_detail">%1$s plays · %2$s minutes</string>
-    <string name="wrapped_recap_top_artist">Your kind of artist.</string>
-    <string name="wrapped_recap_top_artists">Top artists</string>
-    <string name="wrapped_recap_artist_detail">%1$s minutes together</string>
-    <string name="wrapped_recap_songs">Songs</string>
-    <string name="wrapped_recap_artists">Artists</string>
-    <string name="wrapped_recap_source">Based on listening history on this device</string>
-    <string name="wrapped_recap_summary">Keep this one.</string>
-    <string name="wrapped_recap_share">Share recap</string>
-    <string name="wrapped_recap_sharing">Preparing image…</string>
-    <string name="wrapped_recap_share_error">Couldn’t share your recap. Try again.</string>
-    <string name="wrapped_recap_playlist_error">Couldn’t save your playlist. Try again.</string>
-    <string name="wrapped_recap_playlist_open">Open playlist</string>
-    <string name="wrapped_recap_replay">Replay Wrapped</string>
-    <string name="wrapped_recap_previous">Previous story</string>
-    <string name="wrapped_recap_next">Next story</string>
-    <string name="wrapped_recap_page">Story %1$d of %2$d</string>
-    <string name="wrapped_recap_select_year">Choose a year</string>
-    <string name="wrapped_recap_loading">Finding your favorites…</string>
-    <string name="wrapped_recap_error">Your Wrapped couldn’t load.</string>
-    <string name="wrapped_recap_empty_title">Your soundtrack starts here.</string>
-    <string name="wrapped_recap_empty_body">No listening history for %1$d yet. Play some music with history enabled, or choose another year.</string>
-    <string name="wrapped_recap_listen">Find something to play</string>
+    <string name="encore_total_albums_title">You\'ve listened to</string>
+    <string name="encore_total_albums_subtitle">unique albums!</string>
+    <string name="encore_top_album_title">Your top album is</string>
+    <string name="encore_playlist_ready">Your personal playlist is ready!</string>
+    <string name="encore_top_5_albums_title">Your top 5 albums</string>
+    <string name="encore_album_listening_time">You\'ve listened to this album for %d minutes!</string>
+    <string name="encore_album_listening_time_minutes">%d minutes</string>
+    <string name="encore_no_data">No data available</string>
+    <string name="encore_top_5_artists_title">Your top artists of the year</string>
+    <string name="encore_artist_listening_time">%d minutes</string>
+    <string name="encore_top_5_songs_title">Your top songs of the year</string>
+    <string name="encore_top_song_album_art_content_description">Album art</string>
+    <string name="encore_top_artist_title">Your top artist of the year is</string>
+    <string name="encore_top_artist_image_content_description">Top artist image</string>
+    <string name="encore_top_artist_listening_time">You\'ve listened to them for %d minutes!</string>
+    <string name="encore_top_song_title">Your most played song is</string>
+    <string name="encore_top_song_listening_time">You\'ve listened for %d minutes!</string>
+    <string name="encore_total_artists_title">You\'ve listened to</string>
+    <string name="encore_total_artists_subtitle">unique artists!</string>
+    <string name="encore_total_songs_title">You\'ve listened to</string>
+    <string name="encore_total_songs_subtitle">unique songs!</string>
+    <string name="encore_intro_title">METROLIST</string>
+    <string name="encore_intro_subtitle">it\'s time to see what you\'ve been listening to all this year…</string>
+    <string name="encore_intro_button">let\'s go!</string>
+    <string name="encore_logo_content_description">Metrolist Logo</string>
+    <string name="encore_year">2025</string>
+    <string name="encore_ready_title">YOUR ENCORE IS READY!</string>
+    <string name="encore_ready_subtitle">Time to see what you loved all this year…</string>
+    <string name="encore_thank_you">Thank you for listening!</string>
+    <string name="encore_special_thanks">Special thanks to MO Agamy for creating Metrolist</string>
+    <string name="encore_close">Close Encore</string>
+    <string name="encore_playlist_title">Your %s Encore</string>
+    <string name="encore_create_playlist">Create playlist</string>
+    <string name="encore_playlist_saved">Playlist saved</string>
+    <string name="encore_recap_brand" translatable="false">UTALOOM</string>
+    <string name="encore_recap_title">%1$d Encore</string>
+    <string name="encore_recap_open">Your year, on repeat.</string>
+    <string name="encore_recap_home_subtitle">The songs and artists that made your year.</string>
+    <string name="encore_recap_view">View your Encore</string>
+    <string name="encore_recap_intro">Every repeat. Every discovery.\nThis is your soundtrack.</string>
+    <string name="encore_recap_start">Let’s begin</string>
+    <string name="encore_recap_year_so_far">Your year so far</string>
+    <string name="encore_recap_full_year">Your year in music</string>
+    <string name="encore_recap_minutes">Minutes listened</string>
+    <string name="encore_recap_time_title">Time well spent.</string>
+    <string name="encore_recap_time_subtitle">Music kept you company. Here’s how much.</string>
+    <string name="encore_recap_top_song">You kept coming back.</string>
+    <string name="encore_recap_top_songs">Top songs</string>
+    <string name="encore_recap_song_detail">%1$s plays · %2$s minutes</string>
+    <string name="encore_recap_top_artist">Your kind of artist.</string>
+    <string name="encore_recap_top_artists">Top artists</string>
+    <string name="encore_recap_artist_detail">%1$s minutes together</string>
+    <string name="encore_recap_songs">Songs</string>
+    <string name="encore_recap_artists">Artists</string>
+    <string name="encore_recap_source">Based on listening history on this device</string>
+    <string name="encore_recap_summary">Keep this one.</string>
+    <string name="encore_recap_share">Share recap</string>
+    <string name="encore_recap_sharing">Preparing image…</string>
+    <string name="encore_recap_share_error">Couldn’t share your recap. Try again.</string>
+    <string name="encore_recap_playlist_error">Couldn’t save your playlist. Try again.</string>
+    <string name="encore_recap_playlist_open">Open playlist</string>
+    <string name="encore_recap_replay">Replay Encore</string>
+    <string name="encore_recap_previous">Previous story</string>
+    <string name="encore_recap_next">Next story</string>
+    <string name="encore_recap_page">Story %1$d of %2$d</string>
+    <string name="encore_recap_select_year">Choose a year</string>
+    <string name="encore_recap_loading">Finding your favorites…</string>
+    <string name="encore_recap_error">Your Encore couldn’t load.</string>
+    <string name="encore_recap_empty_title">Your soundtrack starts here.</string>
+    <string name="encore_recap_empty_body">No listening history for %1$d yet. Play some music with history enabled, or choose another year.</string>
+    <string name="encore_recap_listen">Find something to play</string>
 
     <!-- Equalizer UI -->
     <string name="equalizer_header">Equalizer</string>
@@ -1142,9 +1142,9 @@
     <string name="utaloom_github_releases_url" translatable="false">https://github.com/cabrata/utaloom-android/releases</string>
     <string name="utaloom_update_available_message" translatable="false">Utaloom Android %s is ready to download.</string>
     <string name="utaloom_last_fm_send_likes_description" translatable="false">Love or unlove songs in Last.fm when you like or unlike them in Utaloom Android</string>
-    <string name="utaloom_wrapped_intro_title" translatable="false">UTALOOM</string>
+    <string name="utaloom_encore_intro_title" translatable="false">UTALOOM</string>
     <string name="utaloom_logo_content_description" translatable="false">Utaloom Android logo</string>
-    <string name="utaloom_wrapped_special_thanks" translatable="false">Thanks to the original open-source contributors and the Utaloom community</string>
+    <string name="utaloom_encore_special_thanks" translatable="false">Thanks to the original open-source contributors and the Utaloom community</string>
     <string name="utaloom_tap_to_open" translatable="false">Tap to open Utaloom Android</string>
     <string name="utaloom_crash_report_subject" translatable="false">Utaloom Android crash report</string>
     <string name="utaloom_play_on_app" translatable="false">Play on Utaloom Android</string>

@@ -3,7 +3,7 @@
  * Licensed under GPL-3.0 | See git history for contributors
  */
 
-package com.metrolist.music.ui.screens.wrapped
+package com.metrolist.music.ui.screens.encore
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-class WrappedAudioService(
+class EncoreAudioService(
     private val context: Context,
 ) {
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
@@ -43,7 +43,7 @@ class WrappedAudioService(
             player = ExoPlayer.Builder(context).build().apply {
                 addListener(object : Player.Listener {
                     override fun onPlayerError(error: androidx.media3.common.PlaybackException) {
-                        Timber.tag("WrappedAudioService").e(error, "Player error")
+                        Timber.tag("EncoreAudioService").e(error, "Player error")
                         playbackJob?.cancel()
                     }
                 })
@@ -71,7 +71,7 @@ class WrappedAudioService(
 
     fun playTrack(songId: String?) {
         if (player?.currentMediaItem?.mediaId == songId) {
-            Timber.tag("WrappedAudioService").d("Track $songId is already loaded or playing.")
+            Timber.tag("EncoreAudioService").d("Track $songId is already loaded or playing.")
             if (player?.isPlaying == false) player?.play()
             return
         }
@@ -90,15 +90,15 @@ class WrappedAudioService(
                     player?.volume = if (_isMuted.value) 0f else 1f
                 }
             } catch (e: Exception) {
-                Timber.tag("WrappedAudioService").e(e, "Error during playback preparation")
+                Timber.tag("EncoreAudioService").e(e, "Error during playback preparation")
             }
         }
     }
 
     private suspend fun getSongUri(songId: String?): Uri {
-        val fallbackUri = "android.resource://${context.packageName}/${R.raw.wrapped_theme}".toUri()
+        val fallbackUri = "android.resource://${context.packageName}/${R.raw.encore_theme}".toUri()
         if (songId == null) {
-            Timber.tag("WrappedAudio").i("No song ID provided, using fallback audio.")
+            Timber.tag("EncoreAudio").i("No song ID provided, using fallback audio.")
             return fallbackUri
         }
 
@@ -116,14 +116,14 @@ class WrappedAudioService(
             }
             val streamUrl = playbackData?.streamUrl
             if (streamUrl.isNullOrBlank()) {
-                Timber.tag("WrappedAudio")
+                Timber.tag("EncoreAudio")
                     .w("Resolved URL for $songId is null or blank. Using fallback.")
                 fallbackUri
             } else {
                 streamUrl.toUri()
             }
         } catch (e: Exception) {
-            Timber.tag("WrappedAudio").e(e, "Failed to resolve URL for $songId. Using fallback.")
+            Timber.tag("EncoreAudio").e(e, "Failed to resolve URL for $songId. Using fallback.")
             fallbackUri
         }
     }
@@ -140,6 +140,6 @@ class WrappedAudioService(
         playbackJob?.cancel()
         player?.release()
         player = null
-        Timber.tag("WrappedAudioService").d("Player released.")
+        Timber.tag("EncoreAudioService").d("Player released.")
     }
 }

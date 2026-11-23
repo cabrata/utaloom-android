@@ -1,4 +1,4 @@
-package com.metrolist.music.ui.screens.wrapped
+package com.metrolist.music.ui.screens.encore
 
 import android.app.Application
 import android.graphics.Bitmap
@@ -58,29 +58,29 @@ import java.io.File
 import java.time.Duration
 import java.time.LocalDateTime
 
-internal class WrappedUiApplication : Application(), GeneratedComponentManager<WrappedEntryPoint> {
+internal class EncoreUiApplication : Application(), GeneratedComponentManager<EncoreEntryPoint> {
     val room by lazy { Room.inMemoryDatabaseBuilder(this, InternalDatabase::class.java).allowMainThreadQueries().build() }
     val database by lazy { MusicDatabase(room) }
     val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     // Hilt's EntryPoints only accepts components marked as generated.
-    private val entryPoint = object : WrappedEntryPoint, GeneratedComponent {
+    private val entryPoint = object : EncoreEntryPoint, GeneratedComponent {
         override fun databaseDao(): DatabaseDao = room.dao
         override fun database(): MusicDatabase = database
         override fun applicationScope(): CoroutineScope = scope
     }
-    override fun generatedComponent(): WrappedEntryPoint = entryPoint
+    override fun generatedComponent(): EncoreEntryPoint = entryPoint
 }
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [33], application = WrappedUiApplication::class, qualifiers = "w360dp-h800dp-mdpi")
+@Config(sdk = [33], application = EncoreUiApplication::class, qualifiers = "w360dp-h800dp-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @LooperMode(LooperMode.Mode.PAUSED)
-class WrappedScreenTest {
-    private lateinit var app: WrappedUiApplication
+class EncoreScreenTest {
+    private lateinit var app: EncoreUiApplication
     private lateinit var activity: ComponentActivity
     private lateinit var controller: ActivityController<ComponentActivity>
     private lateinit var nav: NavHostController
-    private val year get() = WrappedConstants.YEAR
+    private val year get() = EncoreConstants.YEAR
 
     @Before
     fun setUp() {
@@ -103,11 +103,11 @@ class WrappedScreenTest {
     @Test
     fun emptyHistoryThenStoriesYearSelectionAndPosterRenderThroughRealScreen() {
         mount()
-        awaitText(app.getString(R.string.wrapped_recap_empty_title))
+        awaitText(app.getString(R.string.encore_recap_empty_title))
         assertTrue(labels().any { it.contains(year.toString()) })
-        click(app.getString(R.string.wrapped_close))
+        click(app.getString(R.string.encore_close))
         awaitText("Home")
-        assertEquals(null, nav.currentBackStackEntry?.savedStateHandle?.get<Int>("wrapped_seen_year"))
+        assertEquals(null, nav.currentBackStackEntry?.savedStateHandle?.get<Int>("encore_seen_year"))
 
         runBlocking {
             val artist = ArtistEntity("test-artist", "Test artist")
@@ -121,33 +121,33 @@ class WrappedScreenTest {
                 }
             }
         }
-        nav.navigate("wrapped")
-        awaitText(app.getString(R.string.wrapped_recap_start))
-        click(app.getString(R.string.wrapped_recap_start))
-        awaitText(app.getString(R.string.wrapped_recap_time_title))
-        click(app.getString(R.string.wrapped_recap_next))
-        awaitText(app.getString(R.string.wrapped_recap_top_song))
+        nav.navigate("encore")
+        awaitText(app.getString(R.string.encore_recap_start))
+        click(app.getString(R.string.encore_recap_start))
+        awaitText(app.getString(R.string.encore_recap_time_title))
+        click(app.getString(R.string.encore_recap_next))
+        awaitText(app.getString(R.string.encore_recap_top_song))
         assertTrue(labels().any { it.contains("Song $year 1") })
-        click(app.getString(R.string.wrapped_recap_next))
-        awaitText(app.getString(R.string.wrapped_recap_top_songs))
-        click(app.getString(R.string.wrapped_recap_next))
-        awaitText(app.getString(R.string.wrapped_recap_top_artist))
-        click(app.getString(R.string.wrapped_recap_next))
-        awaitText(app.getString(R.string.wrapped_recap_summary))
+        click(app.getString(R.string.encore_recap_next))
+        awaitText(app.getString(R.string.encore_recap_top_songs))
+        click(app.getString(R.string.encore_recap_next))
+        awaitText(app.getString(R.string.encore_recap_top_artist))
+        click(app.getString(R.string.encore_recap_next))
+        awaitText(app.getString(R.string.encore_recap_summary))
         assertFalse(nodes().mapNotNull { node ->
             val results = mutableListOf<TextLayoutResult>()
             node.config.getOrElseNullable(SemanticsActions.GetTextLayoutResult) { null }?.action?.invoke(results)
             results.firstOrNull()
         }.any { it.multiParagraph.didExceedMaxLines })
-        saveFrame("wrapped-summary.png")
-        click(app.getString(R.string.wrapped_recap_select_year))
+        saveFrame("encore-summary.png")
+        click(app.getString(R.string.encore_recap_select_year))
         awaitText((year - 1).toString())
         click((year - 1).toString())
-        awaitText(app.getString(R.string.wrapped_recap_start))
+        awaitText(app.getString(R.string.encore_recap_start))
         assertTrue(labels().any { it.contains((year - 1).toString()) })
-        click(app.getString(R.string.wrapped_close))
+        click(app.getString(R.string.encore_close))
         awaitText("Home")
-        assertEquals(year - 1, nav.currentBackStackEntry?.savedStateHandle?.get<Int>("wrapped_seen_year"))
+        assertEquals(year - 1, nav.currentBackStackEntry?.savedStateHandle?.get<Int>("encore_seen_year"))
     }
 
     private fun mount() {
@@ -157,10 +157,10 @@ class WrappedScreenTest {
                 CompositionLocalProvider(LocalNavController provides nav) {
                     NavHost(nav, startDestination = "home") {
                         composable("home") { Text("Home") }
-                        composable("wrapped") { WrappedScreen(playMusic = false) }
+                        composable("encore") { EncoreScreen(playMusic = false) }
                         composable("local_playlist/{id}") { Text("Playlist") }
                     }
-                    LaunchedEffect(Unit) { nav.navigate("wrapped") }
+                    LaunchedEffect(Unit) { nav.navigate("encore") }
                 }
             }
         }
@@ -216,7 +216,7 @@ class WrappedScreenTest {
     private fun saveFrame(name: String) {
         val bitmap = Bitmap.createBitmap(360, 800, Bitmap.Config.ARGB_8888)
         activity.window.decorView.draw(Canvas(bitmap))
-        val directory = File("build/outputs/wrapped-ui").apply { mkdirs() }
+        val directory = File("build/outputs/encore-ui").apply { mkdirs() }
         File(directory, name).outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
         bitmap.recycle()
     }

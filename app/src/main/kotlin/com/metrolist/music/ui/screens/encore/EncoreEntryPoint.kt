@@ -3,7 +3,7 @@
  * Licensed under GPL-3.0 | See git history for contributors
  */
 
-package com.metrolist.music.ui.screens.wrapped
+package com.metrolist.music.ui.screens.encore
 
 import android.content.Context
 import com.metrolist.music.db.DatabaseDao
@@ -17,18 +17,18 @@ import kotlinx.coroutines.CoroutineScope
 
 @EntryPoint
 @InstallIn(SingletonComponent::class)
-internal interface WrappedEntryPoint {
+internal interface EncoreEntryPoint {
     fun databaseDao(): DatabaseDao
     fun database(): MusicDatabase
     @ApplicationScope fun applicationScope(): CoroutineScope
 }
 
-internal fun provideWrappedManager(context: Context): WrappedManager {
+internal fun provideEncoreManager(context: Context): EncoreManager {
     val entryPoint = EntryPointAccessors.fromApplication(
         context.applicationContext,
-        WrappedEntryPoint::class.java
+        EncoreEntryPoint::class.java
     )
-    return WrappedManager(
+    return EncoreManager(
         databaseDao = entryPoint.databaseDao(),
         context = context.applicationContext
     )

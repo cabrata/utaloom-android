@@ -1,4 +1,4 @@
-package com.metrolist.music.ui.screens.wrapped
+package com.metrolist.music.ui.screens.encore
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -37,15 +37,15 @@ import com.metrolist.music.R
 import java.text.NumberFormat
 
 // Utaloom brand palette, built around the logo's coral and peach strokes.
-internal val WrappedInk = Color(0xFF1E1412)
-internal val WrappedPaper = Color(0xFFFFF4EC)
-internal val WrappedCoral = Color(0xFFF47757)
-internal val WrappedPeach = Color(0xFFFFC6A3)
-internal val WrappedPlum = Color(0xFF4A1F2E)
-internal val WrappedEmber = Color(0xFFB8432C)
+internal val EncoreInk = Color(0xFF1E1412)
+internal val EncorePaper = Color(0xFFFFF4EC)
+internal val EncoreCoral = Color(0xFFF47757)
+internal val EncorePeach = Color(0xFFFFC6A3)
+internal val EncorePlum = Color(0xFF4A1F2E)
+internal val EncoreEmber = Color(0xFFB8432C)
 
 @Composable
-internal fun WrappedSummaryCard(state: WrappedState, modifier: Modifier = Modifier) {
+internal fun EncoreSummaryCard(state: EncoreState, modifier: Modifier = Modifier) {
     val locale = LocalConfiguration.current.locales[0]
     val numbers = remember(locale) { NumberFormat.getIntegerInstance(locale) }
     val context = LocalContext.current
@@ -55,16 +55,16 @@ internal fun WrappedSummaryCard(state: WrappedState, modifier: Modifier = Modifi
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(WrappedPlum)
+            .background(EncorePlum)
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.Bottom) {
             Box(
-                Modifier.weight(1f).aspectRatio(1f).clip(RoundedCornerShape(4.dp)).background(WrappedPeach),
+                Modifier.weight(1f).aspectRatio(1f).clip(RoundedCornerShape(4.dp)).background(EncorePeach),
                 contentAlignment = Alignment.Center,
             ) {
-                Icon(painterResource(R.drawable.music_note), null, Modifier.size(48.dp), tint = WrappedInk)
+                Icon(painterResource(R.drawable.music_note), null, Modifier.size(48.dp), tint = EncoreInk)
                 // Software bitmaps: the share flow copies this card into a GraphicsLayer.
                 AsyncImage(
                     ImageRequest.Builder(context).data(artwork).allowHardware(false).build(),
@@ -75,16 +75,16 @@ internal fun WrappedSummaryCard(state: WrappedState, modifier: Modifier = Modifi
             }
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(
-                    text = stringResource(R.string.wrapped_recap_brand),
-                    color = WrappedCoral,
+                    text = stringResource(R.string.encore_recap_brand),
+                    color = EncoreCoral,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 3.sp,
                 )
                 Text(
-                    text = stringResource(R.string.wrapped_recap_title, state.year),
+                    text = stringResource(R.string.encore_recap_title, state.year),
                     modifier = Modifier.semantics { heading() },
-                    color = WrappedPaper,
+                    color = EncorePaper,
                     fontSize = 26.sp,
                     lineHeight = 30.sp,
                     fontWeight = FontWeight.Black,
@@ -93,14 +93,14 @@ internal fun WrappedSummaryCard(state: WrappedState, modifier: Modifier = Modifi
         }
 
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            WrappedColumnList(
-                title = stringResource(R.string.wrapped_recap_top_artists),
+            EncoreColumnList(
+                title = stringResource(R.string.encore_recap_top_artists),
                 items = state.topArtists.take(5).map { it.title },
                 numbers = numbers,
                 modifier = Modifier.weight(1f),
             )
-            WrappedColumnList(
-                title = stringResource(R.string.wrapped_recap_top_songs),
+            EncoreColumnList(
+                title = stringResource(R.string.encore_recap_top_songs),
                 items = state.topSongs.take(5).map { it.title },
                 numbers = numbers,
                 modifier = Modifier.weight(1f),
@@ -109,15 +109,15 @@ internal fun WrappedSummaryCard(state: WrappedState, modifier: Modifier = Modifi
 
         Column(Modifier.semantics(mergeDescendants = true) {}) {
             Text(
-                text = stringResource(R.string.wrapped_recap_minutes),
-                color = WrappedPaper,
+                text = stringResource(R.string.encore_recap_minutes),
+                color = EncorePaper,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
             )
             Text(
                 text = numbers.format(state.totalMinutes),
-                color = WrappedCoral,
-                fontFamily = WrappedDisplayFont,
+                color = EncoreCoral,
+                fontFamily = EncoreDisplayFont,
                 fontWeight = FontWeight.Black,
                 fontSize = 44.sp,
                 lineHeight = 48.sp,
@@ -126,8 +126,8 @@ internal fun WrappedSummaryCard(state: WrappedState, modifier: Modifier = Modifi
         }
 
         Text(
-            text = stringResource(R.string.wrapped_recap_source),
-            color = WrappedPaper,
+            text = stringResource(R.string.encore_recap_source),
+            color = EncorePaper,
             fontSize = 11.sp,
             lineHeight = 16.sp,
         )
@@ -135,19 +135,19 @@ internal fun WrappedSummaryCard(state: WrappedState, modifier: Modifier = Modifi
 }
 
 @Composable
-private fun WrappedColumnList(title: String, items: List<String>, numbers: NumberFormat, modifier: Modifier = Modifier) {
+private fun EncoreColumnList(title: String, items: List<String>, numbers: NumberFormat, modifier: Modifier = Modifier) {
     Column(modifier.semantics(mergeDescendants = true) {}, verticalArrangement = Arrangement.spacedBy(4.dp)) {
         Text(
             text = title,
             modifier = Modifier.semantics { heading() },
-            color = WrappedPaper,
+            color = EncorePaper,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
         )
         items.forEachIndexed { index, item ->
             Text(
                 text = "${numbers.format(index + 1)}  $item",
-                color = WrappedPaper,
+                color = EncorePaper,
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
                 fontWeight = FontWeight.SemiBold,

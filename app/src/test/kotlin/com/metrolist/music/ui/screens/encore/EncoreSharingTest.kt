@@ -1,4 +1,4 @@
-package com.metrolist.music.ui.screens.wrapped
+package com.metrolist.music.ui.screens.encore
 
 import android.app.Application
 import android.content.ContextWrapper
@@ -30,7 +30,7 @@ import java.io.IOException
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [28, 33], application = Application::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-class WrappedSharingTest {
+class EncoreSharingTest {
     @Test
     fun sharesDistinctReadableCachePngsWithGrantsWithoutRecyclingInput() = runBlocking {
         val context = ApplicationProvider.getApplicationContext<Application>()
@@ -41,7 +41,7 @@ class WrappedSharingTest {
         try {
             repeat(2) {
                 withTimeout(10_000) {
-                    val sharing = async(Dispatchers.Default) { shareWrapped(context, bitmap, 2026) }
+                    val sharing = async(Dispatchers.Default) { shareEncore(context, bitmap, 2026) }
                     while (!sharing.isCompleted) {
                         shadowOf(Looper.getMainLooper()).idle()
                         delay(10)
@@ -59,7 +59,7 @@ class WrappedSharingTest {
                 val uri = requireNotNull(send.getParcelableExtra<Uri>(Intent.EXTRA_STREAM))
                 assertEquals("content", uri.scheme)
                 assertEquals("${context.packageName}.FileProvider", uri.authority)
-                assertTrue(requireNotNull(uri.path).contains("/images/utaloom-wrapped-2026-"))
+                assertTrue(requireNotNull(uri.path).contains("/images/utaloom-encore-2026-"))
                 assertEquals(uri, requireNotNull(send.clipData).getItemAt(0).uri)
 
                 context.contentResolver.openInputStream(uri).use { stream ->
@@ -84,13 +84,13 @@ class WrappedSharingTest {
     @Test
     fun cacheWriteFailureEscapesWithoutLaunchingChooser() = runBlocking {
         val application = ApplicationProvider.getApplicationContext<Application>()
-        val blockedCache = File.createTempFile("blocked-wrapped-cache-", ".tmp", application.cacheDir)
+        val blockedCache = File.createTempFile("blocked-encore-cache-", ".tmp", application.cacheDir)
         val context = object : ContextWrapper(application) {
             override fun getCacheDir(): File = blockedCache
         }
         val bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
         try {
-            val failure = runCatching { shareWrapped(context, bitmap, 2026) }.exceptionOrNull()
+            val failure = runCatching { shareEncore(context, bitmap, 2026) }.exceptionOrNull()
             assertTrue(failure is IOException)
             assertFalse(bitmap.isRecycled)
             assertEquals(null, shadowOf(application).nextStartedActivity)

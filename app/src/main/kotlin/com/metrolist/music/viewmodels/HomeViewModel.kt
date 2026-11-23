@@ -32,8 +32,8 @@ import com.metrolist.music.constants.InnerTubeCookieKey
 import com.metrolist.music.constants.OfflineModeKey
 import com.metrolist.music.constants.QuickPicks
 import com.metrolist.music.constants.QuickPicksKey
-import com.metrolist.music.constants.ShowWrappedCardKey
-import com.metrolist.music.constants.WrappedSeenYearKey
+import com.metrolist.music.constants.ShowEncoreCardKey
+import com.metrolist.music.constants.EncoreSeenYearKey
 import com.metrolist.music.db.MusicDatabase
 import com.metrolist.music.db.entities.Album
 import com.metrolist.music.db.entities.LocalItem
@@ -87,7 +87,7 @@ internal fun buildSpeedDialItems(
         .distinctBy { it.id }
         .take(27)
 
-internal fun shouldShowWrapped(seenYear: Int, currentYear: Int, enabled: Boolean): Boolean =
+internal fun shouldShowEncore(seenYear: Int, currentYear: Int, enabled: Boolean): Boolean =
     enabled || seenYear != currentYear
 
 @HiltViewModel
@@ -253,17 +253,17 @@ class HomeViewModel @Inject constructor(
     val accountName = MutableStateFlow("Guest")
     val accountImageUrl = MutableStateFlow<String?>(null)
 
-    fun showWrappedCard(year: Int): StateFlow<Boolean> = context.dataStore.data.map { prefs ->
-        val showWrappedPref = prefs[ShowWrappedCardKey] ?: false
-        val seenYear = prefs[WrappedSeenYearKey] ?: 0
+    fun showEncoreCard(year: Int): StateFlow<Boolean> = context.dataStore.data.map { prefs ->
+        val showEncorePref = prefs[ShowEncoreCardKey] ?: false
+        val seenYear = prefs[EncoreSeenYearKey] ?: 0
 
-        shouldShowWrapped(seenYear, year, showWrappedPref)
+        shouldShowEncore(seenYear, year, showEncorePref)
     }.distinctUntilChanged().stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), false)
 
-    fun markWrappedAsSeen(year: Int) {
+    fun markEncoreAsSeen(year: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             context.safeDataStoreEdit {
-                if (year > (it[WrappedSeenYearKey] ?: 0)) it[WrappedSeenYearKey] = year
+                if (year > (it[EncoreSeenYearKey] ?: 0)) it[EncoreSeenYearKey] = year
             }
         }
     }
