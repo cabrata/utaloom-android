@@ -311,6 +311,10 @@ class MusicService :
     lateinit var listenTogetherManager: com.metrolist.music.listentogether.ListenTogetherManager
 
     private lateinit var audioManager: AudioManager
+    private val _audioOutputDevices = MutableStateFlow<List<AudioDeviceInfo>>(emptyList())
+    val audioOutputDevices = _audioOutputDevices.asStateFlow()
+    private val _selectedAudioDeviceId = MutableStateFlow<Int?>(null)
+    val selectedAudioDeviceId = _selectedAudioDeviceId.asStateFlow()
     private var audioFocusRequest: AudioFocusRequest? = null
     private var lastAudioFocusState = AudioManager.AUDIOFOCUS_NONE
     private var wasPlayingBeforeAudioFocusLoss = false
@@ -646,6 +650,7 @@ class MusicService :
         object : AudioDeviceCallback() {
             override fun onAudioDevicesAdded(addedDevices: Array<out AudioDeviceInfo>?) {
                 super.onAudioDevicesAdded(addedDevices)
+                refreshAudioOutputDevices()
                 val hasBluetooth =
                     addedDevices?.any {
                         it.type == AudioDeviceInfo.TYPE_BLUETOOTH_A2DP ||
@@ -659,6 +664,11 @@ class MusicService :
                         }
                     }
                 }
+            }
+
+            override fun onAudioDevicesRemoved(removedDevices: Array<out AudioDeviceInfo>?) {
+                super.onAudioDevicesRemoved(removedDevices)
+                refreshAudioOutputDevices()
             }
         }
 
@@ -755,6 +765,7 @@ class MusicService :
         Timber.tag(TAG).d("Player successfully initialized")
 
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        refreshAudioOutputDevices()
         setupAudioFocusRequest()
 
         mediaLibrarySessionCallback.apply {
@@ -807,6 +818,7 @@ class MusicService :
         registerReceiver(screenStateReceiver, screenStateFilter)
 
         audioManager.registerAudioDeviceCallback(audioDeviceCallback, null)
+        refreshAudioOutputDevices()
 
         audioQuality = startupPrefs!![AudioQualityKey]?.let { value ->
             if (value == "VERY_HIGH") com.metrolist.music.constants.AudioQuality.HIGH
@@ -1455,6 +1467,8 @@ class MusicService :
                 .build()
         createdPlayer = player
 
+        applyPreferredAudioDevice(player)
+
         playerNormalizationProcessors[player] = normalizationProcessor
         playerSilenceProcessors[player] = silenceProcessor
         playerEqualizerProcessors[player] = eqProcessor
@@ -1501,6 +1515,70 @@ class MusicService :
         // Cleanup handled manually in onDestroy/release
         _playerFlow.value = player
         return player
+    }
+
+    fun selectAudioDevice(deviceId: Int?): Boolean {
+        val device = deviceId?.let { id ->
+            _audioOutputDevices.value.firstOrNull { it.id == id } ?: return false
+        }
+        val activePlayer = playerOrNull() ?: return false
+        if (runCatching { activePlayer.setPreferredAudioDevice(device) }.isFailure) return false
+        if (castConnectionHandler?.isCasting?.value == true) castConnectionHandler?.disconnect()
+        _selectedAudioDeviceId.value = deviceId
+        listOfNotNull(secondaryPlayer, fadingPlayer)
+            .filterNot { it === activePlayer }
+            .forEach { target -> runCatching { target.setPreferredAudioDevice(device) } }
+        if (activePlayer.playbackState != Player.STATE_IDLE && !activePlayer.isPlaying) activePlayer.play()
+        return true
+    }
+
+    private fun playerOrNull(): ExoPlayer? = if (::player.isInitialized) player else null
+
+    private fun refreshAudioOutputDevices() {
+        val devices = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+            .toList()
+            .filter { audioOutputKind(it.type) != null }
+            .groupBy { it.productName?.toString().orEmpty() to audioOutputKind(it.type) }
+            .map { (_, same) -> same.minBy { audioOutputPreference(it.type) } }
+        _audioOutputDevices.value = devices
+        val selectedId = _selectedAudioDeviceId.value ?: return
+        if (devices.none { it.id == selectedId }) selectAudioDevice(null)
+    }
+
+    private fun audioOutputKind(type: Int): Int? = when (type) {
+        AudioDeviceInfo.TYPE_BUILTIN_SPEAKER -> AudioDeviceInfo.TYPE_BUILTIN_SPEAKER
+        AudioDeviceInfo.TYPE_WIRED_HEADPHONES,
+        AudioDeviceInfo.TYPE_WIRED_HEADSET,
+        AudioDeviceInfo.TYPE_LINE_ANALOG,
+        AudioDeviceInfo.TYPE_AUX_LINE,
+        -> AudioDeviceInfo.TYPE_WIRED_HEADPHONES
+        AudioDeviceInfo.TYPE_USB_DEVICE,
+        AudioDeviceInfo.TYPE_USB_HEADSET,
+        AudioDeviceInfo.TYPE_USB_ACCESSORY,
+        -> AudioDeviceInfo.TYPE_USB_DEVICE
+        AudioDeviceInfo.TYPE_BLUETOOTH_A2DP,
+        AudioDeviceInfo.TYPE_BLE_HEADSET,
+        AudioDeviceInfo.TYPE_BLE_SPEAKER,
+        AudioDeviceInfo.TYPE_BLE_BROADCAST,
+        AudioDeviceInfo.TYPE_HEARING_AID,
+        -> AudioDeviceInfo.TYPE_BLUETOOTH_A2DP
+        AudioDeviceInfo.TYPE_HDMI,
+        AudioDeviceInfo.TYPE_HDMI_ARC,
+        AudioDeviceInfo.TYPE_HDMI_EARC,
+        -> AudioDeviceInfo.TYPE_HDMI
+        else -> null
+    }
+
+    private fun audioOutputPreference(type: Int): Int = when (type) {
+        AudioDeviceInfo.TYPE_BLUETOOTH_A2DP -> 0
+        AudioDeviceInfo.TYPE_BLE_HEADSET, AudioDeviceInfo.TYPE_BLE_SPEAKER -> 1
+        else -> 2
+    }
+
+    private fun applyPreferredAudioDevice(target: ExoPlayer) {
+        val selectedId = _selectedAudioDeviceId.value ?: return
+        val device = _audioOutputDevices.value.firstOrNull { it.id == selectedId } ?: return
+        runCatching { target.setPreferredAudioDevice(device) }
     }
 
     private fun setupAudioFocusRequest() {

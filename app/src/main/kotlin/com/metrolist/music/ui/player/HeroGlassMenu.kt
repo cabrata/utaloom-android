@@ -174,10 +174,7 @@ internal fun HeroGlassMenu(
     BackHandler(enabled = open, onBack = onDismiss)
 
     val (item, menuAnchor) = shown ?: return
-    val frost = item.thumbnailUrl?.let(BackdropBlurCache::get)
-    // BitChord's slab is 1C1C1E at 0.60 over the blurred page. A pale cover would show through that
-    // as pale grey under white labels, so the slab thickens with the cover's brightness.
-    val fillAlpha = remember(frost) { frost?.let { lerp(0.60f, 0.86f, it.meanLuminance()) } ?: 0.94f }
+    val frost = rememberHeroFrost(item.thumbnailUrl)
     val insets = WindowInsets.safeDrawing
     var overlayOffset by remember { mutableStateOf(Offset.Zero) }
     var panelOffset by remember { mutableStateOf(IntOffset.Zero) }
@@ -199,25 +196,7 @@ internal fun HeroGlassMenu(
                 Modifier
                     .pointerInput(Unit) {}
                     .clip(MenuShape)
-                    .drawBehind {
-                        // The player's own backdrop (cover on top, mirrored below, as HeroBackdrop lays it),
-                        // of which the panel shows its patch, with the hue drawn up like BitChord's menu.
-                        frost?.let { image ->
-                            val w = overlaySize.width
-                            val h = overlaySize.height
-                            val seam = w.coerceAtMost(h)
-                            val src = IntSize(image.width, image.height)
-                            translate(-panelOffset.x.toFloat(), -panelOffset.y.toFloat()) {
-                                drawImage(image, IntOffset.Zero, src, IntOffset.Zero, IntSize(w, seam), colorFilter = FrostSaturation, filterQuality = FilterQuality.Low)
-                                if (h > seam) {
-                                    scale(1f, -1f, pivot = Offset(0f, (seam + h) / 2f)) {
-                                        drawImage(image, IntOffset.Zero, src, IntOffset(0, seam), IntSize(w, h - seam), colorFilter = FrostSaturation, filterQuality = FilterQuality.Low)
-                                    }
-                                }
-                            }
-                        }
-                        drawRect(MenuFill.copy(alpha = fillAlpha))
-                    }
+                    .heroFrost(frost, { overlaySize }, { panelOffset })
                     .border(0.5.dp, Color.White.copy(alpha = 0.10f), MenuShape),
                 propagateMinConstraints = true,
             ) {
@@ -519,6 +498,40 @@ private fun Separator() {
 
 private val MenuShape = RoundedCornerShape(30.dp)
 private val FrostSaturation = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(1.8f) })
+
+/** The cover blur [HeroBackdrop] cached, and how thick the slab over it must be for white labels. */
+internal class HeroFrost(val image: ImageBitmap?, val fillAlpha: Float)
+
+@Composable
+internal fun rememberHeroFrost(thumbnailUrl: String?): HeroFrost {
+    val image = thumbnailUrl?.let(BackdropBlurCache::get)
+    // BitChord's slab is 1C1C1E at 0.60 over the blurred page. A pale cover would show through that
+    // as pale grey under white labels, so the slab thickens with the cover's brightness.
+    return remember(image) { HeroFrost(image, image?.let { lerp(0.60f, 0.86f, it.meanLuminance()) } ?: 0.94f) }
+}
+
+/**
+ * The player's own backdrop (cover on top, mirrored below, as HeroBackdrop lays it), of which a panel at
+ * [panelOffset] inside a full-player overlay of [overlaySize] shows its patch, hue drawn up like BitChord's menu.
+ */
+internal fun Modifier.heroFrost(frost: HeroFrost, overlaySize: () -> IntSize, panelOffset: () -> IntOffset): Modifier =
+    drawBehind {
+        frost.image?.let { image ->
+            val (w, h) = overlaySize()
+            val offset = panelOffset()
+            val seam = w.coerceAtMost(h)
+            val src = IntSize(image.width, image.height)
+            translate(-offset.x.toFloat(), -offset.y.toFloat()) {
+                drawImage(image, IntOffset.Zero, src, IntOffset.Zero, IntSize(w, seam), colorFilter = FrostSaturation, filterQuality = FilterQuality.Low)
+                if (h > seam) {
+                    scale(1f, -1f, pivot = Offset(0f, (seam + h) / 2f)) {
+                        drawImage(image, IntOffset.Zero, src, IntOffset(0, seam), IntSize(w, h - seam), colorFilter = FrostSaturation, filterQuality = FilterQuality.Low)
+                    }
+                }
+            }
+        }
+        drawRect(MenuFill.copy(alpha = frost.fillAlpha))
+    }
 
 /** Mean luminance (0..1) of a small bitmap, sampled on a grid. */
 private fun ImageBitmap.meanLuminance(): Float {

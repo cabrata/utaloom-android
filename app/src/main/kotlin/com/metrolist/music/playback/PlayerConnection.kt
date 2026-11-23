@@ -6,6 +6,7 @@
 package com.metrolist.music.playback
 
 import android.content.Context
+import android.media.AudioDeviceInfo
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
@@ -41,6 +42,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
@@ -93,6 +95,11 @@ class PlayerConnection(
 
     val player: ExoPlayer
         get() = getPlayerSafe()
+
+    val audioOutputDevices: StateFlow<List<AudioDeviceInfo>> = service.audioOutputDevices
+    val selectedAudioDeviceId: StateFlow<Int?> = service.selectedAudioDeviceId
+
+    fun selectAudioDevice(deviceId: Int?): Boolean = service.selectAudioDevice(deviceId)
 
     /** Tracks whether player initialization completed successfully */
     private val isPlayerInitialized = MutableStateFlow(service.isPlayerReady.value)

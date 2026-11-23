@@ -57,7 +57,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
 import android.media.MediaRouter
-import android.media.MediaRouter2
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.layout.Layout
@@ -96,6 +95,10 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.min
 import com.metrolist.music.LocalNavController
+import com.metrolist.music.ui.glass.backdrop.backdrops.LayerBackdrop
+import com.metrolist.music.ui.glass.backdrop.backdrops.layerBackdrop
+import com.metrolist.music.ui.glass.backdrop.backdrops.rememberCombinedBackdrop
+import com.metrolist.music.ui.glass.backdrop.backdrops.rememberLayerBackdrop
 import com.metrolist.music.ui.component.CastButton
 import kotlin.math.abs
 import android.widget.Toast
@@ -192,6 +195,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -662,21 +666,32 @@ fun GlassSlider(
     }
 }
 
-/** System media volume, kept in sync with the hardware keys. Hidden on fixed-volume devices. */
+/** System media volume, 0..1, kept in sync with the hardware keys. */
+@Stable
+internal class MediaVolume(private val audioManager: AudioManager) {
+    val steps = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
+    var level by mutableFloatStateOf(read())
+    var dragging = false
+
+    fun read() = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) / steps.toFloat()
+
+    fun set(target: Float) {
+        level = target
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (target * steps).roundToInt(), 0)
+    }
+}
+
+/** Null on fixed-volume devices, where there is nothing to set. */
 @Composable
-fun HeroVolumeRow(modifier: Modifier = Modifier) {
+internal fun rememberMediaVolume(): MediaVolume? {
     val context = LocalContext.current
     val audioManager = remember(context) { context.getSystemService(AudioManager::class.java) }
-    if (audioManager == null || audioManager.isVolumeFixed) return
-    val max = remember(audioManager) { audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1) }
-    fun read() = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) / max.toFloat()
-    var volume by remember { mutableFloatStateOf(read()) }
-    var dragging by remember { mutableStateOf(false) }
-
-    DisposableEffect(context) {
+    if (audioManager == null || audioManager.isVolumeFixed) return null
+    val volume = remember(audioManager) { MediaVolume(audioManager) }
+    DisposableEffect(volume) {
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(c: Context, intent: Intent) {
-                if (!dragging) volume = read()
+                if (!volume.dragging) volume.level = volume.read()
             }
         }
         ContextCompat.registerReceiver(
@@ -687,11 +702,16 @@ fun HeroVolumeRow(modifier: Modifier = Modifier) {
         )
         onDispose { context.unregisterReceiver(receiver) }
     }
+    return volume
+}
 
-    fun set(target: Float) {
-        volume = target
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (target * max).roundToInt(), 0)
-    }
+/** System media volume row. Hidden on fixed-volume devices. */
+@Composable
+fun HeroVolumeRow(modifier: Modifier = Modifier) {
+    val media = rememberMediaVolume() ?: return
+    val max = media.steps
+    val volume = media.level
+    fun set(target: Float) = media.set(target)
 
     Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier.fillMaxWidth()) {
         Icon(
@@ -705,10 +725,10 @@ fun HeroVolumeRow(modifier: Modifier = Modifier) {
         GlassSlider(
             value = volume,
             onValueChange = {
-                dragging = true
+                media.dragging = true
                 set(it)
             },
-            onValueChangeFinished = { dragging = false },
+            onValueChangeFinished = { media.dragging = false },
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = 12.dp),
@@ -900,11 +920,13 @@ fun HeroBottomRow(
     mode: HeroMode,
     onLyrics: () -> Unit,
     onQueue: () -> Unit,
+    onOutput: () -> Unit,
     controlsEnabled: Boolean,
     modifier: Modifier = Modifier,
     compact: Boolean = false,
 ) {
     val context = LocalContext.current
+    val openOutputs = rememberAudioOutputPicker(onOutput)
     val router = remember(context) { context.getSystemService(MediaRouter::class.java) }
     fun routeName() = router?.getSelectedRoute(MediaRouter.ROUTE_TYPE_LIVE_AUDIO)?.getName(context)?.toString()
     var outputName by remember { mutableStateOf(routeName()) }
@@ -922,6 +944,9 @@ fun HeroBottomRow(
         onDispose { router?.removeCallback(callback) }
     }
 
+    val castDevice by LocalPlayerConnection.current?.service?.castConnectionHandler?.castDeviceName
+        ?.collectAsStateWithLifecycle() ?: remember { mutableStateOf(null) }
+
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier.fillMaxWidth()) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -937,7 +962,7 @@ fun HeroBottomRow(
                 if (queue) {
                     HeroPlaybackModes(enabled = controlsEnabled)
                 } else {
-                    IconButton(onClick = { openOutputSwitcher(context) }) {
+                    IconButton(onClick = openOutputs) {
                         Icon(
                             painter = painterResource(R.drawable.headphones),
                             contentDescription = stringResource(R.string.audio_output),
@@ -950,7 +975,7 @@ fun HeroBottomRow(
             HeroModeButton(R.drawable.queue_music, R.string.queue, selected = mode == HeroMode.Queue, onClick = onQueue)
         }
         Text(
-            text = outputName.orEmpty(),
+            text = castDevice ?: outputName.orEmpty(),
             color = Color.White.copy(alpha = 0.75f),
             fontSize = 13.sp,
             maxLines = 1,
@@ -1506,19 +1531,6 @@ private fun HeroQueueItem(
     )
 }
 
-private fun openOutputSwitcher(context: Context) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE &&
-        MediaRouter2.getInstance(context).showSystemOutputSwitcher()
-    ) {
-        return
-    }
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        runCatching {
-            context.startActivity(Intent(Settings.Panel.ACTION_VOLUME).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-        }
-    }
-}
-
 /** Opens a panel on an upward swipe without consuming the drag, so the sheet's swipe-down and the art's skip still work. */
 internal fun Modifier.swipeUpToOpen(enabled: Boolean, onOpen: () -> Unit): Modifier =
     if (!enabled) this else pointerInput(onOpen) {
@@ -1562,8 +1574,10 @@ fun HeroPlayerContent(
     isListenTogetherGuest: Boolean,
     focusRequester: FocusRequester,
     canvasLayer: GraphicsLayer? = null,
+    backgroundBackdrop: LayerBackdrop? = null,
 ) {
     val playerConnection = LocalPlayerConnection.current ?: return
+    val contentBackdrop = rememberLayerBackdrop()
     // BitChord: a tap on the Canvas slides the control deck away so the video plays clear (the title stays);
     // tapping again, or leaving Normal mode, brings it back. The Canvas itself never leaves its sleeve.
     var canvasControlsHidden by remember(canvasUrl) { mutableStateOf(false) }
@@ -1611,6 +1625,7 @@ fun HeroPlayerContent(
     }
     val controlsShown = mode == HeroMode.Normal || lyricsControlsVisible
     var menuAnchor by remember { mutableStateOf<androidx.compose.ui.geometry.Rect?>(null) }
+    var outputsOpen by remember { mutableStateOf(false) }
     val openMenu: (androidx.compose.ui.geometry.Rect) -> Unit = { menuAnchor = it }
 
     val morphState = animateFloatAsState(
@@ -1810,6 +1825,7 @@ fun HeroPlayerContent(
                     mode = mode,
                     onLyrics = { toggleMode(HeroMode.Lyrics) },
                     onQueue = { toggleMode(HeroMode.Queue) },
+                    onOutput = { outputsOpen = true },
                     controlsEnabled = !isListenTogetherGuest,
                     compact = compact,
                     modifier = Modifier.padding(horizontal = if (compact) hPad else hPad + 8.dp),
@@ -1820,7 +1836,12 @@ fun HeroPlayerContent(
         }
     }
 
-    BoxWithConstraints(Modifier.fillMaxSize()) {
+    Box(Modifier.fillMaxSize()) {
+    BoxWithConstraints(
+        Modifier
+            .fillMaxSize()
+            .then(if (backgroundBackdrop != null) Modifier.layerBackdrop(contentBackdrop) else Modifier),
+    ) {
         val landscape = maxWidth > maxHeight && maxWidth >= 560.dp
         // BitChord: on a phone held upright the Canvas fills the window behind everything.
         val fullCanvas = !landscape && !canvasUrl.isNullOrBlank()
@@ -1871,13 +1892,13 @@ fun HeroPlayerContent(
                                 true,
                                 true,
                             )
-                            CastButton(tintColor = Color.White, modifier = Modifier.align(Alignment.TopEnd).padding(8.dp))
                         }
                         Spacer(Modifier.height(8.dp))
                         HeroBottomRow(
                             mode = mode,
                             onLyrics = { toggleMode(HeroMode.Lyrics) },
                             onQueue = { toggleMode(HeroMode.Queue) },
+                            onOutput = { outputsOpen = true },
                             controlsEnabled = !isListenTogetherGuest,
                             compact = compact,
                             modifier = Modifier.width(artSize),
@@ -1977,14 +1998,6 @@ fun HeroPlayerContent(
                         onCollapse = state::collapseSoft,
                         modifier = Modifier.align(Alignment.TopCenter).windowInsetsPadding(WindowInsets.statusBars),
                     )
-                    CastButton(
-                        tintColor = Color.White,
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .windowInsetsPadding(WindowInsets.statusBars)
-                            .padding(12.dp)
-                            .graphicsLayer { alpha = 1f - morph() },
-                    )
                     panel(Modifier.fillMaxSize().padding(top = panelTop))
 
                     // Title, artist and menu: under the art in Normal, beside the thumbnail otherwise.
@@ -2014,6 +2027,14 @@ fun HeroPlayerContent(
             )
         }
         HeroGlassMenu(metadata = mediaMetadata, anchor = menuAnchor, state = state, onDismiss = { menuAnchor = null })
+    }
+    // Outside the recorded content: the drawer's glass refracts the player, never itself.
+    HeroOutputDrawer(
+        visible = outputsOpen && state.isExpanded,
+        thumbnailUrl = mediaMetadata?.thumbnailUrl,
+        backdrop = backgroundBackdrop?.let { rememberCombinedBackdrop(it, contentBackdrop) },
+        onDismiss = { outputsOpen = false },
+    )
     }
 }
 

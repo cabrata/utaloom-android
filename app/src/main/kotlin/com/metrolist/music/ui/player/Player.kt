@@ -117,7 +117,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.animateFloatAsState
-import com.metrolist.music.ui.component.CastButton
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.ui.input.pointer.positionChangeIgnoreConsumed
@@ -156,6 +155,9 @@ import androidx.navigation.NavController
 import androidx.palette.graphics.Palette
 import com.metrolist.music.LocalNavController
 import coil3.compose.AsyncImage
+import com.metrolist.music.ui.glass.backdrop.backdrops.layerBackdrop
+import com.metrolist.music.ui.glass.backdrop.backdrops.rememberLayerBackdrop
+import com.metrolist.music.ui.glass.isGlassSupported
 import com.metrolist.music.ui.component.AppleMeshBackground
 import coil3.imageLoader
 import coil3.request.ImageRequest
@@ -374,6 +376,9 @@ fun BottomSheetPlayer(
     var canvasUrl by remember(mediaMetadata?.id, spotifySpDc) { mutableStateOf<String?>(null) }
     // The Canvas records here each frame so the control deck's glass can blur the video behind it.
     val canvasLayer = rememberGraphicsLayer()
+    // The cover blur behind the Liquid Glass player, recorded so its output drawer can refract it.
+    val heroBackground = rememberLayerBackdrop()
+    val heroGlass = heroPlayer && isGlassSupported()
 
     val wantsCanvas = heroPlayer || playerBackground == PlayerBackgroundStyle.CANVAS
     // Fetched once the player first opens, then kept: collapsing only pauses the Canvas, so reopening
@@ -940,7 +945,9 @@ fun BottomSheetPlayer(
                             HeroBackdrop(
                                 thumbnailUrl = mediaMetadata?.thumbnailUrl,
                                 dimmed = heroMode != HeroMode.Normal,
-                                modifier = backgroundAlpha,
+                                modifier = backgroundAlpha.then(
+                                    if (heroGlass) Modifier.layerBackdrop(heroBackground) else Modifier,
+                                ),
                             )
                         } else {
                             AppleMeshBackground(
@@ -1955,6 +1962,7 @@ fun BottomSheetPlayer(
                 isListenTogetherGuest = isListenTogetherGuest,
                 focusRequester = focusRequester,
                 canvasLayer = canvasLayer,
+                backgroundBackdrop = heroBackground.takeIf { heroGlass },
             )
         } else when (LocalConfiguration.current.orientation) {
             Configuration.ORIENTATION_LANDSCAPE -> {
@@ -1999,16 +2007,26 @@ fun BottomSheetPlayer(
                                     sliderPositionProvider = sliderPositionProvider,
                                 )
                             } else if (playerBackground == PlayerBackgroundStyle.CANVAS && !canvasUrl.isNullOrBlank()) {
-                                CanvasPlayerView(
-                                    canvasUrl = canvasUrl,
-                                    thumbnailUrl = mediaMetadata?.thumbnailUrl,
-                                    isPlaying = effectiveIsPlaying,
-                                    isExpanded = state.isExpanded,
-                                    bottomColor = bottomSheetBackgroundColor,
-                                    isLandscape = true,
-                                    modifier = Modifier.animateContentSize(),
-                                    onError = { canvasUrl = null },
-                                )
+                                Box {
+                                    CanvasPlayerView(
+                                        canvasUrl = canvasUrl,
+                                        thumbnailUrl = mediaMetadata?.thumbnailUrl,
+                                        isPlaying = effectiveIsPlaying,
+                                        isExpanded = state.isExpanded,
+                                        bottomColor = bottomSheetBackgroundColor,
+                                        isLandscape = true,
+                                        modifier = Modifier.animateContentSize(),
+                                        onError = { canvasUrl = null },
+                                    )
+                                    // The Canvas stands in for the Thumbnail, which is where this button lives.
+                                    AudioOutputButton(
+                                        tint = Color.White,
+                                        modifier = Modifier
+                                            .align(Alignment.TopEnd)
+                                            .windowInsetsPadding(WindowInsets.statusBars)
+                                            .padding(8.dp),
+                                    )
+                                }
                             } else {
                                 Thumbnail(
                                     sliderPositionProvider = sliderPositionProvider,
@@ -2073,16 +2091,26 @@ fun BottomSheetPlayer(
                                     sliderPositionProvider = sliderPositionProvider,
                                 )
                             } else if (playerBackground == PlayerBackgroundStyle.CANVAS && !canvasUrl.isNullOrBlank()) {
-                                CanvasPlayerView(
-                                    canvasUrl = canvasUrl,
-                                    thumbnailUrl = mediaMetadata?.thumbnailUrl,
-                                    isPlaying = effectiveIsPlaying,
-                                    isExpanded = state.isExpanded,
-                                    bottomColor = bottomSheetBackgroundColor,
-                                    isLandscape = false,
-                                    modifier = Modifier.nestedScroll(state.preUpPostDownNestedScrollConnection),
-                                    onError = { canvasUrl = null },
-                                )
+                                Box {
+                                    CanvasPlayerView(
+                                        canvasUrl = canvasUrl,
+                                        thumbnailUrl = mediaMetadata?.thumbnailUrl,
+                                        isPlaying = effectiveIsPlaying,
+                                        isExpanded = state.isExpanded,
+                                        bottomColor = bottomSheetBackgroundColor,
+                                        isLandscape = false,
+                                        modifier = Modifier.nestedScroll(state.preUpPostDownNestedScrollConnection),
+                                        onError = { canvasUrl = null },
+                                    )
+                                    // The Canvas stands in for the Thumbnail, which is where this button lives.
+                                    AudioOutputButton(
+                                        tint = Color.White,
+                                        modifier = Modifier
+                                            .align(Alignment.TopEnd)
+                                            .windowInsetsPadding(WindowInsets.statusBars)
+                                            .padding(8.dp),
+                                    )
+                                }
                             } else {
                                 Thumbnail(
                                     sliderPositionProvider = sliderPositionProvider,
