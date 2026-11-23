@@ -28,6 +28,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -51,8 +52,6 @@ import androidx.navigation.NavController
 import com.metrolist.music.LocalPlayerAwareWindowInsets
 import com.metrolist.music.LocalPlayerConnection
 import com.metrolist.music.R
-import com.metrolist.music.utils.rememberPreference
-import com.metrolist.music.constants.SpotifySpDcCookieKey
 import com.metrolist.music.constants.GridItemSize
 import com.metrolist.music.constants.GridItemsSizeKey
 import com.metrolist.music.constants.GridThumbnailHeight
@@ -68,6 +67,8 @@ import com.metrolist.music.ui.component.PlaylistGridItem
 import com.metrolist.music.ui.menu.AlbumMenu
 import com.metrolist.music.ui.menu.ArtistMenu
 import com.metrolist.music.ui.menu.PlaylistMenu
+import com.metrolist.music.ui.screens.encore.EncoreHomeCard
+import com.metrolist.music.ui.screens.encore.rememberEncoreYear
 import com.metrolist.music.ui.theme.GlassShapes
 import com.metrolist.music.utils.rememberEnumPreference
 import com.metrolist.music.viewmodels.LibraryAlbumsViewModel
@@ -107,7 +108,6 @@ fun GlassLibraryHome(
     }
 
     var showCreatePlaylistDialog by rememberSaveable { mutableStateOf(false) }
-    val spotifyConnected = rememberPreference(SpotifySpDcCookieKey, "").value.isNotBlank()
 
     if (showCreatePlaylistDialog) {
         CreatePlaylistDialog(
@@ -119,16 +119,20 @@ fun GlassLibraryHome(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues(),
     ) {
-        // Link List
+        item(key = "encore_card") {
+            val encoreYear = rememberEncoreYear()
+            EncoreHomeCard(
+                year = encoreYear,
+                onClick = { navController.navigate("encore") },
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            )
+        }
+
         item(key = "link_list") {
             GlassLibraryLinkList(
                 onOpenFilter = onOpenFilter,
                 onDownloadedClick = { navController.navigate("auto_playlist/downloaded") },
-                onSpotifyClick = if (spotifyConnected) {
-                    { navController.navigate("spotify_library") }
-                } else {
-                    null
-                },
+                onSpotifyClick = { navController.navigate("spotify_library") },
             )
         }
 
@@ -222,77 +226,33 @@ fun GlassLibraryHome(
     }
 }
 
+/** BitChord's folder list: plain rows under the Encore card, each a way into one part of the library. */
 @Composable
 private fun GlassLibraryLinkList(
     onOpenFilter: (LibraryFilter) -> Unit,
     onDownloadedClick: () -> Unit,
-    onSpotifyClick: (() -> Unit)?,
+    onSpotifyClick: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxWidth()
-            .clip(GlassShapes.Group)
-            .background(MaterialTheme.colorScheme.surfaceContainer)
-            .padding(vertical = 8.dp),
-    ) {
-        val filters = listOf(
-            LibraryFilter.PLAYLISTS to stringResource(R.string.filter_playlists) to R.drawable.playlist_play,
-            LibraryFilter.ARTISTS to stringResource(R.string.filter_artists) to R.drawable.mic,
-            LibraryFilter.ALBUMS to stringResource(R.string.filter_albums) to R.drawable.album,
-            LibraryFilter.SONGS to stringResource(R.string.filter_songs) to R.drawable.music_note,
-            LibraryFilter.PODCASTS to stringResource(R.string.filter_podcasts) to R.drawable.radio,
-        )
-
-        filters.forEachIndexed { index, (filterPair, iconRes) ->
-            val (filter, label) = filterPair
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp)
-                    .combinedClickable(
-                        onClick = { onOpenFilter(filter) },
-                    )
-                    .padding(horizontal = 16.dp),
-            ) {
-                Icon(
-                    painter = painterResource(iconRes),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(24.dp),
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(
-                    text = label,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f),
-                )
-                Icon(
-                    painter = painterResource(R.drawable.navigate_next),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
-                    modifier = Modifier.size(20.dp),
-                )
-            }
-
-            if (index < filters.lastIndex) {
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 56.dp)
-                        .height(0.5.dp)
-                        .background(MaterialTheme.colorScheme.outlineVariant),
-                )
-            }
-        }
-
+    Column(modifier = Modifier.fillMaxWidth()) {
         GlassLinkRow(R.drawable.download, stringResource(R.string.filter_downloaded), onDownloadedClick)
-        if (onSpotifyClick != null) GlassLinkRow(R.drawable.queue_music, stringResource(R.string.spotify_library), onSpotifyClick)
+        GlassLinkDivider()
+        GlassLinkRow(R.drawable.music_note, stringResource(R.string.filter_songs)) { onOpenFilter(LibraryFilter.SONGS) }
+        GlassLinkDivider()
+        GlassLinkRow(R.drawable.radio, stringResource(R.string.filter_podcasts)) { onOpenFilter(LibraryFilter.PODCASTS) }
+        GlassLinkDivider()
+        GlassLinkRow(R.drawable.spotify_logo, stringResource(R.string.spotify), onSpotifyClick)
     }
+}
+
+@Composable
+private fun GlassLinkDivider() {
+    Spacer(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 60.dp)
+            .height(0.5.dp)
+            .background(MaterialTheme.colorScheme.outlineVariant),
+    )
 }
 
 @Composable
@@ -301,20 +261,20 @@ private fun GlassLinkRow(iconRes: Int, label: String, onClick: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .height(52.dp)
-            .combinedClickable(onClick = onClick)
+            .height(56.dp)
+            .clickable(onClick = onClick)
             .padding(horizontal = 16.dp),
     ) {
         Icon(
             painter = painterResource(iconRes),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(24.dp),
+            tint = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.size(28.dp),
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
             text = label,
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onSurface,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
@@ -467,3 +427,28 @@ private fun GlassGridShelf(
     }
 }
 
+/** The top of a Show all page, as in BitChord: a way back to the library and the shelf's name, large. */
+@Composable
+internal fun GlassShowAllHeader(title: String, onBack: () -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 8.dp, end = 16.dp, top = 4.dp, bottom = 8.dp),
+    ) {
+        IconButton(onClick = onBack) {
+            Icon(
+                painter = painterResource(R.drawable.arrow_back),
+                contentDescription = stringResource(R.string.back),
+            )
+        }
+        Text(
+            text = title,
+            style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(start = 4.dp),
+        )
+    }
+}

@@ -160,7 +160,7 @@ private fun buildIndex(context: Context): List<Entry> = buildList {
     e(R.drawable.graphic_eq, R.string.music_sources, pc, "settings/content/music_sources", "custom api url")
     e(R.drawable.translate, R.string.ai_lyrics_translation, pc, "settings/ai", "translation")
     e(R.drawable.ic_android_auto, R.string.android_auto, pc, "settings/android_auto", "car")
-    e(R.drawable.integration, R.string.integrations, pc, "settings/integrations", "services")
+    e(R.drawable.integration, R.string.account_integrations, pc, "settings/integrations", "services")
     e(R.drawable.security, R.string.privacy, R.string.settings_section_privacy, "settings/privacy", "security")
     e(R.drawable.storage, R.string.storage, R.string.settings_section_storage, "settings/storage", "space")
     e(R.drawable.restore, R.string.backup_restore, R.string.settings_section_storage, "settings/backup_restore", "export import")
@@ -330,7 +330,7 @@ private fun buildIndex(context: Context): List<Entry> = buildList {
     // Discord
     val dc = "settings/integrations/discord"
     val dcT = R.string.discord_integration
-    e(R.drawable.discord, dcT, R.string.integrations, dc, "rich presence")
+    e(R.drawable.discord, dcT, R.string.account_integrations, dc, "rich presence")
     e(R.drawable.discord, R.string.enable_discord_rpc, dcT, dc, "rich presence")
     e(R.drawable.discord, R.string.discord_advanced_mode, dcT, dc, "custom")
     e(R.drawable.discord, R.string.discord_activity_type, dcT, dc, "activity")
@@ -342,7 +342,7 @@ private fun buildIndex(context: Context): List<Entry> = buildList {
     // Last.fm
     val lf = "settings/integrations/lastfm"
     val lfT = R.string.lastfm_integration
-    e(R.drawable.person, lfT, R.string.integrations, lf, "last.fm scrobble")
+    e(R.drawable.person, lfT, R.string.account_integrations, lf, "last.fm scrobble")
     e(R.drawable.person, R.string.enable_scrobbling, lfT, lf, "scrobble")
     e(R.drawable.person, R.string.lastfm_now_playing, lfT, lf, "now playing")
     e(R.drawable.person, R.string.last_fm_send_likes, lfT, lf, "loved sync")
@@ -353,7 +353,7 @@ private fun buildIndex(context: Context): List<Entry> = buildList {
     // Listen Together
     val lt = "settings/integrations/listen_together"
     val ltT = R.string.listen_together
-    e(R.drawable.person, ltT, R.string.integrations, lt, "party room")
+    e(R.drawable.person, ltT, R.string.account_integrations, lt, "party room")
     e(R.drawable.person, R.string.listen_together_server_url, ltT, lt, "server")
     e(R.drawable.person, R.string.listen_together_username, ltT, lt, "username")
     e(R.drawable.person, R.string.listen_together_auto_approval_joins, ltT, lt, "auto join")

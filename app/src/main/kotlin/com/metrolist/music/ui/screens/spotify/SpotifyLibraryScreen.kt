@@ -19,6 +19,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -148,22 +150,73 @@ fun SpotifyLibraryScreen(
         contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues(),
         modifier = Modifier.fillMaxSize(),
     ) {
+        item(key = "title") {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 14.dp),
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.spotify_logo),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.size(38.dp),
+                )
+                Text(
+                    text = stringResource(R.string.spotify),
+                    style = MaterialTheme.typography.displaySmall,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.padding(start = 12.dp),
+                )
+            }
+        }
         when {
             spDc.isBlank() -> connectPrompt { navController.navigate("settings/spotify_login") }
             state == null -> loading()
             state is SpotifyState.Failed -> failure((state as SpotifyState.Failed).message) { viewModel.load(spDc, force = true) }
             else -> items((state as SpotifyState.Ready).items, key = { it.id }) { playlist ->
-                ListItem(
-                    title = playlist.name,
-                    subtitle = playlist.owner,
-                    thumbnailContent = { Cover(playlist.imageUrl) },
-                    modifier = Modifier.clickable { navController.navigate(spotifyPlaylistRoute(playlist)) },
-                )
+                SpotifyPlaylistRow(playlist) { navController.navigate(spotifyPlaylistRoute(playlist)) }
             }
         }
     }
 
-    SpotifyTopBar(stringResource(R.string.spotify_library), navController)
+    // The page carries its own large title, so the bar only holds the way back.
+    SpotifyTopBar("", navController)
+}
+
+@Composable
+private fun SpotifyPlaylistRow(playlist: SpotifyPlaylist, onClick: () -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(14.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(horizontal = 20.dp, vertical = 8.dp),
+    ) {
+        AsyncImage(
+            model = playlist.imageUrl,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.size(56.dp).clip(RoundedCornerShape(8.dp)),
+        )
+        Column(Modifier.weight(1f)) {
+            Text(
+                text = playlist.name,
+                style = MaterialTheme.typography.titleMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            playlist.owner?.takeIf { it.isNotBlank() }?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

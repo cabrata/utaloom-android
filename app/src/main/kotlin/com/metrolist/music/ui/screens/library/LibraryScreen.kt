@@ -33,7 +33,9 @@ fun LibraryScreen() {
     var playlistViewType by rememberEnumPreference(PlaylistViewTypeKey, LibraryViewType.GRID)
 
     val filterContent = @Composable {
-        Row {
+        if (isUtaloomGlass) {
+            GlassShowAllHeader(stringResource(R.string.filter_playlists)) { filterType = LibraryFilter.LIBRARY }
+        } else Row {
             ChipsRow(
                 chips = listOf(
                     LibraryFilter.PLAYLISTS to stringResource(R.string.filter_playlists),
@@ -74,7 +76,7 @@ fun LibraryScreen() {
             LibraryFilter.PLAYLISTS -> LibraryPlaylistsScreen(
                 navController = navController,
                 filterContent = filterContent,
-                viewType = playlistViewType,
+                viewType = if (isUtaloomGlass) LibraryViewType.GRID else playlistViewType,
                 onViewTypeChange = { playlistViewType = it },
             )
             LibraryFilter.SONGS -> LibrarySongsScreen(

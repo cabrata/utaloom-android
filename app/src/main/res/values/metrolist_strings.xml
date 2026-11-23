@@ -1215,4 +1215,19 @@
     <string name="switch_account">Switch account</string>
     <string name="manage_accounts">Manage accounts</string>
     <string name="done">Done</string>
+    <string name="account_integrations">Account &amp; integrations</string>
+    <string name="listen_as">Listen as</string>
+    <string name="account_profiles_help">A Google account can have Personal and Brand profiles. Each has its own library, likes and history.</string>
+    <string name="spotify" translatable="false">Spotify</string>
+    <string name="integration_connected">Connected</string>
+    <string name="tap_to_connect">Tap to connect</string>
+    <string name="tap_to_sign_in">Tap to sign in</string>
+    <string name="spotify_connect_subtitle">Sign in to load your playlists. Playback uses YouTube Music.</string>
+    <string name="rich_presence">Rich presence</string>
+    <string name="rich_presence_footer">Show what you are playing on your Discord profile.</string>
+    <string name="discord_sharing_as">Sharing as %1$s</string>
+    <string name="discord_presence_off">Connected, presence off</string>
+    <string name="scrobbling">Scrobbling</string>
+    <string name="scrobbling_footer">Scrobble your listens to Last.fm.</string>
+    <string name="lastfm_signed_in_as">Signed in as %1$s</string>
 </resources>

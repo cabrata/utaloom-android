@@ -5,8 +5,11 @@
 
 package com.metrolist.music.ui.screens.library
 
+import com.metrolist.music.ui.theme.isUtaloomGlass
+
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.asPaddingValues
@@ -88,6 +91,8 @@ fun LibraryArtistsScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val coroutineScope = rememberCoroutineScope()
     var viewType by rememberEnumPreference(ArtistViewTypeKey, LibraryViewType.GRID)
+    // Glass shows every Show all page as BitChord's grid.
+    val shownViewType = if (isUtaloomGlass) LibraryViewType.GRID else viewType
 
     var filter by rememberEnumPreference(ArtistFilterKey, ArtistFilter.LIKED)
     val (sortType, onSortTypeChange) = rememberEnumPreference(
@@ -99,30 +104,35 @@ fun LibraryArtistsScreen(
     val (ytmSync) = rememberPreference(YtmSyncKey, true)
 
     val filterContent = @Composable {
-        Row {
-            Spacer(Modifier.width(12.dp))
-            FilterChip(
-                label = { Text(stringResource(R.string.artists)) },
-                selected = true,
-                colors = FilterChipDefaults.filterChipColors(containerColor = MaterialTheme.colorScheme.surface),
-                onClick = onDeselect,
-                shape = RoundedCornerShape(16.dp),
-                leadingIcon = {
-                    Icon(painter = painterResource(R.drawable.close), contentDescription = "")
-                },
-            )
-            ChipsRow(
-                chips =
-                listOf(
-                    ArtistFilter.LIKED to stringResource(R.string.filter_liked),
-                    ArtistFilter.LIBRARY to stringResource(R.string.filter_library)
-                ),
-                currentValue = filter,
-                onValueUpdate = {
-                    filter = it
-                },
-                modifier = Modifier.weight(1f),
-            )
+        Column {
+            if (isUtaloomGlass) GlassShowAllHeader(stringResource(R.string.artists), onDeselect)
+            Row {
+                if (!isUtaloomGlass) {
+                    Spacer(Modifier.width(12.dp))
+                    FilterChip(
+                        label = { Text(stringResource(R.string.artists)) },
+                        selected = true,
+                        colors = FilterChipDefaults.filterChipColors(containerColor = MaterialTheme.colorScheme.surface),
+                        onClick = onDeselect,
+                        shape = RoundedCornerShape(16.dp),
+                        leadingIcon = {
+                            Icon(painter = painterResource(R.drawable.close), contentDescription = "")
+                        },
+                    )
+                }
+                ChipsRow(
+                    chips =
+                    listOf(
+                        ArtistFilter.LIKED to stringResource(R.string.filter_liked),
+                        ArtistFilter.LIBRARY to stringResource(R.string.filter_library)
+                    ),
+                    currentValue = filter,
+                    onValueUpdate = {
+                        filter = it
+                    },
+                    modifier = Modifier.weight(1f),
+                )
+            }
         }
     }
 
@@ -146,7 +156,7 @@ fun LibraryArtistsScreen(
 
     LaunchedEffect(scrollToTop?.value) {
         if (scrollToTop?.value == true) {
-            when (viewType) {
+            when (shownViewType) {
                 LibraryViewType.LIST -> lazyListState.animateScrollToItem(0)
                 LibraryViewType.GRID -> lazyGridState.animateScrollToItem(0)
             }
@@ -203,7 +213,7 @@ fun LibraryArtistsScreen(
                 )
             }
 
-            IconButton(
+            if (!isUtaloomGlass) IconButton(
                 onClick = {
                     viewType = viewType.toggle()
                 },
@@ -212,13 +222,13 @@ fun LibraryArtistsScreen(
                 Icon(
                     painter =
                     painterResource(
-                        when (viewType) {
+                        when (shownViewType) {
                             LibraryViewType.LIST -> R.drawable.list
                             LibraryViewType.GRID -> R.drawable.grid_view
                         },
                     ),
                     contentDescription = stringResource(
-                        when (viewType) {
+                        when (shownViewType) {
                             LibraryViewType.LIST -> R.string.switch_to_grid_view
                             LibraryViewType.GRID -> R.string.switch_to_list_view
                         },
@@ -231,7 +241,7 @@ fun LibraryArtistsScreen(
     Box(
         modifier = Modifier.fillMaxSize(),
     ) {
-        when (viewType) {
+        when (shownViewType) {
             LibraryViewType.LIST ->
                 LazyColumn(
                     state = lazyListState,

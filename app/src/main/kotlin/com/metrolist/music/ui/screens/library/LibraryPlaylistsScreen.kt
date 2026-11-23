@@ -387,7 +387,7 @@ fun LibraryPlaylistsScreen(
                 )
             }
 
-            IconButton(
+            if (!isUtaloomGlass) IconButton(
                 onClick = {
                     onViewTypeChange(viewType.toggle())
                 },

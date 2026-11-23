@@ -5,8 +5,11 @@
 
 package com.metrolist.music.ui.screens.library
 
+import com.metrolist.music.ui.theme.isUtaloomGlass
+
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.asPaddingValues
@@ -98,6 +101,8 @@ fun LibraryAlbumsScreen(
     val mediaMetadata by playerConnection.mediaMetadata.collectAsStateWithLifecycle()
 
     var viewType by rememberEnumPreference(AlbumViewTypeKey, LibraryViewType.GRID)
+    // Glass shows every Show all page as BitChord's grid.
+    val shownViewType = if (isUtaloomGlass) LibraryViewType.GRID else viewType
     var filter by rememberEnumPreference(AlbumFilterKey, AlbumFilter.LIKED)
     val (sortType, onSortTypeChange) =
         rememberEnumPreference(
@@ -111,31 +116,36 @@ fun LibraryAlbumsScreen(
     val hideExplicit by rememberPreference(key = HideExplicitKey, defaultValue = false)
 
     val filterContent = @Composable {
-        Row {
-            Spacer(Modifier.width(12.dp))
-            FilterChip(
-                label = { Text(stringResource(R.string.albums)) },
-                selected = true,
-                colors = FilterChipDefaults.filterChipColors(containerColor = MaterialTheme.colorScheme.surface),
-                onClick = onDeselect,
-                shape = RoundedCornerShape(16.dp),
-                leadingIcon = {
-                    Icon(painter = painterResource(R.drawable.close), contentDescription = "")
-                },
-            )
-            ChipsRow(
-                chips =
-                    listOf(
-                        AlbumFilter.LIKED to stringResource(R.string.filter_liked),
-                        AlbumFilter.LIBRARY to stringResource(R.string.filter_library),
-                        AlbumFilter.UPLOADED to stringResource(R.string.filter_uploaded),
-                    ),
-                currentValue = filter,
-                onValueUpdate = {
-                    filter = it
-                },
-                modifier = Modifier.weight(1f),
-            )
+        Column {
+            if (isUtaloomGlass) GlassShowAllHeader(stringResource(R.string.albums), onDeselect)
+            Row {
+                if (!isUtaloomGlass) {
+                    Spacer(Modifier.width(12.dp))
+                    FilterChip(
+                        label = { Text(stringResource(R.string.albums)) },
+                        selected = true,
+                        colors = FilterChipDefaults.filterChipColors(containerColor = MaterialTheme.colorScheme.surface),
+                        onClick = onDeselect,
+                        shape = RoundedCornerShape(16.dp),
+                        leadingIcon = {
+                            Icon(painter = painterResource(R.drawable.close), contentDescription = "")
+                        },
+                    )
+                }
+                ChipsRow(
+                    chips =
+                        listOf(
+                            AlbumFilter.LIKED to stringResource(R.string.filter_liked),
+                            AlbumFilter.LIBRARY to stringResource(R.string.filter_library),
+                            AlbumFilter.UPLOADED to stringResource(R.string.filter_uploaded),
+                        ),
+                    currentValue = filter,
+                    onValueUpdate = {
+                        filter = it
+                    },
+                    modifier = Modifier.weight(1f),
+                )
+            }
         }
     }
 
@@ -168,7 +178,7 @@ fun LibraryAlbumsScreen(
 
     LaunchedEffect(scrollToTop?.value) {
         if (scrollToTop?.value == true) {
-            when (viewType) {
+            when (shownViewType) {
                 LibraryViewType.LIST -> lazyListState.animateScrollToItem(0)
                 LibraryViewType.GRID -> lazyGridState.animateScrollToItem(0)
             }
@@ -224,7 +234,7 @@ fun LibraryAlbumsScreen(
                 )
             }
 
-            IconButton(
+            if (!isUtaloomGlass) IconButton(
                 onClick = {
                     viewType = viewType.toggle()
                 },
@@ -233,13 +243,13 @@ fun LibraryAlbumsScreen(
                 Icon(
                     painter =
                     painterResource(
-                        when (viewType) {
+                        when (shownViewType) {
                             LibraryViewType.LIST -> R.drawable.list
                             LibraryViewType.GRID -> R.drawable.grid_view
                         },
                     ),
                     contentDescription = stringResource(
-                        when (viewType) {
+                        when (shownViewType) {
                             LibraryViewType.LIST -> R.string.switch_to_grid_view
                             LibraryViewType.GRID -> R.string.switch_to_list_view
                         },
@@ -252,7 +262,7 @@ fun LibraryAlbumsScreen(
     Box(
         modifier = Modifier.fillMaxSize(),
     ) {
-        when (viewType) {
+        when (shownViewType) {
             LibraryViewType.LIST -> {
                 LazyColumn(
                     state = lazyListState,

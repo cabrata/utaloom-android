@@ -86,7 +86,7 @@ fun AccountSettings(
     val (accountNamePref, onAccountNameChange) = rememberPreference(AccountNameKey, "")
     val (accountEmail, onAccountEmailChange) = rememberPreference(AccountEmailKey, "")
     val (accountChannelHandle, onAccountChannelHandleChange) = rememberPreference(AccountChannelHandleKey, "")
-    val (innerTubeCookie, onInnerTubeCookieChange) = rememberPreference(InnerTubeCookieKey, "")
+    val (innerTubeCookie, _) = rememberPreference(InnerTubeCookieKey, "")
     val (visitorData, onVisitorDataChange) = rememberPreference(VisitorDataKey, "")
     val (dataSyncId, onDataSyncIdChange) = rememberPreference(DataSyncIdKey, "")
     val (authUser, onAuthUserChange) = rememberPreference(InnerTubeAuthUserKey, "0")
@@ -105,7 +105,6 @@ fun AccountSettings(
     var showToken by remember { mutableStateOf(false) }
     var showTokenEditor by remember { mutableStateOf(false) }
     var showLogoutDialog by remember { mutableStateOf(false) }
-    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -132,57 +131,13 @@ fun AccountSettings(
 
         Spacer(Modifier.height(12.dp))
 
-        // Logout confirmation dialog
         if (showLogoutDialog) {
-            DefaultDialog(
+            LogoutDialog(
                 onDismiss = { showLogoutDialog = false },
-                title = { Text(stringResource(R.string.logout_dialog_title)) },
-                content = {
-                    Text(
-                        text = stringResource(R.string.logout_dialog_message),
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(horizontal = 18.dp)
-                    )
+                onLoggedOut = {
+                    showLogoutDialog = false
+                    onClose()
                 },
-                buttons = {
-                    TextButton(
-                        onClick = {
-                            Timber.d("[LOGOUT_CLEAR] User chose to clear data")
-                            scope.launch {
-                                try {
-                                    Timber.d("[LOGOUT_CLEAR] Starting clear and logout process")
-                                    // Forget account first (stops all sync), then clear data.
-                                    // This prevents background syncs from re-adding songs.
-                                    accountSettingsViewModel.logoutAndClearLibraryData(context)
-                                    Timber.d("[LOGOUT_CLEAR] Library data cleared and account forgotten")
-                                } catch (e: Exception) {
-                                    Timber.e(e, "[LOGOUT_CLEAR] Error clearing library data, proceeding with logout")
-                                    reportException(e)
-                                }
-                                onInnerTubeCookieChange("")
-                                Timber.d("[LOGOUT_CLEAR] Logout complete")
-                                showLogoutDialog = false
-                                onClose()
-                            }
-                        }
-                    ) {
-                        Text(stringResource(R.string.logout_clear))
-                    }
-                    TextButton(
-                        onClick = {
-                            Timber.d("[LOGOUT_KEEP] User chose to keep data")
-                            scope.launch {
-                                Timber.d("[LOGOUT_KEEP] Starting logout process (keeping data)")
-                                accountSettingsViewModel.logoutKeepData(context, onInnerTubeCookieChange)
-                                Timber.d("[LOGOUT_KEEP] Logout complete")
-                                showLogoutDialog = false
-                                onClose()
-                            }
-                        }
-                    ) {
-                        Text(stringResource(R.string.logout_keep))
-                    }
-                }
             )
         }
 
@@ -378,8 +333,8 @@ fun AccountSettings(
             items = buildList {
                 add(
                     Material3SettingsItem(
-                        title = { Text(stringResource(R.string.integrations)) },
-                        targetKey = R.string.integrations,
+                        title = { Text(stringResource(R.string.account_integrations)) },
+                        targetKey = R.string.account_integrations,
                         icon = painterResource(R.drawable.integration),
                         onClick = {
                             onClose()
@@ -419,4 +374,64 @@ fun AccountSettings(
             useLowContrast = true
         )
     }
+}
+
+/** Asks whether to keep or clear the library, then signs out of YouTube Music. */
+@Composable
+internal fun LogoutDialog(
+    onDismiss: () -> Unit,
+    onLoggedOut: () -> Unit,
+    accountSettingsViewModel: AccountSettingsViewModel = hiltViewModel(),
+) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val (_, onInnerTubeCookieChange) = rememberPreference(InnerTubeCookieKey, "")
+    DefaultDialog(
+        onDismiss = onDismiss,
+        title = { Text(stringResource(R.string.logout_dialog_title)) },
+        content = {
+            Text(
+                text = stringResource(R.string.logout_dialog_message),
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(horizontal = 18.dp)
+            )
+        },
+        buttons = {
+            TextButton(
+                onClick = {
+                    Timber.d("[LOGOUT_CLEAR] User chose to clear data")
+                    scope.launch {
+                        try {
+                            Timber.d("[LOGOUT_CLEAR] Starting clear and logout process")
+                            // Forget account first (stops all sync), then clear data.
+                            // This prevents background syncs from re-adding songs.
+                            accountSettingsViewModel.logoutAndClearLibraryData(context)
+                            Timber.d("[LOGOUT_CLEAR] Library data cleared and account forgotten")
+                        } catch (e: Exception) {
+                            Timber.e(e, "[LOGOUT_CLEAR] Error clearing library data, proceeding with logout")
+                            reportException(e)
+                        }
+                        onInnerTubeCookieChange("")
+                        Timber.d("[LOGOUT_CLEAR] Logout complete")
+                        onLoggedOut()
+                    }
+                }
+            ) {
+                Text(stringResource(R.string.logout_clear))
+            }
+            TextButton(
+                onClick = {
+                    Timber.d("[LOGOUT_KEEP] User chose to keep data")
+                    scope.launch {
+                        Timber.d("[LOGOUT_KEEP] Starting logout process (keeping data)")
+                        accountSettingsViewModel.logoutKeepData(context, onInnerTubeCookieChange)
+                        Timber.d("[LOGOUT_KEEP] Logout complete")
+                        onLoggedOut()
+                    }
+                }
+            ) {
+                Text(stringResource(R.string.logout_keep))
+            }
+        }
+    )
 }

@@ -89,6 +89,20 @@ fun SettingsScreen(
             return@Column
         }
 
+        Material3SettingsGroup(
+            title = stringResource(R.string.account),
+            items = listOf(
+                Material3SettingsItem(
+                    icon = painterResource(R.drawable.integration),
+                    title = { Text(stringResource(R.string.account_integrations)) },
+                    targetKey = R.string.account_integrations,
+                    onClick = { navController.navigate("settings/integrations") }
+                )
+            )
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         // User Interface Section
         Material3SettingsGroup(
             title = stringResource(R.string.settings_section_ui),
