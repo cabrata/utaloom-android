@@ -67,184 +67,136 @@ fun getLoudnessLevelLabel(loudnessLevel: LoudnessLevel): String {
     }
 }
 
+/** One line of the media details: an icon, what it is, and its value. [value] null means unknown. */
+class MediaInfoRow(val icon: Int, val label: String, val value: String?)
+
+/** The details sections; [loaded] turns true once the YouTube info has arrived. */
+class MediaInfoSections(
+    val general: List<MediaInfoRow>,
+    val information: List<MediaInfoRow>,
+    val description: String?,
+    val loaded: Boolean,
+)
+
+/** Loads the song's details and arranges them; shared by the Material sheet and the Liquid Glass drawer. */
 @Composable
-fun ShowMediaInfo(videoId: String) {
-    if (videoId.isBlank() || videoId.isEmpty()) return
-
-    val windowInsets = WindowInsets.systemBars
-
-    var info by remember {
-        mutableStateOf<MediaInfo?>(null)
-    }
-
+fun rememberMediaInfoSections(videoId: String): MediaInfoSections {
+    var info by remember { mutableStateOf<MediaInfo?>(null) }
     val database = LocalDatabase.current
     var song by remember { mutableStateOf<Song?>(null) }
-
     var currentFormat by remember { mutableStateOf<FormatEntity?>(null) }
 
     val playerConnection = LocalPlayerConnection.current
     val currentStreamClient by playerConnection?.currentStreamClient?.collectAsState() ?: remember { mutableStateOf(null) }
     val context = LocalContext.current
     val artistNameAliases = LocalArtistNameAliases.current
-
-    val loudnessLevel by rememberEnumPreference(
-        LoudnessLevelKey,
-        defaultValue = LoudnessLevel.BALANCED
-    )
-
+    val loudnessLevel by rememberEnumPreference(LoudnessLevelKey, defaultValue = LoudnessLevel.BALANCED)
     val targetLufs: Float = loudnessLevel.targetLufs
 
-    LaunchedEffect(Unit, videoId) {
-        info = YouTube.getMediaInfo(videoId).getOrNull()
-    }
+    LaunchedEffect(Unit, videoId) { info = YouTube.getMediaInfo(videoId).getOrNull() }
+    LaunchedEffect(Unit, videoId) { database.song(videoId).collect { song = it } }
+    LaunchedEffect(Unit, videoId) { database.format(videoId).collect { currentFormat = it } }
 
-    LaunchedEffect(Unit, videoId) {
-        database.song(videoId).collect {
-            song = it
-        }
-    }
+    val measuredLufs: Double? = currentFormat?.perceptualLoudnessDb
+        ?: currentFormat?.loudnessDb?.let { it + LoudnessLevel.AGGRESSIVE.targetLufs }
+    val loudnessLabel = getLoudnessLevelLabel(loudnessLevel)
+    val locale = LocalLocale.current.platformLocale
 
-    LaunchedEffect(Unit, videoId) {
-        database.format(videoId).collect {
-            currentFormat = it
-        }
+    val general = listOf(
+        MediaInfoRow(R.drawable.music_note, stringResource(R.string.song_title), info?.title ?: song?.title),
+        MediaInfoRow(
+            R.drawable.person,
+            stringResource(R.string.song_artists),
+            song?.artists?.joinToString { ArtistNameAliases.resolve(artistNameAliases, it.id, it.name) }
+                ?: info?.author?.let { ArtistNameAliases.resolve(artistNameAliases, null, it) },
+        ),
+        MediaInfoRow(R.drawable.media3_icon_bookmark_filled, stringResource(R.string.media_id), song?.id ?: info?.videoId),
+    )
+    val information = if (currentFormat != null) {
+        listOf(
+            MediaInfoRow(R.drawable.media3_icon_feed, stringResource(R.string.views), info?.viewCount?.let(::numberFormatter).orEmpty()),
+            MediaInfoRow(R.drawable.media3_icon_thumb_up_unfilled, stringResource(R.string.likes), info?.like?.let(::numberFormatter).orEmpty()),
+            MediaInfoRow(R.drawable.media3_icon_thumb_down_unfilled, stringResource(R.string.dislikes), info?.dislike?.let(::numberFormatter).orEmpty()),
+            MediaInfoRow(R.drawable.key, "Itag", currentFormat?.itag?.toString()),
+            MediaInfoRow(R.drawable.play, stringResource(R.string.stream_client), currentStreamClient),
+            MediaInfoRow(R.drawable.info, stringResource(R.string.mime_type), currentFormat?.mimeType),
+            MediaInfoRow(R.drawable.radio, stringResource(R.string.codecs), currentFormat?.codecs),
+            MediaInfoRow(R.drawable.gradient, stringResource(R.string.bitrate), currentFormat?.bitrate?.let { "${it / 1000} Kbps" }),
+            MediaInfoRow(R.drawable.contrast, stringResource(R.string.sample_rate), currentFormat?.sampleRate?.let { "$it Hz" }),
+            MediaInfoRow(
+                R.drawable.volume_up,
+                stringResource(R.string.loudness),
+                measuredLufs?.let { String.format(locale, "%.2f dB", it - targetLufs) },
+            ),
+            MediaInfoRow(R.drawable.volume_up, stringResource(R.string.loudness_level), loudnessLabel),
+            MediaInfoRow(
+                R.drawable.volume_mute,
+                stringResource(R.string.volume),
+                playerConnection?.let { "${(it.player.volume * 100).toInt()}%" },
+            ),
+            MediaInfoRow(
+                R.drawable.content_copy,
+                stringResource(R.string.file_size),
+                currentFormat?.contentLength?.let { Formatter.formatShortFileSize(context, it) },
+            ),
+        )
+    } else {
+        emptyList()
     }
+    return MediaInfoSections(general, information, info?.description, loaded = info != null)
+}
+
+/** Copies a detail to the clipboard, as tapping a row of the details does. */
+fun copyMediaInfo(context: Context, text: String) {
+    val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    cm.setPrimaryClip(ClipData.newPlainText("text", text))
+    Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
+}
+
+@Composable
+fun ShowMediaInfo(videoId: String) {
+    if (videoId.isBlank() || videoId.isEmpty()) return
+
+    val windowInsets = WindowInsets.systemBars
+    val context = LocalContext.current
+    val sections = rememberMediaInfoSections(videoId)
+    val unknown = stringResource(R.string.unknown)
 
     LazyColumn(
         state = rememberLazyListState(),
         modifier = Modifier
-            .padding(
-                windowInsets
-                    .asPaddingValues()
-            )
+            .padding(windowInsets.asPaddingValues())
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.background),
     ) {
-        if (info != null) {
+        if (sections.loaded) {
             item(contentType = "MediaDetails") {
                 Column {
-                    val baseList = listOf(
-                        stringResource(R.string.song_title) to (info?.title ?: song?.title),
-                        stringResource(R.string.song_artists) to (
-                            song?.artists?.joinToString {
-                                ArtistNameAliases.resolve(artistNameAliases, it.id, it.name)
-                            } ?: info?.author?.let {
-                                ArtistNameAliases.resolve(artistNameAliases, null, it)
-                            }
-                        ),
-                        stringResource(R.string.media_id) to (song?.id ?: info?.videoId)
-                    )
-
-                    val baseIconsList = listOf(
-                        R.drawable.music_note,
-                        R.drawable.person,
-                        R.drawable.media3_icon_bookmark_filled,
-                    )
-
-                    val iconsList = listOf(
-                        R.drawable.media3_icon_feed,
-                        R.drawable.media3_icon_thumb_up_unfilled,
-                        R.drawable.media3_icon_thumb_down_unfilled,
-                        R.drawable.key,
-                        R.drawable.play,
-                        R.drawable.info,
-                        R.drawable.radio,
-                        R.drawable.gradient,
-                        R.drawable.contrast,
-                        R.drawable.volume_up,
-                        R.drawable.volume_up,
-                        R.drawable.volume_mute,
-                        R.drawable.content_copy
-                    )
-
-                    val measuredLufs: Double? = currentFormat?.perceptualLoudnessDb ?: currentFormat?.loudnessDb?.let { it + LoudnessLevel.AGGRESSIVE.targetLufs }
-
-                    val extendedList = if (currentFormat != null) {
-                        listOf(
-                            stringResource(R.string.views) to info?.viewCount?.let(::numberFormatter).orEmpty(),
-                            stringResource(R.string.likes) to info?.like?.let(::numberFormatter).orEmpty(),
-                            stringResource(R.string.dislikes) to info?.dislike?.let(::numberFormatter).orEmpty(),
-                            "Itag" to currentFormat?.itag?.toString(),
-                            stringResource(R.string.stream_client) to currentStreamClient,
-                            stringResource(R.string.mime_type) to currentFormat?.mimeType,
-                            stringResource(R.string.codecs) to currentFormat?.codecs,
-                            stringResource(R.string.bitrate) to currentFormat?.bitrate?.let { "${it / 1000} Kbps" },
-                            stringResource(R.string.sample_rate) to currentFormat?.sampleRate?.let { "$it Hz" },
-                            stringResource(R.string.loudness) to measuredLufs?.let {
-                                String.format(LocalLocale.current.platformLocale, "%.2f dB", it - targetLufs)
-                            },
-                            stringResource(R.string.loudness_level) to getLoudnessLevelLabel(loudnessLevel),
-                            stringResource(R.string.volume) to if (playerConnection != null) "${(playerConnection.player.volume * 100).toInt()}%" else null,
-                            stringResource(R.string.file_size) to
-                                    currentFormat?.contentLength?.let {
-                                        Formatter.formatShortFileSize(
-                                            context,
-                                            it
-                                        )
-                                    },
-                        )
-                    } else {
-                        emptyList()
-                    }
-
-                    val cardsBaseList = mutableListOf<Material3SettingsItem>()
-                    val cardsExtendedList = mutableListOf<Material3SettingsItem>()
-                    val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-
-                    baseList.forEachIndexed { index, (label, text) ->
-                        val displayText = text ?: stringResource(R.string.unknown)
-                        cardsBaseList += Material3SettingsItem(
-                            title = { Text(label) },
-                            description = { Text(displayText) },
-                            icon = painterResource(baseIconsList[index]),
-                            onClick = {
-                                cm.setPrimaryClip(ClipData.newPlainText("text", displayText))
-                                Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
-                            },
+                    @Composable
+                    fun List<MediaInfoRow>.toItems() = map { row ->
+                        val text = row.value ?: unknown
+                        Material3SettingsItem(
+                            title = { Text(row.label) },
+                            description = { Text(text) },
+                            icon = painterResource(row.icon),
+                            onClick = { copyMediaInfo(context, text) },
                         )
                     }
 
-                    extendedList.forEachIndexed { index, (label, text) ->
-                        val displayText = text ?: stringResource(R.string.unknown)
-                        cardsExtendedList += Material3SettingsItem(
-                            title = { Text(label) },
-                            description = { Text(displayText) },
-                            icon = painterResource(iconsList[index]),
-                            onClick = {
-                                cm.setPrimaryClip(ClipData.newPlainText("text", displayText))
-                                Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
-                            },
-                        )
-                    }
-
-                    Material3SettingsGroup(
-                        title = stringResource(R.string.general),
-                        items = cardsBaseList
-                    )
-
+                    Material3SettingsGroup(title = stringResource(R.string.general), items = sections.general.toItems())
                     Spacer(Modifier.height(8.dp))
-
-                    Material3SettingsGroup(
-                        title = stringResource(R.string.information),
-                        items = cardsExtendedList
-                    )
-
+                    Material3SettingsGroup(title = stringResource(R.string.information), items = sections.information.toItems())
                     Spacer(Modifier.height(8.dp))
-
-                    val descriptionText = info?.description ?: stringResource(R.string.unknown)
-
+                    val descriptionText = sections.description ?: unknown
                     Material3SettingsGroup(
                         title = stringResource(R.string.description),
                         items = listOf(
                             Material3SettingsItem(
                                 title = { Text(stringResource(R.string.description)) },
                                 description = { Text(descriptionText) },
-                                onClick = {
-                                    cm.setPrimaryClip(ClipData.newPlainText("text", descriptionText))
-                                    Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
-                                }
-                            )
-                        )
+                                onClick = { copyMediaInfo(context, descriptionText) },
+                            ),
+                        ),
                     )
                 }
             }
@@ -256,7 +208,7 @@ fun ShowMediaInfo(videoId: String) {
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(all = 16.dp)
+                            .padding(all = 16.dp),
                     ) {
                         TextPlaceholder()
                     }

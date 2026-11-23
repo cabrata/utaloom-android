@@ -218,7 +218,7 @@ private fun buildIndex(context: Context): List<Entry> = buildList {
 
     // Player and audio
     val p = "settings/player"
-    e(R.drawable.graphic_eq, R.string.audio_quality, pl, p, "bitrate quality")
+    e(R.drawable.graphic_eq, R.string.audio_quality, pl, "settings", "bitrate quality wifi mobile data lossless")
     e(R.drawable.graphic_eq, R.string.crossfade, pl, p, "blend")
     e(R.drawable.graphic_eq, R.string.crossfade_duration, pl, p, "seconds")
     e(R.drawable.graphic_eq, R.string.crossfade_gapless, pl, p, "gapless")

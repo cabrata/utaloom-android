@@ -112,7 +112,6 @@ import com.metrolist.music.constants.AddToPlaylistPositionKey
 import com.metrolist.music.constants.AndroidAutoTargetPlaylistKey
 import com.metrolist.music.constants.AudioNormalizationKey
 import com.metrolist.music.constants.AudioOffload
-import com.metrolist.music.constants.AudioQualityKey
 import com.metrolist.music.constants.MusicAddonsKey
 import com.metrolist.music.constants.AudioTrackPlaybackParamsKey
 import com.metrolist.music.constants.AutoDownloadOnLikeKey
@@ -357,7 +356,11 @@ class MusicService :
     private val isNetworkConnected = MutableStateFlow(false)
     val currentStreamClient = MutableStateFlow<String?>(null)
 
-    private lateinit var audioQuality: com.metrolist.music.constants.AudioQuality
+    private var qualityPrefs = QualityPrefs()
+
+    /** What to stream at on the connection that is up right now. */
+    private val audioQuality: com.metrolist.music.constants.AudioQuality
+        get() = qualityPrefs.resolve(connectivityManager.isActiveNetworkMetered)
     @Volatile
     private var offlineMode = false
 
@@ -820,10 +823,7 @@ class MusicService :
         audioManager.registerAudioDeviceCallback(audioDeviceCallback, null)
         refreshAudioOutputDevices()
 
-        audioQuality = startupPrefs!![AudioQualityKey]?.let { value ->
-            if (value == "VERY_HIGH") com.metrolist.music.constants.AudioQuality.HIGH
-            else com.metrolist.music.constants.AudioQuality.entries.find { it.name == value }
-        } ?: com.metrolist.music.constants.AudioQuality.AUTO
+        qualityPrefs = QualityPrefs.from(startupPrefs!!)
         cachedEnableSongCache = startupPrefs!![EnableSongCacheKey] ?: true
         musicAddons = MusicAddons.decode(startupPrefs!![MusicAddonsKey])
         playerVolume = MutableStateFlow((startupPrefs!![PlayerVolumeKey] ?: 1f).coerceIn(0f, 1f))
@@ -868,15 +868,13 @@ class MusicService :
         var isFirstQualityEmit = true
         scope.launch {
             dataStore.data
-                .map {
-                    it[AudioQualityKey]?.let { value ->
-                        if (value == "VERY_HIGH") com.metrolist.music.constants.AudioQuality.HIGH
-                        else com.metrolist.music.constants.AudioQuality.entries.find { it.name == value }
-                    } ?: com.metrolist.music.constants.AudioQuality.AUTO
-                }.distinctUntilChanged()
-                .collect { newQuality ->
-                    val oldQuality = audioQuality
-                    audioQuality = newQuality
+                .map { QualityPrefs.from(it) }
+                .distinctUntilChanged()
+                .collect { newPrefs ->
+                    val metered = connectivityManager.isActiveNetworkMetered
+                    val oldQuality = qualityPrefs.resolve(metered)
+                    val newQuality = newPrefs.resolve(metered)
+                    qualityPrefs = newPrefs
 
                     if (isFirstQualityEmit) {
                         isFirstQualityEmit = false
@@ -884,6 +882,8 @@ class MusicService :
                         return@collect
                     }
 
+                    // The other connection's setting changed: nothing to reload for what is playing now.
+                    if (oldQuality == newQuality) return@collect
                     Timber.tag(TAG).i("QUALITY CHANGED: $oldQuality -> $newQuality")
 
                     val mediaId = player.currentMediaItem?.mediaId ?: return@collect
@@ -2098,7 +2098,8 @@ class MusicService :
             addonUpgradeAttempt === item || mediaId in refusedAddons ||
             metadata.isEpisode || metadata.isVideoSong || metadata.uploadEntityId != null ||
             downloadUtil.downloads.value[mediaId]?.state == Download.STATE_COMPLETED ||
-            musicAddons.none { it.enabled }
+            musicAddons.none { it.enabled } ||
+            !qualityPrefs.allowsAddons(connectivityManager.isActiveNetworkMetered)
         ) return
 
         cancelAddonUpgrade()

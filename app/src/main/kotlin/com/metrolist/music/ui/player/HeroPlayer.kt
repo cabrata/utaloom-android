@@ -1627,6 +1627,9 @@ fun HeroPlayerContent(
     val controlsShown = mode == HeroMode.Normal || lyricsControlsVisible
     var menuAnchor by remember { mutableStateOf<androidx.compose.ui.geometry.Rect?>(null) }
     var outputsOpen by remember { mutableStateOf(false) }
+    var detailsFor by remember { mutableStateOf<MediaMetadata?>(null) }
+    var detailsOpen by remember { mutableStateOf(false) }
+    var listenOpen by remember { mutableStateOf(false) }
     val openMenu: (androidx.compose.ui.geometry.Rect) -> Unit = { menuAnchor = it }
 
     val morphState = animateFloatAsState(
@@ -2027,7 +2030,17 @@ fun HeroPlayerContent(
                     .clickable(indication = null, interactionSource = null) { canvasControlsHidden = false },
             )
         }
-        HeroGlassMenu(metadata = mediaMetadata, anchor = menuAnchor, state = state, onDismiss = { menuAnchor = null })
+        HeroGlassMenu(
+            metadata = mediaMetadata,
+            anchor = menuAnchor,
+            state = state,
+            onDetails = {
+                detailsFor = it
+                detailsOpen = true
+            },
+            onListenTogether = { listenOpen = true },
+            onDismiss = { menuAnchor = null },
+        )
     }
     // Outside the recorded content: the drawer's glass refracts the player, never itself.
     HeroOutputDrawer(
@@ -2035,6 +2048,20 @@ fun HeroPlayerContent(
         thumbnailUrl = mediaMetadata?.thumbnailUrl,
         backdrop = backgroundBackdrop?.let { rememberCombinedBackdrop(it, contentBackdrop) },
         onDismiss = { outputsOpen = false },
+    )
+    val sheetBackdrop = backgroundBackdrop?.let { rememberCombinedBackdrop(it, contentBackdrop) }
+    HeroDetailsDrawer(
+        videoId = detailsFor?.id,
+        visible = detailsOpen && state.isExpanded,
+        thumbnailUrl = mediaMetadata?.thumbnailUrl,
+        backdrop = sheetBackdrop,
+        onDismiss = { detailsOpen = false },
+    )
+    HeroListenDrawer(
+        visible = listenOpen && state.isExpanded,
+        mediaMetadata = mediaMetadata,
+        backdrop = sheetBackdrop,
+        onDismiss = { listenOpen = false },
     )
     }
 }

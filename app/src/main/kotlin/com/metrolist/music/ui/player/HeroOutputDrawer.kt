@@ -108,10 +108,7 @@ import com.metrolist.music.ui.glass.backdrop.effects.blur
 import com.metrolist.music.ui.glass.backdrop.effects.colorControls
 import kotlin.math.roundToInt
 
-private val DrawerShape = RoundedCornerShape(topStart = 26.dp, topEnd = 26.dp)
-private val PopupShape = RoundedCornerShape(14.dp)
 private val RowShape = RoundedCornerShape(16.dp)
-private val GlassFill = Color(0xFF1C1C1E)
 
 /**
  * Opens the output drawer, asking for Bluetooth permission on the first tap. The permission only lets
@@ -188,142 +185,30 @@ private fun OutputDrawerBody(playerConnection: PlayerConnection, glass: Boolean,
 }
 
 /**
- * BitChord's output drawer for the Liquid Glass player: rises off the bottom edge over a scrim and drags
- * down to dismiss. With a [backdrop] of the player (Android 12+) it frosts the cover and controls behind
- * it as BitChord's menu does; otherwise it uses the cached cover blur. Drawn inside the player rather
- * than in a window so the frost sees what is behind it. The Audio Pipeline opens
- * over it as a card of the same material.
+ * The output drawer of the Liquid Glass player. The Audio Pipeline opens over it as a card of the same material.
  */
 @Composable
 internal fun HeroOutputDrawer(visible: Boolean, thumbnailUrl: String?, backdrop: Backdrop?, onDismiss: () -> Unit) {
     val playerConnection = LocalPlayerConnection.current ?: return
     var pipelineOpen by remember { mutableStateOf(false) }
-    BackHandler(enabled = visible) { if (pipelineOpen) pipelineOpen = false else onDismiss() }
-
-    val frost = rememberHeroFrost(thumbnailUrl)
-    var overlayPos by remember { mutableStateOf(Offset.Zero) }
-    var overlaySize by remember { mutableStateOf(IntSize.Zero) }
-    var panelOffset by remember { mutableStateOf(IntOffset.Zero) }
-    var drag by remember { mutableFloatStateOf(0f) }
-    var panelHeight by remember { mutableIntStateOf(0) }
-    val dragOffset by animateFloatAsState(drag, spring(stiffness = Spring.StiffnessMediumLow), label = "outputDrawerDrag")
-    LaunchedEffect(visible) {
-        if (!visible) {
-            pipelineOpen = false
-            drag = 0f
-        }
-    }
-
-    CompositionLocalProvider(LocalContentColor provides Color.White, LocalAppBackdrop provides backdrop) {
-        Box(
-            Modifier
-                .fillMaxSize()
-                .onGloballyPositioned {
-                    overlayPos = it.positionInWindow()
-                    overlaySize = it.size
-                },
-            contentAlignment = Alignment.BottomCenter,
-        ) {
-            AnimatedVisibility(visible, enter = fadeIn(tween(220)), exit = fadeOut(tween(180))) {
-                val fade = if (panelHeight > 0) (1f - dragOffset / panelHeight).coerceIn(0f, 1f) else 1f
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .background(Color.Black.copy(alpha = 0.5f * fade))
-                        .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null, onClick = onDismiss),
-                )
-            }
-            AnimatedVisibility(
-                visible = visible,
-                enter = slideInVertically(tween(260, easing = FastOutSlowInEasing)) { it },
-                exit = slideOutVertically(tween(180)) { it },
-            ) {
-                Column(
-                    Modifier
-                        .widthIn(max = 640.dp)
-                        .fillMaxWidth()
-                        .onSizeChanged { panelHeight = it.height }
-                        .offset { IntOffset(0, dragOffset.roundToInt()) }
-                        .onGloballyPositioned { panelOffset = (it.positionInWindow() - overlayPos).round() }
-                        .playerGlass(backdrop != null, DrawerShape, frost, { overlaySize }, { panelOffset })
-                        .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) {}
-                        .navigationBarsPadding()
-                        .padding(horizontal = 16.dp)
-                        .padding(bottom = 20.dp),
-                ) {
-                    // Only the header drags: the rows below scroll and would swallow the gesture anyway.
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .pointerInput(Unit) {
-                                detectVerticalDragGestures(
-                                    onDragEnd = { if (panelHeight > 0 && drag > panelHeight * 0.25f) onDismiss() else drag = 0f },
-                                    onDragCancel = { drag = 0f },
-                                ) { _, delta -> drag = (drag + delta).coerceAtLeast(0f) }
-                            }
-                            .padding(top = 10.dp, bottom = 14.dp),
-                    ) {
-                        Box(
-                            Modifier
-                                .padding(bottom = 12.dp)
-                                .size(width = 36.dp, height = 4.dp)
-                                .clip(CircleShape)
-                                .background(Color.White.copy(alpha = 0.25f)),
-                        )
-                        Text(
-                            text = stringResource(R.string.audio_output),
-                            color = Color.White,
-                            fontSize = 19.sp,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.fillMaxWidth().padding(start = 4.dp),
-                        )
-                    }
-                    OutputDrawerBody(playerConnection, glass = true, onOpenPipeline = { pipelineOpen = true })
-                }
-            }
+    LaunchedEffect(visible) { if (!visible) pipelineOpen = false }
+    HeroDrawer(
+        visible = visible,
+        title = stringResource(R.string.audio_output),
+        thumbnailUrl = thumbnailUrl,
+        backdrop = backdrop,
+        onDismiss = onDismiss,
+        onBack = { if (pipelineOpen) pipelineOpen = false else onDismiss() },
+        overlay = { frost, overlaySize, overlayPos ->
             if (pipelineOpen) {
-                PipelinePopup(playerConnection, backdrop != null, frost, { overlaySize }, overlayPos) { pipelineOpen = false }
+                PipelinePopup(playerConnection, backdrop != null, frost, overlaySize, overlayPos) { pipelineOpen = false }
             }
-        }
+        },
+    ) {
+        OutputDrawerBody(playerConnection, glass = true, onOpenPipeline = { pipelineOpen = true })
     }
 }
 
-/**
- * BitChord's menu frost (menuBackdropFrost): the player behind, blurred 24dp with its hue drawn up 1.8x,
- * under a charcoal slab at 80% and a hairline rim. No lens or highlight. Without a recorded backdrop
- * (below Android 12) the cached cover frost stands in.
- */
-@Composable
-private fun Modifier.playerGlass(
-    liveGlass: Boolean,
-    shape: RoundedCornerShape,
-    frost: HeroFrost,
-    overlaySize: () -> IntSize,
-    offset: () -> IntOffset,
-): Modifier {
-    val backdrop = LocalAppBackdrop.current
-    val material = if (liveGlass && backdrop != null) {
-        drawBackdrop(
-            backdrop = backdrop,
-            shape = { shape },
-            effects = {
-                colorControls(saturation = 1.8f)
-                blur(24.dp.toPx() * FROST_SCALE)
-            },
-            highlight = null,
-            shadow = null,
-            onDrawSurface = { drawRect(GlassFill.copy(alpha = 0.80f)) },
-            // Sampled small: the blur hides the upscale, and the effect runs over a fraction of the pixels.
-            backdropScale = FROST_SCALE,
-        ).clip(shape)
-    } else {
-        clip(shape).heroFrost(frost, overlaySize, offset)
-    }
-    return material.border(0.5.dp, Color.White.copy(alpha = 0.10f), shape)
-}
-
-private const val FROST_SCALE = 0.25f
 
 /** The pipeline card centred over the player, in the drawer's material. */
 @Composable

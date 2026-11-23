@@ -112,6 +112,10 @@ val UpdateNotificationsEnabledKey = booleanPreferencesKey("updateNotifications")
 
 val AudioQualityKey = stringPreferencesKey("audioQuality")
 
+/** Per-connection streaming quality; absent until chosen, then the legacy [AudioQualityKey] stands in. */
+val AudioQualityWifiKey = stringPreferencesKey("audioQualityWifi")
+val AudioQualityCellularKey = stringPreferencesKey("audioQualityCellular")
+
 val DownloadQualityKey = stringPreferencesKey("downloadQuality")
 val WifiOnlyDownloadsKey = booleanPreferencesKey("wifiOnlyDownloads")
 val OfflineModeKey = booleanPreferencesKey("offlineMode")

@@ -117,6 +117,15 @@ fun SettingsScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        Material3SettingsGroup(
+            title = stringResource(R.string.audio_quality),
+            items = rememberAudioQualityItems(
+                onOpenSources = { navController.navigate("settings/content/music_sources") },
+            ),
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         // Player & Content Section (moved up and combined with content)
         Material3SettingsGroup(
             title = stringResource(R.string.settings_section_player_content),
@@ -137,13 +146,6 @@ fun SettingsScreen(
                     targetKey = R.string.lyrics_providers,
                     description = { Text(stringResource(R.string.lyrics_provider_selection_desc)) },
                     onClick = { navController.navigate("settings/lyrics") }
-                ),
-                Material3SettingsItem(
-                    icon = painterResource(R.drawable.graphic_eq),
-                    title = { Text(stringResource(R.string.music_sources)) },
-                    targetKey = R.string.music_sources,
-                    description = { Text(stringResource(R.string.music_sources_selection_desc)) },
-                    onClick = { navController.navigate("settings/content/music_sources") }
                 ),
                 Material3SettingsItem(
                     icon = painterResource(R.drawable.translate),

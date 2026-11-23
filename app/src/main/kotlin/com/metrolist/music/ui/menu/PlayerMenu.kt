@@ -16,6 +16,11 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -62,6 +67,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -90,6 +96,7 @@ import com.metrolist.music.models.MediaMetadata
 import com.metrolist.music.playback.ExoDownloadService
 import com.metrolist.music.db.entities.Song
 import com.metrolist.music.db.entities.SpeedDialItem
+import com.metrolist.music.ui.theme.isUtaloomGlass
 import com.metrolist.music.ui.component.BottomSheetState
 import com.metrolist.music.ui.component.ListDialog
 import com.metrolist.music.ui.component.Material3MenuGroup
@@ -917,11 +924,32 @@ fun <T> ValueAdjuster(
     }
 }
 
+/**
+ * The colour that says how the connection is doing. On Liquid Glass the accents are white, so the state is told
+ * by green, amber and red instead; elsewhere the theme's own colours carry it.
+ */
+@Composable
+private fun listenStatusColor(state: ConnectionState): Color {
+    val glass = isUtaloomGlass
+    return when (state) {
+        ConnectionState.CONNECTED -> if (glass) Color(0xFF34C759) else MaterialTheme.colorScheme.primary
+        ConnectionState.CONNECTING, ConnectionState.RECONNECTING ->
+            if (glass) Color(0xFFFFB340) else MaterialTheme.colorScheme.secondary
+        ConnectionState.ERROR -> MaterialTheme.colorScheme.error
+        ConnectionState.DISCONNECTED -> MaterialTheme.colorScheme.onSurfaceVariant
+    }
+}
+
+/** Where the dialog's lazy list is drawn: a dialog by default, or the Liquid Glass player's drawer. */
+typealias ListenTogetherHost = @Composable (onDismiss: () -> Unit, content: LazyListScope.() -> Unit) -> Unit
+
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ListenTogetherDialog(
     visible: Boolean,
     mediaMetadata: MediaMetadata?,
     onDismiss: () -> Unit,
+    host: ListenTogetherHost = { dismiss, content -> ListDialog(onDismiss = dismiss, content = content) },
 ) {
     if (!visible) return
 
@@ -931,7 +959,7 @@ fun ListenTogetherDialog(
 
     // Handle case where manager is not available
     if (listenTogetherManager == null) {
-        ListDialog(onDismiss = onDismiss) {
+        host(onDismiss) {
             item {
                 Column(
                     modifier =
@@ -1003,12 +1031,10 @@ fun ListenTogetherDialog(
 
     // User action menu dialog
     if (selectedUserForMenu != null && selectedUsername != null) {
-        ListDialog(
-            onDismiss = {
-                selectedUserForMenu = null
-                selectedUsername = null
-            },
-        ) {
+        host({
+            selectedUserForMenu = null
+            selectedUsername = null
+        }) {
             item {
                 Row(
                     modifier =
@@ -1235,7 +1261,7 @@ fun ListenTogetherDialog(
     val isInRoom = listenTogetherManager.isInRoom
     val isHost = roomState?.hostId == userId
 
-    ListDialog(onDismiss = onDismiss) {
+    host(onDismiss) {
         // Header - Icon on left, text left-aligned
         item {
             Row(
@@ -1277,10 +1303,8 @@ fun ListenTogetherDialog(
                 shape = RoundedCornerShape(16.dp),
                 color =
                     when (connectionState) {
-                        ConnectionState.CONNECTED -> MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
-                        ConnectionState.CONNECTING, ConnectionState.RECONNECTING -> MaterialTheme.colorScheme.secondary.copy(alpha = 0.15f)
-                        ConnectionState.ERROR -> MaterialTheme.colorScheme.error.copy(alpha = 0.15f)
                         ConnectionState.DISCONNECTED -> MaterialTheme.colorScheme.surfaceVariant
+                        else -> listenStatusColor(connectionState).copy(alpha = 0.15f)
                     },
             ) {
                 Column(
@@ -1298,10 +1322,8 @@ fun ListenTogetherDialog(
                                     .background(
                                         color =
                                             when (connectionState) {
-                                                ConnectionState.CONNECTED -> MaterialTheme.colorScheme.primary
-                                                ConnectionState.CONNECTING, ConnectionState.RECONNECTING -> MaterialTheme.colorScheme.secondary
-                                                ConnectionState.ERROR -> MaterialTheme.colorScheme.error
                                                 ConnectionState.DISCONNECTED -> MaterialTheme.colorScheme.outline
+                                                else -> listenStatusColor(connectionState)
                                             },
                                         shape = RoundedCornerShape(50),
                                     ),
@@ -1320,10 +1342,8 @@ fun ListenTogetherDialog(
                             fontWeight = FontWeight.SemiBold,
                             color =
                                 when (connectionState) {
-                                    ConnectionState.CONNECTED -> MaterialTheme.colorScheme.primary
-                                    ConnectionState.CONNECTING, ConnectionState.RECONNECTING -> MaterialTheme.colorScheme.secondary
-                                    ConnectionState.ERROR -> MaterialTheme.colorScheme.error
                                     ConnectionState.DISCONNECTED -> MaterialTheme.colorScheme.onSurfaceVariant
+                                    else -> listenStatusColor(connectionState)
                                 },
                         )
                     }
@@ -1431,9 +1451,10 @@ fun ListenTogetherDialog(
                                     remember(room.roomCode) {
                                         "utaloom://listen?code=${room.roomCode}"
                                     }
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
+                                FlowRow(
+                                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                                    modifier = Modifier.fillMaxWidth(),
                                 ) {
                                     FilledTonalButton(
                                         onClick = {
@@ -1454,8 +1475,6 @@ fun ListenTogetherDialog(
                                         Spacer(modifier = Modifier.width(8.dp))
                                         Text(stringResource(R.string.copy_link))
                                     }
-
-                                    Spacer(modifier = Modifier.width(8.dp))
 
                                     FilledTonalButton(
                                         onClick = {
@@ -1504,7 +1523,7 @@ fun ListenTogetherDialog(
 
                         // Horizontal scrollable row for users
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
                         ) {
                             connectedUsers.forEach { user ->

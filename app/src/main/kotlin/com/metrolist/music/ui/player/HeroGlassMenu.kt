@@ -108,12 +108,9 @@ import com.metrolist.music.listentogether.RoomRole
 import com.metrolist.music.models.MediaMetadata
 import com.metrolist.music.playback.ExoDownloadService
 import com.metrolist.music.ui.component.BottomSheetState
-import com.metrolist.music.ui.component.LocalBottomSheetPageState
 import com.metrolist.music.ui.menu.AddToPlaylistDialog
-import com.metrolist.music.ui.menu.ListenTogetherDialog
 import com.metrolist.music.ui.menu.SpeedDialog
 import com.metrolist.music.ui.menu.TempoPitchDialog
-import com.metrolist.music.ui.utils.ShowMediaInfo
 import com.metrolist.music.utils.makeTimeString
 import com.metrolist.music.utils.rememberPreference
 import kotlinx.coroutines.Dispatchers
@@ -147,6 +144,8 @@ internal fun HeroGlassMenu(
     metadata: MediaMetadata?,
     anchor: Rect?,
     state: BottomSheetState,
+    onDetails: (MediaMetadata) -> Unit,
+    onListenTogether: () -> Unit,
     onDismiss: () -> Unit,
 ) {
     val open = anchor != null && metadata != null
@@ -201,7 +200,7 @@ internal fun HeroGlassMenu(
                 propagateMinConstraints = true,
             ) {
                 Column(Modifier.verticalScroll(rememberScrollState()).padding(vertical = 8.dp)) {
-                    HeroMenuItems(item, state, onDismiss, onDialog = { dialog = it to item })
+                    HeroMenuItems(item, state, onDismiss, onDetails, onListenTogether, onDialog = { dialog = it to item })
                 }
             }
         },
@@ -238,7 +237,7 @@ internal fun HeroGlassMenu(
     }
 }
 
-private enum class HeroMenuDialog { Playlist, ListenTogether, Artist, Tempo, Speed, SleepTimer, SaveQueue }
+private enum class HeroMenuDialog { Playlist, Artist, Tempo, Speed, SleepTimer, SaveQueue }
 
 @Composable
 private fun HeroMenuDialogs(metadata: MediaMetadata, dialog: HeroMenuDialog?, state: BottomSheetState, close: () -> Unit) {
@@ -256,7 +255,6 @@ private fun HeroMenuDialogs(metadata: MediaMetadata, dialog: HeroMenuDialog?, st
         onGetSongIds = { listOf(metadata.id) },
         onDismiss = close,
     )
-    ListenTogetherDialog(visible = dialog == HeroMenuDialog.ListenTogether, mediaMetadata = metadata, onDismiss = close)
     when (dialog) {
         HeroMenuDialog.Tempo -> TempoPitchDialog(onDismiss = close)
         HeroMenuDialog.Speed -> SpeedDialog(onDismiss = close)
@@ -299,6 +297,8 @@ private fun HeroMenuItems(
     metadata: MediaMetadata,
     state: BottomSheetState,
     onDismiss: () -> Unit,
+    onDetails: (MediaMetadata) -> Unit,
+    onListenTogether: () -> Unit,
     onDialog: (HeroMenuDialog) -> Unit,
 ) {
     val context = LocalContext.current
@@ -306,7 +306,6 @@ private fun HeroMenuItems(
     val navController = LocalNavController.current
     val playerConnection = LocalPlayerConnection.current ?: return
     val downloadUtil = LocalDownloadUtil.current
-    val bottomSheetPageState = LocalBottomSheetPageState.current
     val scope = rememberCoroutineScope()
     val listenTogether = LocalListenTogetherManager.current
     val role by listenTogether?.role?.collectAsStateWithLifecycle(initialValue = RoomRole.NONE)
@@ -399,7 +398,7 @@ private fun HeroMenuItems(
     }
     Separator()
     MenuRow(R.drawable.group, stringResource(R.string.listen_together)) {
-        onDialog(HeroMenuDialog.ListenTogether)
+        onListenTogether()
         onDismiss()
     }
     if (guest) {
@@ -421,7 +420,7 @@ private fun HeroMenuItems(
         onDismiss()
     }
     MenuRow(R.drawable.info, stringResource(R.string.details)) {
-        bottomSheetPageState.show { ShowMediaInfo(metadata.id) }
+        onDetails(metadata)
         onDismiss()
     }
     MenuRow(R.drawable.equalizer, stringResource(R.string.equalizer)) { go("equalizer") }

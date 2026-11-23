@@ -171,7 +171,7 @@
     <string name="lyrics_provider_move_down">Move %1$s down</string>
     <string name="music_sources">Music sources</string>
     <string name="music_sources_selection_desc">Start with YouTube Music and upgrade audio with add-ons</string>
-    <string name="music_sources_desc">Playback starts on YouTube Music. Enabled add-ons are checked in order for a higher-quality match by title, artist, and length. Tap an add-on to copy its link.</string>
+    <string name="music_sources_desc">Playback starts on YouTube Music. Enabled add-ons are checked in order for a higher-quality match by title, artist, and length. Tap an add-on to edit or test it, and drag its handle to set the order.</string>
     <string name="music_source_youtube_desc">Starts playback</string>
     <string name="music_source_always_on">Always on</string>
     <string name="music_source_add">Add an add-on</string>
@@ -181,6 +181,11 @@
     <string name="music_source_remove">Remove %1$s</string>
     <string name="music_source_quality">Quality: %1$s</string>
     <string name="music_source_working">Working</string>
+    <string name="music_source_edit">Edit add-on</string>
+    <string name="music_source_test">Test</string>
+    <string name="music_source_testing">Testing…</string>
+    <string name="music_source_remove_action">Remove add-on</string>
+    <string name="drag_to_reorder">Drag to reorder</string>
     <string name="audio_quality_lossless">Lossless</string>
     <string name="audio_quality_hires_lossless">Hi-Res Lossless</string>
     <string name="audio_quality_dolby_atmos">Dolby Atmos</string>
@@ -1262,4 +1267,10 @@
     <string name="pipeline_direct_supported">Supported (mixed by Android)</string>
     <string name="pipeline_direct_unsupported">Not supported (mixed path)</string>
     <string name="pipeline_device_capability">Device Capability</string>
+    <string name="audio_quality_on_wifi">On Wi-Fi</string>
+    <string name="audio_quality_on_mobile_data">On mobile data</string>
+    <string name="audio_quality_in_use">In use</string>
+    <string name="audio_quality_lossless_detail">Your add-ons, bit-exact where available · 300+ MB/hr</string>
+    <string name="audio_quality_high_detail">Best YouTube stream, up to ~256 kbps · 115 MB/hr</string>
+    <string name="audio_quality_low_detail">~64 kbps · smallest download · 29 MB/hr</string>
 </resources>
