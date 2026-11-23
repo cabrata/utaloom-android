@@ -43,7 +43,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -58,7 +61,9 @@ import com.metrolist.music.ui.glass.GLASS_EDGE_COLOR
 import com.metrolist.music.ui.glass.GLASS_EDGE_WIDTH
 import com.metrolist.music.ui.glass.glassActive
 import com.metrolist.music.ui.glass.continuous
-import com.metrolist.music.ui.glass.liquidGlass
+import com.metrolist.music.ui.glass.LocalAppBackdrop
+import com.metrolist.music.ui.glass.backdrop.drawBackdrop
+import com.metrolist.music.ui.glass.backdrop.effects.blur
 import com.metrolist.music.utils.SavedAccount
 import com.metrolist.music.utils.activateAccount
 import com.metrolist.music.utils.activeAccount
@@ -73,6 +78,33 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 private val CardShape = RoundedCornerShape(28.dp).continuous()
+
+private const val FROST_SCALE = 0.25f
+
+/**
+ * BitChord's account card material: the page behind it blurred under a surface wash and a dark (or, on a
+ * light theme, white) veil. No lens, highlight or shadow, so the card stays quiet over busy covers.
+ */
+@Composable
+private fun Modifier.accountFrost(): Modifier {
+    val surface = MaterialTheme.colorScheme.surface
+    val backdrop = LocalAppBackdrop.current
+        ?: return clip(CardShape).background(MaterialTheme.colorScheme.surfaceContainerHigh)
+    val veil = if (surface.luminance() < 0.5f) Color.Black.copy(alpha = 0.38f) else Color.White.copy(alpha = 0.40f)
+    val blurPx = with(LocalDensity.current) { 24.dp.toPx() } * FROST_SCALE
+    return drawBackdrop(
+        backdrop = backdrop,
+        shape = { CardShape },
+        effects = { blur(blurPx) },
+        highlight = null,
+        shadow = null,
+        onDrawSurface = {
+            drawRect(surface.copy(alpha = 0.60f))
+            drawRect(veil)
+        },
+        backdropScale = FROST_SCALE,
+    ).clip(CardShape)
+}
 
 /**
  * The top-bar avatar's account card: every saved YouTube Music login with the active one ticked,
@@ -134,7 +166,7 @@ fun AccountSwitcher(
                 .fillMaxWidth()
                 .then(
                     if (glass) {
-                        Modifier.liquidGlass(CardShape)
+                        Modifier.accountFrost()
                     } else {
                         Modifier.clip(CardShape).background(MaterialTheme.colorScheme.surfaceContainerHigh)
                     },
