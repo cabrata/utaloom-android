@@ -97,4 +97,12 @@ class LyricsCommonTest {
         assertEquals(5.5, sungChars("konnichiwa", words, 550), 1e-9)
     }
 
+    @Test
+    fun testIsRtlText() {
+        assertEquals(true, isRtlText("يا حبيبي، يا شفيعي، يا رسول الله"))
+        assertEquals(true, isRtlText("(صلّى الله على خاتَمِ الأنبياء)"))
+        assertEquals(true, isRtlText("Ya يا حبيبي"))
+        assertEquals(false, isRtlText("Ya Habibi, Ya Muhammad"))
+        assertEquals(false, isRtlText(""))
+    }
 }

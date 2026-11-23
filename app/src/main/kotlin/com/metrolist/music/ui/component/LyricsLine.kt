@@ -65,6 +65,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.text.style.ResolvedTextDirection
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
@@ -128,40 +129,38 @@ internal fun LyricsLine(
             bottom = if (item.isBackground) 2.dp else 12.dp // simplified gap logic
         )
 
-    val agentAlignment = when {
-        respectAgentPositioning && item.agent == "v1" -> Alignment.Start
-        respectAgentPositioning && item.agent == "v2" -> Alignment.End
-        respectAgentPositioning && item.agent == "v1000" -> Alignment.CenterHorizontally
-        item.isBackground -> Alignment.CenterHorizontally
-        else -> when (lyricsTextPosition) {
-            LyricsPosition.LEFT -> Alignment.Start
-            LyricsPosition.CENTER -> Alignment.CenterHorizontally
-            LyricsPosition.RIGHT -> Alignment.End
+    // RTL lines (Arabic, Hebrew) mirror left/right, duet lanes included, so they hug the side they are read from.
+    val textPosition = remember(item.text, item.agent, item.isBackground, lyricsTextPosition, respectAgentPositioning) {
+        val side = when {
+            respectAgentPositioning && item.agent == "v1" -> LyricsPosition.LEFT
+            respectAgentPositioning && item.agent == "v2" -> LyricsPosition.RIGHT
+            respectAgentPositioning && item.agent == "v1000" -> LyricsPosition.CENTER
+            item.isBackground -> LyricsPosition.CENTER
+            else -> lyricsTextPosition
         }
-    }
-    
-    val agentTextAlign = when {
-        respectAgentPositioning && item.agent == "v1" -> TextAlign.Left
-        respectAgentPositioning && item.agent == "v2" -> TextAlign.Right
-        respectAgentPositioning && item.agent == "v1000" -> TextAlign.Center
-        item.isBackground -> TextAlign.Center
-        else -> when (lyricsTextPosition) {
-            LyricsPosition.LEFT -> TextAlign.Left
-            LyricsPosition.CENTER -> TextAlign.Center
-            LyricsPosition.RIGHT -> TextAlign.Right
+        if (!isRtlText(item.text)) side else when (side) {
+            LyricsPosition.LEFT -> LyricsPosition.RIGHT
+            LyricsPosition.RIGHT -> LyricsPosition.LEFT
+            LyricsPosition.CENTER -> LyricsPosition.CENTER
         }
     }
 
-    Box(modifier = itemModifier, contentAlignment = when {
-        respectAgentPositioning && item.agent == "v1" -> Alignment.CenterStart
-        respectAgentPositioning && item.agent == "v2" -> Alignment.CenterEnd
-        item.isBackground -> Alignment.Center
-        respectAgentPositioning && item.agent == "v1000" -> Alignment.Center
-        else -> when (lyricsTextPosition) {
-            LyricsPosition.LEFT -> Alignment.CenterStart
-            LyricsPosition.RIGHT -> Alignment.CenterEnd
-            LyricsPosition.CENTER -> Alignment.Center
-        }
+    val agentAlignment = when (textPosition) {
+        LyricsPosition.LEFT -> Alignment.Start
+        LyricsPosition.CENTER -> Alignment.CenterHorizontally
+        LyricsPosition.RIGHT -> Alignment.End
+    }
+
+    val agentTextAlign = when (textPosition) {
+        LyricsPosition.LEFT -> TextAlign.Left
+        LyricsPosition.CENTER -> TextAlign.Center
+        LyricsPosition.RIGHT -> TextAlign.Right
+    }
+
+    Box(modifier = itemModifier, contentAlignment = when (textPosition) {
+        LyricsPosition.LEFT -> Alignment.CenterStart
+        LyricsPosition.RIGHT -> Alignment.CenterEnd
+        LyricsPosition.CENTER -> Alignment.Center
     }) {
         @Composable
         fun LyricContent() {
@@ -397,6 +396,7 @@ private fun WordLevelLyrics(
                 words.forEachIndexed { idx, word ->
                     val boxes = wordBoxes[idx]
                     if (boxes.isEmpty()) return@forEachIndexed
+                    val rtl = layoutResult.getBidiRunDirection(wordRanges[idx]!!.first) == ResolvedTextDirection.Rtl
                     val t0 = word.startTime * 1000
                     val dur = ((word.endTime - word.startTime) * 1000).coerceAtLeast(50.0)
                     val p = ((smoothPosition - t0) / dur).coerceIn(0.0, 1.0).toFloat()
@@ -417,20 +417,25 @@ private fun WordLevelLyrics(
                         val local = ((p * total - before) / box.width).coerceIn(0f, 1f)
                         before += box.width
                         val edge = maxOf(10.dp.toPx(), box.width * 0.25f)
-                        val gx = box.left - edge + (box.width + edge * 2) * local
+                        val sweep = (box.width + edge * 2) * local
+                        val gx = if (rtl) box.right + edge - sweep else box.left - edge + sweep
                         val brush = when {
                             local >= 1f -> SolidColor(expressiveAccent)
                             local <= 0f -> SolidColor(pending)
                             else -> Brush.horizontalGradient(
-                                0f to expressiveAccent, 1f to pending,
+                                0f to (if (rtl) pending else expressiveAccent),
+                                1f to (if (rtl) expressiveAccent else pending),
                                 startX = gx - edge, endX = gx + edge,
                             )
                         }
                         if (glow > 0.01f) {
                             // Native blur-mask glow of just this word's slice, so neighbours never glow.
                             val line = layoutResult.getLineForVerticalPosition(box.center.y)
-                            val start = layoutResult.getOffsetForPosition(Offset(box.left + 1f, box.center.y))
-                            val end = layoutResult.getOffsetForPosition(Offset(box.right - 1f, box.center.y)) + 1
+                            val a = layoutResult.getOffsetForPosition(Offset(box.left + 1f, box.center.y))
+                            val b = layoutResult.getOffsetForPosition(Offset(box.right - 1f, box.center.y))
+                            // RTL scripts (Arabic) put the later offset on the left edge.
+                            val start = minOf(a, b)
+                            val end = maxOf(a, b) + 1
                             glowPaint.textSize = lyricStyle.fontSize.toPx()
                             // One filter per whole pixel of radius, reused: a new native blur every frame per word was the costliest part of a held note.
                             val radius = (18.dp.toPx() * glow).roundToInt().coerceAtLeast(1)

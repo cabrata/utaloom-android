@@ -86,6 +86,16 @@ internal fun IntervalIndicator(
 
 private val RomanizedToken = Regex("\\S+")
 
+/** True when [text] has more right-to-left letters (Arabic, Hebrew) than left-to-right ones, as BitChord decides. */
+internal fun isRtlText(text: String): Boolean {
+    var balance = 0
+    for (ch in text) when (Character.getDirectionality(ch)) {
+        Character.DIRECTIONALITY_RIGHT_TO_LEFT, Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC -> balance++
+        Character.DIRECTIONALITY_LEFT_TO_RIGHT -> balance--
+    }
+    return balance > 0
+}
+
 /**
  * How many characters of [text] (a lyric line or its romanization) have been sung at [currentPositionMs],
  * as a fraction so the wipe glides through a character instead of stepping; -1 before the line starts.

@@ -11,6 +11,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import kotlin.random.Random
 import androidx.compose.ui.res.stringArrayResource
 import com.metrolist.music.ui.component.drawSungText
+import com.metrolist.music.ui.component.isRtlText
 import com.metrolist.music.ui.component.sungChars
 import com.metrolist.music.lyrics.LyricClock
 import com.metrolist.music.lyrics.LyricsTranslationHelper
@@ -772,52 +773,58 @@ fun HeroLyricPreview(
         }
     }
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.clickable(indication = null, interactionSource = null, onClick = onClick),
-    ) {
-        AnimatedContent(
-            targetState = slot,
-            transitionSpec = {
-                // BitChord's strip: the next line slides up while the old one fades and slides away.
-                (fadeIn(tween(340, easing = FastOutSlowInEasing)) +
-                    slideInVertically(tween(340, easing = FastOutSlowInEasing)) { (it * 0.35f).toInt() }) togetherWith
-                    (fadeOut(tween(340, easing = FastOutSlowInEasing)) +
-                        slideOutVertically(tween(340, easing = FastOutSlowInEasing)) { -(it * 0.35f).toInt() })
-            },
-            label = "heroLyricLine",
-            modifier = Modifier.weight(1f, fill = false),
-        ) { shown ->
-            val entry = lines.getOrNull(shown)
-            if (entry != null) {
-                // No icon on sung lines, so the words get the full width.
-                HeroKaraokeText(entry = entry, positionMs = { smooth.longValue })
-            } else {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        painter = painterResource(R.drawable.music_note),
-                        contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier.size(18.dp),
-                    )
-                    Spacer(Modifier.width(8.dp))
-                    Text(
-                        text = if (shown == PREVIEW_INTRO) introLines[introPick % introLines.size]
-                        else stringResource(R.string.lyrics_instrumental),
-                        color = Color.White,
-                        style = PreviewLyricStyle,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
+    // As in BitChord, an RTL line flips the whole strip: text flush right, the (auto-mirrored) arrow on its left.
+    val rtl = lines.getOrNull(slot)?.text?.let(::isRtlText) == true
+    CompositionLocalProvider(LocalLayoutDirection provides if (rtl) LayoutDirection.Rtl else LayoutDirection.Ltr) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
+                .then(if (rtl) Modifier.fillMaxWidth() else Modifier)
+                .clickable(indication = null, interactionSource = null, onClick = onClick),
+        ) {
+            AnimatedContent(
+                targetState = slot,
+                transitionSpec = {
+                    // BitChord's strip: the next line slides up while the old one fades and slides away.
+                    (fadeIn(tween(340, easing = FastOutSlowInEasing)) +
+                        slideInVertically(tween(340, easing = FastOutSlowInEasing)) { (it * 0.35f).toInt() }) togetherWith
+                        (fadeOut(tween(340, easing = FastOutSlowInEasing)) +
+                            slideOutVertically(tween(340, easing = FastOutSlowInEasing)) { -(it * 0.35f).toInt() })
+                },
+                label = "heroLyricLine",
+                modifier = Modifier.weight(1f, fill = false),
+            ) { shown ->
+                val entry = lines.getOrNull(shown)
+                if (entry != null) {
+                    // No icon on sung lines, so the words get the full width.
+                    HeroKaraokeText(entry = entry, positionMs = { smooth.longValue })
+                } else {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            painter = painterResource(R.drawable.music_note),
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier.size(18.dp),
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            text = if (shown == PREVIEW_INTRO) introLines[introPick % introLines.size]
+                            else stringResource(R.string.lyrics_instrumental),
+                            color = Color.White,
+                            style = PreviewLyricStyle,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
                 }
             }
+            Icon(
+                painter = painterResource(R.drawable.navigate_next),
+                contentDescription = stringResource(R.string.lyrics),
+                tint = Color.White.copy(alpha = 0.7f),
+                modifier = Modifier.size(22.dp),
+            )
         }
-        Icon(
-            painter = painterResource(R.drawable.navigate_next),
-            contentDescription = stringResource(R.string.lyrics),
-            tint = Color.White.copy(alpha = 0.7f),
-            modifier = Modifier.size(22.dp),
-        )
     }
 }
 
