@@ -60,6 +60,7 @@ fun GlassDetailHeader(
     artistText: String = "",
     metadataText: String = "",
     thumbnailUrl: String? = null,
+    artwork: (@Composable () -> Unit)? = null,
     onPlay: () -> Unit,
     onShuffle: (() -> Unit)? = null,
     onLikeClick: (() -> Unit)? = null,
@@ -75,23 +76,27 @@ fun GlassDetailHeader(
             .padding(vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        // Artwork container with continuous corners
-        Surface(
-            modifier = Modifier
-                .size(ARTWORK_SIZE)
-                .shadow(
-                    elevation = 12.dp,
-                    shape = GlassShapes.ArtworkLarge,
-                ),
-            shape = GlassShapes.ArtworkLarge,
-            color = MaterialTheme.colorScheme.surfaceVariant,
-        ) {
-            AsyncImage(
-                model = thumbnailUrl,
-                contentDescription = title,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(),
-            )
+        if (artwork != null) {
+            artwork()
+        } else {
+            // Artwork container with continuous corners
+            Surface(
+                modifier = Modifier
+                    .size(ARTWORK_SIZE)
+                    .shadow(
+                        elevation = 12.dp,
+                        shape = GlassShapes.ArtworkLarge,
+                    ),
+                shape = GlassShapes.ArtworkLarge,
+                color = MaterialTheme.colorScheme.surfaceVariant,
+            ) {
+                AsyncImage(
+                    model = thumbnailUrl,
+                    contentDescription = title,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(20.dp))
