@@ -1135,4 +1135,47 @@
     <string name="audio_quality_lossless_detail">Je add-ons, bitperfect waar beschikbaar · 300+ MB/uur</string>
     <string name="audio_quality_high_detail">Beste YouTube-stream, tot ~256 kbps · 115 MB/uur</string>
     <string name="audio_quality_low_detail">~64 kbps · kleinste download · 29 MB/uur</string>
+    <string name="encore_story_opener">Uw %1$d in Utaloom</string>
+    <string name="encore_story_opener_detail">Laten we terugkijken naar wat u hebt beluisterd.</string>
+    <string name="encore_story_minutes_start">Dit jaar hebt u geluisterd naar</string>
+    <string name="encore_story_minutes_days">Dat zijn %1$s dagen muziek.</string>
+    <string name="encore_story_minutes_hours">Dat zijn %1$s uren muziek.</string>
+    <string name="encore_story_busiest_start">Uw drukste dag was</string>
+    <string name="encore_story_busiest_minutes">%1$s minuten muziek in één dag</string>
+    <string name="encore_story_clock_start">U was wakker rond</string>
+    <string name="encore_story_night_owl">Night Owl</string>
+    <string name="encore_story_night_owl_detail">Veel van uw luisteren gebeurde na 22 uur.</string>
+    <string name="encore_story_early_bird">Early Riser</string>
+    <string name="encore_story_early_bird_detail">Uw dag begon met muziek voor 10 uur \'s ochtends.</string>
+    <string name="encore_story_golden_hour">Golden Hour</string>
+    <string name="encore_story_golden_hour_detail">Avonden waren wanneer de muziek eruit kwam.</string>
+    <string name="encore_story_daytime">Daytime Drifter</string>
+    <string name="encore_story_daytime_detail">U hield de muziek de hele dag aan.</string>
+    <string name="encore_story_all_day">Around the Clock</string>
+    <string name="encore_story_all_day_detail">Ochtend, middag of nacht, er speelde altijd iets.</string>
+    <string name="encore_story_artist_start">Uw topartiest dit jaar was…</string>
+    <string name="encore_story_top_artists">Uw favoriete artiesten</string>
+    <string name="encore_story_song_start">En uw nummer van het jaar…</string>
+    <string name="encore_story_top_songs">De rest van uw favoriete nummers</string>
+    <string name="encore_story_albums">Albums waar u in leefde</string>
+    <string name="encore_story_months">Uw jaar, maand voor maand</string>
+    <string name="encore_story_months_peak">%1$s was uw drukste maand</string>
+    <string name="encore_story_discovery_start">Dit jaar hebt u ontdekt</string>
+    <string name="encore_story_summary_title">Uw %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">minuut</item>
+        <item quantity="other">minuten</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">nummer</item>
+        <item quantity="other">nummers</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">artiest</item>
+        <item quantity="other">artiesten</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">album</item>
+        <item quantity="other">albums</item>
+    </plurals>
 </resources>

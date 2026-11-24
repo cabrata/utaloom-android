@@ -1158,4 +1158,63 @@
     <string name="audio_quality_lossless_detail">إضافاتك، مطابقة للبت حيثما توفرت · أكثر من 300 MB/ساعة</string>
     <string name="audio_quality_high_detail">أفضل بث YouTube، حتى ~256 kbps · 115 MB/ساعة</string>
     <string name="audio_quality_low_detail">~64 kbps · أصغر تنزيل · 29 MB/ساعة</string>
+    <string name="encore_story_opener">سنتك في Utaloom: %1$d</string>
+    <string name="encore_story_opener_detail">دعنا نعود للخلف لنشاهد ما استمعت له.</string>
+    <string name="encore_story_minutes_start">هذا العام استمعت لـ</string>
+    <string name="encore_story_minutes_days">هذا يعادل %1$s أيام من الموسيقى.</string>
+    <string name="encore_story_minutes_hours">هذا يعادل %1$s ساعات من الموسيقى.</string>
+    <string name="encore_story_busiest_start">أكثر يوم مشغول لك كان</string>
+    <string name="encore_story_busiest_minutes">%1$s دقيقة من الموسيقى في يوم واحد</string>
+    <string name="encore_story_clock_start">كنت في أفضل حالاتك حول</string>
+    <string name="encore_story_night_owl">Night Owl</string>
+    <string name="encore_story_night_owl_detail">معظم استماعك حدث بعد الساعة 10 مساءً.</string>
+    <string name="encore_story_early_bird">Early Riser</string>
+    <string name="encore_story_early_bird_detail">بدأت أيامك مع الموسيقى قبل الساعة 10 صباحًا.</string>
+    <string name="encore_story_golden_hour">Golden Hour</string>
+    <string name="encore_story_golden_hour_detail">المساء كان وقت الموسيقى بالنسبة لك.</string>
+    <string name="encore_story_daytime">Daytime Drifter</string>
+    <string name="encore_story_daytime_detail">استمعت للموسيقى طوال اليوم.</string>
+    <string name="encore_story_all_day">Around the Clock</string>
+    <string name="encore_story_all_day_detail">صباحًا أو ظهرًا أو مساءً، كانت هناك موسيقى تعزف.</string>
+    <string name="encore_story_artist_start">فنانك المفضل هذا العام كان…</string>
+    <string name="encore_story_top_artists">أفضل فنانيك</string>
+    <string name="encore_story_song_start">وأغنيتك المفضلة للعام…</string>
+    <string name="encore_story_top_songs">بقية أفضل أغانيك</string>
+    <string name="encore_story_albums">الألبومات التي عشت فيها</string>
+    <string name="encore_story_months">سنتك، شهرًا تلو الآخر</string>
+    <string name="encore_story_months_peak">%1$s كان أكثر أشهرك مشغولاً</string>
+    <string name="encore_story_discovery_start">هذا العام استكشفت</string>
+    <string name="encore_story_summary_title">سنتك: %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="zero">دقائق</item>
+        <item quantity="one">دقيقة</item>
+        <item quantity="two">دقيقتان</item>
+        <item quantity="few">دقائق</item>
+        <item quantity="many">دقيقة</item>
+        <item quantity="other">دقيقة</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="zero">أغانٍ</item>
+        <item quantity="one">أغنية</item>
+        <item quantity="two">أغنيتان</item>
+        <item quantity="few">أغانٍ</item>
+        <item quantity="many">أغنية</item>
+        <item quantity="other">أغنية</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="zero">فنانين</item>
+        <item quantity="one">فنان</item>
+        <item quantity="two">فنانان</item>
+        <item quantity="few">فنانين</item>
+        <item quantity="many">فنان</item>
+        <item quantity="other">فنان</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="zero">ألبومات</item>
+        <item quantity="one">ألبوم</item>
+        <item quantity="two">ألبومان</item>
+        <item quantity="few">ألبومات</item>
+        <item quantity="many">ألبوم</item>
+        <item quantity="other">ألبوم</item>
+    </plurals>
 </resources>

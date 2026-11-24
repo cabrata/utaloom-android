@@ -1135,4 +1135,47 @@
     <string name="audio_quality_lossless_detail">Kiegészítői, bit-exact ahol elérhető · 300+ MB/óra</string>
     <string name="audio_quality_high_detail">Legjobb YouTube stream, akár ~256 kbps · 115 MB/óra</string>
     <string name="audio_quality_low_detail">~64 kbps · legkisebb letöltés · 29 MB/óra</string>
+    <string name="encore_story_opener">Az Utaloom-ban az Ön %1$d</string>
+    <string name="encore_story_opener_detail">Nézzük meg, mit hallgatott meg.</string>
+    <string name="encore_story_minutes_start">Ez év zenét hallgatott</string>
+    <string name="encore_story_minutes_days">Ez %1$s nap zene volt.</string>
+    <string name="encore_story_minutes_hours">Ez %1$s óra zene volt.</string>
+    <string name="encore_story_busiest_start">Az Ön legfoglaltabb napja volt</string>
+    <string name="encore_story_busiest_minutes">%1$s perc zene egy nap alatt</string>
+    <string name="encore_story_clock_start">Ön körül feléledt</string>
+    <string name="encore_story_night_owl">Éjjeli Bagoly</string>
+    <string name="encore_story_night_owl_detail">Hallgatása nagy része este 10 után történt.</string>
+    <string name="encore_story_early_bird">Korai Madár</string>
+    <string name="encore_story_early_bird_detail">Az Ön napjai zenével kezdődtek reggel 10 előtt.</string>
+    <string name="encore_story_golden_hour">Arany Óra</string>
+    <string name="encore_story_golden_hour_detail">Az esték voltak az idő, amikor a zene kijött.</string>
+    <string name="encore_story_daytime">Nappali Vándor</string>
+    <string name="encore_story_daytime_detail">Az egész nap zenét hallgatott.</string>
+    <string name="encore_story_all_day">Egész Nap Körül</string>
+    <string name="encore_story_all_day_detail">Reggel, délben vagy éjszaka - mindig volt valami zene.</string>
+    <string name="encore_story_artist_start">Az Ön legjobb előadója ez évben…</string>
+    <string name="encore_story_top_artists">Az Ön legjobb előadói</string>
+    <string name="encore_story_song_start">Az Ön év dala…</string>
+    <string name="encore_story_top_songs">Az Ön legjobb dalainak maradéka</string>
+    <string name="encore_story_albums">Albumok, amelyekben éltek</string>
+    <string name="encore_story_months">Az Ön éve, hónap hónapra</string>
+    <string name="encore_story_months_peak">%1$s volt az Ön legnagyobb hónapja</string>
+    <string name="encore_story_discovery_start">Ez évben feltártunk</string>
+    <string name="encore_story_summary_title">Az Ön %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">perc</item>
+        <item quantity="other">perc</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">dal</item>
+        <item quantity="other">dal</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">előadó</item>
+        <item quantity="other">előadó</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">album</item>
+        <item quantity="other">album</item>
+    </plurals>
 </resources>

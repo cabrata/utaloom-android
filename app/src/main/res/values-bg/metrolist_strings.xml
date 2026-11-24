@@ -1136,4 +1136,47 @@
     <string name="audio_quality_lossless_detail">Вашите добавки, побитово точно, когато е налично · 300+ MB/ч</string>
     <string name="audio_quality_high_detail">Най-добър YouTube поток, до ~256 kbps · 115 MB/ч</string>
     <string name="audio_quality_low_detail">~64 kbps · най-малък размер · 29 MB/ч</string>
+    <string name="encore_story_opener">Вашият %1$d в Utaloom</string>
+    <string name="encore_story_opener_detail">Нека да разгледаме какво сте слушали.</string>
+    <string name="encore_story_minutes_start">Тази година сте слушали за</string>
+    <string name="encore_story_minutes_days">Това е %1$s дни музика.</string>
+    <string name="encore_story_minutes_hours">Това е %1$s часа музика.</string>
+    <string name="encore_story_busiest_start">Вашият най-натоварен ден беше</string>
+    <string name="encore_story_busiest_minutes">%1$s минути музика в един ден</string>
+    <string name="encore_story_clock_start">Вие оживлихте около</string>
+    <string name="encore_story_night_owl">Нощна Сова</string>
+    <string name="encore_story_night_owl_detail">Голяма част от слушането ви се случи след 22 ч.</string>
+    <string name="encore_story_early_bird">Ранобудник</string>
+    <string name="encore_story_early_bird_detail">Вашите дни започваха с музика преди 10 ч.</string>
+    <string name="encore_story_golden_hour">Златен Час</string>
+    <string name="encore_story_golden_hour_detail">Вечерите бяха когато музиката излязе.</string>
+    <string name="encore_story_daytime">Денешен Слушател</string>
+    <string name="encore_story_daytime_detail">Поддържахте музиката през целия ден.</string>
+    <string name="encore_story_all_day">Денонощно</string>
+    <string name="encore_story_all_day_detail">Сутрин, по обяд или вечер, нещо се пускаше.</string>
+    <string name="encore_story_artist_start">Вашият топ артист тази година беше…</string>
+    <string name="encore_story_top_artists">Вашите топ артисти</string>
+    <string name="encore_story_song_start">И вашата песен на годината…</string>
+    <string name="encore_story_top_songs">Останалите ви топ песни</string>
+    <string name="encore_story_albums">Албуми, в които живяхте</string>
+    <string name="encore_story_months">Вашата година, месец по месец</string>
+    <string name="encore_story_months_peak">%1$s беше вашия най-голям месец</string>
+    <string name="encore_story_discovery_start">Тази година открихте</string>
+    <string name="encore_story_summary_title">Вашият %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">минута</item>
+        <item quantity="other">минути</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">песен</item>
+        <item quantity="other">песни</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">артист</item>
+        <item quantity="other">артисти</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">албум</item>
+        <item quantity="other">албума</item>
+    </plurals>
 </resources>

@@ -1098,4 +1098,52 @@
     <string name="theme_mode">Theme Mode</string>
     <string name="color_palette">Color Palette</string>
     <string name="use_system_colors">Use system colors</string>
-<string name="audio_output_bluetooth">Àudio Bluetooth</string><string name="audio_output_hdmi">HDMI</string><string name="audio_output_phone">Aquest telèfon</string><string name="audio_output_playing">Reproduint aquí</string><string name="audio_output_system">Sortida de so del sistema</string><string name="audio_output_usb">Àudio USB</string><string name="audio_output_wired">Auriculars amb fil</string><string name="audio_quality_high_detail">Millor flux de YouTube, fins a ~256 kbps · 115 MB/hr</string><string name="audio_quality_in_use">En ús</string><string name="audio_quality_lossless_detail">Els vostres complements, bit-exacte on està disponible · 300+ MB/hr</string><string name="audio_quality_low_detail">~64 kbps · descàrrega més petita · 29 MB/hr</string><string name="audio_quality_on_mobile_data">En dades mòbils</string><string name="audio_quality_on_wifi">En Wi-Fi</string><string name="cast_casting">Emetent</string><string name="cast_connecting">Connectant…</string><string name="cast_dialog_subtitle">Reprodueix a un Chromecast o altaveu Google Cast</string><string name="cast_row_subtitle">Altaveus Chromecast i Google Cast</string><string name="cast_searching">Buscant dispositius…</string><string name="cast_searching_hint">El telèfon i el receptor han d'estar a la mateixa xarxa Wi-Fi.</string><string name="cast_stop">Atura la transmissió</string><string name="drag_to_reorder">Arrossega per reordenar</string><string name="music_source_edit">Edita complement</string><string name="music_source_remove_action">Elimina complement</string><string name="music_source_test">Prova</string><string name="music_source_testing">Provant…</string><string name="pipeline_codec_profile">Perfil del còdec</string><string name="pipeline_device_capability">Capacitat del dispositiu</string><string name="pipeline_direct">Directe</string><string name="pipeline_direct_offload">Actiu (offload, evita el mesclador)</string><string name="pipeline_direct_supported">Compatible (mesclat per Android)</string><string name="pipeline_direct_unsupported">No compatible (via mixta)</string><string name="pipeline_loudness_measured">Volum mesurat</string><string name="pipeline_none">Cap</string><string name="pipeline_output_api">API de sortida</string><string name="pipeline_passthrough">Passthrough</string><string name="pipeline_pcm_data_rate">Taxa de dades PCM</string><string name="pipeline_quality">Qualitat</string><string name="pipeline_resampled">Remostrejat</string><string name="pipeline_resampler_framework">Marc de remostrejat</string><string name="pipeline_route">Ruta</string><string name="pipeline_sonic">Sonic (tempo i to)</string><string name="pipeline_system_default">Per defecte del sistema</string><string name="pipeline_type">Tipus</string></resources>
+<string name="audio_output_bluetooth">Àudio Bluetooth</string><string name="audio_output_hdmi">HDMI</string><string name="audio_output_phone">Aquest telèfon</string><string name="audio_output_playing">Reproduint aquí</string><string name="audio_output_system">Sortida de so del sistema</string><string name="audio_output_usb">Àudio USB</string><string name="audio_output_wired">Auriculars amb fil</string><string name="audio_quality_high_detail">Millor flux de YouTube, fins a ~256 kbps · 115 MB/hr</string><string name="audio_quality_in_use">En ús</string><string name="audio_quality_lossless_detail">Els vostres complements, bit-exacte on està disponible · 300+ MB/hr</string><string name="audio_quality_low_detail">~64 kbps · descàrrega més petita · 29 MB/hr</string><string name="audio_quality_on_mobile_data">En dades mòbils</string><string name="audio_quality_on_wifi">En Wi-Fi</string><string name="cast_casting">Emetent</string><string name="cast_connecting">Connectant…</string><string name="cast_dialog_subtitle">Reprodueix a un Chromecast o altaveu Google Cast</string><string name="cast_row_subtitle">Altaveus Chromecast i Google Cast</string><string name="cast_searching">Buscant dispositius…</string><string name="cast_searching_hint">El telèfon i el receptor han d\'estar a la mateixa xarxa Wi-Fi.</string><string name="cast_stop">Atura la transmissió</string><string name="drag_to_reorder">Arrossega per reordenar</string><string name="music_source_edit">Edita complement</string><string name="music_source_remove_action">Elimina complement</string><string name="music_source_test">Prova</string><string name="music_source_testing">Provant…</string><string name="pipeline_codec_profile">Perfil del còdec</string><string name="pipeline_device_capability">Capacitat del dispositiu</string><string name="pipeline_direct">Directe</string><string name="pipeline_direct_offload">Actiu (offload, evita el mesclador)</string><string name="pipeline_direct_supported">Compatible (mesclat per Android)</string><string name="pipeline_direct_unsupported">No compatible (via mixta)</string><string name="pipeline_loudness_measured">Volum mesurat</string><string name="pipeline_none">Cap</string><string name="pipeline_output_api">API de sortida</string><string name="pipeline_passthrough">Passthrough</string><string name="pipeline_pcm_data_rate">Taxa de dades PCM</string><string name="pipeline_quality">Qualitat</string><string name="pipeline_resampled">Remostrejat</string><string name="pipeline_resampler_framework">Marc de remostrejat</string><string name="pipeline_route">Ruta</string><string name="pipeline_sonic">Sonic (tempo i to)</string><string name="pipeline_system_default">Per defecte del sistema</string><string name="pipeline_type">Tipus</string>
+    <string name="encore_story_opener">El teu %1$d a Utaloom</string>
+    <string name="encore_story_opener_detail">Repasem el que vas escoltar.</string>
+    <string name="encore_story_minutes_start">Aquest any has escoltat durant</string>
+    <string name="encore_story_minutes_days">Són %1$s dies de música.</string>
+    <string name="encore_story_minutes_hours">Són %1$s hores de música.</string>
+    <string name="encore_story_busiest_start">El teu millor dia va ser</string>
+    <string name="encore_story_busiest_minutes">%1$s minuts de música en un dia</string>
+    <string name="encore_story_clock_start">Va ser quan més viu estaves al voltant de</string>
+    <string name="encore_story_night_owl">Mussol nocturn</string>
+    <string name="encore_story_night_owl_detail">La major part de la teva escolta va ser després de les 22h.</string>
+    <string name="encore_story_early_bird">Matinaler</string>
+    <string name="encore_story_early_bird_detail">Els teus dies començaven amb música abans de les 10h.</string>
+    <string name="encore_story_golden_hour">L\'hora daurada</string>
+    <string name="encore_story_golden_hour_detail">Fosca que la música es feia seu al vespre.</string>
+    <string name="encore_story_daytime">Deambulador diürn</string>
+    <string name="encore_story_daytime_detail">La música va acompanyar-te durant tot el dia.</string>
+    <string name="encore_story_all_day">Tot el dia</string>
+    <string name="encore_story_all_day_detail">Al matí, a migdia o a la nit, sempre sonava quelcom.</string>
+    <string name="encore_story_artist_start">El teu artista Top aquest any va ser…</string>
+    <string name="encore_story_top_artists">Els teus artistes Top</string>
+    <string name="encore_story_song_start">I la teva cançó de l\'any…</string>
+    <string name="encore_story_top_songs">La resta de les teves cançons Top</string>
+    <string name="encore_story_albums">Àlbums on has viscut</string>
+    <string name="encore_story_months">El teu any, mes a mes</string>
+    <string name="encore_story_months_peak">%1$s va ser el teu millor mes</string>
+    <string name="encore_story_discovery_start">Aquest any has explorat</string>
+    <string name="encore_story_summary_title">El teu %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">minut</item>
+        <item quantity="many">minuts</item>
+        <item quantity="other">minuts</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">cançó</item>
+        <item quantity="many">cançons</item>
+        <item quantity="other">cançons</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">artista</item>
+        <item quantity="many">artistes</item>
+        <item quantity="other">artistes</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">àlbum</item>
+        <item quantity="many">àlbums</item>
+        <item quantity="other">àlbums</item>
+    </plurals>
+</resources>

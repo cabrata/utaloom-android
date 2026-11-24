@@ -1136,4 +1136,47 @@
     <string name="audio_quality_lossless_detail">আপনার অ্যাড-অন, উপলভ্য হলে বিট-নির্ভুল · 300+ MB/ঘণ্টা</string>
     <string name="audio_quality_high_detail">সেরা YouTube স্ট্রিম, সর্বোচ্চ ~256 kbps · 115 MB/ঘণ্টা</string>
     <string name="audio_quality_low_detail">~64 kbps · সবচেয়ে ছোট ডাউনলোড · 29 MB/ঘণ্টা</string>
+    <string name="encore_story_opener">Utaloom এ আপনার %1$d</string>
+    <string name="encore_story_opener_detail">আসুন দেখি আপনি কী শুনেছিলেন।</string>
+    <string name="encore_story_minutes_start">এই বছর আপনি শুনেছেন</string>
+    <string name="encore_story_minutes_days">এটি %1$s দিনের সঙ্গীত।</string>
+    <string name="encore_story_minutes_hours">এটি %1$s ঘণ্টার সঙ্গীত।</string>
+    <string name="encore_story_busiest_start">আপনার সবচেয়ে ব্যস্ত দিন ছিল</string>
+    <string name="encore_story_busiest_minutes">একদিনে %1$s মিনিটের সঙ্গীত</string>
+    <string name="encore_story_clock_start">আপনি জেগে ছিলেন প্রায়</string>
+    <string name="encore_story_night_owl">Night Owl</string>
+    <string name="encore_story_night_owl_detail">আপনার শ্রবণের বেশিরভাগ রাত ১০টার পরে হয়েছিল।</string>
+    <string name="encore_story_early_bird">Early Riser</string>
+    <string name="encore_story_early_bird_detail">আপনার দিন সকাল ১০টার আগে সঙ্গীত দিয়ে শুরু হয়েছিল।</string>
+    <string name="encore_story_golden_hour">Golden Hour</string>
+    <string name="encore_story_golden_hour_detail">সন্ধ্যা ছিল আপনার সঙ্গীতের সময়।</string>
+    <string name="encore_story_daytime">Daytime Drifter</string>
+    <string name="encore_story_daytime_detail">আপনি সারাদিন সঙ্গীত শুনেছিলেন।</string>
+    <string name="encore_story_all_day">Around the Clock</string>
+    <string name="encore_story_all_day_detail">সকাল, দুপুর বা রাত, সবসময় কিছু বাজছিল।</string>
+    <string name="encore_story_artist_start">এই বছর আপনার শীর্ষ শিল্পী ছিলেন…</string>
+    <string name="encore_story_top_artists">আপনার শীর্ষ শিল্পীরা</string>
+    <string name="encore_story_song_start">এবং আপনার বছরের গান…</string>
+    <string name="encore_story_top_songs">আপনার বাকি শীর্ষ গানগুলি</string>
+    <string name="encore_story_albums">আপনি যে অ্যালবামগুলিতে থেকেছেন</string>
+    <string name="encore_story_months">আপনার বছর, মাস দ্বারা মাস</string>
+    <string name="encore_story_months_peak">%1$s ছিল আপনার সবচেয়ে ব্যস্ত মাস</string>
+    <string name="encore_story_discovery_start">এই বছর আপনি অন্বেষণ করেছেন</string>
+    <string name="encore_story_summary_title">আপনার %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">মিনিট</item>
+        <item quantity="other">মিনিট</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">গান</item>
+        <item quantity="other">গান</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">শিল্পী</item>
+        <item quantity="other">শিল্পী</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">অ্যালবোম</item>
+        <item quantity="other">অ্যালবোম</item>
+    </plurals>
 </resources>

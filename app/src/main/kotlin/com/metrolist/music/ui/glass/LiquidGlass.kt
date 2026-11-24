@@ -67,7 +67,7 @@ private val LightGlassTint = Color(0xFFFAFAFA)
 private val DarkGlassTint = Color(0xFF121212)
 
 @Composable
-private fun isLightTheme(): Boolean = MaterialTheme.colorScheme.surface.luminance() > 0.5f
+internal fun isLightTheme(): Boolean = MaterialTheme.colorScheme.surface.luminance() > 0.5f
 
 /** Icon/label colour on glass: pure black or white, the only tint that holds over arbitrary artwork. */
 @Composable

@@ -1273,4 +1273,47 @@
     <string name="audio_quality_lossless_detail">Your add-ons, bit-exact where available · 300+ MB/hr</string>
     <string name="audio_quality_high_detail">Best YouTube stream, up to ~256 kbps · 115 MB/hr</string>
     <string name="audio_quality_low_detail">~64 kbps · smallest download · 29 MB/hr</string>
+    <string name="encore_story_opener">Your %1$d in Utaloom</string>
+    <string name="encore_story_opener_detail">Let’s look back at what you played.</string>
+    <string name="encore_story_minutes_start">This year you listened for</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">minute</item>
+        <item quantity="other">minutes</item>
+    </plurals>
+    <string name="encore_story_minutes_days">That’s %1$s days of music.</string>
+    <string name="encore_story_minutes_hours">That’s %1$s hours of music.</string>
+    <string name="encore_story_busiest_start">Your biggest day was</string>
+    <string name="encore_story_busiest_minutes">%1$s minutes of music in one day</string>
+    <string name="encore_story_clock_start">You came alive around</string>
+    <string name="encore_story_night_owl">Night Owl</string>
+    <string name="encore_story_night_owl_detail">So much of your listening happened after 10 pm.</string>
+    <string name="encore_story_early_bird">Early Riser</string>
+    <string name="encore_story_early_bird_detail">Your days started with music before 10 am.</string>
+    <string name="encore_story_golden_hour">Golden Hour</string>
+    <string name="encore_story_golden_hour_detail">Evenings were when the music came out.</string>
+    <string name="encore_story_daytime">Daytime Drifter</string>
+    <string name="encore_story_daytime_detail">You kept the music going through the day.</string>
+    <string name="encore_story_all_day">Around the Clock</string>
+    <string name="encore_story_all_day_detail">Morning, noon or night, something was playing.</string>
+    <string name="encore_story_artist_start">Your top artist this year was…</string>
+    <string name="encore_story_top_artists">Your top artists</string>
+    <string name="encore_story_song_start">And your song of the year…</string>
+    <string name="encore_story_top_songs">The rest of your top songs</string>
+    <string name="encore_story_albums">Albums you lived in</string>
+    <string name="encore_story_months">Your year, month by month</string>
+    <string name="encore_story_months_peak">%1$s was your biggest month</string>
+    <string name="encore_story_discovery_start">This year you explored</string>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">song</item>
+        <item quantity="other">songs</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">artist</item>
+        <item quantity="other">artists</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">album</item>
+        <item quantity="other">albums</item>
+    </plurals>
+    <string name="encore_story_summary_title">Your %1$d</string>
 </resources>

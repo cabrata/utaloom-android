@@ -1139,4 +1139,47 @@
     <string name="audio_quality_lossless_detail">Mga add-on mo, bit-exact kapag available · 300+ MB/oras</string>
     <string name="audio_quality_high_detail">Pinakamahusay na YouTube stream, hanggang ~256 kbps · 115 MB/oras</string>
     <string name="audio_quality_low_detail">~64 kbps · pinakamaliit na download · 29 MB/oras</string>
+    <string name="encore_story_opener">Ang iyong %1$d sa Utaloom</string>
+    <string name="encore_story_opener_detail">Tingnan natin ang kung ano ang iyong pinakinggan.</string>
+    <string name="encore_story_minutes_start">Ngayong taon nakikinig ka</string>
+    <string name="encore_story_minutes_days">Iyan ay %1$s araw ng musika.</string>
+    <string name="encore_story_minutes_hours">Iyan ay %1$s oras ng musika.</string>
+    <string name="encore_story_busiest_start">Ang iyong pinakamahirap na araw ay</string>
+    <string name="encore_story_busiest_minutes">%1$s minuto ng musika sa isang araw</string>
+    <string name="encore_story_clock_start">Ikaw ay naging buhay sa paligid</string>
+    <string name="encore_story_night_owl">Gabi Bihoy</string>
+    <string name="encore_story_night_owl_detail">Karamihan ng iyong pakikinig ay nangyari pagkatapos ng 10 p.m.</string>
+    <string name="encore_story_early_bird">Maagang Lumilipad</string>
+    <string name="encore_story_early_bird_detail">Ang iyong mga araw ay nagsimula ng musika bago ang 10 a.m.</string>
+    <string name="encore_story_golden_hour">Golden Hour</string>
+    <string name="encore_story_golden_hour_detail">Ang mga gabi ay kung kailan lumabas ang musika.</string>
+    <string name="encore_story_daytime">Daytime Lumakbay</string>
+    <string name="encore_story_daytime_detail">Pinatuloy mo ang musika sa buong araw.</string>
+    <string name="encore_story_all_day">Buong Araw</string>
+    <string name="encore_story_all_day_detail">Umaga, hapon o gabi - may tumutugtog.</string>
+    <string name="encore_story_artist_start">Ang iyong pangunahing artist ngayong taon ay…</string>
+    <string name="encore_story_top_artists">Ang iyong pangunahing artist</string>
+    <string name="encore_story_song_start">At ang iyong kanta ng taon…</string>
+    <string name="encore_story_top_songs">Ang natitira ng iyong nangungunang kanta</string>
+    <string name="encore_story_albums">Mga album na nabuhay mo</string>
+    <string name="encore_story_months">Ang iyong taon, buwan sa buwan</string>
+    <string name="encore_story_months_peak">%1$s ang iyong pinakamalaking buwan</string>
+    <string name="encore_story_discovery_start">Ngayong taon natuklasan mo</string>
+    <string name="encore_story_summary_title">Ang iyong %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">minuto</item>
+        <item quantity="other">minuto</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">kanta</item>
+        <item quantity="other">kanta</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">artist</item>
+        <item quantity="other">artist</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">album</item>
+        <item quantity="other">album</item>
+    </plurals>
 </resources>

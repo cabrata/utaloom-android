@@ -77,6 +77,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
 import timber.log.Timber
 import java.io.FilterInputStream
 import java.io.InputStream
@@ -3049,6 +3050,12 @@ object YouTube {
                         NextPage.fromPlaylistPanelVideoRenderer(renderer)
                     }
                 }
+        }
+
+    /** youtube.com's own watch answer for [videoId], raw: it carries the "Most replayed" heat markers. */
+    suspend fun webNext(videoId: String): Result<JsonObject> =
+        runCatching {
+            innerTube.next(WEB, videoId, null, null, null, null).body<JsonObject>()
         }
 
     suspend fun transcript(videoId: String): Result<String> =

@@ -1136,4 +1136,47 @@
     <string name="audio_quality_lossless_detail">Sinu lisandmoodulid, võimaluse korral bititäpselt · üle 300 MB/h</string>
     <string name="audio_quality_high_detail">YouTube’i parim voog, kuni ~256 kbps · 115 MB/h</string>
     <string name="audio_quality_low_detail">~64 kbps · väikseim allalaaditav maht · 29 MB/h</string>
+    <string name="encore_story_opener">Teie %1$d Utaloomis</string>
+    <string name="encore_story_opener_detail">Heita pilk tagasi sellele, mida te kuulsite.</string>
+    <string name="encore_story_minutes_start">Sel aastal kuulsite te</string>
+    <string name="encore_story_minutes_days">See on %1$s päevad muusikat.</string>
+    <string name="encore_story_minutes_hours">See on %1$s tundi muusikat.</string>
+    <string name="encore_story_busiest_start">Teie kõige hõivetatem päev oli</string>
+    <string name="encore_story_busiest_minutes">%1$s minutit muusikat ühe päeva jooksul</string>
+    <string name="encore_story_clock_start">Te ärkasid elusale umbes</string>
+    <string name="encore_story_night_owl">Öine kott</string>
+    <string name="encore_story_night_owl_detail">Suur osa teie kuulamist toimus pärast kella 22.</string>
+    <string name="encore_story_early_bird">Varane linnuke</string>
+    <string name="encore_story_early_bird_detail">Teie päev algus muusikaga enne kella 10 hommikul.</string>
+    <string name="encore_story_golden_hour">Kuldne tund</string>
+    <string name="encore_story_golden_hour_detail">Õhtud olid aeg, mil muusika helises.</string>
+    <string name="encore_story_daytime">Päevane rändur</string>
+    <string name="encore_story_daytime_detail">Te hoidsid muusikat kogu päeva jooksul.</string>
+    <string name="encore_story_all_day">Ümber kella</string>
+    <string name="encore_story_all_day_detail">Hommikul, lõunauks või õhtul - midagi mängis alati.</string>
+    <string name="encore_story_artist_start">Teie pariim kunstnik sel aastal oli…</string>
+    <string name="encore_story_top_artists">Teie parimad artistid</string>
+    <string name="encore_story_song_start">Ja teie aasta lugu…</string>
+    <string name="encore_story_top_songs">Ülejäänud teie parimad laulud</string>
+    <string name="encore_story_albums">Albumid, kus te elasid</string>
+    <string name="encore_story_months">Teie aasta, kuu kuu haaval</string>
+    <string name="encore_story_months_peak">%1$s oli teie hõivetatem kuu</string>
+    <string name="encore_story_discovery_start">Sel aastal uurisid te</string>
+    <string name="encore_story_summary_title">Teie %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">minut</item>
+        <item quantity="other">minutit</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">lagu</item>
+        <item quantity="other">laulu</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">artist</item>
+        <item quantity="other">artistid</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">album</item>
+        <item quantity="other">albumit</item>
+    </plurals>
 </resources>

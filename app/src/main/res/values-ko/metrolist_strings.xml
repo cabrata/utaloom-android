@@ -1129,4 +1129,43 @@
     <string name="audio_quality_lossless_detail">사용 가능한 경우 비트 단위로 정확한 애드온 · 시간당 300+ MB</string>
     <string name="audio_quality_high_detail">최고 품질 YouTube 스트림, 최대 ~256 kbps · 시간당 115 MB</string>
     <string name="audio_quality_low_detail">~64 kbps · 가장 작은 다운로드 · 시간당 29 MB</string>
+    <string name="encore_story_opener">Utaloom에서의 당신의 %1$d</string>
+    <string name="encore_story_opener_detail">당신이 들은 것을 되돌아봅시다.</string>
+    <string name="encore_story_minutes_start">올해 음악을 들었습니다</string>
+    <string name="encore_story_minutes_days">이것은 %1$s일의 음악입니다.</string>
+    <string name="encore_story_minutes_hours">이것은 %1$s시간의 음악입니다.</string>
+    <string name="encore_story_busiest_start">당신의 가장 바쁜 날은</string>
+    <string name="encore_story_busiest_minutes">하루에 %1$s분의 음악</string>
+    <string name="encore_story_clock_start">당신은 주변에서 살아났습니다</string>
+    <string name="encore_story_night_owl">밤의 올빼미</string>
+    <string name="encore_story_night_owl_detail">당신의 청취 활동의 대부분은 오후 10시 이후에 발생했습니다.</string>
+    <string name="encore_story_early_bird">조기 조류</string>
+    <string name="encore_story_early_bird_detail">당신의 하루는 오전 10시 전에 음악으로 시작했습니다.</string>
+    <string name="encore_story_golden_hour">황금 시간</string>
+    <string name="encore_story_golden_hour_detail">저녁은 음악이 나올 때였습니다.</string>
+    <string name="encore_story_daytime">낮 시간 표류자</string>
+    <string name="encore_story_daytime_detail">하루 종일 음악을 듣고 있었습니다.</string>
+    <string name="encore_story_all_day">시계 주변</string>
+    <string name="encore_story_all_day_detail">아침, 정오 또는 밤 - 항상 무언가가 재생 중이었습니다.</string>
+    <string name="encore_story_artist_start">올해 당신의 최고 아티스트는…</string>
+    <string name="encore_story_top_artists">당신의 최고 아티스트</string>
+    <string name="encore_story_song_start">그리고 올해의 당신의 노래…</string>
+    <string name="encore_story_top_songs">당신의 나머지 최고 노래</string>
+    <string name="encore_story_albums">당신이 산 앨범</string>
+    <string name="encore_story_months">당신의 연도, 월별</string>
+    <string name="encore_story_months_peak">%1$s는 당신의 가장 큰 달이었습니다</string>
+    <string name="encore_story_discovery_start">올해 당신은 탐험했습니다</string>
+    <string name="encore_story_summary_title">당신의 %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="other">분</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="other">곡</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="other">아티스트</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="other">앨범</item>
+    </plurals>
 </resources>

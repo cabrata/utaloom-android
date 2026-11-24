@@ -1131,4 +1131,43 @@
     <string name="audio_quality_lossless_detail">Add-on Anda, bit-exact jika tersedia · 300+ MB/jam</string>
     <string name="audio_quality_high_detail">Stream YouTube terbaik, hingga ~256 kbps · 115 MB/jam</string>
     <string name="audio_quality_low_detail">~64 kbps · unduhan terkecil · 29 MB/jam</string>
+    <string name="encore_story_opener">Tahun %1$d Anda di Utaloom</string>
+    <string name="encore_story_opener_detail">Mari kita lihat kembali apa yang Anda dengarkan.</string>
+    <string name="encore_story_minutes_start">Tahun ini Anda mendengarkan selama</string>
+    <string name="encore_story_minutes_days">Itu %1$s hari musik.</string>
+    <string name="encore_story_minutes_hours">Itu %1$s jam musik.</string>
+    <string name="encore_story_busiest_start">Hari tersibuk Anda adalah</string>
+    <string name="encore_story_busiest_minutes">%1$s menit musik dalam satu hari</string>
+    <string name="encore_story_clock_start">Anda paling aktif sekitar</string>
+    <string name="encore_story_night_owl">Burung malam</string>
+    <string name="encore_story_night_owl_detail">Sebagian besar mendengarkan Anda terjadi setelah jam 22.</string>
+    <string name="encore_story_early_bird">Pagi hari</string>
+    <string name="encore_story_early_bird_detail">Hari Anda dimulai dengan musik sebelum jam 10 pagi.</string>
+    <string name="encore_story_golden_hour">Jam emas</string>
+    <string name="encore_story_golden_hour_detail">Malam hari adalah saat musik keluar.</string>
+    <string name="encore_story_daytime">Pengembara siang hari</string>
+    <string name="encore_story_daytime_detail">Anda menjaga musik terus bermain sepanjang hari.</string>
+    <string name="encore_story_all_day">Sepanjang hari</string>
+    <string name="encore_story_all_day_detail">Pagi, siang atau malam, sesuatu sedang diputar.</string>
+    <string name="encore_story_artist_start">Artis top Anda tahun ini adalah…</string>
+    <string name="encore_story_top_artists">Artis top Anda</string>
+    <string name="encore_story_song_start">Dan lagu tahun Anda…</string>
+    <string name="encore_story_top_songs">Sisa dari lagu favorit Anda</string>
+    <string name="encore_story_albums">Album tempat Anda hidup</string>
+    <string name="encore_story_months">Tahun Anda, bulan demi bulan</string>
+    <string name="encore_story_months_peak">%1$s adalah bulan terbesar Anda</string>
+    <string name="encore_story_discovery_start">Tahun ini Anda menjelajahi</string>
+    <string name="encore_story_summary_title">Tahun %1$d Anda</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="other">menit</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="other">lagu</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="other">artis</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="other">album</item>
+    </plurals>
 </resources>

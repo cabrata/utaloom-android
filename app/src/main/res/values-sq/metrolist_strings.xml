@@ -1174,4 +1174,47 @@
     <string name="audio_quality_lossless_detail">Shtesat tuaja, bit më bit kur ofrohet · mbi 300 MB/orë</string>
     <string name="audio_quality_high_detail">Transmetimi më i mirë i YouTube, deri në ~256 kb/s · 115 MB/orë</string>
     <string name="audio_quality_low_detail">~64 kb/s · shkarkimi më i vogël · 29 MB/orë</string>
+    <string name="encore_story_opener">Juaji %1$d në Utaloom</string>
+    <string name="encore_story_opener_detail">Le të shohim atë që dëgjuat.</string>
+    <string name="encore_story_minutes_start">Këtë vit ju dëgjoni për</string>
+    <string name="encore_story_minutes_days">Kjo është %1$s ditë të muzikës.</string>
+    <string name="encore_story_minutes_hours">Kjo është %1$s orë të muzikës.</string>
+    <string name="encore_story_busiest_start">Dita juaj më e zënë ishte</string>
+    <string name="encore_story_busiest_minutes">%1$s minuta të muzikës në një ditë</string>
+    <string name="encore_story_clock_start">Ju ishit aktiv rreth</string>
+    <string name="encore_story_night_owl">Bufja e Natës</string>
+    <string name="encore_story_night_owl_detail">Shumë e dëgjimit tuaj ndodhi pas orës 22.</string>
+    <string name="encore_story_early_bird">Zgjuarësi i Hershëm</string>
+    <string name="encore_story_early_bird_detail">Ditët tuaja filluan me muzikë para orës 10.</string>
+    <string name="encore_story_golden_hour">Ora e Artë</string>
+    <string name="encore_story_golden_hour_detail">Mbrëmjet ishin kur muzika dilte.</string>
+    <string name="encore_story_daytime">Dëgjetës i Ditës</string>
+    <string name="encore_story_daytime_detail">Ju mbante muzikën përgjatë ditës.</string>
+    <string name="encore_story_all_day">Rreth Orës</string>
+    <string name="encore_story_all_day_detail">Mëngjes, mesditë ose natë, diçka po zëvendësohej.</string>
+    <string name="encore_story_artist_start">Artisti juaj i parë këtë vit ishte…</string>
+    <string name="encore_story_top_artists">Artistët tuaj të parë</string>
+    <string name="encore_story_song_start">Dhe kënga juaj e vitit…</string>
+    <string name="encore_story_top_songs">Pjesa tjetër e këngëve tuaja të parë</string>
+    <string name="encore_story_albums">Albumet në të cilat aty jetoni</string>
+    <string name="encore_story_months">Viti juaj, muaj pas muaji</string>
+    <string name="encore_story_months_peak">%1$s ishte muaji juaj më i madh</string>
+    <string name="encore_story_discovery_start">Këtë vit ju zbuluat</string>
+    <string name="encore_story_summary_title">Juaji %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">minutë</item>
+        <item quantity="other">minuta</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">këngë</item>
+        <item quantity="other">këngë</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">artist</item>
+        <item quantity="other">artistë</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">album</item>
+        <item quantity="other">albume</item>
+    </plurals>
 </resources>

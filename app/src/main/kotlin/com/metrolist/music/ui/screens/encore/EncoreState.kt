@@ -9,6 +9,7 @@ import com.metrolist.innertube.models.AccountInfo
 import com.metrolist.music.db.entities.Album
 import com.metrolist.music.db.entities.Artist
 import com.metrolist.music.db.entities.SongWithStats
+import java.time.LocalDate
 
 data class EncoreState(
     val accountInfo: AccountInfo? = null,
@@ -28,4 +29,8 @@ data class EncoreState(
     val hasError: Boolean = false,
     val playlistId: String? = null,
     val playlistError: Boolean = false,
+    /** Listening time per calendar day, in ms. */
+    val dayMs: Map<LocalDate, Long> = emptyMap(),
+    /** Listening time per hour of the day, 0..23, in ms. */
+    val hourMs: List<Long> = emptyList(),
 )

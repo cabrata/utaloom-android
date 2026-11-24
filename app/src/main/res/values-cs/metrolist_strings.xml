@@ -1106,4 +1106,56 @@
     <string name="theme_mode">Režim Tématu</string>
     <string name="color_palette">Barevná paleta</string>
     <string name="use_system_colors">Používat barvy systému</string>
-<string name="audio_output_bluetooth">Bluetooth audio</string><string name="audio_output_hdmi">HDMI</string><string name="audio_output_phone">Tento telefon</string><string name="audio_output_playing">Přehrávání zde</string><string name="audio_output_system">Výstup systémového zvuku</string><string name="audio_output_usb">USB audio</string><string name="audio_output_wired">Drátová sluchátka</string><string name="audio_quality_high_detail">Nejlepší YouTube stream, až ~256 kbps · 115 MB/hr</string><string name="audio_quality_in_use">V použití</string><string name="audio_quality_lossless_detail">Vaše doplňky, bit-přesné kde jsou dostupné · 300+ MB/hr</string><string name="audio_quality_low_detail">~64 kbps · nejmenší stahování · 29 MB/hr</string><string name="audio_quality_on_mobile_data">Na mobilních datech</string><string name="audio_quality_on_wifi">Na Wi-Fi</string><string name="cast_casting">Vysílání</string><string name="cast_connecting">Připojování…</string><string name="cast_dialog_subtitle">Přehrávat na Chromecast nebo Google Cast reproduktoru</string><string name="cast_row_subtitle">Reproduktory Chromecast a Google Cast</string><string name="cast_searching">Hledání zařízení…</string><string name="cast_searching_hint">Váš telefon a přijímač musí být ve stejné síti Wi-Fi.</string><string name="cast_stop">Zastavit vysílání</string><string name="drag_to_reorder">Přetažením pro opětovné seřazení</string><string name="music_source_edit">Upravit doplněk</string><string name="music_source_remove_action">Odebrat doplněk</string><string name="music_source_test">Test</string><string name="music_source_testing">Testování…</string><string name="pipeline_codec_profile">Profil kodeku</string><string name="pipeline_device_capability">Schopnost zařízení</string><string name="pipeline_direct">Přímé</string><string name="pipeline_direct_offload">Aktivní (offload, obchází mixer)</string><string name="pipeline_direct_supported">Podporováno (smícháno Androidem)</string><string name="pipeline_direct_unsupported">Není podporováno (smíšená cesta)</string><string name="pipeline_loudness_measured">Měřená hlasitost</string><string name="pipeline_none">Žádný</string><string name="pipeline_output_api">Výstupní API</string><string name="pipeline_passthrough">Průchod</string><string name="pipeline_pcm_data_rate">Bitová rychlost PCM</string><string name="pipeline_quality">Kvalita</string><string name="pipeline_resampled">Převzorkováno</string><string name="pipeline_resampler_framework">Rámec převzorkování</string><string name="pipeline_route">Trasa</string><string name="pipeline_sonic">Sonic (tempo a tón)</string><string name="pipeline_system_default">Výchozí systém</string><string name="pipeline_type">Typ</string></resources>
+<string name="audio_output_bluetooth">Bluetooth audio</string><string name="audio_output_hdmi">HDMI</string><string name="audio_output_phone">Tento telefon</string><string name="audio_output_playing">Přehrávání zde</string><string name="audio_output_system">Výstup systémového zvuku</string><string name="audio_output_usb">USB audio</string><string name="audio_output_wired">Drátová sluchátka</string><string name="audio_quality_high_detail">Nejlepší YouTube stream, až ~256 kbps · 115 MB/hr</string><string name="audio_quality_in_use">V použití</string><string name="audio_quality_lossless_detail">Vaše doplňky, bit-přesné kde jsou dostupné · 300+ MB/hr</string><string name="audio_quality_low_detail">~64 kbps · nejmenší stahování · 29 MB/hr</string><string name="audio_quality_on_mobile_data">Na mobilních datech</string><string name="audio_quality_on_wifi">Na Wi-Fi</string><string name="cast_casting">Vysílání</string><string name="cast_connecting">Připojování…</string><string name="cast_dialog_subtitle">Přehrávat na Chromecast nebo Google Cast reproduktoru</string><string name="cast_row_subtitle">Reproduktory Chromecast a Google Cast</string><string name="cast_searching">Hledání zařízení…</string><string name="cast_searching_hint">Váš telefon a přijímač musí být ve stejné síti Wi-Fi.</string><string name="cast_stop">Zastavit vysílání</string><string name="drag_to_reorder">Přetažením pro opětovné seřazení</string><string name="music_source_edit">Upravit doplněk</string><string name="music_source_remove_action">Odebrat doplněk</string><string name="music_source_test">Test</string><string name="music_source_testing">Testování…</string><string name="pipeline_codec_profile">Profil kodeku</string><string name="pipeline_device_capability">Schopnost zařízení</string><string name="pipeline_direct">Přímé</string><string name="pipeline_direct_offload">Aktivní (offload, obchází mixer)</string><string name="pipeline_direct_supported">Podporováno (smícháno Androidem)</string><string name="pipeline_direct_unsupported">Není podporováno (smíšená cesta)</string><string name="pipeline_loudness_measured">Měřená hlasitost</string><string name="pipeline_none">Žádný</string><string name="pipeline_output_api">Výstupní API</string><string name="pipeline_passthrough">Průchod</string><string name="pipeline_pcm_data_rate">Bitová rychlost PCM</string><string name="pipeline_quality">Kvalita</string><string name="pipeline_resampled">Převzorkováno</string><string name="pipeline_resampler_framework">Rámec převzorkování</string><string name="pipeline_route">Trasa</string><string name="pipeline_sonic">Sonic (tempo a tón)</string><string name="pipeline_system_default">Výchozí systém</string><string name="pipeline_type">Typ</string>
+    <string name="encore_story_opener">Váš %1$d v Utaloomu</string>
+    <string name="encore_story_opener_detail">Podívejme se zpět na to, co jste poslouchali.</string>
+    <string name="encore_story_minutes_start">Letos jste poslouchali</string>
+    <string name="encore_story_minutes_days">To je %1$s dní hudby.</string>
+    <string name="encore_story_minutes_hours">To je %1$s hodin hudby.</string>
+    <string name="encore_story_busiest_start">Váš nejrušnější den byl</string>
+    <string name="encore_story_busiest_minutes">%1$s minut hudby během jednoho dne</string>
+    <string name="encore_story_clock_start">Oživili jste se přibližně</string>
+    <string name="encore_story_night_owl">Noční sova</string>
+    <string name="encore_story_night_owl_detail">Velká část vašeho poslouchání se konala po 22. hodině.</string>
+    <string name="encore_story_early_bird">Brzký pták</string>
+    <string name="encore_story_early_bird_detail">Váš den začínal hudbou před 10. hodinou ráno.</string>
+    <string name="encore_story_golden_hour">Zlatá hodina</string>
+    <string name="encore_story_golden_hour_detail">Večery byly chvíle, kdy hrála hudba.</string>
+    <string name="encore_story_daytime">Denní tloukomoč</string>
+    <string name="encore_story_daytime_detail">Poslouchali jste hudbu po celý den.</string>
+    <string name="encore_story_all_day">Kolem hodin</string>
+    <string name="encore_story_all_day_detail">Ráno, v poledne nebo v noci se vždy něco přehrávalo.</string>
+    <string name="encore_story_artist_start">Váš nejlepší umělec letos byl…</string>
+    <string name="encore_story_top_artists">Vaši nejlepší umělci</string>
+    <string name="encore_story_song_start">A vaše skladba roku…</string>
+    <string name="encore_story_top_songs">Zbytek vašich nejlepších skladeb</string>
+    <string name="encore_story_albums">Alba, ve kterých jste žili</string>
+    <string name="encore_story_months">Váš rok, měsíc po měsíci</string>
+    <string name="encore_story_months_peak">%1$s byl váš nejrušnější měsíc</string>
+    <string name="encore_story_discovery_start">Letos jste objevili</string>
+    <string name="encore_story_summary_title">Váš %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">minuta</item>
+        <item quantity="few">minuty</item>
+        <item quantity="many">minut</item>
+        <item quantity="other">minut</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">skladba</item>
+        <item quantity="few">skladby</item>
+        <item quantity="many">skladeb</item>
+        <item quantity="other">skladeb</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">umělec</item>
+        <item quantity="few">umělci</item>
+        <item quantity="many">umělců</item>
+        <item quantity="other">umělců</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">album</item>
+        <item quantity="few">alba</item>
+        <item quantity="many">alb</item>
+        <item quantity="other">alb</item>
+    </plurals>
+</resources>

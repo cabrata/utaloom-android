@@ -1147,4 +1147,55 @@
     <string name="audio_quality_lossless_detail">Vaše doplnky, bitovo presné, ak sú dostupné · viac ako 300 MB/h</string>
     <string name="audio_quality_high_detail">Najlepší stream YouTube, až ~256 kb/s · 115 MB/h</string>
     <string name="audio_quality_low_detail">~64 kb/s · najmenšie sťahovanie · 29 MB/h</string>
+    <string name="encore_story_opener">Vašich %1$d rokov v Utaloom</string>
+    <string name="encore_story_opener_detail">Pozrite sa späť na to, čo ste počúvali.</string>
+    <string name="encore_story_minutes_start">Tento rok ste počúvali</string>
+    <string name="encore_story_minutes_days">To je %1$s dní hudby.</string>
+    <string name="encore_story_minutes_hours">To je %1$s hodín hudby.</string>
+    <string name="encore_story_busiest_start">Váš najvytaženejší deň bol</string>
+    <string name="encore_story_busiest_minutes">%1$s minút hudby za jeden deň</string>
+    <string name="encore_story_clock_start">Boli ste najaktívnejší okolo</string>
+    <string name="encore_story_night_owl">Nočné sovy</string>
+    <string name="encore_story_night_owl_detail">Väčšina vášho počúvania sa stala po 22.</string>
+    <string name="encore_story_early_bird">Raný vták</string>
+    <string name="encore_story_early_bird_detail">Vaše dni sa začínali hudbou pred 10. ráno.</string>
+    <string name="encore_story_golden_hour">Zlatá hodina</string>
+    <string name="encore_story_golden_hour_detail">Večery boli časom, keď sa hudba rozkvitla.</string>
+    <string name="encore_story_daytime">Denný túlavec</string>
+    <string name="encore_story_daytime_detail">Hudba vás sprevádzala počas celého dňa.</string>
+    <string name="encore_story_all_day">Po celý deň</string>
+    <string name="encore_story_all_day_detail">Ráno, cez deň alebo večer, niečo hralo.</string>
+    <string name="encore_story_artist_start">Váš top umelec tohto roku bol…</string>
+    <string name="encore_story_top_artists">Vaši top umelci</string>
+    <string name="encore_story_song_start">A vaša pieseň roka…</string>
+    <string name="encore_story_top_songs">Zvyšok vašich obľúbených piesní</string>
+    <string name="encore_story_albums">Albumy, v ktorých ste žili</string>
+    <string name="encore_story_months">Váš rok, mesiac po mesiaci</string>
+    <string name="encore_story_months_peak">%1$s bol váš najpočúvanejší mesiac</string>
+    <string name="encore_story_discovery_start">Tento rok ste objavili</string>
+    <string name="encore_story_summary_title">Vaších %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">minúta</item>
+        <item quantity="few">minúty</item>
+        <item quantity="many">minút</item>
+        <item quantity="other">minút</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">pieseň</item>
+        <item quantity="few">piesne</item>
+        <item quantity="many">piesní</item>
+        <item quantity="other">piesní</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">umelec</item>
+        <item quantity="few">umelci</item>
+        <item quantity="many">umelcov</item>
+        <item quantity="other">umelcov</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">album</item>
+        <item quantity="few">albumy</item>
+        <item quantity="many">albumov</item>
+        <item quantity="other">albumov</item>
+    </plurals>
 </resources>

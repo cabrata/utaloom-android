@@ -1094,4 +1094,48 @@
     <string name="use_system_colors">Χρήση χρωμάτων συστήματος</string>
     <string name="use_login_for_browse">Χρήση σύνδεσης για περιήγηση περιεχομένου</string>
     <string name="use_login_for_browse_desc">Αυτό μπορεί να επηρεάσει το περιεχόμενο που βλέπετε και για παράδειγμα εμφανίζει άλμπουμ μόνο premium εάν είστε συνδεδεμένοι με λογαριασμό Premium</string>
-<string name="audio_output_bluetooth">Bluetooth ήχος</string><string name="audio_output_hdmi">HDMI</string><string name="audio_output_phone">Αυτό το τηλέφωνο</string><string name="audio_output_playing">Αναπαραγωγή εδώ</string><string name="audio_output_system">Έξοδος ήχου συστήματος</string><string name="audio_output_usb">USB ήχος</string><string name="audio_output_wired">Ενσύρματα ακουστικά</string><string name="audio_quality_high_detail">Καλύτερο ρεύμα YouTube, έως ~256 kbps · 115 MB/hr</string><string name="audio_quality_in_use">Σε χρήση</string><string name="audio_quality_lossless_detail">Τα πρόσθετά σας, bit-ακριβή όπου διατίθεται · 300+ MB/hr</string><string name="audio_quality_low_detail">~64 kbps · μικρότερη λήψη · 29 MB/hr</string><string name="audio_quality_on_mobile_data">Σε δεδομένα κινητής</string><string name="audio_quality_on_wifi">Σε Wi-Fi</string><string name="cast_casting">Μετάδοση</string><string name="cast_connecting">Σύνδεση…</string><string name="cast_dialog_subtitle">Αναπαραγωγή σε Chromecast ή Google Cast ηχείο</string><string name="cast_row_subtitle">Ηχεία Chromecast και Google Cast</string><string name="cast_searching">Αναζήτηση συσκευών…</string><string name="cast_searching_hint">Το τηλέφωνό σας και το δέκτη πρέπει να βρίσκονται στο ίδιο δίκτυο Wi-Fi.</string><string name="cast_stop">Διακοπή μετάδοσης</string><string name="drag_to_reorder">Σύρετε για αναδιάταξη</string><string name="music_source_edit">Επεξεργασία πρόσθετου</string><string name="music_source_remove_action">Αφαίρεση πρόσθετου</string><string name="music_source_test">Δοκιμή</string><string name="music_source_testing">Δοκιμή…</string><string name="pipeline_codec_profile">Προφίλ κωδικοποιητή</string><string name="pipeline_device_capability">Δυνατότητα συσκευής</string><string name="pipeline_direct">Άμεση</string><string name="pipeline_direct_offload">Ενεργή (offload, παράκαμψη mixer)</string><string name="pipeline_direct_supported">Υποστηρίζεται (ανάμιξη από Android)</string><string name="pipeline_direct_unsupported">Δεν υποστηρίζεται (διαδρομή μικτή)</string><string name="pipeline_loudness_measured">Μετρημένη δυναμικότητα</string><string name="pipeline_none">Καμία</string><string name="pipeline_output_api">API εξόδου</string><string name="pipeline_passthrough">Διέλευση</string><string name="pipeline_pcm_data_rate">Ρυθμός δεδομένων PCM</string><string name="pipeline_quality">Ποιότητα</string><string name="pipeline_resampled">Επανά-δειγματοληψία</string><string name="pipeline_resampler_framework">Πλαίσιο επανα-δειγματοληψίας</string><string name="pipeline_route">Διαδρομή</string><string name="pipeline_sonic">Sonic (ταχύτητα και τόνος)</string><string name="pipeline_system_default">Προεπιλογή συστήματος</string><string name="pipeline_type">Τύπος</string></resources>
+<string name="audio_output_bluetooth">Bluetooth ήχος</string><string name="audio_output_hdmi">HDMI</string><string name="audio_output_phone">Αυτό το τηλέφωνο</string><string name="audio_output_playing">Αναπαραγωγή εδώ</string><string name="audio_output_system">Έξοδος ήχου συστήματος</string><string name="audio_output_usb">USB ήχος</string><string name="audio_output_wired">Ενσύρματα ακουστικά</string><string name="audio_quality_high_detail">Καλύτερο ρεύμα YouTube, έως ~256 kbps · 115 MB/hr</string><string name="audio_quality_in_use">Σε χρήση</string><string name="audio_quality_lossless_detail">Τα πρόσθετά σας, bit-ακριβή όπου διατίθεται · 300+ MB/hr</string><string name="audio_quality_low_detail">~64 kbps · μικρότερη λήψη · 29 MB/hr</string><string name="audio_quality_on_mobile_data">Σε δεδομένα κινητής</string><string name="audio_quality_on_wifi">Σε Wi-Fi</string><string name="cast_casting">Μετάδοση</string><string name="cast_connecting">Σύνδεση…</string><string name="cast_dialog_subtitle">Αναπαραγωγή σε Chromecast ή Google Cast ηχείο</string><string name="cast_row_subtitle">Ηχεία Chromecast και Google Cast</string><string name="cast_searching">Αναζήτηση συσκευών…</string><string name="cast_searching_hint">Το τηλέφωνό σας και το δέκτη πρέπει να βρίσκονται στο ίδιο δίκτυο Wi-Fi.</string><string name="cast_stop">Διακοπή μετάδοσης</string><string name="drag_to_reorder">Σύρετε για αναδιάταξη</string><string name="music_source_edit">Επεξεργασία πρόσθετου</string><string name="music_source_remove_action">Αφαίρεση πρόσθετου</string><string name="music_source_test">Δοκιμή</string><string name="music_source_testing">Δοκιμή…</string><string name="pipeline_codec_profile">Προφίλ κωδικοποιητή</string><string name="pipeline_device_capability">Δυνατότητα συσκευής</string><string name="pipeline_direct">Άμεση</string><string name="pipeline_direct_offload">Ενεργή (offload, παράκαμψη mixer)</string><string name="pipeline_direct_supported">Υποστηρίζεται (ανάμιξη από Android)</string><string name="pipeline_direct_unsupported">Δεν υποστηρίζεται (διαδρομή μικτή)</string><string name="pipeline_loudness_measured">Μετρημένη δυναμικότητα</string><string name="pipeline_none">Καμία</string><string name="pipeline_output_api">API εξόδου</string><string name="pipeline_passthrough">Διέλευση</string><string name="pipeline_pcm_data_rate">Ρυθμός δεδομένων PCM</string><string name="pipeline_quality">Ποιότητα</string><string name="pipeline_resampled">Επανά-δειγματοληψία</string><string name="pipeline_resampler_framework">Πλαίσιο επανα-δειγματοληψίας</string><string name="pipeline_route">Διαδρομή</string><string name="pipeline_sonic">Sonic (ταχύτητα και τόνος)</string><string name="pipeline_system_default">Προεπιλογή συστήματος</string><string name="pipeline_type">Τύπος</string>
+    <string name="encore_story_opener">Το %1$d σας στο Utaloom</string>
+    <string name="encore_story_opener_detail">Ας δούμε τι άκουσες.</string>
+    <string name="encore_story_minutes_start">Φέτος άκουσες για</string>
+    <string name="encore_story_minutes_days">Αυτό είναι %1$s ημέρες μουσικής.</string>
+    <string name="encore_story_minutes_hours">Αυτό είναι %1$s ώρες μουσικής.</string>
+    <string name="encore_story_busiest_start">Η πιο απασχολημένη σας ημέρα ήταν</string>
+    <string name="encore_story_busiest_minutes">%1$s λεπτά μουσικής σε μια ημέρα</string>
+    <string name="encore_story_clock_start">Ήσασταν ξύπνιοι γύρω στις</string>
+    <string name="encore_story_night_owl">Night Owl</string>
+    <string name="encore_story_night_owl_detail">Πολλά από τα ακούσματά σας συνέβησαν μετά τις 10 μ.μ.</string>
+    <string name="encore_story_early_bird">Early Riser</string>
+    <string name="encore_story_early_bird_detail">Οι ημέρες σας ξεκίνησαν με μουσική πριν τις 10 π.μ.</string>
+    <string name="encore_story_golden_hour">Golden Hour</string>
+    <string name="encore_story_golden_hour_detail">Τα απογεύματα ήταν που έβγαινε η μουσική.</string>
+    <string name="encore_story_daytime">Daytime Drifter</string>
+    <string name="encore_story_daytime_detail">Κρατούσατε τη μουσική αναμμένη όλη μέρα.</string>
+    <string name="encore_story_all_day">Around the Clock</string>
+    <string name="encore_story_all_day_detail">Πρωί, μεσημέρι ή βράδυ, κάτι παίζονταν.</string>
+    <string name="encore_story_artist_start">Ο κορυφαίος καλλιτέχνης σας φέτος ήταν…</string>
+    <string name="encore_story_top_artists">Οι κορυφαίοι καλλιτέχνες σας</string>
+    <string name="encore_story_song_start">Και το τραγούδι της χρονιάς σας…</string>
+    <string name="encore_story_top_songs">Τα υπόλοιπα κορυφαία τραγούδια σας</string>
+    <string name="encore_story_albums">Άλμπουμ στα οποία έζησες</string>
+    <string name="encore_story_months">Το έτος σας, μήνα με μήνα</string>
+    <string name="encore_story_months_peak">Το %1$s ήταν ο πιο απασχολημένος μήνας σας</string>
+    <string name="encore_story_discovery_start">Φέτος εξερευνήσατε</string>
+    <string name="encore_story_summary_title">Το %1$d σας</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">λεπτό</item>
+        <item quantity="other">λεπτά</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">τραγούδι</item>
+        <item quantity="other">τραγούδια</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">καλλιτέχνης</item>
+        <item quantity="other">καλλιτέχνες</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">άλμπουμ</item>
+        <item quantity="other">άλμπουμ</item>
+    </plurals>
+</resources>

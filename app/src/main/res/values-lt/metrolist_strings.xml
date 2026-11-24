@@ -1443,4 +1443,55 @@
     <string name="audio_quality_lossless_detail">Jūsų priedai, bitų tikslumas kai įmanoma · 300+ MB/val.</string>
     <string name="audio_quality_high_detail">Geriausia YouTube transliacija, iki ~256 kb/s · 115 MB/val.</string>
     <string name="audio_quality_low_detail">~64 kb/s · mažiausias atsisiuntimas · 29 MB/val.</string>
+    <string name="encore_story_opener">Jūsų %1$d metai Utaloom</string>
+    <string name="encore_story_opener_detail">Peržvelkime, ką jūs klausėtės.</string>
+    <string name="encore_story_minutes_start">Šiais metais klausėtės</string>
+    <string name="encore_story_minutes_days">Tai %1$s dienų muzikos.</string>
+    <string name="encore_story_minutes_hours">Tai %1$s valandų muzikos.</string>
+    <string name="encore_story_busiest_start">Jūsų žymiausiausia diena buvo</string>
+    <string name="encore_story_busiest_minutes">%1$s minučių muzikos per dieną</string>
+    <string name="encore_story_clock_start">Jūs buvo aktyviausias apie</string>
+    <string name="encore_story_night_owl">Nakties pelėda</string>
+    <string name="encore_story_night_owl_detail">Didžioji dalis jūsų klausymo vyko po 22 val.</string>
+    <string name="encore_story_early_bird">Ankstyvus paukštis</string>
+    <string name="encore_story_early_bird_detail">Jūsų dienos prasidėdavo muzika prieš 10 val. ryto.</string>
+    <string name="encore_story_golden_hour">Auksinis metas</string>
+    <string name="encore_story_golden_hour_detail">Vakare muzika buvo jūsų dėmesio centre.</string>
+    <string name="encore_story_daytime">Dieninis klaidžius</string>
+    <string name="encore_story_daytime_detail">Muzika jas lydėjo visą dieną.</string>
+    <string name="encore_story_all_day">Visą dieną</string>
+    <string name="encore_story_all_day_detail">Ryte, dieną ar vakare, visada grojo kažkas.</string>
+    <string name="encore_story_artist_start">Jūsų top atlikėjas šiais metais buvo…</string>
+    <string name="encore_story_top_artists">Jūsų top atlikėjai</string>
+    <string name="encore_story_song_start">O jūsų metų daina…</string>
+    <string name="encore_story_top_songs">Likusios jūsų top dainos</string>
+    <string name="encore_story_albums">Albumai, kuriuose jūs gyvenote</string>
+    <string name="encore_story_months">Jūsų metai, mėnuo po mėnesio</string>
+    <string name="encore_story_months_peak">%1$s buvo jūsų žymiausias mėnuo</string>
+    <string name="encore_story_discovery_start">Šiais metais jūs tyrinėjote</string>
+    <string name="encore_story_summary_title">Jūsų %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">minutė</item>
+        <item quantity="few">minutės</item>
+        <item quantity="many">minučių</item>
+        <item quantity="other">minučių</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">daina</item>
+        <item quantity="few">dainos</item>
+        <item quantity="many">dainų</item>
+        <item quantity="other">dainų</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">atlikėjas</item>
+        <item quantity="few">atlikėjai</item>
+        <item quantity="many">atlikėjų</item>
+        <item quantity="other">atlikėjų</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">albumas</item>
+        <item quantity="few">albumai</item>
+        <item quantity="many">albumų</item>
+        <item quantity="other">albumų</item>
+    </plurals>
 </resources>

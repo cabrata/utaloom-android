@@ -1213,4 +1213,55 @@
     <string name="audio_quality_lossless_detail">Вашы дадаткі, дакладнасць да біта, калі даступна · 300+ MB/гадз</string>
     <string name="audio_quality_high_detail">Найлепшы паток YouTube, да ~256 kbps · 115 MB/гадз</string>
     <string name="audio_quality_low_detail">~64 kbps · найменшы памер · 29 MB/гадз</string>
+    <string name="encore_story_opener">Ваше %1$d у Utaloom</string>
+    <string name="encore_story_opener_detail">Давайце вернёмся да таго, што вы слухалі.</string>
+    <string name="encore_story_minutes_start">У гэтым годзе вы слухалі</string>
+    <string name="encore_story_minutes_days">Гэта %1$s дзён музыкі.</string>
+    <string name="encore_story_minutes_hours">Гэта %1$s гадзін музыкі.</string>
+    <string name="encore_story_busiest_start">Ваш самы напружаны дзень быў</string>
+    <string name="encore_story_busiest_minutes">%1$s мінут музыкі за адзін дзень</string>
+    <string name="encore_story_clock_start">Вы актывавалісь прыблізна</string>
+    <string name="encore_story_night_owl">Нічны сыч</string>
+    <string name="encore_story_night_owl_detail">Большая частка вашага слухання адбывалась пасля 22 часоў.</string>
+    <string name="encore_story_early_bird">Ранны птах</string>
+    <string name="encore_story_early_bird_detail">Ваш дзень пачынаўся з музыкай да 10 раніцы.</string>
+    <string name="encore_story_golden_hour">Золаты час</string>
+    <string name="encore_story_golden_hour_detail">Вечары - калі звучала музыка.</string>
+    <string name="encore_story_daytime">Дзённы путнік</string>
+    <string name="encore_story_daytime_detail">Вы трымалі музыку ўсё дзень.</string>
+    <string name="encore_story_all_day">Круглыя сутакі</string>
+    <string name="encore_story_all_day_detail">Раніца, поўдзень ці ноч - што-то гучала.</string>
+    <string name="encore_story_artist_start">Ваш лепшы артыст у гэтым годзе быў…</string>
+    <string name="encore_story_top_artists">Вашы лепшыя артысты</string>
+    <string name="encore_story_song_start">І ваша песня года…</string>
+    <string name="encore_story_top_songs">Астатнія вашы лепшыя песні</string>
+    <string name="encore_story_albums">Альбомы, у якіх вы жылі</string>
+    <string name="encore_story_months">Ваш год, месяц за месяцам</string>
+    <string name="encore_story_months_peak">%1$s быў ваш самы напружаны месяц</string>
+    <string name="encore_story_discovery_start">У гэтым годзе вы адкрылі</string>
+    <string name="encore_story_summary_title">Ваше %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">мінута</item>
+        <item quantity="few">мінуты</item>
+        <item quantity="many">мінут</item>
+        <item quantity="other">мінут</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">песня</item>
+        <item quantity="few">песні</item>
+        <item quantity="many">песень</item>
+        <item quantity="other">песень</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">артыст</item>
+        <item quantity="few">артысты</item>
+        <item quantity="many">артыстаў</item>
+        <item quantity="other">артыстаў</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">альбом</item>
+        <item quantity="few">альбомы</item>
+        <item quantity="many">альбомаў</item>
+        <item quantity="other">альбомаў</item>
+    </plurals>
 </resources>

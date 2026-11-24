@@ -1135,4 +1135,47 @@
     <string name="audio_quality_lossless_detail">Tillegga dine, bitnøyaktig når tilgjengeleg · 300+ MB/time</string>
     <string name="audio_quality_high_detail">Beste YouTube-straum, opptil ~256 kbps · 115 MB/time</string>
     <string name="audio_quality_low_detail">~64 kbps · minste nedlasting · 29 MB/time</string>
+    <string name="encore_story_opener">Din %1$d i Utaloom</string>
+    <string name="encore_story_opener_detail">Lat oss sjå tilbake på det du spelte.</string>
+    <string name="encore_story_minutes_start">Dette året høyrde du på</string>
+    <string name="encore_story_minutes_days">Det er %1$s dagar med musikk.</string>
+    <string name="encore_story_minutes_hours">Det er %1$s timar med musikk.</string>
+    <string name="encore_story_busiest_start">Din travlaste dag var</string>
+    <string name="encore_story_busiest_minutes">%1$s minutt med musikk på ein dag</string>
+    <string name="encore_story_clock_start">Du vart levendegjord rundt</string>
+    <string name="encore_story_night_owl">Nattugle</string>
+    <string name="encore_story_night_owl_detail">Mykje av lyden din skjedde etter klokka 22.</string>
+    <string name="encore_story_early_bird">Morgenfugl</string>
+    <string name="encore_story_early_bird_detail">Dagane dine starta med musikk før klokka 10.</string>
+    <string name="encore_story_golden_hour">Gyllen Time</string>
+    <string name="encore_story_golden_hour_detail">Kveldane var når musikken kom ut.</string>
+    <string name="encore_story_daytime">Dagleg Vandrar</string>
+    <string name="encore_story_daytime_detail">Du halde musikken gåande heile dagen.</string>
+    <string name="encore_story_all_day">Rundt Klokka</string>
+    <string name="encore_story_all_day_detail">Morgon, middag eller natt - noko var alltid på.</string>
+    <string name="encore_story_artist_start">Din topartist dette året var…</string>
+    <string name="encore_story_top_artists">Dine toppkunstnarar</string>
+    <string name="encore_story_song_start">Og sangen din av året…</string>
+    <string name="encore_story_top_songs">Resten av topsongane dine</string>
+    <string name="encore_story_albums">Album du budde i</string>
+    <string name="encore_story_months">Året ditt, månad for månad</string>
+    <string name="encore_story_months_peak">%1$s var din største månad</string>
+    <string name="encore_story_discovery_start">Dette året utforska du</string>
+    <string name="encore_story_summary_title">Din %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">minutt</item>
+        <item quantity="other">minutt</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">song</item>
+        <item quantity="other">songar</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">kunstnar</item>
+        <item quantity="other">kunstnarar</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">album</item>
+        <item quantity="other">album</item>
+    </plurals>
 </resources>

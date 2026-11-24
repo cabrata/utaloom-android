@@ -1135,4 +1135,47 @@
     <string name="audio_quality_lossless_detail">మీ యాడ్-ఆన్‌లు, అందుబాటులో ఉన్నప్పుడు బిట్-ఖచ్చితంగా · గంటకు 300+ MB</string>
     <string name="audio_quality_high_detail">ఉత్తమ YouTube స్ట్రీమ్, గరిష్ఠంగా ~256 kbps · గంటకు 115 MB</string>
     <string name="audio_quality_low_detail">~64 kbps · అతి తక్కువ డౌన్‌లోడ్ · గంటకు 29 MB</string>
+    <string name="encore_story_opener">Utaloomలో మీ %1$d</string>
+    <string name="encore_story_opener_detail">మీరు ఆడించిన వాటిని తిరిగి చూద్దాం.</string>
+    <string name="encore_story_minutes_start">ఈ సంవత్సరం మీరు ఆలపించారు</string>
+    <string name="encore_story_minutes_days">ఇది %1$s రోజుల సంగీతం.</string>
+    <string name="encore_story_minutes_hours">ఇది %1$s గంటల సంగీతం.</string>
+    <string name="encore_story_busiest_start">మీ అత్యంత బిజీ దినం</string>
+    <string name="encore_story_busiest_minutes">ఒక రోజులో %1$s నిమిషాల సంగీతం</string>
+    <string name="encore_story_clock_start">మీరు చుట్టూ సజీవం అయ్యారు</string>
+    <string name="encore_story_night_owl">రాత్రి గుడ్లగూబ</string>
+    <string name="encore_story_night_owl_detail">మీ వినడం చాలా వరకు రాత్రి 10 తర్వాత జరిగింది.</string>
+    <string name="encore_story_early_bird">ఉదయం పక్షి</string>
+    <string name="encore_story_early_bird_detail">మీ రోజులు ఉదయం 10 కి ముందు సంగీతం ద్వారా ప్రారంభమయ్యాయి.</string>
+    <string name="encore_story_golden_hour">గోల్డెన్ గంట</string>
+    <string name="encore_story_golden_hour_detail">సాయంకాలం సంగీతం బయటకు వచ్చిన సమయం.</string>
+    <string name="encore_story_daytime">పగటిపూట తిరుగు</string>
+    <string name="encore_story_daytime_detail">మీరు రోజంతా సంగీతం నిలిపివేసారు.</string>
+    <string name="encore_story_all_day">సమయం చుట్టూ</string>
+    <string name="encore_story_all_day_detail">ఉదయం, మధ్యాహ్నం లేదా రాత్రి - ఏదైనా ఆడుకుంటూ ఉంది.</string>
+    <string name="encore_story_artist_start">ఈ సంవత్సరం మీ టాప్ కళాకారుడు…</string>
+    <string name="encore_story_top_artists">మీ టాప్ కళాకారులు</string>
+    <string name="encore_story_song_start">మరియు ఈ సంవత్సరం మీ పాట…</string>
+    <string name="encore_story_top_songs">మీ టాప్ పాటల మిగిలిన భాగం</string>
+    <string name="encore_story_albums">మీరు జీవించిన ఆల్బమ్‌లు</string>
+    <string name="encore_story_months">మీ సంవత్సరం, నెల నెలవారీ</string>
+    <string name="encore_story_months_peak">%1$s మీ అతిపెద్ద నెల</string>
+    <string name="encore_story_discovery_start">ఈ సంవత్సరం మీరు అన్వేషించారు</string>
+    <string name="encore_story_summary_title">మీ %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">నిమిషం</item>
+        <item quantity="other">నిమిషాలు</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">పాట</item>
+        <item quantity="other">పాటలు</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">కళాకారుడు</item>
+        <item quantity="other">కళాకారులు</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">ఆల్బమ్</item>
+        <item quantity="other">ఆల్బమ్‌లు</item>
+    </plurals>
 </resources>

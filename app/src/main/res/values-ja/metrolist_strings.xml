@@ -1131,4 +1131,43 @@
     <string name="audio_quality_lossless_detail">アドオン、利用可能な場合はビット単位で正確 · 300 MB/時以上</string>
     <string name="audio_quality_high_detail">最高品質の YouTube ストリーム、最大約 256 kbps · 115 MB/時</string>
     <string name="audio_quality_low_detail">約 64 kbps · 最小サイズのダウンロード · 29 MB/時</string>
+    <string name="encore_story_opener">Utaloomでの%1$d</string>
+    <string name="encore_story_opener_detail">今年聴いた音楽を振り返ってみましょう。</string>
+    <string name="encore_story_minutes_start">今年、あなたは聴いていました</string>
+    <string name="encore_story_minutes_days">それは%1$s日間の音楽です。</string>
+    <string name="encore_story_minutes_hours">それは%1$s時間の音楽です。</string>
+    <string name="encore_story_busiest_start">あなたの最も忙しい日は</string>
+    <string name="encore_story_busiest_minutes">1日に%1$s分の音楽</string>
+    <string name="encore_story_clock_start">あなたは活動していました</string>
+    <string name="encore_story_night_owl">Night Owl</string>
+    <string name="encore_story_night_owl_detail">あなたのリスニングの大部分は夜10時以降に起こりました。</string>
+    <string name="encore_story_early_bird">Early Riser</string>
+    <string name="encore_story_early_bird_detail">あなたの1日は朝10時前に音楽で始まりました。</string>
+    <string name="encore_story_golden_hour">Golden Hour</string>
+    <string name="encore_story_golden_hour_detail">夕方が音楽の時間でした。</string>
+    <string name="encore_story_daytime">Daytime Drifter</string>
+    <string name="encore_story_daytime_detail">あなたは一日中音楽を聴いていました。</string>
+    <string name="encore_story_all_day">Around the Clock</string>
+    <string name="encore_story_all_day_detail">朝、昼、夜、いつも何かが流れていました。</string>
+    <string name="encore_story_artist_start">今年のトップアーティストは…</string>
+    <string name="encore_story_top_artists">あなたのトップアーティスト</string>
+    <string name="encore_story_song_start">そして今年の曲は…</string>
+    <string name="encore_story_top_songs">その他のトップ曲</string>
+    <string name="encore_story_albums">生きたアルバム</string>
+    <string name="encore_story_months">あなたの1年、月ごと</string>
+    <string name="encore_story_months_peak">%1$sはあなたの最も忙しい月でした</string>
+    <string name="encore_story_discovery_start">今年、あなたは発見しました</string>
+    <string name="encore_story_summary_title">あなたの%1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="other">分</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="other">曲</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="other">アーティスト</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="other">アルバム</item>
+    </plurals>
 </resources>

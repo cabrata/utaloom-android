@@ -1141,4 +1141,51 @@
     <string name="audio_quality_lossless_detail">התוספים שלך, bit-exact כשזמין · 300+ MB לשעה</string>
     <string name="audio_quality_high_detail">זרם YouTube הטוב ביותר, עד ~256 kbps · 115 MB לשעה</string>
     <string name="audio_quality_low_detail">~64 kbps · ההורדה הקטנה ביותר · 29 MB לשעה</string>
+    <string name="encore_story_opener">הערך שלך %1$d בUtaloom</string>
+    <string name="encore_story_opener_detail">בואו נחזור למה שהאזקנו.</string>
+    <string name="encore_story_minutes_start">השנה האזקנת</string>
+    <string name="encore_story_minutes_days">זהו %1$s ימים של מוזיקה.</string>
+    <string name="encore_story_minutes_hours">זהו %1$s שעות של מוזיקה.</string>
+    <string name="encore_story_busiest_start">היום הכי עסוק שלך היה</string>
+    <string name="encore_story_busiest_minutes">%1$s דקות מוזיקה ביום אחד</string>
+    <string name="encore_story_clock_start">הוא פעיל סביב</string>
+    <string name="encore_story_night_owl">ינשוף הלילה</string>
+    <string name="encore_story_night_owl_detail">הרבה מהאזנה שלך קרתה אחרי 22:00.</string>
+    <string name="encore_story_early_bird">מתעורר מוקדם</string>
+    <string name="encore_story_early_bird_detail">הימים שלך התחילו עם מוזיקה לפני 10 בבוקר.</string>
+    <string name="encore_story_golden_hour">השעה הזהובה</string>
+    <string name="encore_story_golden_hour_detail">הערבים היו כשהמוזיקה יצאה החוצה.</string>
+    <string name="encore_story_daytime">דוולר יום</string>
+    <string name="encore_story_daytime_detail">שמרת את המוזיקה כדי לעבור ביום.</string>
+    <string name="encore_story_all_day">סביב השעון</string>
+    <string name="encore_story_all_day_detail">בוקר, צהריים או לילה, משהו היה משחק.</string>
+    <string name="encore_story_artist_start">האמן המובילה שלך השנה היתה…</string>
+    <string name="encore_story_top_artists">אמנים מובילים שלך</string>
+    <string name="encore_story_song_start">והשיר שלך של השנה…</string>
+    <string name="encore_story_top_songs">שאר הטובות שלך</string>
+    <string name="encore_story_albums">אלבומים שחיית בהם</string>
+    <string name="encore_story_months">השנה שלך, חודש אחרי חודש</string>
+    <string name="encore_story_months_peak">%1$s היה החודש הגדול ביותר שלך</string>
+    <string name="encore_story_discovery_start">השנה הזאת גילית</string>
+    <string name="encore_story_summary_title">שלך %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">דקה</item>
+        <item quantity="two">שתי דקות</item>
+        <item quantity="other">דקות</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">שיר</item>
+        <item quantity="two">שני שירים</item>
+        <item quantity="other">שירים</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">אמן</item>
+        <item quantity="two">שני אמנים</item>
+        <item quantity="other">אמנים</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">אלבום</item>
+        <item quantity="two">שני אלבומים</item>
+        <item quantity="other">אלבומים</item>
+    </plurals>
 </resources>

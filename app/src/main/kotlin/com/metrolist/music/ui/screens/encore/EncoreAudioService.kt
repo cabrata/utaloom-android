@@ -17,6 +17,7 @@ import com.metrolist.music.constants.AudioQuality
 import com.metrolist.music.utils.InnerTubeXPlayer
 import com.metrolist.music.utils.dataStore
 import com.metrolist.music.utils.get
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -102,30 +103,7 @@ class EncoreAudioService(
             return fallbackUri
         }
 
-        return try {
-            val audioQuality = context.dataStore.get(com.metrolist.music.constants.AudioQualityKey).let { value ->
-                if (value == "VERY_HIGH") AudioQuality.HIGH
-                else AudioQuality.entries.find { it.name == value } ?: AudioQuality.AUTO
-            }
-            val playbackData = withContext(Dispatchers.IO) {
-                InnerTubeXPlayer.playerResponseForPlayback(
-                    videoId = songId,
-                    audioQuality = audioQuality,
-                    connectivityManager = connectivityManager,
-                ).getOrNull()
-            }
-            val streamUrl = playbackData?.streamUrl
-            if (streamUrl.isNullOrBlank()) {
-                Timber.tag("EncoreAudio")
-                    .w("Resolved URL for $songId is null or blank. Using fallback.")
-                fallbackUri
-            } else {
-                streamUrl.toUri()
-            }
-        } catch (e: Exception) {
-            Timber.tag("EncoreAudio").e(e, "Failed to resolve URL for $songId. Using fallback.")
-            fallbackUri
-        }
+        return resolveEncoreStream(context, connectivityManager, songId) ?: fallbackUri
     }
 
     fun pause() {
@@ -143,3 +121,27 @@ class EncoreAudioService(
         Timber.tag("EncoreAudioService").d("Player released.")
     }
 }
+
+/** A stream for [songId] at the listener's audio quality, or null when none resolves. */
+internal suspend fun resolveEncoreStream(context: Context, connectivityManager: ConnectivityManager, songId: String): Uri? =
+    try {
+        val audioQuality = context.dataStore.get(com.metrolist.music.constants.AudioQualityKey).let { value ->
+            if (value == "VERY_HIGH") AudioQuality.HIGH
+            else AudioQuality.entries.find { it.name == value } ?: AudioQuality.AUTO
+        }
+        val playbackData = withContext(Dispatchers.IO) {
+            InnerTubeXPlayer.playerResponseForPlayback(
+                videoId = songId,
+                audioQuality = audioQuality,
+                connectivityManager = connectivityManager,
+            ).getOrNull()
+        }
+        playbackData?.streamUrl?.takeUnless { it.isBlank() }?.toUri().also {
+            if (it == null) Timber.tag("EncoreAudio").w("Resolved URL for $songId is null or blank.")
+        }
+    } catch (e: CancellationException) {
+        throw e
+    } catch (e: Exception) {
+        Timber.tag("EncoreAudio").e(e, "Failed to resolve URL for $songId.")
+        null
+    }

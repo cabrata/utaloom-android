@@ -1131,4 +1131,43 @@
     <string name="audio_quality_lossless_detail">您的外掛程式，可用時保持位元精確 · 每小時 300+ MB</string>
     <string name="audio_quality_high_detail">最佳 YouTube 串流，最高約 256 kbps · 每小時 115 MB</string>
     <string name="audio_quality_low_detail">約 64 kbps · 最小下載量 · 每小時 29 MB</string>
+    <string name="encore_story_opener">您在 Utaloom 的 %1$d</string>
+    <string name="encore_story_opener_detail">讓我們回顧您播放過的音樂。</string>
+    <string name="encore_story_minutes_start">今年您已聆聽</string>
+    <string name="encore_story_minutes_days">那是 %1$s 天的音樂。</string>
+    <string name="encore_story_minutes_hours">那是 %1$s 小時的音樂。</string>
+    <string name="encore_story_busiest_start">您最活躍的一天是</string>
+    <string name="encore_story_busiest_minutes">一天內 %1$s 分鐘的音樂</string>
+    <string name="encore_story_clock_start">您最活躍的時間大約在</string>
+    <string name="encore_story_night_owl">夜貓子</string>
+    <string name="encore_story_night_owl_detail">您大部分的聆聽時間都在晚上 10 點之後。</string>
+    <string name="encore_story_early_bird">早起的人</string>
+    <string name="encore_story_early_bird_detail">您的日子從早上 10 點之前的音樂開始。</string>
+    <string name="encore_story_golden_hour">黃金時段</string>
+    <string name="encore_story_golden_hour_detail">傍晚是音樂盛開的時刻。</string>
+    <string name="encore_story_daytime">日間漫步者</string>
+    <string name="encore_story_daytime_detail">您整天都在享受音樂。</string>
+    <string name="encore_story_all_day">全天候</string>
+    <string name="encore_story_all_day_detail">無論早上、中午還是晚上，總有音樂在播放。</string>
+    <string name="encore_story_artist_start">今年您最喜歡的藝人是…</string>
+    <string name="encore_story_top_artists">您最喜歡的藝人</string>
+    <string name="encore_story_song_start">您今年的最愛歌曲…</string>
+    <string name="encore_story_top_songs">您其餘最喜歡的歌曲</string>
+    <string name="encore_story_albums">您沉浸其中的專輯</string>
+    <string name="encore_story_months">您的一年，月復一月</string>
+    <string name="encore_story_months_peak">%1$s 是您最活躍的月份</string>
+    <string name="encore_story_discovery_start">今年您探索了</string>
+    <string name="encore_story_summary_title">您的 %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="other">分鐘</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="other">首歌曲</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="other">位藝人</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="other">張專輯</item>
+    </plurals>
 </resources>

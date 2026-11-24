@@ -1323,4 +1323,55 @@
     <string name="audio_quality_lossless_detail">Vaši dodatki, bitno natančno, kjer je na voljo · več kot 300 MB/h</string>
     <string name="audio_quality_high_detail">Najboljši YouTube tok, do ~256 kb/s · 115 MB/h</string>
     <string name="audio_quality_low_detail">~64 kb/s · najmanjši prenos · 29 MB/h</string>
+    <string name="encore_story_opener">Vaše %1$d v Utaloomu</string>
+    <string name="encore_story_opener_detail">Poglejmo se nazaj na to, kar ste poslušali.</string>
+    <string name="encore_story_minutes_start">Letos ste poslušali</string>
+    <string name="encore_story_minutes_days">To je %1$s dni glasbe.</string>
+    <string name="encore_story_minutes_hours">To je %1$s ur glasbe.</string>
+    <string name="encore_story_busiest_start">Vaš najnapetejši dan je bil</string>
+    <string name="encore_story_busiest_minutes">%1$s minut glasbe v enem dnevu</string>
+    <string name="encore_story_clock_start">Oživeli ste se približno</string>
+    <string name="encore_story_night_owl">Nočna sova</string>
+    <string name="encore_story_night_owl_detail">Večina vašega poslušanja se je zgodila po 22. uri.</string>
+    <string name="encore_story_early_bird">Zgodnji lev</string>
+    <string name="encore_story_early_bird_detail">Vaš dan se je začel z glasbo pred 10. uro.</string>
+    <string name="encore_story_golden_hour">Zlata ura</string>
+    <string name="encore_story_golden_hour_detail">Večeri so bili čas, ko je zvenela glasba.</string>
+    <string name="encore_story_daytime">Dnevni tulumaček</string>
+    <string name="encore_story_daytime_detail">Ves dan ste poslušali glasbo.</string>
+    <string name="encore_story_all_day">Ves čas</string>
+    <string name="encore_story_all_day_detail">Zjutraj, opoldne ali ponoči je vedno nekaj igralo.</string>
+    <string name="encore_story_artist_start">Vaš vrhunski glasbenik letos je bil…</string>
+    <string name="encore_story_top_artists">Vaši vrhunski glasbeniki</string>
+    <string name="encore_story_song_start">In vaša pesem leta…</string>
+    <string name="encore_story_top_songs">Preostanek vaših najboljših pesmi</string>
+    <string name="encore_story_albums">Albumi, v katerih ste živeli</string>
+    <string name="encore_story_months">Vaše leto, mesec za mesecem</string>
+    <string name="encore_story_months_peak">%1$s je bil vaš najnapetejši mesec</string>
+    <string name="encore_story_discovery_start">Letos ste spoznali</string>
+    <string name="encore_story_summary_title">Vaše %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">minuta</item>
+        <item quantity="two">minuti</item>
+        <item quantity="few">minute</item>
+        <item quantity="other">minut</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">pesem</item>
+        <item quantity="two">pesmi</item>
+        <item quantity="few">pesmi</item>
+        <item quantity="other">pesmi</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">glasbenik</item>
+        <item quantity="two">glasbenika</item>
+        <item quantity="few">glasbeniki</item>
+        <item quantity="other">glasbenikov</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">album</item>
+        <item quantity="two">albuma</item>
+        <item quantity="few">albumi</item>
+        <item quantity="other">albumov</item>
+    </plurals>
 </resources>

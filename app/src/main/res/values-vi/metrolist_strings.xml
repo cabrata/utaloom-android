@@ -1131,4 +1131,43 @@
     <string name="audio_quality_lossless_detail">Tiện ích bổ sung của bạn, chính xác từng bit khi có thể · hơn 300 MB/giờ</string>
     <string name="audio_quality_high_detail">Luồng YouTube tốt nhất, tối đa ~256 kbps · 115 MB/giờ</string>
     <string name="audio_quality_low_detail">~64 kbps · tải xuống nhỏ nhất · 29 MB/giờ</string>
+    <string name="encore_story_opener">Năm %1$d của bạn trên Utaloom</string>
+    <string name="encore_story_opener_detail">Hãy nhìn lại những gì bạn đã nghe.</string>
+    <string name="encore_story_minutes_start">Năm nay bạn đã nghe</string>
+    <string name="encore_story_minutes_days">Đó là %1$s ngày nhạc.</string>
+    <string name="encore_story_minutes_hours">Đó là %1$s giờ nhạc.</string>
+    <string name="encore_story_busiest_start">Ngày bận rộn nhất của bạn là</string>
+    <string name="encore_story_busiest_minutes">%1$s phút nhạc trong một ngày</string>
+    <string name="encore_story_clock_start">Bạn hoạt động vào khoảng</string>
+    <string name="encore_story_night_owl">Night Owl</string>
+    <string name="encore_story_night_owl_detail">Phần lớn thời gian nghe của bạn xảy ra sau 10 tối.</string>
+    <string name="encore_story_early_bird">Early Riser</string>
+    <string name="encore_story_early_bird_detail">Những ngày của bạn bắt đầu với nhạc trước 10 sáng.</string>
+    <string name="encore_story_golden_hour">Golden Hour</string>
+    <string name="encore_story_golden_hour_detail">Buổi tối là lúc nhạc ứa ra.</string>
+    <string name="encore_story_daytime">Daytime Drifter</string>
+    <string name="encore_story_daytime_detail">Bạn giữ nhạc chạy suốt ngày.</string>
+    <string name="encore_story_all_day">Around the Clock</string>
+    <string name="encore_story_all_day_detail">Sáng, trưa hay tối, luôn có thứ gì đó phát.</string>
+    <string name="encore_story_artist_start">Nghệ sĩ hàng đầu của bạn năm nay là…</string>
+    <string name="encore_story_top_artists">Các nghệ sĩ hàng đầu của bạn</string>
+    <string name="encore_story_song_start">Và bài hát của năm bạn…</string>
+    <string name="encore_story_top_songs">Các bài hát hàng đầu còn lại của bạn</string>
+    <string name="encore_story_albums">Album bạn đã sống trong</string>
+    <string name="encore_story_months">Năm của bạn, tháng theo tháng</string>
+    <string name="encore_story_months_peak">%1$s là tháng bận rộn nhất của bạn</string>
+    <string name="encore_story_discovery_start">Năm nay bạn đã khám phá</string>
+    <string name="encore_story_summary_title">Năm %1$d của bạn</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="other">phút</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="other">bài hát</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="other">nghệ sĩ</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="other">album</item>
+    </plurals>
 </resources>

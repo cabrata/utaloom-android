@@ -1143,4 +1143,51 @@
     <string name="audio_quality_lossless_detail">Suplimentele tale, bit-perfect când este disponibil · peste 300 MB/oră</string>
     <string name="audio_quality_high_detail">Cel mai bun flux YouTube, până la ~256 kbps · 115 MB/oră</string>
     <string name="audio_quality_low_detail">~64 kbps · descărcare minimă · 29 MB/oră</string>
+    <string name="encore_story_opener">%1$d dvs. în Utaloom</string>
+    <string name="encore_story_opener_detail">Hai să privim înapoi la ceea ce ați ascultat.</string>
+    <string name="encore_story_minutes_start">Anul acesta ați ascultat</string>
+    <string name="encore_story_minutes_days">Aceasta înseamnă %1$s zile de muzică.</string>
+    <string name="encore_story_minutes_hours">Aceasta înseamnă %1$s ore de muzică.</string>
+    <string name="encore_story_busiest_start">Ziua dvs. cea mai aglomerată a fost</string>
+    <string name="encore_story_busiest_minutes">%1$s minute de muzică într-o zi</string>
+    <string name="encore_story_clock_start">Ați fost treaz în jurul</string>
+    <string name="encore_story_night_owl">Night Owl</string>
+    <string name="encore_story_night_owl_detail">Mult din ascultarea dvs. s-a întâmplat după ora 22.</string>
+    <string name="encore_story_early_bird">Early Riser</string>
+    <string name="encore_story_early_bird_detail">Ziua dvs. a început cu muzică înainte de ora 10.</string>
+    <string name="encore_story_golden_hour">Golden Hour</string>
+    <string name="encore_story_golden_hour_detail">Serile erau când muzica ieșea la iveală.</string>
+    <string name="encore_story_daytime">Daytime Drifter</string>
+    <string name="encore_story_daytime_detail">Ați ținut muzica pe tot parcursul zilei.</string>
+    <string name="encore_story_all_day">Around the Clock</string>
+    <string name="encore_story_all_day_detail">Dimineața, la amiază sau seara, ceva se juca mereu.</string>
+    <string name="encore_story_artist_start">Artistul dvs. preferat anul acesta a fost…</string>
+    <string name="encore_story_top_artists">Artiștii dvs. preferați</string>
+    <string name="encore_story_song_start">Și piesa dvs. a anului…</string>
+    <string name="encore_story_top_songs">Restul pieselor dvs. preferate</string>
+    <string name="encore_story_albums">Albume în care ați trăit</string>
+    <string name="encore_story_months">Anul dvs., lună după lună</string>
+    <string name="encore_story_months_peak">%1$s a fost luna dvs. cea mai aglomerată</string>
+    <string name="encore_story_discovery_start">Anul acesta ați explorat</string>
+    <string name="encore_story_summary_title">%1$d dvs.</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">minut</item>
+        <item quantity="few">minute</item>
+        <item quantity="other">minute</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">cântec</item>
+        <item quantity="few">cântece</item>
+        <item quantity="other">cântece</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">artist</item>
+        <item quantity="few">artiști</item>
+        <item quantity="other">artiști</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">album</item>
+        <item quantity="few">albume</item>
+        <item quantity="other">albume</item>
+    </plurals>
 </resources>

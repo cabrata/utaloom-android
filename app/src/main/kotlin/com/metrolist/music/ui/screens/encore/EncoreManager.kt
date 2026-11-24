@@ -172,6 +172,37 @@ class EncoreManager(
                     val playTime = async {
                         databaseDao.getTotalPlayTimeInRange(period.start, period.endInclusive).first() ?: 0L
                     }
+                    // Event timestamps hold local wall-clock time stored as UTC, so no 'localtime' modifier.
+                    val range = arrayOf<Any?>(
+                        period.start.toInstant(java.time.ZoneOffset.UTC).toEpochMilli(),
+                        period.endInclusive.toInstant(java.time.ZoneOffset.UTC).toEpochMilli(),
+                    )
+                    val days = async {
+                        database.openHelper.readableDatabase.query(
+                            "SELECT date(timestamp / 1000, 'unixepoch'), SUM(playTime) FROM event " +
+                                "WHERE timestamp BETWEEN ? AND ? GROUP BY 1",
+                            range,
+                        ).use { cursor ->
+                            buildMap {
+                                while (cursor.moveToNext()) {
+                                    if (!cursor.isNull(0)) put(java.time.LocalDate.parse(cursor.getString(0)), cursor.getLong(1))
+                                }
+                            }
+                        }
+                    }
+                    val hours = async {
+                        database.openHelper.readableDatabase.query(
+                            "SELECT CAST(strftime('%H', timestamp / 1000, 'unixepoch') AS INTEGER), SUM(playTime) FROM event " +
+                                "WHERE timestamp BETWEEN ? AND ? GROUP BY 1",
+                            range,
+                        ).use { cursor ->
+                            val perHour = LongArray(24)
+                            while (cursor.moveToNext()) {
+                                cursor.getInt(0).takeIf { it in 0..23 }?.let { perHour[it] = cursor.getLong(1) }
+                            }
+                            perHour.toList()
+                        }
+                    }
                     val topSongs = songs.await()
                     val topAlbums = albums.await()
                     loading.copy(
@@ -184,6 +215,8 @@ class EncoreManager(
                         uniqueArtistCount = artistCount.await(),
                         totalAlbums = albumCount.await(),
                         totalMinutes = playTime.await() / 60_000,
+                        dayMs = days.await(),
+                        hourMs = hours.await(),
                         isLoading = false,
                         isDataReady = true,
                     )

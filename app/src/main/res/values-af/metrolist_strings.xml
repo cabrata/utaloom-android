@@ -1414,4 +1414,47 @@
     <string name="audio_quality_lossless_detail">Jou byvoegings, bis-presies waar beskikbaar · 300+ MB/uur</string>
     <string name="audio_quality_high_detail">Beste YouTube-stroom, tot ~256 kbps · 115 MB/uur</string>
     <string name="audio_quality_low_detail">~64 kbps · kleinste aflaai · 29 MB/uur</string>
+    <string name="encore_story_opener">Jou %1$d in Utaloom</string>
+    <string name="encore_story_opener_detail">Laat ons terugkyk na wat jy gespeel het.</string>
+    <string name="encore_story_minutes_start">Hierdie jaar het jy geluister vir</string>
+    <string name="encore_story_minutes_days">Dit is %1$s dae van musiek.</string>
+    <string name="encore_story_minutes_hours">Dit is %1$s ure van musiek.</string>
+    <string name="encore_story_busiest_start">Jou drukste dag was</string>
+    <string name="encore_story_busiest_minutes">%1$s minute van musiek in een dag</string>
+    <string name="encore_story_clock_start">Jy het tot lewe gekom rondom</string>
+    <string name="encore_story_night_owl">Nagvoel</string>
+    <string name="encore_story_night_owl_detail">Baie van jou luister het na 22:00 gebeur.</string>
+    <string name="encore_story_early_bird">Vroeë Voël</string>
+    <string name="encore_story_early_bird_detail">Jou dae het met musiek voor 10:00 begin.</string>
+    <string name="encore_story_golden_hour">Goue Uur</string>
+    <string name="encore_story_golden_hour_detail">Aande was wanneer die musiek uitgekom het.</string>
+    <string name="encore_story_daytime">Dagmusiekdrywer</string>
+    <string name="encore_story_daytime_detail">Jy het die musiek die hele dag aangehou.</string>
+    <string name="encore_story_all_day">Rondom die Klok</string>
+    <string name="encore_story_all_day_detail">Soggens, middag of snags, iets was aan die speel.</string>
+    <string name="encore_story_artist_start">Jou top kunstenaar hierdie jaar was…</string>
+    <string name="encore_story_top_artists">Jou top kunstenaars</string>
+    <string name="encore_story_song_start">En jou lied van die jaar…</string>
+    <string name="encore_story_top_songs">Die res van jou top liedjies</string>
+    <string name="encore_story_albums">Albums wat jy in geleef het</string>
+    <string name="encore_story_months">Jou jaar, maand vir maand</string>
+    <string name="encore_story_months_peak">%1$s was jou grootste maand</string>
+    <string name="encore_story_discovery_start">Hierdie jaar het jy verken</string>
+    <string name="encore_story_summary_title">Jou %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">minuut</item>
+        <item quantity="other">minute</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">lied</item>
+        <item quantity="other">liedjies</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">kunstenaar</item>
+        <item quantity="other">kunstenaars</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">album</item>
+        <item quantity="other">albome</item>
+    </plurals>
 </resources>

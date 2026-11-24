@@ -79,6 +79,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
@@ -112,6 +113,7 @@ import coil3.compose.AsyncImage
 import com.metrolist.music.LocalNavController
 import com.metrolist.music.LocalPlayerConnection
 import com.metrolist.music.R
+import com.metrolist.music.ui.glass.glassActive
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -189,6 +191,7 @@ fun EncoreScreen(playMusic: Boolean = true) {
     val shareError = stringResource(R.string.encore_recap_share_error)
     val ready = state.isDataReady && !state.isLoading && state.year == year
     val stories = ready && !state.hasError && state.topSongs.isNotEmpty()
+    val glass = glassActive() && stories
     val style = (if (stories) screens.getOrElse(pager.currentPage) { screens.last() } else EncoreScreenType.Welcome).style()
     val background by animateColorAsState(style.background, label = "encore_background")
     val content by animateColorAsState(style.content, label = "encore_content")
@@ -196,12 +199,37 @@ fun EncoreScreen(playMusic: Boolean = true) {
     val autoAdvance = remember(context) {
         context.getSystemService(AccessibilityManager::class.java)?.isTouchExplorationEnabled != true
     }
-    val audio = if (playMusic && stories) rememberEncoreMusic(state.topSongs.first().id) else null
+    // Glass plays its own clip per story.
+    val audio = if (playMusic && stories && !glass) rememberEncoreMusic(state.topSongs.first().id) else null
     val muted = audio?.isMuted?.collectAsStateWithLifecycle()?.value == true
     fun goTo(target: Int): Boolean {
         if (target !in 0 until pager.pageCount) return false
         scope.launch { pager.animateScrollToPage(target) }
         return true
+    }
+
+    val shareImage: (suspend () -> ImageBitmap) -> Unit = { capture ->
+        sharing = true
+        scope.launch {
+            try {
+                shareEncore(context, capture().asAndroidBitmap(), state.year)
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (_: Exception) {
+                snackbar.showSnackbar(shareError)
+            } finally {
+                sharing = false
+            }
+        }
+    }
+    val shareCard: () -> Unit = { shareImage { layer.toImageBitmap() } }
+    val summaryModifier = Modifier.drawWithContent {
+        layer.record { this@drawWithContent.drawContent() }
+        drawLayer(layer)
+    }
+    val openPlaylist: () -> Unit = {
+        val id = state.playlistId
+        if (id != null) navController.navigate("local_playlist/$id") else manager.createPlaylist()
     }
 
     val onClose: () -> Unit = {
@@ -230,7 +258,7 @@ fun EncoreScreen(playMusic: Boolean = true) {
             lightNavigation?.let { bars?.isAppearanceLightNavigationBars = it }
         }
     }
-    val lightBars = style.background.luminance() > 0.5f
+    val lightBars = !glass && style.background.luminance() > 0.5f
     SideEffect {
         bars?.isAppearanceLightStatusBars = lightBars
         bars?.isAppearanceLightNavigationBars = lightBars
@@ -239,7 +267,7 @@ fun EncoreScreen(playMusic: Boolean = true) {
     var progress by remember { mutableFloatStateOf(0f) }
     var progressPage by remember { mutableIntStateOf(-1) }
     LaunchedEffect(stories, pager.currentPage, held, year) {
-        if (!stories) return@LaunchedEffect
+        if (!stories || glass) return@LaunchedEffect
         val page = pager.currentPage
         if (progressPage != page) {
             progress = 0f
@@ -260,7 +288,7 @@ fun EncoreScreen(playMusic: Boolean = true) {
         scope.launch { pager.animateScrollToPage(page + 1) }
     }
 
-    Box(Modifier.fillMaxSize().background(background)) {
+    Box(Modifier.fillMaxSize().background(if (glass) Color(0xFF0B0A10) else background)) {
         CompositionLocalProvider(LocalContentColor provides content) {
             when {
                 state.hasError -> StoryColumn {
@@ -283,6 +311,17 @@ fun EncoreScreen(playMusic: Boolean = true) {
                     )
                     StoryButton(stringResource(R.string.encore_recap_listen), style, onClose)
                 }
+                glass -> EncoreGlassStories(
+                    state = state,
+                    year = year,
+                    currentYear = currentYear,
+                    onYear = { chosenYear = it.takeUnless { picked -> picked == currentYear } },
+                    playMusic = playMusic,
+                    sharing = sharing,
+                    onShare = shareImage,
+                    onPlaylist = openPlaylist,
+                    onClose = onClose,
+                )
                 else -> {
                     val previousLabel = stringResource(R.string.encore_recap_previous)
                     val nextLabel = stringResource(R.string.encore_recap_next)
@@ -329,28 +368,9 @@ fun EncoreScreen(playMusic: Boolean = true) {
                                     onStart = { goTo(1) },
                                     onReplay = { goTo(0) },
                                     sharing = sharing,
-                                    onShare = {
-                                        sharing = true
-                                        scope.launch {
-                                            try {
-                                                shareEncore(context, layer.toImageBitmap().asAndroidBitmap(), state.year)
-                                            } catch (cancelled: CancellationException) {
-                                                throw cancelled
-                                            } catch (_: Exception) {
-                                                snackbar.showSnackbar(shareError)
-                                            } finally {
-                                                sharing = false
-                                            }
-                                        }
-                                    },
-                                    summaryModifier = Modifier.drawWithContent {
-                                        layer.record { this@drawWithContent.drawContent() }
-                                        drawLayer(layer)
-                                    },
-                                    onPlaylist = {
-                                        val id = state.playlistId
-                                        if (id != null) navController.navigate("local_playlist/$id") else manager.createPlaylist()
-                                    },
+                                    onShare = shareCard,
+                                    summaryModifier = summaryModifier,
+                                    onPlaylist = openPlaylist,
                                     onPlaylistRetry = manager::createPlaylist,
                                 )
                             }
@@ -359,7 +379,7 @@ fun EncoreScreen(playMusic: Boolean = true) {
                 }
             }
 
-            Column(Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 12.dp, vertical = 8.dp)) {
+            if (!glass) Column(Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 12.dp, vertical = 8.dp)) {
                 if (stories) {
                     val pageLabel = stringResource(R.string.encore_recap_page, pager.currentPage + 1, pager.pageCount)
                     Row(

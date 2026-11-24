@@ -1143,4 +1143,51 @@
     <string name="audio_quality_lossless_detail">Seus complementos, bit a bit quando disponível · mais de 300 MB/h</string>
     <string name="audio_quality_high_detail">Melhor transmissão do YouTube, até ~256 kbps · 115 MB/h</string>
     <string name="audio_quality_low_detail">~64 kbps · menor download · 29 MB/h</string>
+    <string name="encore_story_opener">Seu %1$d no Utaloom</string>
+    <string name="encore_story_opener_detail">Vamos olhar para trás e ver o que você ouviu.</string>
+    <string name="encore_story_minutes_start">Este ano você ouviu por</string>
+    <string name="encore_story_minutes_days">São %1$s dias de música.</string>
+    <string name="encore_story_minutes_hours">São %1$s horas de música.</string>
+    <string name="encore_story_busiest_start">Seu dia mais movimentado foi</string>
+    <string name="encore_story_busiest_minutes">%1$s minutos de música em um dia</string>
+    <string name="encore_story_clock_start">Você acordava perto das</string>
+    <string name="encore_story_night_owl">Coruja noturna</string>
+    <string name="encore_story_night_owl_detail">Grande parte da sua audição acontecia após as 22h.</string>
+    <string name="encore_story_early_bird">Madrugador</string>
+    <string name="encore_story_early_bird_detail">Seu dia começava com música antes das 10h.</string>
+    <string name="encore_story_golden_hour">Hora dourada</string>
+    <string name="encore_story_golden_hour_detail">As noites eram quando a música toca.</string>
+    <string name="encore_story_daytime">Andarilho diurno</string>
+    <string name="encore_story_daytime_detail">Você manteve a música tocando o dia todo.</string>
+    <string name="encore_story_all_day">Vinte e quatro horas</string>
+    <string name="encore_story_all_day_detail">Manhã, tarde ou noite, sempre havia algo tocando.</string>
+    <string name="encore_story_artist_start">Seu artista principal este ano foi…</string>
+    <string name="encore_story_top_artists">Seus artistas principais</string>
+    <string name="encore_story_song_start">E sua música do ano…</string>
+    <string name="encore_story_top_songs">O resto de suas melhores músicas</string>
+    <string name="encore_story_albums">Álbuns em que você viveu</string>
+    <string name="encore_story_months">Seu ano, mês a mês</string>
+    <string name="encore_story_months_peak">%1$s foi seu mês mais movimentado</string>
+    <string name="encore_story_discovery_start">Este ano você descobriu</string>
+    <string name="encore_story_summary_title">Seu %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">minuto</item>
+        <item quantity="many">minutos</item>
+        <item quantity="other">minutos</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">música</item>
+        <item quantity="many">músicas</item>
+        <item quantity="other">músicas</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">artista</item>
+        <item quantity="many">artistas</item>
+        <item quantity="other">artistas</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">álbum</item>
+        <item quantity="many">álbuns</item>
+        <item quantity="other">álbuns</item>
+    </plurals>
 </resources>

@@ -1147,4 +1147,55 @@
     <string name="audio_quality_lossless_detail">Ваші додатки, точність до біта за наявності · понад 300 МБ/год</string>
     <string name="audio_quality_high_detail">Найкращий потік YouTube, до ~256 кбіт/с · 115 МБ/год</string>
     <string name="audio_quality_low_detail">~64 кбіт/с · найменше завантаження · 29 МБ/год</string>
+    <string name="encore_story_opener">Ваш %1$d в Utaloom</string>
+    <string name="encore_story_opener_detail">Давайте подивимося на те, що ви прослухали.</string>
+    <string name="encore_story_minutes_start">Цього року ви слухали</string>
+    <string name="encore_story_minutes_days">Це %1$s днів музики.</string>
+    <string name="encore_story_minutes_hours">Це %1$s годин музики.</string>
+    <string name="encore_story_busiest_start">Ваш найбільш навантажений день був</string>
+    <string name="encore_story_busiest_minutes">%1$s хвилин музики в один день</string>
+    <string name="encore_story_clock_start">Ви активно слухали</string>
+    <string name="encore_story_night_owl">Нічна Сова</string>
+    <string name="encore_story_night_owl_detail">Багато вашого слухання відбулося після 22:00.</string>
+    <string name="encore_story_early_bird">Ранній Птах</string>
+    <string name="encore_story_early_bird_detail">Ваші дні розпочиналися з музики перед 10 ранку.</string>
+    <string name="encore_story_golden_hour">Золота Година</string>
+    <string name="encore_story_golden_hour_detail">Вечори були коли вийшла музика.</string>
+    <string name="encore_story_daytime">Денний Слухач</string>
+    <string name="encore_story_daytime_detail">Ви тримали музику протягом дня.</string>
+    <string name="encore_story_all_day">Круглосутково</string>
+    <string name="encore_story_all_day_detail">Ранок, обід чи ніч, щось грало.</string>
+    <string name="encore_story_artist_start">Ваш топ-артист цього року був…</string>
+    <string name="encore_story_top_artists">Ваші топ-артисти</string>
+    <string name="encore_story_song_start">І ваша пісня року…</string>
+    <string name="encore_story_top_songs">Решта ваших топ-пісень</string>
+    <string name="encore_story_albums">Альбоми, в яких ви жили</string>
+    <string name="encore_story_months">Ваш рік, місяць за місяцем</string>
+    <string name="encore_story_months_peak">%1$s був ваш найбільш навантажений місяць</string>
+    <string name="encore_story_discovery_start">Цього року ви розглядали</string>
+    <string name="encore_story_summary_title">Ваш %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">хвилина</item>
+        <item quantity="few">хвилини</item>
+        <item quantity="many">хвилин</item>
+        <item quantity="other">хвилин</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">пісня</item>
+        <item quantity="few">пісні</item>
+        <item quantity="many">пісень</item>
+        <item quantity="other">пісень</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">артист</item>
+        <item quantity="few">артисти</item>
+        <item quantity="many">артистів</item>
+        <item quantity="other">артистів</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">альбом</item>
+        <item quantity="few">альбоми</item>
+        <item quantity="many">альбомів</item>
+        <item quantity="other">альбомів</item>
+    </plurals>
 </resources>

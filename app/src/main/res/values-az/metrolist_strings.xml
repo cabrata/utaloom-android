@@ -1306,4 +1306,47 @@
     <string name="audio_quality_lossless_detail">Əlavələriniz, mümkün olduqda bit-dəqiq · 300+ MB/saat</string>
     <string name="audio_quality_high_detail">Ən yaxşı YouTube axını, ~256 kbps-dək · 115 MB/saat</string>
     <string name="audio_quality_low_detail">~64 kbps · ən kiçik yükləmə · 29 MB/saat</string>
+    <string name="encore_story_opener">Utaloom\'da sizin %1$d</string>
+    <string name="encore_story_opener_detail">Oynadığınız şeylere geri bakalım.</string>
+    <string name="encore_story_minutes_start">Bu yıl müzik dinlemediniz</string>
+    <string name="encore_story_minutes_days">Bu, %1$s gün musik idi.</string>
+    <string name="encore_story_minutes_hours">Bu, %1$s saatlık musik idi.</string>
+    <string name="encore_story_busiest_start">En meşğul gununuz idi</string>
+    <string name="encore_story_busiest_minutes">Bir günde %1$s dəqiqə musik</string>
+    <string name="encore_story_clock_start">Sizə etraf fəallaşdı</string>
+    <string name="encore_story_night_owl">Gecə Baykuşu</string>
+    <string name="encore_story_night_owl_detail">Dinləmə aktivliyinizin çoxu saat 22:00-dən sonra olub.</string>
+    <string name="encore_story_early_bird">Erkən Qalxan</string>
+    <string name="encore_story_early_bird_detail">Günləriniz saat 10:00-dan əvvəl musikla başladı.</string>
+    <string name="encore_story_golden_hour">Qızıl Saat</string>
+    <string name="encore_story_golden_hour_detail">Axşamlar musikin çıxdığı zaman idi.</string>
+    <string name="encore_story_daytime">Gündüz Surücü</string>
+    <string name="encore_story_daytime_detail">Bütün gün musik dinləməyə davam etdiniz.</string>
+    <string name="encore_story_all_day">Saat Ətrafında</string>
+    <string name="encore_story_all_day_detail">Sabah, öğlə və ya gecə - bir şey oynadılırdı.</string>
+    <string name="encore_story_artist_start">Bu ilin əsas artistiniz idi…</string>
+    <string name="encore_story_top_artists">Sizin ən yaxşı artistləri</string>
+    <string name="encore_story_song_start">Və ilin dəqiq şarkısı…</string>
+    <string name="encore_story_top_songs">Sizin qalan ən yaxşı şarkıları</string>
+    <string name="encore_story_albums">Yaşadığınız albomlar</string>
+    <string name="encore_story_months">Sizin ili, ay ilə ay</string>
+    <string name="encore_story_months_peak">%1$s sizin ən meşğul ayınız idi</string>
+    <string name="encore_story_discovery_start">Bu il sizə kəşf etdiniz</string>
+    <string name="encore_story_summary_title">Sizin %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">dəqiqə</item>
+        <item quantity="other">dəqiqə</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">şarkı</item>
+        <item quantity="other">şarkı</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">artist</item>
+        <item quantity="other">artist</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">albom</item>
+        <item quantity="other">albom</item>
+    </plurals>
 </resources>

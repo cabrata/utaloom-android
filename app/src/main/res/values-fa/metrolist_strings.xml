@@ -1155,4 +1155,47 @@
     <string name="audio_quality_lossless_detail">افزونه‌های شما، در صورت امکان بدون تغییر بیت‌ها · بیش از ۳۰۰ مگابایت در ساعت</string>
     <string name="audio_quality_high_detail">بهترین جریان YouTube، تا حدود ۲۵۶ kbps · ۱۱۵ مگابایت در ساعت</string>
     <string name="audio_quality_low_detail">حدود ۶۴ kbps · کمترین حجم دانلود · ۲۹ مگابایت در ساعت</string>
+    <string name="encore_story_opener">%1$d شما در Utaloom</string>
+    <string name="encore_story_opener_detail">بیایید ببینیم چه چیزهایی گوش دادید.</string>
+    <string name="encore_story_minutes_start">امسال گوش دادید به</string>
+    <string name="encore_story_minutes_days">این %1$s روز موسیقی است.</string>
+    <string name="encore_story_minutes_hours">این %1$s ساعت موسیقی است.</string>
+    <string name="encore_story_busiest_start">پرمشغله‌ترین روز شما بود</string>
+    <string name="encore_story_busiest_minutes">%1$s دقیقه موسیقی در یک روز</string>
+    <string name="encore_story_clock_start">شما ساعات خود را سپری کردید حول</string>
+    <string name="encore_story_night_owl">Night Owl</string>
+    <string name="encore_story_night_owl_detail">بسیاری از تماشای شما بعد از ساعت ۱۰ شب رخ داد.</string>
+    <string name="encore_story_early_bird">Early Riser</string>
+    <string name="encore_story_early_bird_detail">روزهای شما با موسیقی قبل از ساعت ۱۰ صبح شروع می‌شد.</string>
+    <string name="encore_story_golden_hour">Golden Hour</string>
+    <string name="encore_story_golden_hour_detail">عصرها وقتی بود که موسیقی بیرون می‌آمد.</string>
+    <string name="encore_story_daytime">Daytime Drifter</string>
+    <string name="encore_story_daytime_detail">شما موسیقی را تمام روز ادامه دادید.</string>
+    <string name="encore_story_all_day">Around the Clock</string>
+    <string name="encore_story_all_day_detail">صبح، ظهر یا شب، همیشه چیزی پخش می‌شد.</string>
+    <string name="encore_story_artist_start">هنرمند برتر شما در امسال…</string>
+    <string name="encore_story_top_artists">هنرمندان برتر شما</string>
+    <string name="encore_story_song_start">و آهنگ سال شما…</string>
+    <string name="encore_story_top_songs">بقیه آهنگ‌های برتر شما</string>
+    <string name="encore_story_albums">آلبوم‌هایی که در آن زندگی کردید</string>
+    <string name="encore_story_months">سال شما، ماه به ماه</string>
+    <string name="encore_story_months_peak">%1$s پرمشغله‌ترین ماه شما بود</string>
+    <string name="encore_story_discovery_start">امسال کشف کردید</string>
+    <string name="encore_story_summary_title">%1$d شما</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">دقیقه</item>
+        <item quantity="other">دقیقه</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">آهنگ</item>
+        <item quantity="other">آهنگ</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">هنرمند</item>
+        <item quantity="other">هنرمند</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">آلبوم</item>
+        <item quantity="other">آلبوم</item>
+    </plurals>
 </resources>

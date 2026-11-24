@@ -1098,4 +1098,52 @@
     <string name="theme_mode">Modo de Tema</string>
     <string name="color_palette">Paleta de Colores</string>
     <string name="use_system_colors">Usar colores del sistema</string>
-<string name="audio_output_bluetooth">Audio Bluetooth</string><string name="audio_output_hdmi">HDMI</string><string name="audio_output_phone">Este teléfono</string><string name="audio_output_playing">Reproduciendo aquí</string><string name="audio_output_system">Salida de audio del sistema</string><string name="audio_output_usb">Audio USB</string><string name="audio_output_wired">Auriculares con cable</string><string name="audio_quality_high_detail">Mejor transmisión de YouTube, hasta ~256 kbps · 115 MB/hr</string><string name="audio_quality_in_use">En uso</string><string name="audio_quality_lossless_detail">Tus complementos, bit-exacto donde disponible · 300+ MB/hr</string><string name="audio_quality_low_detail">~64 kbps · descarga más pequeña · 29 MB/hr</string><string name="audio_quality_on_mobile_data">En datos móviles</string><string name="audio_quality_on_wifi">En Wi-Fi</string><string name="cast_casting">Transmitiendo</string><string name="cast_connecting">Conectando…</string><string name="cast_dialog_subtitle">Reproduce en un Chromecast o altavoz Google Cast</string><string name="cast_row_subtitle">Altavoces Chromecast y Google Cast</string><string name="cast_searching">Buscando dispositivos…</string><string name="cast_searching_hint">Tu teléfono y el receptor deben estar en la misma red Wi-Fi.</string><string name="cast_stop">Detener transmisión</string><string name="drag_to_reorder">Arrastra para reordenar</string><string name="music_source_edit">Editar complemento</string><string name="music_source_remove_action">Eliminar complemento</string><string name="music_source_test">Prueba</string><string name="music_source_testing">Probando…</string><string name="pipeline_codec_profile">Perfil del códec</string><string name="pipeline_device_capability">Capacidad del dispositivo</string><string name="pipeline_direct">Directo</string><string name="pipeline_direct_offload">Activo (offload, evita el mezclador)</string><string name="pipeline_direct_supported">Compatible (mezclado por Android)</string><string name="pipeline_direct_unsupported">No compatible (ruta mixta)</string><string name="pipeline_loudness_measured">Volumen medido</string><string name="pipeline_none">Ninguno</string><string name="pipeline_output_api">API de salida</string><string name="pipeline_passthrough">Paso directo</string><string name="pipeline_pcm_data_rate">Velocidad de datos PCM</string><string name="pipeline_quality">Calidad</string><string name="pipeline_resampled">Remuestreado</string><string name="pipeline_resampler_framework">Marco de remuestreo</string><string name="pipeline_route">Ruta</string><string name="pipeline_sonic">Sonic (tempo y tono)</string><string name="pipeline_system_default">Predeterminado del sistema</string><string name="pipeline_type">Tipo</string></resources>
+<string name="audio_output_bluetooth">Audio Bluetooth</string><string name="audio_output_hdmi">HDMI</string><string name="audio_output_phone">Este teléfono</string><string name="audio_output_playing">Reproduciendo aquí</string><string name="audio_output_system">Salida de audio del sistema</string><string name="audio_output_usb">Audio USB</string><string name="audio_output_wired">Auriculares con cable</string><string name="audio_quality_high_detail">Mejor transmisión de YouTube, hasta ~256 kbps · 115 MB/hr</string><string name="audio_quality_in_use">En uso</string><string name="audio_quality_lossless_detail">Tus complementos, bit-exacto donde disponible · 300+ MB/hr</string><string name="audio_quality_low_detail">~64 kbps · descarga más pequeña · 29 MB/hr</string><string name="audio_quality_on_mobile_data">En datos móviles</string><string name="audio_quality_on_wifi">En Wi-Fi</string><string name="cast_casting">Transmitiendo</string><string name="cast_connecting">Conectando…</string><string name="cast_dialog_subtitle">Reproduce en un Chromecast o altavoz Google Cast</string><string name="cast_row_subtitle">Altavoces Chromecast y Google Cast</string><string name="cast_searching">Buscando dispositivos…</string><string name="cast_searching_hint">Tu teléfono y el receptor deben estar en la misma red Wi-Fi.</string><string name="cast_stop">Detener transmisión</string><string name="drag_to_reorder">Arrastra para reordenar</string><string name="music_source_edit">Editar complemento</string><string name="music_source_remove_action">Eliminar complemento</string><string name="music_source_test">Prueba</string><string name="music_source_testing">Probando…</string><string name="pipeline_codec_profile">Perfil del códec</string><string name="pipeline_device_capability">Capacidad del dispositivo</string><string name="pipeline_direct">Directo</string><string name="pipeline_direct_offload">Activo (offload, evita el mezclador)</string><string name="pipeline_direct_supported">Compatible (mezclado por Android)</string><string name="pipeline_direct_unsupported">No compatible (ruta mixta)</string><string name="pipeline_loudness_measured">Volumen medido</string><string name="pipeline_none">Ninguno</string><string name="pipeline_output_api">API de salida</string><string name="pipeline_passthrough">Paso directo</string><string name="pipeline_pcm_data_rate">Velocidad de datos PCM</string><string name="pipeline_quality">Calidad</string><string name="pipeline_resampled">Remuestreado</string><string name="pipeline_resampler_framework">Marco de remuestreo</string><string name="pipeline_route">Ruta</string><string name="pipeline_sonic">Sonic (tempo y tono)</string><string name="pipeline_system_default">Predeterminado del sistema</string><string name="pipeline_type">Tipo</string>
+    <string name="encore_story_opener">Tu %1$d en Utaloom</string>
+    <string name="encore_story_opener_detail">Revisemos lo que escuchaste.</string>
+    <string name="encore_story_minutes_start">Este año escuchaste</string>
+    <string name="encore_story_minutes_days">Eso son %1$s días de música.</string>
+    <string name="encore_story_minutes_hours">Eso son %1$s horas de música.</string>
+    <string name="encore_story_busiest_start">Tu día más ocupado fue</string>
+    <string name="encore_story_busiest_minutes">%1$s minutos de música en un día</string>
+    <string name="encore_story_clock_start">Te viniste a la vida alrededor de</string>
+    <string name="encore_story_night_owl">Búho Nocturno</string>
+    <string name="encore_story_night_owl_detail">La mayor parte de tu escucha pasó después de las 10 p.m.</string>
+    <string name="encore_story_early_bird">Madrugador</string>
+    <string name="encore_story_early_bird_detail">Tus días comenzaban con música antes de las 10 a.m.</string>
+    <string name="encore_story_golden_hour">Hora Dorada</string>
+    <string name="encore_story_golden_hour_detail">Las noches eran cuando salía la música.</string>
+    <string name="encore_story_daytime">Deambulador Diurno</string>
+    <string name="encore_story_daytime_detail">Mantuviste la música durante todo el día.</string>
+    <string name="encore_story_all_day">Alrededor del Reloj</string>
+    <string name="encore_story_all_day_detail">Mañana, tarde o noche, algo estaba sonando.</string>
+    <string name="encore_story_artist_start">Tu artista principal este año fue…</string>
+    <string name="encore_story_top_artists">Tus artistas principales</string>
+    <string name="encore_story_song_start">Y tu canción del año…</string>
+    <string name="encore_story_top_songs">El resto de tus canciones principales</string>
+    <string name="encore_story_albums">Álbumes en los que viviste</string>
+    <string name="encore_story_months">Tu año, mes a mes</string>
+    <string name="encore_story_months_peak">%1$s fue tu mes más ocupado</string>
+    <string name="encore_story_discovery_start">Este año exploraste</string>
+    <string name="encore_story_summary_title">Tu %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">minuto</item>
+        <item quantity="many">minutos</item>
+        <item quantity="other">minutos</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">canción</item>
+        <item quantity="many">canciones</item>
+        <item quantity="other">canciones</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">artista</item>
+        <item quantity="many">artistas</item>
+        <item quantity="other">artistas</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">álbum</item>
+        <item quantity="many">álbumes</item>
+        <item quantity="other">álbumes</item>
+    </plurals>
+</resources>

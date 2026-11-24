@@ -1129,4 +1129,43 @@
     <string name="audio_quality_lossless_detail">您的插件，可用时保持位精确 · 每小时 300+ MB</string>
     <string name="audio_quality_high_detail">最佳 YouTube 音频流，最高约 256 kbps · 每小时 115 MB</string>
     <string name="audio_quality_low_detail">约 64 kbps · 最小下载量 · 每小时 29 MB</string>
+    <string name="encore_story_opener">您在 Utaloom 的 %1$d</string>
+    <string name="encore_story_opener_detail">让我们回顾一下您播放的内容。</string>
+    <string name="encore_story_minutes_start">今年您听了</string>
+    <string name="encore_story_minutes_days">这是 %1$s 天的音乐。</string>
+    <string name="encore_story_minutes_hours">这是 %1$s 小时的音乐。</string>
+    <string name="encore_story_busiest_start">您最忙碌的一天是</string>
+    <string name="encore_story_busiest_minutes">一天内 %1$s 分钟的音乐</string>
+    <string name="encore_story_clock_start">您在周围活了起来</string>
+    <string name="encore_story_night_owl">夜猫子</string>
+    <string name="encore_story_night_owl_detail">您的大部分收听发生在晚上 10 点之后。</string>
+    <string name="encore_story_early_bird">早起者</string>
+    <string name="encore_story_early_bird_detail">您的一天在上午 10 点之前开始听音乐。</string>
+    <string name="encore_story_golden_hour">黄金时段</string>
+    <string name="encore_story_golden_hour_detail">晚上是音乐出现的时候。</string>
+    <string name="encore_story_daytime">日间漂泊者</string>
+    <string name="encore_story_daytime_detail">您整天保持音乐播放。</string>
+    <string name="encore_story_all_day">全天候</string>
+    <string name="encore_story_all_day_detail">早上、中午或晚上——总有什么在播放。</string>
+    <string name="encore_story_artist_start">您今年的顶级艺术家是…</string>
+    <string name="encore_story_top_artists">您的顶级艺术家</string>
+    <string name="encore_story_song_start">您今年的歌曲…</string>
+    <string name="encore_story_top_songs">您其余的顶级歌曲</string>
+    <string name="encore_story_albums">您生活的专辑</string>
+    <string name="encore_story_months">您的一年，逐月</string>
+    <string name="encore_story_months_peak">%1$s 是您最忙碌的月份</string>
+    <string name="encore_story_discovery_start">今年您探索了</string>
+    <string name="encore_story_summary_title">您的 %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="other">分钟</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="other">首</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="other">位</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="other">张</item>
+    </plurals>
 </resources>

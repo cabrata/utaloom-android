@@ -1102,4 +1102,52 @@
     <string name="theme_mode">Modus teme</string>
     <string name="color_palette">Paleta boja</string>
     <string name="use_system_colors">Koristi sistemske boje</string>
-<string name="audio_output_bluetooth">Bluetooth audio</string><string name="audio_output_hdmi">HDMI</string><string name="audio_output_phone">Ovaj telefon</string><string name="audio_output_playing">Puštanje ovdje</string><string name="audio_output_system">Sistemski audio izlaz</string><string name="audio_output_usb">USB audio</string><string name="audio_output_wired">Žičane slušalice</string><string name="audio_quality_high_detail">Najbolji YouTube stream, do ~256 kbps · 115 MB/hr</string><string name="audio_quality_in_use">U upotrebi</string><string name="audio_quality_lossless_detail">Vaši add-oni, bit-tačno gdje je dostupno · 300+ MB/hr</string><string name="audio_quality_low_detail">~64 kbps · najmanja preuzimanja · 29 MB/hr</string><string name="audio_quality_on_mobile_data">Na mobilnim podacima</string><string name="audio_quality_on_wifi">Na Wi-Fi</string><string name="cast_casting">Emitovanje</string><string name="cast_connecting">Povezivanje…</string><string name="cast_dialog_subtitle">播放 на Chromecast ili Google Cast zvučniku</string><string name="cast_row_subtitle">Chromecast i Google Cast zvučnici</string><string name="cast_searching">Tražim uređaje…</string><string name="cast_searching_hint">Vaš telefon i prijemnik trebaju biti na istoj Wi-Fi mreži.</string><string name="cast_stop">Zaustavi emitovanje</string><string name="drag_to_reorder">Prevucite za ponovno sortiranje</string><string name="music_source_edit">Uredi add-on</string><string name="music_source_remove_action">Uklonite add-on</string><string name="music_source_test">Test</string><string name="music_source_testing">Testiranje…</string><string name="pipeline_codec_profile">Profil kodeka</string><string name="pipeline_device_capability">Mogućnost uređaja</string><string name="pipeline_direct">Direktno</string><string name="pipeline_direct_offload">Aktivno (offload, zaobilazi mikser)</string><string name="pipeline_direct_supported">Podržano (mješano sa Androida)</string><string name="pipeline_direct_unsupported">Nije podržano (miješana putanja)</string><string name="pipeline_loudness_measured">Izmjerena glasnoća</string><string name="pipeline_none">Ništa</string><string name="pipeline_output_api">Izlazni API</string><string name="pipeline_passthrough">Direktan prolazak</string><string name="pipeline_pcm_data_rate">PCM stopa podataka</string><string name="pipeline_quality">Kvalitet</string><string name="pipeline_resampled">Ponovno uzorkovano</string><string name="pipeline_resampler_framework">Okvir za ponovno uzorkovanje</string><string name="pipeline_route">Ruta</string><string name="pipeline_sonic">Sonic (tempo i visina)</string><string name="pipeline_system_default">Sistemska zadanost</string><string name="pipeline_type">Vrsta</string></resources>
+<string name="audio_output_bluetooth">Bluetooth audio</string><string name="audio_output_hdmi">HDMI</string><string name="audio_output_phone">Ovaj telefon</string><string name="audio_output_playing">Puštanje ovdje</string><string name="audio_output_system">Sistemski audio izlaz</string><string name="audio_output_usb">USB audio</string><string name="audio_output_wired">Žičane slušalice</string><string name="audio_quality_high_detail">Najbolji YouTube stream, do ~256 kbps · 115 MB/hr</string><string name="audio_quality_in_use">U upotrebi</string><string name="audio_quality_lossless_detail">Vaši add-oni, bit-tačno gdje je dostupno · 300+ MB/hr</string><string name="audio_quality_low_detail">~64 kbps · najmanja preuzimanja · 29 MB/hr</string><string name="audio_quality_on_mobile_data">Na mobilnim podacima</string><string name="audio_quality_on_wifi">Na Wi-Fi</string><string name="cast_casting">Emitovanje</string><string name="cast_connecting">Povezivanje…</string><string name="cast_dialog_subtitle">播放 на Chromecast ili Google Cast zvučniku</string><string name="cast_row_subtitle">Chromecast i Google Cast zvučnici</string><string name="cast_searching">Tražim uređaje…</string><string name="cast_searching_hint">Vaš telefon i prijemnik trebaju biti na istoj Wi-Fi mreži.</string><string name="cast_stop">Zaustavi emitovanje</string><string name="drag_to_reorder">Prevucite za ponovno sortiranje</string><string name="music_source_edit">Uredi add-on</string><string name="music_source_remove_action">Uklonite add-on</string><string name="music_source_test">Test</string><string name="music_source_testing">Testiranje…</string><string name="pipeline_codec_profile">Profil kodeka</string><string name="pipeline_device_capability">Mogućnost uređaja</string><string name="pipeline_direct">Direktno</string><string name="pipeline_direct_offload">Aktivno (offload, zaobilazi mikser)</string><string name="pipeline_direct_supported">Podržano (mješano sa Androida)</string><string name="pipeline_direct_unsupported">Nije podržano (miješana putanja)</string><string name="pipeline_loudness_measured">Izmjerena glasnoća</string><string name="pipeline_none">Ništa</string><string name="pipeline_output_api">Izlazni API</string><string name="pipeline_passthrough">Direktan prolazak</string><string name="pipeline_pcm_data_rate">PCM stopa podataka</string><string name="pipeline_quality">Kvalitet</string><string name="pipeline_resampled">Ponovno uzorkovano</string><string name="pipeline_resampler_framework">Okvir za ponovno uzorkovanje</string><string name="pipeline_route">Ruta</string><string name="pipeline_sonic">Sonic (tempo i visina)</string><string name="pipeline_system_default">Sistemska zadanost</string><string name="pipeline_type">Vrsta</string>
+    <string name="encore_story_opener">Vaš %1$d u Utaloom-u</string>
+    <string name="encore_story_opener_detail">Vratimo se na ono što ste slušali.</string>
+    <string name="encore_story_minutes_start">Ove godine ste slušali</string>
+    <string name="encore_story_minutes_days">To je %1$s dana muzike.</string>
+    <string name="encore_story_minutes_hours">To je %1$s sati muzike.</string>
+    <string name="encore_story_busiest_start">Vaš najveći dan je bio</string>
+    <string name="encore_story_busiest_minutes">%1$s minuta muzike u jednom danu</string>
+    <string name="encore_story_clock_start">Oživeli ste oko</string>
+    <string name="encore_story_night_owl">Noćna Sova</string>
+    <string name="encore_story_night_owl_detail">Većina vašeg slušanja se desila nakon 22 sata.</string>
+    <string name="encore_story_early_bird">Rana Ptica</string>
+    <string name="encore_story_early_bird_detail">Vaši dani su počinjali muzikom prije 10 sati.</string>
+    <string name="encore_story_golden_hour">Zlatni Sat</string>
+    <string name="encore_story_golden_hour_detail">Večeri su bili zapad muzike.</string>
+    <string name="encore_story_daytime">Dnevni Lutalac</string>
+    <string name="encore_story_daytime_detail">Muziku ste slušali tokom cijelog dana.</string>
+    <string name="encore_story_all_day">Oko Sata</string>
+    <string name="encore_story_all_day_detail">Ujutro, popodne ili noću - nešto je svijek slušalo.</string>
+    <string name="encore_story_artist_start">Vaš top izvođač ove godine je bio…</string>
+    <string name="encore_story_top_artists">Vaši top izvođači</string>
+    <string name="encore_story_song_start">A vaša pesma godine…</string>
+    <string name="encore_story_top_songs">Ostatak vaših top pesama</string>
+    <string name="encore_story_albums">Albumi u kojima ste živjeli</string>
+    <string name="encore_story_months">Vaša godina, mjesec za mjesec</string>
+    <string name="encore_story_months_peak">%1$s je bio vaš najveći mjesec</string>
+    <string name="encore_story_discovery_start">Ove godine ste istražili</string>
+    <string name="encore_story_summary_title">Vaš %1$d</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="one">minut</item>
+        <item quantity="few">minuta</item>
+        <item quantity="other">minuta</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="one">pesma</item>
+        <item quantity="few">pesme</item>
+        <item quantity="other">pesama</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="one">izvođač</item>
+        <item quantity="few">izvođači</item>
+        <item quantity="other">izvođača</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="one">album</item>
+        <item quantity="few">albuma</item>
+        <item quantity="other">albuma</item>
+    </plurals>
+</resources>

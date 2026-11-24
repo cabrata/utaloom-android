@@ -1129,4 +1129,43 @@
     <string name="audio_quality_lossless_detail">ส่วนเสริมของคุณ แบบตรงตามบิตเมื่อมีให้ใช้ · 300+ MB/ชม.</string>
     <string name="audio_quality_high_detail">สตรีม YouTube ที่ดีที่สุด สูงสุด ~256 kbps · 115 MB/ชม.</string>
     <string name="audio_quality_low_detail">~64 kbps · ดาวน์โหลดขนาดเล็กที่สุด · 29 MB/ชม.</string>
+    <string name="encore_story_opener">ปี %1$d ของคุณใน Utaloom</string>
+    <string name="encore_story_opener_detail">ลองย้อนกลับไปดูว่าคุณเคยฟังอะไร</string>
+    <string name="encore_story_minutes_start">ปีนี้คุณฟังเพลงมา</string>
+    <string name="encore_story_minutes_days">นั่นคือ %1$s วันของเพลง</string>
+    <string name="encore_story_minutes_hours">นั่นคือ %1$s ชั่วโมงของเพลง</string>
+    <string name="encore_story_busiest_start">วันที่คุณฟังเพลงมากที่สุดคือ</string>
+    <string name="encore_story_busiest_minutes">%1$s นาทีของเพลงในหนึ่งวัน</string>
+    <string name="encore_story_clock_start">คุณเคยฟังเพลงมากที่สุดประมาณ</string>
+    <string name="encore_story_night_owl">นกฮูกกลางคืน</string>
+    <string name="encore_story_night_owl_detail">ส่วนใหญ่ของการฟังของคุณเกิดขึ้นหลังจาก 22 น.</string>
+    <string name="encore_story_early_bird">นกกวักตั้งแต่เช้า</string>
+    <string name="encore_story_early_bird_detail">วันของคุณเริ่มต้นด้วยเพลงก่อนเวลา 10 น.</string>
+    <string name="encore_story_golden_hour">ชั่วโมงทองคำ</string>
+    <string name="encore_story_golden_hour_detail">เวลาเย็นคือเมื่อเพลงออกมา</string>
+    <string name="encore_story_daytime">ผู้หลงลืมไปกับเพลงกลางวัน</string>
+    <string name="encore_story_daytime_detail">คุณเก็บเพลงไว้ตลอดทั้งวัน</string>
+    <string name="encore_story_all_day">ตลอดทั้งวัน</string>
+    <string name="encore_story_all_day_detail">เช้า บ่าย หรือเย็น มีบางอย่างเล่นอยู่</string>
+    <string name="encore_story_artist_start">ศิลปินคนแรกของคุณปีนี้คือ…</string>
+    <string name="encore_story_top_artists">ศิลปินยอดนิยมของคุณ</string>
+    <string name="encore_story_song_start">และเพลงปีของคุณคือ…</string>
+    <string name="encore_story_top_songs">เพลงยอดนิยมที่เหลือของคุณ</string>
+    <string name="encore_story_albums">อัลบั้มที่คุณอาศัยอยู่</string>
+    <string name="encore_story_months">ปีของคุณ เดือนต่อเดือน</string>
+    <string name="encore_story_months_peak">%1$s เป็นเดือนที่ยอดเยี่ยมที่สุดของคุณ</string>
+    <string name="encore_story_discovery_start">ปีนี้คุณสำรวจ</string>
+    <string name="encore_story_summary_title">ปี %1$d ของคุณ</string>
+    <plurals name="encore_story_minutes_word">
+        <item quantity="other">นาที</item>
+    </plurals>
+    <plurals name="encore_story_songs_word">
+        <item quantity="other">เพลง</item>
+    </plurals>
+    <plurals name="encore_story_artists_word">
+        <item quantity="other">ศิลปิน</item>
+    </plurals>
+    <plurals name="encore_story_albums_word">
+        <item quantity="other">อัลบั้ม</item>
+    </plurals>
 </resources>
