@@ -1446,12 +1446,18 @@ class MusicService :
                 )
                 .setRenderersFactory(createRenderersFactory(normalizationProcessor, eqProcessor, silenceProcessor, useAudioTrackPlaybackParams))
                 .setLoadControl(
-                    // Start playback once ~2s is buffered so the first chunk (512KiB for
-                    // chunked clients) is fully in hand and transient network slowness
-                    // doesn't stall audio right after start.
+                    // BitChord's far buffering: ranged reads arrive at line rate, so buffer the
+                    // whole track (byte-capped) and start as soon as the decoder has enough.
+                    // Resuming after a stall waits longer, since the network is struggling.
                     DefaultLoadControl
                         .Builder()
-                        .setBufferDurationsMs(50_000, 50_000, 2_000, 4_000)
+                        .setBufferDurationsMs(
+                            DefaultLoadControl.DEFAULT_MIN_BUFFER_MS,
+                            FAR_BUFFER_MS,
+                            START_PLAYBACK_MS,
+                            RESUME_PLAYBACK_MS,
+                        ).setTargetBufferBytes(FAR_BUFFER_BYTES)
+                        .setBackBuffer(BACK_BUFFER_MS, true)
                         .build(),
                 )
                 .setHandleAudioBecomingNoisy(true)
@@ -2010,22 +2016,24 @@ class MusicService :
             ResolvingDataSource.Factory(
                 DefaultDataSource.Factory(
                     this,
-                    OkHttpDataSource.Factory(
-                        OkHttpClient
-                            .Builder()
-                            .addInterceptor { chain ->
-                                if (offlineMode) throw IOException(getString(R.string.offline_mode_playback_error))
-                                chain.proceed(chain.request())
-                            }
-                            .proxy(YouTube.proxy)
-                            .proxyAuthenticator { _, response ->
-                                YouTube.proxyAuth?.let { auth ->
-                                    response.request
-                                        .newBuilder()
-                                        .header("Proxy-Authorization", auth)
-                                        .build()
-                                } ?: response.request
-                            }.build(),
+                    ChunkedDataSource.Factory(
+                        OkHttpDataSource.Factory(
+                            OkHttpClient
+                                .Builder()
+                                .addInterceptor { chain ->
+                                    if (offlineMode) throw IOException(getString(R.string.offline_mode_playback_error))
+                                    chain.proceed(chain.request())
+                                }
+                                .proxy(YouTube.proxy)
+                                .proxyAuthenticator { _, response ->
+                                    YouTube.proxyAuth?.let { auth ->
+                                        response.request
+                                            .newBuilder()
+                                            .header("Proxy-Authorization", auth)
+                                            .build()
+                                    } ?: response.request
+                                }.build(),
+                        ),
                     ),
                 ),
             ) { dataSpec ->
@@ -4158,22 +4166,24 @@ class MusicService :
                     .setUpstreamDataSourceFactory(
                         DefaultDataSource.Factory(
                             this,
-                            OkHttpDataSource.Factory(
-                                OkHttpClient
-                                    .Builder()
-                                    .addInterceptor { chain ->
-                                        if (offlineMode) throw IOException(getString(R.string.offline_mode_playback_error))
-                                        chain.proceed(chain.request())
-                                    }
-                                    .proxy(YouTube.proxy)
-                                    .proxyAuthenticator { _, response ->
-                                        YouTube.proxyAuth?.let { auth ->
-                                            response.request
-                                                .newBuilder()
-                                                .header("Proxy-Authorization", auth)
-                                                .build()
-                                        } ?: response.request
-                                    }.build(),
+                            ChunkedDataSource.Factory(
+                                OkHttpDataSource.Factory(
+                                    OkHttpClient
+                                        .Builder()
+                                        .addInterceptor { chain ->
+                                            if (offlineMode) throw IOException(getString(R.string.offline_mode_playback_error))
+                                            chain.proceed(chain.request())
+                                        }
+                                        .proxy(YouTube.proxy)
+                                        .proxyAuthenticator { _, response ->
+                                            YouTube.proxyAuth?.let { auth ->
+                                                response.request
+                                                    .newBuilder()
+                                                    .header("Proxy-Authorization", auth)
+                                                    .build()
+                                            } ?: response.request
+                                        }.build(),
+                                ),
                             ),
                         ),
                     ),
@@ -4679,8 +4689,6 @@ class MusicService :
                 nonNullPlayback.playbackTracking?.videostatsPlaybackUrl?.baseUrl?.let {
                     playbackUrlCache[cacheKey(mediaId)] = it
                 }
-
-                cacheCurrentSongAheadIfEnabled(mediaId)
 
                 return@Factory dataSpec.withResolvedStream(
                     CachedStreamUrl(
@@ -5782,6 +5790,14 @@ class MusicService :
         const val NOTIFICATION_ID = 888
         const val ERROR_CODE_NO_STREAM = 1000001
         const val CHUNK_LENGTH = 512 * 1024L
+
+        /** Past any song, so [FAR_BUFFER_BYTES] is what stops loading. */
+        const val FAR_BUFFER_MS = 15 * 60 * 1000
+        /** ~6 minutes at 160kbps: a whole track for all but the longest. */
+        const val FAR_BUFFER_BYTES = 8 * 1024 * 1024
+        const val BACK_BUFFER_MS = 30 * 1000
+        const val START_PLAYBACK_MS = 500
+        const val RESUME_PLAYBACK_MS = 2_000
         const val PERSISTENT_QUEUE_FILE = "persistent_queue.data"
         const val PERSISTENT_AUTOMIX_FILE = "persistent_automix.data"
         const val PERSISTENT_PLAYER_STATE_FILE = "persistent_player_state.data"

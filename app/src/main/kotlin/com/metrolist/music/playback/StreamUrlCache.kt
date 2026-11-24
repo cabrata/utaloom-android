@@ -26,8 +26,8 @@ internal fun DataSpec.withResolvedStream(
         withUri(stream.url.toUri())
             .withRequestHeaders(httpRequestHeaders + stream.requestHeaders)
     if (fullRange) {
-        // For ahead-of-playhead caching: fetch from position to end in one request so googlevideo
-        // streams at full link speed instead of playback speed, and don't shrink to chunk size.
+        // For ahead-of-playhead caching: ask for position to end and let ChunkedDataSource split
+        // it into line-rate ranges, rather than shrinking the whole request to one chunk.
         return resolved
     }
     if ((!stream.requireBoundedRange && !stream.useRangeChunks) || stream.rangeChunkSizeBytes <= 0L) {
