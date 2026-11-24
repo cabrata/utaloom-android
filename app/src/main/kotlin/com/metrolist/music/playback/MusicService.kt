@@ -694,10 +694,12 @@ class MusicService :
         // 5-second timeout imposed by Context.startForegroundService().
         // On some OEMs (e.g. MIUI), even a DataStore read can be slow
         // enough to miss the window, so we promote before any I/O.
+        // Never bail out here: a bind (e.g. SystemUI media resumption right after boot) creates
+        // the service while the app is in the background, where startForeground is denied.
+        // Returning early left a bound instance with no player, so every later play request hung.
+        // A denied startForegroundService start is still stopped in onStartCommand.
         ensureForegroundChannelExists()
-        if (!ensureStartedAsForegroundOrStop()) {
-            return
-        }
+        tryEnsureForegroundWithLatestNotification()
 
         // Read ALL startup preferences in one shot so that subsequent code
         // never calls dataStore.get() (which does runBlocking internally).
@@ -4908,17 +4910,6 @@ class MusicService :
             reportException(it)
         }
     }
-
-    /**
-     * [Context.startForegroundService] requires [startForeground] to succeed quickly. If we cannot
-     * enter the foreground state, stop immediately so the system does not ANR the app process.
-     */
-    private fun ensureStartedAsForegroundOrStop(): Boolean =
-        startForegroundSafely(
-            notification = createFallbackForegroundNotification(),
-            deniedMessage = "Foreground service start not allowed; stopping service to avoid ANR",
-            failureMessage = "Failed to enter foreground; stopping service to avoid ANR",
-        )
 
     private fun ensureForegroundWithLatestNotificationOrStop(): Boolean =
         startForegroundSafely(
