@@ -1,5 +1,16 @@
 # Changelog
 
+## [v1.8.0] - 2026-11-24
+
+### Added
+- **glass:** Apple-style local playlist with lightweight song rows, fixes scroll lag (`786932a`)
+
+### Changed
+- **playback:** Fetch googlevideo in bounded ranges, fixes slow start and stutter (`198c7ab`)
+
+### Fixed
+- **library:** Open local and online playlists from glass shelf with valid routes (`8a9ccc8`)
+
 ## [v1.7.0] - 2026-11-24
 
 ### Added
