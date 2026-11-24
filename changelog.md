@@ -1,5 +1,27 @@
 # Changelog
 
+## [v1.7.0] - 2026-11-24
+
+### Added
+- **encore:** glass stories with best-part clips and story strings (`8ed16a4`)
+- **settings:** BitChord audio quality and player controls (`9673309`)
+- **player:** output button icon follows active output (`6392269`)
+- **player:** audio output drawer, M3 output sheet, fuller Audio Pipeline (`af34c6a`)
+- **i18n:** translate all remaining strings to every locale (`eb256b5`)
+- **ui:** Account & integrations page and BitChord-style library (`ad86f86`)
+- **lyrics:** RTL lyric line support (`5b4182c`)
+- **ui:** Utaloom Glass app style with liquid glass chrome (`d262a82`)
+- **player:** audio pipeline info, addon quality upgrade, lyric clock (`a0fb7ca`)
+
+### Changed
+- **ui:** account switcher card calmed to BitChord frost (`f7f437f`)
+- **encore:** rename Wrapped feature to Encore (`3594de0`)
+
+### Fixed
+- **i18n:** move hardcoded strings to resources, complete translations (`42a8a43`)
+- **playback:** init player when service created by background bind (`892adc6`)
+- **ui:** Utaloom Glass fixes for charts artwork, lens pill, status bar, artist header, search (`86d9d1e`)
+
 ## [v1.6.0] - 2026-11-15
 
 ### Added
