@@ -142,7 +142,12 @@ fun GlassLibraryHome(
                 playlists = sortedPlaylists,
                 onShowAll = { onOpenFilter(LibraryFilter.PLAYLISTS) },
                 onCreatePlaylist = { showCreatePlaylistDialog = true },
-                onPlaylistClick = { navController.navigate("playlist/${it.id}") },
+                onPlaylistClick = {
+                    if (!it.playlist.isEditable && it.songCount == 0 && it.playlist.browseId != null)
+                        navController.navigate("online_playlist/${it.playlist.browseId}")
+                    else
+                        navController.navigate("local_playlist/${it.id}")
+                },
                 onPlaylistLongPress = {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     menuState.show {
