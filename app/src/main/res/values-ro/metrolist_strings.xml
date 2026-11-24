@@ -1099,7 +1099,6 @@
     <string name="theme_colors">Temă &amp; Culori</string>
     <string name="theme_mode">Mod Temă</string>
     <string name="color_palette">Paletă de Culori</string>
-    <string name="use_system_colors">Utilizați culorile sistemului</string>
     <string name="music_source_edit">Editează suplimentul</string>
     <string name="music_source_test">Testează</string>
     <string name="music_source_testing">Se testează…</string>
@@ -1190,4 +1189,60 @@
         <item quantity="few">albume</item>
         <item quantity="other">albume</item>
     </plurals>
+
+    <string name="cache_songs">Salvează melodiile în cache</string>
+
+    <string name="failed_to_preview_csv">Nu s-a putut previzualiza fișierul CSV</string>
+
+    <string name="listen_together_connection_error_with_reason">Eroare de conexiune: %1$s</string>
+
+    <string name="listen_together_join_rejected">Cerere respinsă: %1$s</string>
+
+    <string name="listen_together_joined_room">Ai intrat în camera: %1$s</string>
+
+    <string name="listen_together_kicked">Eliminat: %1$s</string>
+
+    <string name="listen_together_server_error">Eroare: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s dorește să intre</string>
+
+    <string name="no_recognition_history">Niciun istoric de recunoaștere</string>
+
+    <string name="playback_error_code">Cod: %1$s (%2$d)</string>
+
+    <string name="reconnect">Reconectare</string>
+
+    <string name="selection_queue_title">Selecție</string>
+
+    <string name="unknown_podcast">Podcast necunoscut</string>
+
+    <string name="utaloom_attribution">Bazat pe proiecte open-source Metrolist, InnerTune și OuterTune. Menționarea surselor nu implică afiliere sau susținere.</string>
+
+    <string name="utaloom_desktop_app">Utaloom pentru desktop</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android folosește API-urile publice OAuth2 și Gateway ale Discord pentru a partaja ce asculți. Tokenul tău este criptat pe acest dispozitiv și nu este niciodată partajat. Este necesară o aplicație Utaloom Discord configurată separat.</string>
+
+    <string name="utaloom_discord_unavailable">Integrarea cu Discord nu este disponibilă în această versiune. Este necesară o aplicație Utaloom Discord configurată de întreținător.</string>
+
+    <string name="utaloom_encore_special_thanks">Mulțumiri contribuitorilor open-source originali și comunității Utaloom</string>
+
+    <string name="utaloom_independent_notice">Întreținut independent de cabrata. Fără afiliere cu Metro Group, Metrolist sau MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Adaugă sau retrage melodii de la favorite pe Last.fm când le apreciezi sau retragi aprecierea în Utaloom Android</string>
+
+    <string name="utaloom_listen_on_app">Ascultă pe Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Logo Utaloom Android</string>
+
+    <string name="utaloom_maintainer">Întreținător Utaloom</string>
+
+    <string name="utaloom_play_on_app">Redă pe Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Raportează o problemă Android</string>
+
+    <string name="utaloom_tap_to_open">Atinge pentru a deschide Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s este gata de descărcat.</string>
+
+    <string name="youtube_playlist_fallback">Playlist YouTube</string>
 </resources>

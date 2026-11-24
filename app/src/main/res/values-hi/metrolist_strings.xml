@@ -1093,7 +1093,6 @@
     <string name="theme_colors">थीम और रंग</string>
     <string name="theme_mode">थीम मोड</string>
     <string name="color_palette">रंग पैलेट</string>
-    <string name="use_system_colors">सिस्टम रंग का उपयोग करें</string>
     <string name="squiggly">लहरदार</string>
     <string name="grid_cell_size">ग्रिड सेल आकार</string>
     <string name="content">सामग्री</string>
@@ -1104,7 +1103,6 @@
     <string name="enable_proxy">प्रॉक्सी सक्षम करें</string>
     <string name="proxy_type">प्रॉक्सी प्रकार</string>
     <string name="proxy_url">प्रॉक्सी URL</string>
-    <string name="restart_to_take_effect">प्रभाव लेने के लिए पुनः शुरू करें</string>
     <string name="player_and_audio">प्लेयर और ऑडियो</string>
     <string name="audio_quality">ऑडियो गुणवत्ता</string>
     <string name="audio_quality_auto">ऑटो</string>
@@ -1122,16 +1120,13 @@
     <string name="stop_music_on_task_clear">कार्य साफ़ करने पर संगीत बंद करें</string>
     <string name="equalizer">इक्वेलाइज़र</string>
     <string name="storage">भंडारण</string>
-    <string name="cache">कैश</string>
     <string name="image_cache">छवि कैश</string>
     <string name="song_cache">गीत कैश</string>
-    <string name="max_cache_size">अधिकतम कैश आकार</string>
     <string name="unlimited">असीमित</string>
     <string name="max_image_cache_size">अधिकतम छवि कैश आकार</string>
     <string name="clear_image_cache">छवि कैश साफ़ करें</string>
     <string name="max_song_cache_size">अधिकतम गीत कैश आकार</string>
     <string name="clear_song_cache">गीत कैश साफ़ करें</string>
-    <string name="size_used">%s का उपयोग किया गया</string>
     <string name="privacy">गोपनीयता</string>
     <string name="listen_history">सुनने का इतिहास</string>
     <string name="pause_listen_history">सुनने का इतिहास रोकें</string>
@@ -1141,17 +1136,12 @@
     <string name="pause_search_history">खोज इतिहास को रोकें</string>
     <string name="clear_search_history">खोज इतिहास साफ़ करें</string>
     <string name="clear_search_history_confirm">क्या आप सभी खोज इतिहास साफ़ करना चाहते हैं?</string>
-    <string name="use_login_for_browse">सामग्री ब्राउज़ करने के लिए लॉगिन का उपयोग करें</string>
-    <string name="use_login_for_browse_desc">यह आपको जो सामग्री दिखाई देती है उसे प्रभावित कर सकता है और उदाहरण के लिए प्रीमियम-केवल एल्बम दिखाता है यदि आप प्रीमियम खाते के साथ लॉगिन करते हैं</string>
     <string name="disable_screenshot">स्क्रीनशॉट अक्षम करें</string>
     <string name="disable_screenshot_desc">जब यह विकल्प चालू हो, तो स्क्रीनशॉट और हाल ही में ऐप का दृश्य अक्षम कर दिए जाते हैं।</string>
-    <string name="enable_lrclib">LrcLib गीत प्रदाता सक्षम करें</string>
-    <string name="enable_kugou">KuGou गीत प्रदाता सक्षम करें</string>
     <string name="hide_explicit">स्पष्ट सामग्री छुपाएं</string>
     <string name="backup_restore">बैकअप और पुनः स्थापित करें</string>
     <string name="action_backup">बैकअप</string>
     <string name="action_restore">पुनः स्थापित करें</string>
-    <string name="imported_playlist">आयात की गई चाल सूची</string>
     <string name="backup_create_success">बैकअप सफलतापूर्वक बनाया गया</string>
     <string name="backup_create_failed">बैकअप नहीं बना सके</string>
     <string name="restore_failed">बैकअप पुनः स्थापित करने में विफल</string>
@@ -1159,10 +1149,7 @@
     <string name="options">विकल्प</string>
     <string name="preview">पूर्वावलोकन</string>
     <string name="about">के बारे में</string>
-    <string name="app_version">ऐप संस्करण</string>
     <string name="new_version_available">नया संस्करण उपलब्ध</string>
-    <string name="translation_models">अनुवाद मॉडल</string>
-    <string name="clear_translation_models">अनुवाद मॉडल साफ़ करें</string>
     <string name="music_source_edit">ऐड-ऑन संपादित करें</string>
     <string name="music_source_test">जाँचें</string>
     <string name="music_source_testing">जाँच जारी है…</string>
@@ -1249,4 +1236,60 @@
         <item quantity="one">एल्बम</item>
         <item quantity="other">एल्बम</item>
     </plurals>
+
+    <string name="cache_songs">गाने कैश करें</string>
+
+    <string name="failed_to_preview_csv">CSV फ़ाइल का पूर्वावलोकन विफल रहा</string>
+
+    <string name="listen_together_connection_error_with_reason">कनेक्शन त्रुटि: %1$s</string>
+
+    <string name="listen_together_join_rejected">जुड़ने का अनुरोध अस्वीकृत: %1$s</string>
+
+    <string name="listen_together_joined_room">रूम में शामिल हुए: %1$s</string>
+
+    <string name="listen_together_kicked">निकाले गए: %1$s</string>
+
+    <string name="listen_together_server_error">सर्वर त्रुटि: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s जुड़ना चाहता है</string>
+
+    <string name="no_recognition_history">कोई पहचान इतिहास नहीं</string>
+
+    <string name="playback_error_code">कोड: %1$s (%2$d)</string>
+
+    <string name="reconnect">पुनः कनेक्ट</string>
+
+    <string name="selection_queue_title">चयन</string>
+
+    <string name="unknown_podcast">अज्ञात पॉडकास्ट</string>
+
+    <string name="utaloom_attribution">Metrolist, InnerTune और OuterTune के ओपन-सोर्स कार्य पर आधारित। स्रोत का उल्लेख संबद्धता या समर्थन नहीं दर्शाता।</string>
+
+    <string name="utaloom_desktop_app">डेस्कटॉप के लिए Utaloom</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android आपके सुनने की जानकारी साझा करने के लिए Discord के सार्वजनिक OAuth2 और Gateway API का उपयोग करता है। आपका टोकन इस डिवाइस पर एन्क्रिप्टेड रहता है और कभी साझा नहीं होता। अलग से कॉन्फ़िगर किया गया Utaloom Discord ऐप आवश्यक है।</string>
+
+    <string name="utaloom_discord_unavailable">इस बिल्ड में Discord एकीकरण उपलब्ध नहीं है। मेंटेनर द्वारा कॉन्फ़िगर किया गया Utaloom Discord ऐप आवश्यक है।</string>
+
+    <string name="utaloom_encore_special_thanks">मूल ओपन-सोर्स योगदानकर्ताओं और Utaloom समुदाय को धन्यवाद</string>
+
+    <string name="utaloom_independent_notice">स्वतंत्र रूप से cabrata द्वारा अनुरक्षित। Metro Group, Metrolist या MetrolistGroup से संबद्ध नहीं।</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Utaloom Android में पसंद करने या पसंद हटाने पर Last.fm में गाने पसंद या पसंद हटाएँ</string>
+
+    <string name="utaloom_listen_on_app">Utaloom Android पर सुनें</string>
+
+    <string name="utaloom_logo_content_description">Utaloom Android लोगो</string>
+
+    <string name="utaloom_maintainer">Utaloom अनुरक्षक</string>
+
+    <string name="utaloom_play_on_app">Utaloom Android पर चलाएँ</string>
+
+    <string name="utaloom_report_issue">Android समस्या रिपोर्ट करें</string>
+
+    <string name="utaloom_tap_to_open">Utaloom Android खोलने के लिए टैप करें</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s डाउनलोड के लिए तैयार है।</string>
+
+    <string name="youtube_playlist_fallback">YouTube प्लेलिस्ट</string>
 </resources>

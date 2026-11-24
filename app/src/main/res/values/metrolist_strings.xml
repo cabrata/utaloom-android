@@ -1145,22 +1145,22 @@
     <string name="other">Other</string>
     <string name="utaloom_name" translatable="false">Utaloom Android</string>
     <string name="utaloom_github_releases_url" translatable="false">https://github.com/cabrata/utaloom-android/releases</string>
-    <string name="utaloom_update_available_message" translatable="false">Utaloom Android %s is ready to download.</string>
-    <string name="utaloom_last_fm_send_likes_description" translatable="false">Love or unlove songs in Last.fm when you like or unlike them in Utaloom Android</string>
+    <string name="utaloom_update_available_message">Utaloom Android %s is ready to download.</string>
+    <string name="utaloom_last_fm_send_likes_description">Love or unlove songs in Last.fm when you like or unlike them in Utaloom Android</string>
     <string name="utaloom_encore_intro_title" translatable="false">UTALOOM</string>
-    <string name="utaloom_logo_content_description" translatable="false">Utaloom Android logo</string>
-    <string name="utaloom_encore_special_thanks" translatable="false">Thanks to the original open-source contributors and the Utaloom community</string>
-    <string name="utaloom_tap_to_open" translatable="false">Tap to open Utaloom Android</string>
+    <string name="utaloom_logo_content_description">Utaloom Android logo</string>
+    <string name="utaloom_encore_special_thanks">Thanks to the original open-source contributors and the Utaloom community</string>
+    <string name="utaloom_tap_to_open">Tap to open Utaloom Android</string>
     <string name="utaloom_crash_report_subject" translatable="false">Utaloom Android crash report</string>
-    <string name="utaloom_play_on_app" translatable="false">Play on Utaloom Android</string>
-    <string name="utaloom_listen_on_app" translatable="false">Listen on Utaloom Android</string>
-    <string name="utaloom_discord_information_warning" translatable="false">Utaloom Android uses Discord\'s public OAuth2 and Gateway APIs to share what you\'re listening to. Your token is encrypted on this device and is never shared. A separately configured Utaloom Discord application is required.</string>
-    <string name="utaloom_maintainer" translatable="false">Utaloom maintainer</string>
-    <string name="utaloom_attribution" translatable="false">Based on open-source work from Metrolist, InnerTune, and OuterTune. Source attribution does not imply affiliation or endorsement.</string>
-    <string name="utaloom_independent_notice" translatable="false">Independently maintained by cabrata. Not affiliated with Metro Group, Metrolist, or MetrolistGroup.</string>
-    <string name="utaloom_desktop_app" translatable="false">Utaloom for desktop</string>
-    <string name="utaloom_report_issue" translatable="false">Report an Android issue</string>
-    <string name="utaloom_discord_unavailable" translatable="false">Discord integration is unavailable in this build. It requires a Utaloom Discord application configured by the maintainer.</string>
+    <string name="utaloom_play_on_app">Play on Utaloom Android</string>
+    <string name="utaloom_listen_on_app">Listen on Utaloom Android</string>
+    <string name="utaloom_discord_information_warning">Utaloom Android uses Discord\'s public OAuth2 and Gateway APIs to share what you\'re listening to. Your token is encrypted on this device and is never shared. A separately configured Utaloom Discord application is required.</string>
+    <string name="utaloom_maintainer">Utaloom maintainer</string>
+    <string name="utaloom_attribution">Based on open-source work from Metrolist, InnerTune, and OuterTune. Source attribution does not imply affiliation or endorsement.</string>
+    <string name="utaloom_independent_notice">Independently maintained by cabrata. Not affiliated with Metro Group, Metrolist, or MetrolistGroup.</string>
+    <string name="utaloom_desktop_app">Utaloom for desktop</string>
+    <string name="utaloom_report_issue">Report an Android issue</string>
+    <string name="utaloom_discord_unavailable">Discord integration is unavailable in this build. It requires a Utaloom Discord application configured by the maintainer.</string>
     <string name="offline_mode">Offline mode</string>
     <string name="offline_mode_desc">Browse and play downloaded music and episodes only. Streaming, downloads and YouTube sync are paused.</string>
     <string name="offline_mode_empty">No downloaded music or episodes. Turn off offline mode to download some first.</string>
@@ -1316,4 +1316,18 @@
         <item quantity="other">albums</item>
     </plurals>
     <string name="encore_story_summary_title">Your %1$d</string>
+    <string name="no_recognition_history">No recognition history</string>
+    <string name="playback_error_code">Code: %1$s (%2$d)</string>
+    <string name="selection_queue_title">Selection</string>
+    <string name="reconnect">Reconnect</string>
+    <string name="cache_songs">Cache Songs</string>
+    <string name="failed_to_preview_csv">Failed to preview CSV file</string>
+    <string name="listen_together_joined_room">Joined room: %1$s</string>
+    <string name="listen_together_join_rejected">Join rejected: %1$s</string>
+    <string name="listen_together_wants_to_join">%1$s wants to join</string>
+    <string name="listen_together_kicked">Kicked: %1$s</string>
+    <string name="listen_together_connection_error_with_reason">Connection error: %1$s</string>
+    <string name="listen_together_server_error">Error: %1$s</string>
+    <string name="unknown_podcast">Unknown Podcast</string>
+    <string name="youtube_playlist_fallback">YouTube playlist</string>
 </resources>

@@ -1090,17 +1090,10 @@
     <string name="wifi_only_downloads">Wi-Fi / unmetered downloads only</string>
     <string name="wifi_only_downloads_desc">Pause on metered connections and resume on Wi-Fi or another unmetered network. Metered Wi-Fi is excluded.</string>
     <string name="pause">Pause</string>
-    <string name="error_song_title_empty">Song title cannot be empty.</string>
-    <string name="error_song_artist_empty">Song artist cannot be empty.</string>
     <string name="save">Save</string>
-    <string name="choose_playlist">Choose playlist</string>
     <string name="edit_playlist">Edit playlist</string>
     <string name="create_playlist">Create playlist</string>
-    <string name="playlist_name">Playlist name</string>
-    <string name="error_playlist_name_empty">Playlist name cannot be empty.</string>
-    <string name="edit_artist">Edit artist</string>
     <string name="artist_name">Artist name</string>
-    <string name="error_artist_name_empty">Artist name cannot be empty.</string>
     <string name="duplicates">Duplicates</string>
     <string name="skip_duplicates">Skip duplicates</string>
     <string name="add_anyway">Add anyway</string>
@@ -1134,7 +1127,6 @@
         <item quantity="one">%d year</item>
         <item quantity="other">%d years</item>
     </plurals>
-    <string name="playlist_imported">Playlist imported</string>
     <string name="removed_song_from_playlist">Removed \"%s\" from playlist</string>
     <string name="playlist_synced">Playlist synced</string>
     <string name="undo">Undo</string>
@@ -1145,14 +1137,11 @@
         <item quantity="one">1 minute</item>
         <item quantity="other">%d minutes</item>
     </plurals>
-    <string name="error_no_stream">No stream available</string>
     <string name="error_no_internet">No network connection</string>
     <string name="error_timeout">Timeout</string>
     <string name="error_unknown">Unknown error</string>
     <string name="action_like">Like</string>
-    <string name="action_like_all">Like all</string>
     <string name="action_remove_like">Remove like</string>
-    <string name="action_remove_like_all">Remove all likes</string>
     <string name="action_shuffle_on">Shuffle on</string>
     <string name="action_shuffle_off">Shuffle off</string>
     <string name="repeat_mode_off">Repeat mode off</string>
@@ -1168,18 +1157,10 @@
     <string name="theme_colors">Theme &amp; Colors</string>
     <string name="theme_mode">Theme Mode</string>
     <string name="color_palette">Color Palette</string>
-    <string name="use_system_colors">Use system colors</string>
     <string name="enable_dynamic_theme">Enable dynamic theme</string>
-    <string name="dark_theme">Dark theme</string>
-    <string name="dark_theme_on">On</string>
-    <string name="dark_theme_off">Off</string>
-    <string name="dark_theme_follow_system">Follow system</string>
     <string name="pure_black">Pure black</string>
-    <string name="customize_navigation_tabs">Customize navigation tabs</string>
     <string name="player">Player</string>
-    <string name="player_text_alignment">Player text alignment</string>
     <string name="lyrics_text_position">Lyrics text position</string>
-    <string name="sided">Sided</string>
     <string name="left">Left</string>
     <string name="center">Center</string>
     <string name="right">Right</string>
@@ -1203,7 +1184,6 @@
     <string name="enable_proxy">Enable proxy</string>
     <string name="proxy_type">Proxy type</string>
     <string name="proxy_url">Proxy URL</string>
-    <string name="restart_to_take_effect">Restart to take effect</string>
     <string name="player_and_audio">Player and audio</string>
     <string name="audio_quality">Audio quality</string>
     <string name="audio_quality_auto">Auto</string>
@@ -1221,17 +1201,14 @@
     <string name="stop_music_on_task_clear">Stop music on task clear</string>
     <string name="equalizer">Equalizer</string>
     <string name="storage">Storage</string>
-    <string name="cache">Cache</string>
     <string name="image_cache">Image Cache</string>
     <string name="song_cache">Song Cache</string>
-    <string name="max_cache_size">Max cache size</string>
     <string name="unlimited">Unlimited</string>
     <string name="clear_all_downloads">Clear all downloads</string>
     <string name="max_image_cache_size">Max image cache size</string>
     <string name="clear_image_cache">Clear image cache</string>
     <string name="max_song_cache_size">Max song cache size</string>
     <string name="clear_song_cache">Clear song cache</string>
-    <string name="size_used">%s used</string>
     <string name="privacy">Privacy</string>
     <string name="listen_history">Listen history</string>
     <string name="pause_listen_history">Pause listen history</string>
@@ -1241,17 +1218,12 @@
     <string name="pause_search_history">Pause search history</string>
     <string name="clear_search_history">Clear search history</string>
     <string name="clear_search_history_confirm">Are you sure you want to clear all search history?</string>
-    <string name="use_login_for_browse">Use login for browsing content</string>
-    <string name="use_login_for_browse_desc">This can influence what content you see and for example shows premium-only albums if you are logged in with a Premium account</string>
     <string name="disable_screenshot">Disable screenshot</string>
     <string name="disable_screenshot_desc">When this option is on, screenshots and the app\'s view in Recents are disabled.</string>
-    <string name="enable_lrclib">Enable LrcLib lyrics provider</string>
-    <string name="enable_kugou">Enable KuGou lyrics provider</string>
     <string name="hide_explicit">Hide explicit content</string>
     <string name="backup_restore">Backup and restore</string>
     <string name="action_backup">Backup</string>
     <string name="action_restore">Restore</string>
-    <string name="imported_playlist">Imported playlist</string>
     <string name="backup_create_success">Backup created successfully</string>
     <string name="backup_create_failed">Couldn\'t create backup</string>
     <string name="restore_failed">Failed to restore backup</string>
@@ -1259,10 +1231,7 @@
     <string name="options">Options</string>
     <string name="preview">Preview</string>
     <string name="about">About</string>
-    <string name="app_version">App version</string>
     <string name="new_version_available">New version available</string>
-    <string name="translation_models">Translation Models</string>
-    <string name="clear_translation_models">Clear translation models</string>
     <string name="music_source_edit">Əlavəni redaktə et</string>
     <string name="music_source_test">Sına</string>
     <string name="music_source_testing">Sınaqdan keçirilir…</string>
@@ -1349,4 +1318,60 @@
         <item quantity="one">albom</item>
         <item quantity="other">albom</item>
     </plurals>
+
+    <string name="cache_songs">Mahnıları keşlə</string>
+
+    <string name="failed_to_preview_csv">CSV faylı önizlənə bilmədi</string>
+
+    <string name="listen_together_connection_error_with_reason">Bağlantı xətası: %1$s</string>
+
+    <string name="listen_together_join_rejected">Qoşulma istəyi rədd edildi: %1$s</string>
+
+    <string name="listen_together_joined_room">Otağa qoşuldunuz: %1$s</string>
+
+    <string name="listen_together_kicked">Xaric edildi: %1$s</string>
+
+    <string name="listen_together_server_error">Server xətası: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s qoşulmaq istəyir</string>
+
+    <string name="no_recognition_history">Tanıma tarixçəsi yoxdur</string>
+
+    <string name="playback_error_code">Kod: %1$s (%2$d)</string>
+
+    <string name="reconnect">Yenidən qoşul</string>
+
+    <string name="selection_queue_title">Seçim</string>
+
+    <string name="unknown_podcast">Bilinməyən podcast</string>
+
+    <string name="utaloom_attribution">Metrolist, InnerTune və OuterTune açıq mənbə işlərinə əsaslanır. Mənbənin göstərilməsi əlaqə və ya dəstək demək deyil.</string>
+
+    <string name="utaloom_desktop_app">Utaloom masaüstü üçün</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android, dinlədiklərinizi paylaşmaq üçün Discord-un açıq OAuth2 və Gateway API-larından istifadə edir. Tokeniniz bu cihazda şifrələnir və heç vaxt paylaşılmır. Ayrıca quraşdırılmış Utaloom Discord tətbiqi tələb olunur.</string>
+
+    <string name="utaloom_discord_unavailable">Bu qurğuda Discord inteqrasiyası mövcud deyil. Sistem administratoru tərəfindən quraşdırılmış Utaloom Discord tətbiqi tələb olunur.</string>
+
+    <string name="utaloom_encore_special_thanks">Orijinal açıq mənbə töhfəçilərinə və Utaloom icmasına təşəkkür</string>
+
+    <string name="utaloom_independent_notice">cabrata tərəfindən müstəqil şəkildə idarə olunur. Metro Group, Metrolist və ya MetrolistGroup ilə əlaqəsi yoxdur.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Utaloom Android-də bəyəndiyinizdə və ya bəyənməkdən imtina etdiyinizdə Last.fm-də mahnıları bəyənin və ya bəyənməyi ləğv edin</string>
+
+    <string name="utaloom_listen_on_app">Utaloom Android-də dinlə</string>
+
+    <string name="utaloom_logo_content_description">Utaloom Android loqosu</string>
+
+    <string name="utaloom_maintainer">Utaloom baxıcısı</string>
+
+    <string name="utaloom_play_on_app">Utaloom Android-də oxu</string>
+
+    <string name="utaloom_report_issue">Android problemi bildir</string>
+
+    <string name="utaloom_tap_to_open">Utaloom Android-i açmaq üçün toxunun</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s yükləməyə hazırdır.</string>
+
+    <string name="youtube_playlist_fallback">YouTube pleylisti</string>
 </resources>

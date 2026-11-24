@@ -1087,7 +1087,6 @@
     <string name="theme_colors">テーマと色</string>
     <string name="theme_mode">テーマモード</string>
     <string name="color_palette">カラーパレット</string>
-    <string name="use_system_colors">システムの色を使用</string>
     <string name="music_source_edit">アドオンを編集</string>
     <string name="music_source_test">テスト</string>
     <string name="music_source_testing">テスト中…</string>
@@ -1170,4 +1169,60 @@
     <plurals name="encore_story_albums_word">
         <item quantity="other">アルバム</item>
     </plurals>
+
+    <string name="cache_songs">曲をキャッシュ</string>
+
+    <string name="failed_to_preview_csv">CSV ファイルのプレビューに失敗しました</string>
+
+    <string name="listen_together_connection_error_with_reason">接続エラー: %1$s</string>
+
+    <string name="listen_together_join_rejected">参加リクエストが拒否されました: %1$s</string>
+
+    <string name="listen_together_joined_room">ルームに参加しました: %1$s</string>
+
+    <string name="listen_together_kicked">退出させられました: %1$s</string>
+
+    <string name="listen_together_server_error">サーバーエラー: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s が参加を希望しています</string>
+
+    <string name="no_recognition_history">認識履歴がありません</string>
+
+    <string name="playback_error_code">コード: %1$s (%2$d)</string>
+
+    <string name="reconnect">再接続</string>
+
+    <string name="selection_queue_title">選択中</string>
+
+    <string name="unknown_podcast">不明なポッドキャスト</string>
+
+    <string name="utaloom_attribution">Metrolist、InnerTune、OuterTune のオープンソースに基づいています。出典の明記は提携や承認を意味しません。</string>
+
+    <string name="utaloom_desktop_app">デスクトップ版 Utaloom</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android は、Discord の公開 OAuth2 と Gateway API を使用してリスニング状況を共有します。トークンは端末上で暗号化され、決して共有されません。別途設定された Utaloom Discord アプリが必要です。</string>
+
+    <string name="utaloom_discord_unavailable">このビルドでは Discord 連携を利用できません。メンテナーが設定した Utaloom Discord アプリが必要です。</string>
+
+    <string name="utaloom_encore_special_thanks">オリジナルのオープンソースコントリビューターと Utaloom コミュニティに感謝</string>
+
+    <string name="utaloom_independent_notice">cabrata により独立してメンテナンスされています。Metro Group、Metrolist、MetrolistGroup とは無関係です。</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Utaloom Android で高評価・解除すると、Last.fm でも高評価・解除されます</string>
+
+    <string name="utaloom_listen_on_app">Utaloom Android で聴く</string>
+
+    <string name="utaloom_logo_content_description">Utaloom Android ロゴ</string>
+
+    <string name="utaloom_maintainer">Utaloom メンテナー</string>
+
+    <string name="utaloom_play_on_app">Utaloom Android で再生</string>
+
+    <string name="utaloom_report_issue">Android の問題を報告</string>
+
+    <string name="utaloom_tap_to_open">タップして Utaloom Android を開く</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s がダウンロード可能です。</string>
+
+    <string name="youtube_playlist_fallback">YouTube プレイリスト</string>
 </resources>

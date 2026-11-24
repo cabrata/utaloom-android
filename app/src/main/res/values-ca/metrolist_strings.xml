@@ -1097,7 +1097,6 @@
     <string name="theme_colors">Theme &amp; Colors</string>
     <string name="theme_mode">Theme Mode</string>
     <string name="color_palette">Color Palette</string>
-    <string name="use_system_colors">Use system colors</string>
 <string name="audio_output_bluetooth">Àudio Bluetooth</string><string name="audio_output_hdmi">HDMI</string><string name="audio_output_phone">Aquest telèfon</string><string name="audio_output_playing">Reproduint aquí</string><string name="audio_output_system">Sortida de so del sistema</string><string name="audio_output_usb">Àudio USB</string><string name="audio_output_wired">Auriculars amb fil</string><string name="audio_quality_high_detail">Millor flux de YouTube, fins a ~256 kbps · 115 MB/hr</string><string name="audio_quality_in_use">En ús</string><string name="audio_quality_lossless_detail">Els vostres complements, bit-exacte on està disponible · 300+ MB/hr</string><string name="audio_quality_low_detail">~64 kbps · descàrrega més petita · 29 MB/hr</string><string name="audio_quality_on_mobile_data">En dades mòbils</string><string name="audio_quality_on_wifi">En Wi-Fi</string><string name="cast_casting">Emetent</string><string name="cast_connecting">Connectant…</string><string name="cast_dialog_subtitle">Reprodueix a un Chromecast o altaveu Google Cast</string><string name="cast_row_subtitle">Altaveus Chromecast i Google Cast</string><string name="cast_searching">Buscant dispositius…</string><string name="cast_searching_hint">El telèfon i el receptor han d\'estar a la mateixa xarxa Wi-Fi.</string><string name="cast_stop">Atura la transmissió</string><string name="drag_to_reorder">Arrossega per reordenar</string><string name="music_source_edit">Edita complement</string><string name="music_source_remove_action">Elimina complement</string><string name="music_source_test">Prova</string><string name="music_source_testing">Provant…</string><string name="pipeline_codec_profile">Perfil del còdec</string><string name="pipeline_device_capability">Capacitat del dispositiu</string><string name="pipeline_direct">Directe</string><string name="pipeline_direct_offload">Actiu (offload, evita el mesclador)</string><string name="pipeline_direct_supported">Compatible (mesclat per Android)</string><string name="pipeline_direct_unsupported">No compatible (via mixta)</string><string name="pipeline_loudness_measured">Volum mesurat</string><string name="pipeline_none">Cap</string><string name="pipeline_output_api">API de sortida</string><string name="pipeline_passthrough">Passthrough</string><string name="pipeline_pcm_data_rate">Taxa de dades PCM</string><string name="pipeline_quality">Qualitat</string><string name="pipeline_resampled">Remostrejat</string><string name="pipeline_resampler_framework">Marc de remostrejat</string><string name="pipeline_route">Ruta</string><string name="pipeline_sonic">Sonic (tempo i to)</string><string name="pipeline_system_default">Per defecte del sistema</string><string name="pipeline_type">Tipus</string>
     <string name="encore_story_opener">El teu %1$d a Utaloom</string>
     <string name="encore_story_opener_detail">Repasem el que vas escoltar.</string>
@@ -1146,4 +1145,60 @@
         <item quantity="many">àlbums</item>
         <item quantity="other">àlbums</item>
     </plurals>
+
+    <string name="cache_songs">Emmagatzema cançons a la cau</string>
+
+    <string name="failed_to_preview_csv">No s\'ha pogut previsualitzar el fitxer CSV</string>
+
+    <string name="listen_together_connection_error_with_reason">Error de connexió: %1$s</string>
+
+    <string name="listen_together_join_rejected">Sol·licitud rebutjada: %1$s</string>
+
+    <string name="listen_together_joined_room">Has entrat a la sala: %1$s</string>
+
+    <string name="listen_together_kicked">Expulsat: %1$s</string>
+
+    <string name="listen_together_server_error">Error del servidor: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s vol entrar</string>
+
+    <string name="no_recognition_history">Cap historial de reconeixement</string>
+
+    <string name="playback_error_code">Codi: %1$s (%2$d)</string>
+
+    <string name="reconnect">Torna a connectar</string>
+
+    <string name="selection_queue_title">Selecció</string>
+
+    <string name="unknown_podcast">Pòdcast desconegut</string>
+
+    <string name="utaloom_attribution">Basat en treballs de codi obert de Metrolist, InnerTune i OuterTune. Esmemorar la font no implica afiliació ni suport.</string>
+
+    <string name="utaloom_desktop_app">Utaloom per a escriptori</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android fa servir les API públiques OAuth2 i Gateway de Discord per compartir el que escoltes. El token es xifra en aquest dispositiu i mai no es comparteix. Cal una aplicació Utaloom Discord configurada a part.</string>
+
+    <string name="utaloom_discord_unavailable">La integració amb Discord no està disponible en aquesta compilació. Cal una aplicació Utaloom Discord configurada pel mantenidor.</string>
+
+    <string name="utaloom_encore_special_thanks">Gràcies als col·laboradors originals de codi obert i a la comunitat d\'Utaloom</string>
+
+    <string name="utaloom_independent_notice">Mantingut de manera independent per cabrata. Sense afiliació amb Metro Group, Metrolist ni MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Marca o desmarca cançons com a preferides a Last.fm quan les marquis o desmarquis a Utaloom Android</string>
+
+    <string name="utaloom_listen_on_app">Escolta a Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Logotip d\'Utaloom Android</string>
+
+    <string name="utaloom_maintainer">Mantenidor d\'Utaloom</string>
+
+    <string name="utaloom_play_on_app">Reprodueix a Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Informa d\'un problema d\'Android</string>
+
+    <string name="utaloom_tap_to_open">Toca per obrir Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s està a punt per descarregar-se.</string>
+
+    <string name="youtube_playlist_fallback">Llista de reproducció de YouTube</string>
 </resources>

@@ -7,6 +7,7 @@
 package com.metrolist.music.ui.glass
 
 import com.metrolist.music.R
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -110,7 +111,7 @@ fun GlassSearchField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    placeholder: String = "Search",
+    placeholder: String = stringResource(R.string.search),
     onSearch: (String) -> Unit = {},
 ) {
     if (!isUtaloomGlass) return

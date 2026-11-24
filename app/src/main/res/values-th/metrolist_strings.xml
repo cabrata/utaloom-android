@@ -1085,7 +1085,6 @@
     <string name="theme_colors">ธีมและสี</string>
     <string name="theme_mode">โหมดธีม</string>
     <string name="color_palette">พาเลตสี</string>
-    <string name="use_system_colors">ใช้สีระบบ</string>
     <string name="music_source_edit">แก้ไขส่วนเสริม</string>
     <string name="music_source_test">ทดสอบ</string>
     <string name="music_source_testing">กำลังทดสอบ…</string>
@@ -1168,4 +1167,60 @@
     <plurals name="encore_story_albums_word">
         <item quantity="other">อัลบั้ม</item>
     </plurals>
+
+    <string name="cache_songs">แคชเพลง</string>
+
+    <string name="failed_to_preview_csv">ไม่สามารถแสดงตัวอย่างไฟล์ CSV ได้</string>
+
+    <string name="listen_together_connection_error_with_reason">การเชื่อมต่อผิดพลาด: %1$s</string>
+
+    <string name="listen_together_join_rejected">คำขอเข้าร่วมถูกปฏิเสธ: %1$s</string>
+
+    <string name="listen_together_joined_room">เข้าร่วมห้องแล้ว: %1$s</string>
+
+    <string name="listen_together_kicked">ถูกเตะออก: %1$s</string>
+
+    <string name="listen_together_server_error">ข้อผิดพลาด: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s ต้องการเข้าร่วม</string>
+
+    <string name="no_recognition_history">ไม่มีประวัติการจดจำ</string>
+
+    <string name="playback_error_code">รหัส: %1$s (%2$d)</string>
+
+    <string name="reconnect">เชื่อมต่อใหม่</string>
+
+    <string name="selection_queue_title">รายการที่เลือก</string>
+
+    <string name="unknown_podcast">พอดแคสต์ที่ไม่รู้จัก</string>
+
+    <string name="utaloom_attribution">อ้างอิงจากโครงการโอเพนซอร์ส Metrolist, InnerTune และ OuterTune การระบุแหล่งที่มาไม่ได้หมายถึงการเชื่อมโยงหรือการรับรอง</string>
+
+    <string name="utaloom_desktop_app">Utaloom สำหรับเดสก์ท็อป</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android ใช้ API สาธารณะ OAuth2 และ Gateway ของ Discord เพื่อแชร์สิ่งที่คุณกำลังฟัง โทเคนของคุณถูกเข้ารหัสบนอุปกรณ์นี้และไม่มีการแชร์ จำเป็นต้องตั้งค่าแอป Utaloom Discord แยกต่างหาก</string>
+
+    <string name="utaloom_discord_unavailable">การเชื่อมต่อ Discord ไม่พร้อมใช้งานในบิลด์นี้ จำเป็นต้องมีแอป Utaloom Discord ที่ผู้ดูแลโครงการตั้งค่า</string>
+
+    <string name="utaloom_encore_special_thanks">ขอบคุณผู้มีส่วนร่วมโอเพนซอร์สตั้งต้นและชุมชน Utaloom</string>
+
+    <string name="utaloom_independent_notice">ดูแลโดย cabrata อย่างเป็นอิสระ ไม่เกี่ยวข้องกับ Metro Group, Metrolist หรือ MetrolistGroup</string>
+
+    <string name="utaloom_last_fm_send_likes_description">กดถูกใจหรือเลิกถูกใจเพลงบน Last.fm เมื่อคุณถูกใจหรือเลิกถูกใจใน Utaloom Android</string>
+
+    <string name="utaloom_listen_on_app">ฟังบน Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">โลโก้ Utaloom Android</string>
+
+    <string name="utaloom_maintainer">ผู้ดูแล Utaloom</string>
+
+    <string name="utaloom_play_on_app">เล่นบน Utaloom Android</string>
+
+    <string name="utaloom_report_issue">รายงานปัญหาบน Android</string>
+
+    <string name="utaloom_tap_to_open">แตะเพื่อเปิด Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s พร้อมดาวน์โหลดแล้ว</string>
+
+    <string name="youtube_playlist_fallback">เพลย์ลิสต์ YouTube</string>
 </resources>

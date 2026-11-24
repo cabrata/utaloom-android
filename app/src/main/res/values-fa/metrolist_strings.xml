@@ -93,8 +93,8 @@
     <string name="charts">چارت‌ها</string>
     <string name="cached_playlist">کش شده</string>
     <string name="now_playing">در حال پخش</string>
-    <string name="seek_forward_dynamic">ثانیه به جلو</string>
-    <string name="seek_backward_dynamic">ثانیه به عقب</string>
+    <string name="seek_forward_dynamic">%1$d ثانیه به جلو</string>
+    <string name="seek_backward_dynamic">%1$d ثانیه به عقب</string>
     <string name="close">بستن</string>
     <string name="seek_seconds_addup_description">درصورت فعال بودن، با هر بار پرش، ۵ ثانیه به‌صورت تدریجی اضافه می‌شود</string>
     <string name="lyrics_auto_scroll">اسکرول خودکار متن‌</string>
@@ -1094,7 +1094,6 @@
     <string name="theme_colors">پوسته و رنگ‌ها</string>
     <string name="theme_mode">حالت پوسته</string>
     <string name="color_palette">تخت رنگی</string>
-    <string name="use_system_colors">استفاده از رنگ‌های سیستم</string>
     <string name="persistent_queue_desc">صف آخر خود را وقتی برنامه شروع می‌شود بازیابی کنید</string>
     <string name="auto_load_more">بارگیری خودکار آهنگ‌های بیشتر</string>
     <string name="auto_load_more_desc">هنگام رسیدن به انتهای صف، اگر ممکن است آهنگ‌های بیشتری را به طور خودکار اضافه کنید</string>
@@ -1103,11 +1102,8 @@
     <string name="stop_music_on_task_clear">توقف موسیقی هنگام پاک کردن وظیفه</string>
     <string name="listen_history">تاریخچه شنیدن</string>
     <string name="search_history">تاریخچه جستجو</string>
-    <string name="use_login_for_browse">استفاده از ورود برای مرور محتوا</string>
-    <string name="use_login_for_browse_desc">این می‌تواند تأثیری بر محتوایی که می‌بینید داشته باشد و برای مثال آلبوم‌های فقط Premium را نشان می‌دهد اگر با حساب Premium وارد شوید</string>
     <string name="disable_screenshot">غیرفعال کردن عکس‌برداری</string>
     <string name="disable_screenshot_desc">زمانی‌که این گزینه روشن است، عکس‌برداری و نمای برنامه در بخش آخرین‌ها غیرفعال می‌شود.</string>
-    <string name="enable_lrclib">فعال‌سازی تامین‌کننده متن LrcLib</string>
     <string name="hide_explicit">پنهان کردن محتوای بزرگسالان</string>
     <string name="dismiss">رد کردن</string>
     <string name="options">گزینه‌ها</string>
@@ -1198,4 +1194,60 @@
         <item quantity="one">آلبوم</item>
         <item quantity="other">آلبوم</item>
     </plurals>
+
+    <string name="cache_songs">ذخیره موقت آهنگ‌ها</string>
+
+    <string name="failed_to_preview_csv">پیش‌نمایش فایل CSV ناموفق بود</string>
+
+    <string name="listen_together_connection_error_with_reason">خطای اتصال: %1$s</string>
+
+    <string name="listen_together_join_rejected">درخواست عضویت رد شد: %1$s</string>
+
+    <string name="listen_together_joined_room">به اتاق پیوستید: %1$s</string>
+
+    <string name="listen_together_kicked">اخراج شدید: %1$s</string>
+
+    <string name="listen_together_server_error">خطای سرور: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s می‌خواهد بپیوندد</string>
+
+    <string name="no_recognition_history">بدون سابقه شناسایی</string>
+
+    <string name="playback_error_code">کد: %1$s (%2$d)</string>
+
+    <string name="reconnect">اتصال مجدد</string>
+
+    <string name="selection_queue_title">انتخاب</string>
+
+    <string name="unknown_podcast">پادکست ناشناس</string>
+
+    <string name="utaloom_attribution">بر اساس کارهای متن‌باز Metrolist، InnerTune و OuterTune. ذکر منبع به معنای وابستگی یا تأیید نیست.</string>
+
+    <string name="utaloom_desktop_app">Utaloom برای دسکتاپ</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android از APIهای عمومی OAuth2 و Gateway دیسکورد برای اشتراک‌گذاری آنچه می‌شنوید استفاده می‌کند. توکن شما روی این دستگاه رمزنگاری می‌شود و هرگز به اشتراک گذاشته نمی‌شود. به یک برنامه جداگانه Utaloom Discord نیاز است.</string>
+
+    <string name="utaloom_discord_unavailable">یکپارچگی دیسکورد در این نسخه در دسترس نیست. به یک برنامه Utaloom Discord که توسط نگهدارنده تنظیم شده نیاز است.</string>
+
+    <string name="utaloom_encore_special_thanks">با تشکر از مشارکت‌کنندگان اصلی متن‌باز و اجتماع Utaloom</string>
+
+    <string name="utaloom_independent_notice">به طور مستقل توسط cabrata نگهداری می‌شود. با Metro Group، Metrolist یا MetrolistGroup وابستگی ندارد.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">وقتی در Utaloom Android آهنگ‌ها را می‌پسندید یا پسند را برمی‌دارید، در Last.fm نیز همین کار انجام می‌شود</string>
+
+    <string name="utaloom_listen_on_app">شنیدن در Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">لوگوی Utaloom Android</string>
+
+    <string name="utaloom_maintainer">نگهدارنده Utaloom</string>
+
+    <string name="utaloom_play_on_app">پخش در Utaloom Android</string>
+
+    <string name="utaloom_report_issue">گزارش مشکل اندروید</string>
+
+    <string name="utaloom_tap_to_open">برای باز کردن Utaloom Android ضربه بزنید</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s آماده دانلود است.</string>
+
+    <string name="youtube_playlist_fallback">لیست پخش یوتیوب</string>
 </resources>

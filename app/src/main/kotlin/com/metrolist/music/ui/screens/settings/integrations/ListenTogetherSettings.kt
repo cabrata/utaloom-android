@@ -103,6 +103,12 @@ fun ListenTogetherSettings(navController: NavController) {
     val manager = LocalListenTogetherManager.current ?: return
     val context = LocalContext.current
     val cannotEditUsernameInRoomStr = stringResource(R.string.listen_together_cannot_edit_username_in_room)
+    val joinedRoomStr = stringResource(R.string.listen_together_joined_room)
+    val joinRejectedStr = stringResource(R.string.listen_together_join_rejected)
+    val wantsToJoinStr = stringResource(R.string.listen_together_wants_to_join)
+    val kickedStr = stringResource(R.string.listen_together_kicked)
+    val connectionErrorStr = stringResource(R.string.listen_together_connection_error_with_reason)
+    val serverErrorStr = stringResource(R.string.listen_together_server_error)
     val coroutineScope = rememberCoroutineScope()
 
     val connectionState by manager.connectionState.collectAsStateWithLifecycle()
@@ -136,27 +142,27 @@ fun ListenTogetherSettings(navController: NavController) {
                 }
 
                 is ListenTogetherEvent.JoinApproved -> {
-                    Toast.makeText(context, "Joined room: ${event.roomCode}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, joinedRoomStr.format(event.roomCode), Toast.LENGTH_SHORT).show()
                 }
 
                 is ListenTogetherEvent.JoinRejected -> {
-                    Toast.makeText(context, "Join rejected: ${event.reason}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, joinRejectedStr.format(event.reason), Toast.LENGTH_SHORT).show()
                 }
 
                 is ListenTogetherEvent.JoinRequestReceived -> {
-                    Toast.makeText(context, "${event.username} wants to join", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, wantsToJoinStr.format(event.username), Toast.LENGTH_SHORT).show()
                 }
 
                 is ListenTogetherEvent.Kicked -> {
-                    Toast.makeText(context, "Kicked: ${event.reason}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, kickedStr.format(event.reason), Toast.LENGTH_SHORT).show()
                 }
 
                 is ListenTogetherEvent.ConnectionError -> {
-                    Toast.makeText(context, "Connection error: ${event.error}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, connectionErrorStr.format(event.error), Toast.LENGTH_SHORT).show()
                 }
 
                 is ListenTogetherEvent.ServerError -> {
-                    Toast.makeText(context, "Error: ${event.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, serverErrorStr.format(event.message), Toast.LENGTH_SHORT).show()
                 }
 
                 else -> {}

@@ -1101,7 +1101,6 @@
     <string name="theme_colors">Tema &amp; Boje</string>
     <string name="theme_mode">Modus teme</string>
     <string name="color_palette">Paleta boja</string>
-    <string name="use_system_colors">Koristi sistemske boje</string>
 <string name="audio_output_bluetooth">Bluetooth audio</string><string name="audio_output_hdmi">HDMI</string><string name="audio_output_phone">Ovaj telefon</string><string name="audio_output_playing">Puštanje ovdje</string><string name="audio_output_system">Sistemski audio izlaz</string><string name="audio_output_usb">USB audio</string><string name="audio_output_wired">Žičane slušalice</string><string name="audio_quality_high_detail">Najbolji YouTube stream, do ~256 kbps · 115 MB/hr</string><string name="audio_quality_in_use">U upotrebi</string><string name="audio_quality_lossless_detail">Vaši add-oni, bit-tačno gdje je dostupno · 300+ MB/hr</string><string name="audio_quality_low_detail">~64 kbps · najmanja preuzimanja · 29 MB/hr</string><string name="audio_quality_on_mobile_data">Na mobilnim podacima</string><string name="audio_quality_on_wifi">Na Wi-Fi</string><string name="cast_casting">Emitovanje</string><string name="cast_connecting">Povezivanje…</string><string name="cast_dialog_subtitle">播放 на Chromecast ili Google Cast zvučniku</string><string name="cast_row_subtitle">Chromecast i Google Cast zvučnici</string><string name="cast_searching">Tražim uređaje…</string><string name="cast_searching_hint">Vaš telefon i prijemnik trebaju biti na istoj Wi-Fi mreži.</string><string name="cast_stop">Zaustavi emitovanje</string><string name="drag_to_reorder">Prevucite za ponovno sortiranje</string><string name="music_source_edit">Uredi add-on</string><string name="music_source_remove_action">Uklonite add-on</string><string name="music_source_test">Test</string><string name="music_source_testing">Testiranje…</string><string name="pipeline_codec_profile">Profil kodeka</string><string name="pipeline_device_capability">Mogućnost uređaja</string><string name="pipeline_direct">Direktno</string><string name="pipeline_direct_offload">Aktivno (offload, zaobilazi mikser)</string><string name="pipeline_direct_supported">Podržano (mješano sa Androida)</string><string name="pipeline_direct_unsupported">Nije podržano (miješana putanja)</string><string name="pipeline_loudness_measured">Izmjerena glasnoća</string><string name="pipeline_none">Ništa</string><string name="pipeline_output_api">Izlazni API</string><string name="pipeline_passthrough">Direktan prolazak</string><string name="pipeline_pcm_data_rate">PCM stopa podataka</string><string name="pipeline_quality">Kvalitet</string><string name="pipeline_resampled">Ponovno uzorkovano</string><string name="pipeline_resampler_framework">Okvir za ponovno uzorkovanje</string><string name="pipeline_route">Ruta</string><string name="pipeline_sonic">Sonic (tempo i visina)</string><string name="pipeline_system_default">Sistemska zadanost</string><string name="pipeline_type">Vrsta</string>
     <string name="encore_story_opener">Vaš %1$d u Utaloom-u</string>
     <string name="encore_story_opener_detail">Vratimo se na ono što ste slušali.</string>
@@ -1150,4 +1149,60 @@
         <item quantity="few">albuma</item>
         <item quantity="other">albuma</item>
     </plurals>
+
+    <string name="cache_songs">Keširaj pjesme</string>
+
+    <string name="failed_to_preview_csv">Pregled CSV datoteke nije uspio</string>
+
+    <string name="listen_together_connection_error_with_reason">Greška veze: %1$s</string>
+
+    <string name="listen_together_join_rejected">Zahtjev odbijen: %1$s</string>
+
+    <string name="listen_together_joined_room">Pridružili ste se sobi: %1$s</string>
+
+    <string name="listen_together_kicked">Izbačeni: %1$s</string>
+
+    <string name="listen_together_server_error">Greška servera: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s se želi pridružiti</string>
+
+    <string name="no_recognition_history">Nema historije prepoznavanja</string>
+
+    <string name="playback_error_code">Kod: %1$s (%2$d)</string>
+
+    <string name="reconnect">Ponovo poveži</string>
+
+    <string name="selection_queue_title">Odabir</string>
+
+    <string name="unknown_podcast">Nepoznat podkast</string>
+
+    <string name="utaloom_attribution">Zasnovano na radovima otvorenog koda Metrolist, InnerTune i OuterTune. Navođenje izvora ne znači povezanost niti podršku.</string>
+
+    <string name="utaloom_desktop_app">Utaloom za računar</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android koristi javne OAuth2 i Gateway API-je Discorda kako bi dijelio što slušate. Token je šifrovan na uređaju i nikad se ne dijeli. Potrebna je posebno podešena Utaloom Discord aplikacija.</string>
+
+    <string name="utaloom_discord_unavailable">Discord integracija nije dostupna u ovom izdanju. Potrebna je Utaloom Discord aplikacija koju podešava održavatelj.</string>
+
+    <string name="utaloom_encore_special_thanks">Zahvala prvobornim contributorima otvorenog koda i zajednici Utaloom</string>
+
+    <string name="utaloom_independent_notice">Nezavisno održava cabrata. Nije povezano s Metro Group, Metrolist ni MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Označite ili poništite pjesme kao omiljene na Last.fm kad ih označite ili poništite u Utaloom Android</string>
+
+    <string name="utaloom_listen_on_app">Slušaj na Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Logo Utaloom Android</string>
+
+    <string name="utaloom_maintainer">Održavatelj Utaloom</string>
+
+    <string name="utaloom_play_on_app">Pusti na Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Prijavi Android problem</string>
+
+    <string name="utaloom_tap_to_open">Dodirnite da otvorite Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s je spreman za preuzimanje.</string>
+
+    <string name="youtube_playlist_fallback">YouTube plejlista</string>
 </resources>

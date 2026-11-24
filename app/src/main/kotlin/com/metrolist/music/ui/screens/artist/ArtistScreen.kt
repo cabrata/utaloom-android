@@ -144,6 +144,7 @@ fun ArtistScreen(
     viewModel: ArtistViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
+    val unknownArtist = stringResource(R.string.widget_recognizer_unknown_artist)
     val database = LocalDatabase.current
     val menuState = LocalMenuState.current
     val haptic = LocalHapticFeedback.current
@@ -388,7 +389,7 @@ fun ArtistScreen(
                             ) {
                                 // Artist Name
                                 Text(
-                                    text = displayArtistName ?: "Unknown",
+                                    text = displayArtistName ?: stringResource(R.string.unknown),
                                     style = MaterialTheme.typography.headlineLarge,
                                     fontWeight = FontWeight.Bold,
                                     maxLines = 1,
@@ -628,7 +629,7 @@ fun ArtistScreen(
                                                     } else {
                                                         playerConnection.playQueue(
                                                             ListQueue(
-                                                                title = displayArtistName ?: "Unknown Artist",
+                                                                title = displayArtistName ?: unknownArtist,
                                                                 items = librarySongs.map { it.toMediaItem() },
                                                                 startIndex = index,
                                                             ),
@@ -947,7 +948,7 @@ fun ArtistScreen(
                             if (librarySongs.isNotEmpty()) {
                                 playerConnection.playQueue(
                                     ListQueue(
-                                        title = displayArtistName ?: "Unknown Artist",
+                                        title = displayArtistName ?: unknownArtist,
                                         items = librarySongs.map { it.toMediaItem() },
                                     ),
                                 )

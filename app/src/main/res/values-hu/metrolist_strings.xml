@@ -1091,7 +1091,6 @@
     <string name="theme_colors">Téma és Színek</string>
     <string name="theme_mode">Téma módban</string>
     <string name="color_palette">Szín paletta</string>
-    <string name="use_system_colors">Rendszer színek használata</string>
     <string name="music_source_edit">Kiegészítő szerkesztése</string>
     <string name="music_source_test">Tesztelés</string>
     <string name="music_source_testing">Tesztelés…</string>
@@ -1178,4 +1177,60 @@
         <item quantity="one">album</item>
         <item quantity="other">album</item>
     </plurals>
+
+    <string name="cache_songs">Dalok gyorsítótárazása</string>
+
+    <string name="failed_to_preview_csv">A CSV-fájl előnézete nem sikerült</string>
+
+    <string name="listen_together_connection_error_with_reason">Kapcsolódási hiba: %1$s</string>
+
+    <string name="listen_together_join_rejected">Csatlakozási kérés elutasítva: %1$s</string>
+
+    <string name="listen_together_joined_room">Csatlakoztál a szobához: %1$s</string>
+
+    <string name="listen_together_kicked">Kirúgva: %1$s</string>
+
+    <string name="listen_together_server_error">Kiszolgálóhiba: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s csatlakozni szeretne</string>
+
+    <string name="no_recognition_history">Nincs felismerési előzmény</string>
+
+    <string name="playback_error_code">Kód: %1$s (%2$d)</string>
+
+    <string name="reconnect">Újracsatlakozás</string>
+
+    <string name="selection_queue_title">Kijelölés</string>
+
+    <string name="unknown_podcast">Ismeretlen podcast</string>
+
+    <string name="utaloom_attribution">A Metrolist, InnerTune és OuterTune nyílt forráskódú munkáin alapul. A forrás megjelölése nem jelent kapcsolatot vagy támogatást.</string>
+
+    <string name="utaloom_desktop_app">Utaloom asztali géphez</string>
+
+    <string name="utaloom_discord_information_warning">Az Utaloom Android a Discord nyilvános OAuth2 és Gateway API-jait használja annak megosztására, hogy mit hallgatsz. A tokened ezen az eszközön titkosított, és soha nem osztódik meg. Külön konfigurált Utaloom Discord alkalmazás szükséges.</string>
+
+    <string name="utaloom_discord_unavailable">A Discord-integráció nem érhető el ebben a verzióban. A karbantartó által beállított Utaloom Discord alkalmazás szükséges.</string>
+
+    <string name="utaloom_encore_special_thanks">Köszönet az eredeti nyílt forráskódú közreműködőknek és az Utaloom közösségnek</string>
+
+    <string name="utaloom_independent_notice">A cabrata önállóan tartja karban. Nem áll kapcsolatban a Metro Group, Metrolist vagy MetrolistGroup vállalatokkal.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Jelöld kedvencként vagy vedd le a jelölést a dalokról a Last.fm-en, amikor megjelölöd vagy leveszed az Utaloom Androidban</string>
+
+    <string name="utaloom_listen_on_app">Hallgatás Utaloom Androidon</string>
+
+    <string name="utaloom_logo_content_description">Utaloom Android logó</string>
+
+    <string name="utaloom_maintainer">Utaloom karbantartó</string>
+
+    <string name="utaloom_play_on_app">Lejátszás Utaloom Androidon</string>
+
+    <string name="utaloom_report_issue">Android-hiba jelentése</string>
+
+    <string name="utaloom_tap_to_open">Koppints az Utaloom Android megnyitásához</string>
+
+    <string name="utaloom_update_available_message">Az Utaloom Android %s letöltésre kész.</string>
+
+    <string name="youtube_playlist_fallback">YouTube-lejátszási lista</string>
 </resources>

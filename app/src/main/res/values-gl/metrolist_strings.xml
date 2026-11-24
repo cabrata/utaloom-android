@@ -1096,7 +1096,6 @@
     <string name="delete">Eliminar</string>
     <string name="remove_from_history">Eliminar do historial</string>
     <string name="remove_from_playlist">Eliminar da lista de reprodución</string>
-    <string name="remove_from_queue">Eliminar da cola</string>
     <string name="sort_by_create_date">Data engadida</string>
     <string name="sort_by_name">Nome</string>
     <string name="sort_by_artist">Artista</string>
@@ -1134,16 +1133,12 @@
         <item quantity="one">1 minuto</item>
         <item quantity="other">%d minutos</item>
     </plurals>
-    <string name="error_no_stream">Ningunha transmisión dispoñible</string>
     <string name="error_timeout">Tiempo de espera</string>
     <string name="error_unknown">Erro descoñecido</string>
-    <string name="action_remove_like_all">Eliminar todos os gustos</string>
     <string name="theme_desc">Personaliza o tema da túa aplicación</string>
     <string name="theme_colors">Tema e Cores</string>
     <string name="theme_mode">Modo de tema</string>
     <string name="color_palette">Paleta de cores</string>
-    <string name="use_system_colors">Usar cores do sistema</string>
-    <string name="sided">Ladeado</string>
     <string name="player_slider_style">Estilo do control deslizante do reprodutor</string>
     <string name="default_">Predeterminado</string>
     <string name="squiggly">Onda</string>
@@ -1238,4 +1233,60 @@
         <item quantity="one">álbum</item>
         <item quantity="other">álbumes</item>
     </plurals>
+
+    <string name="cache_songs">Gardar cancións na caché</string>
+
+    <string name="failed_to_preview_csv">Non se puido previsualizar o ficheiro CSV</string>
+
+    <string name="listen_together_connection_error_with_reason">Erro de conexión: %1$s</string>
+
+    <string name="listen_together_join_rejected">Solicitude rexeitada: %1$s</string>
+
+    <string name="listen_together_joined_room">Entraches na sala: %1$s</string>
+
+    <string name="listen_together_kicked">Fuches expulsado: %1$s</string>
+
+    <string name="listen_together_server_error">Erro do servidor: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s quere unirse</string>
+
+    <string name="no_recognition_history">Sen historial de recoñecemento</string>
+
+    <string name="playback_error_code">Código: %1$s (%2$d)</string>
+
+    <string name="reconnect">Volver conectar</string>
+
+    <string name="selection_queue_title">Selección</string>
+
+    <string name="unknown_podcast">Podcast descoñecido</string>
+
+    <string name="utaloom_attribution">Baseado en traballos de código aberto de Metrolist, InnerTune e OuterTune. A atribución da fonte non implica afiliación nin respaldo.</string>
+
+    <string name="utaloom_desktop_app">Utaloom para escritorio</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android usa as API públicas OAuth2 e Gateway de Discord para compartir o que escoitas. O teu token cifrase neste dispositivo e nunca se comparte. Precísase unha aplicación Utaloom Discord configurada por separado.</string>
+
+    <string name="utaloom_discord_unavailable">A integración con Discord non está dispoñible nesta versión. Require unha aplicación Utaloom Discord configurada polo mantedor.</string>
+
+    <string name="utaloom_encore_special_thanks">Grazas aos contribuidores orixinais de código aberto e á comunidade de Utaloom</string>
+
+    <string name="utaloom_independent_notice">Mantido de forma independente por cabrata. Sen afiliación con Metro Group, Metrolist nin MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Marca ou desmarca cancións como favoritas en Last.fm cando as marques ou desmarques en Utaloom Android</string>
+
+    <string name="utaloom_listen_on_app">Escoitar en Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Logotipo de Utaloom Android</string>
+
+    <string name="utaloom_maintainer">Mantedor de Utaloom</string>
+
+    <string name="utaloom_play_on_app">Reproducir en Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Informar dun problema de Android</string>
+
+    <string name="utaloom_tap_to_open">Toca para abrir Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s está preparado para descargarse.</string>
+
+    <string name="youtube_playlist_fallback">Lista de reprodución de YouTube</string>
 </resources>

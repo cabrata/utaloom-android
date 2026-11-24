@@ -1105,7 +1105,6 @@
     <string name="theme_colors">Téma &amp; Barvy</string>
     <string name="theme_mode">Režim Tématu</string>
     <string name="color_palette">Barevná paleta</string>
-    <string name="use_system_colors">Používat barvy systému</string>
 <string name="audio_output_bluetooth">Bluetooth audio</string><string name="audio_output_hdmi">HDMI</string><string name="audio_output_phone">Tento telefon</string><string name="audio_output_playing">Přehrávání zde</string><string name="audio_output_system">Výstup systémového zvuku</string><string name="audio_output_usb">USB audio</string><string name="audio_output_wired">Drátová sluchátka</string><string name="audio_quality_high_detail">Nejlepší YouTube stream, až ~256 kbps · 115 MB/hr</string><string name="audio_quality_in_use">V použití</string><string name="audio_quality_lossless_detail">Vaše doplňky, bit-přesné kde jsou dostupné · 300+ MB/hr</string><string name="audio_quality_low_detail">~64 kbps · nejmenší stahování · 29 MB/hr</string><string name="audio_quality_on_mobile_data">Na mobilních datech</string><string name="audio_quality_on_wifi">Na Wi-Fi</string><string name="cast_casting">Vysílání</string><string name="cast_connecting">Připojování…</string><string name="cast_dialog_subtitle">Přehrávat na Chromecast nebo Google Cast reproduktoru</string><string name="cast_row_subtitle">Reproduktory Chromecast a Google Cast</string><string name="cast_searching">Hledání zařízení…</string><string name="cast_searching_hint">Váš telefon a přijímač musí být ve stejné síti Wi-Fi.</string><string name="cast_stop">Zastavit vysílání</string><string name="drag_to_reorder">Přetažením pro opětovné seřazení</string><string name="music_source_edit">Upravit doplněk</string><string name="music_source_remove_action">Odebrat doplněk</string><string name="music_source_test">Test</string><string name="music_source_testing">Testování…</string><string name="pipeline_codec_profile">Profil kodeku</string><string name="pipeline_device_capability">Schopnost zařízení</string><string name="pipeline_direct">Přímé</string><string name="pipeline_direct_offload">Aktivní (offload, obchází mixer)</string><string name="pipeline_direct_supported">Podporováno (smícháno Androidem)</string><string name="pipeline_direct_unsupported">Není podporováno (smíšená cesta)</string><string name="pipeline_loudness_measured">Měřená hlasitost</string><string name="pipeline_none">Žádný</string><string name="pipeline_output_api">Výstupní API</string><string name="pipeline_passthrough">Průchod</string><string name="pipeline_pcm_data_rate">Bitová rychlost PCM</string><string name="pipeline_quality">Kvalita</string><string name="pipeline_resampled">Převzorkováno</string><string name="pipeline_resampler_framework">Rámec převzorkování</string><string name="pipeline_route">Trasa</string><string name="pipeline_sonic">Sonic (tempo a tón)</string><string name="pipeline_system_default">Výchozí systém</string><string name="pipeline_type">Typ</string>
     <string name="encore_story_opener">Váš %1$d v Utaloomu</string>
     <string name="encore_story_opener_detail">Podívejme se zpět na to, co jste poslouchali.</string>
@@ -1158,4 +1157,60 @@
         <item quantity="many">alb</item>
         <item quantity="other">alb</item>
     </plurals>
+
+    <string name="cache_songs">Ukládat skladby do mezipaměti</string>
+
+    <string name="failed_to_preview_csv">Náhled souboru CSV se nepodařilo zobrazit</string>
+
+    <string name="listen_together_connection_error_with_reason">Chyba připojení: %1$s</string>
+
+    <string name="listen_together_join_rejected">Žádost zamítnuta: %1$s</string>
+
+    <string name="listen_together_joined_room">Připojeno do místnosti: %1$s</string>
+
+    <string name="listen_together_kicked">Vykopnut: %1$s</string>
+
+    <string name="listen_together_server_error">Chyba serveru: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s se chce připojit</string>
+
+    <string name="no_recognition_history">Žádná historie rozpoznávání</string>
+
+    <string name="playback_error_code">Kód: %1$s (%2$d)</string>
+
+    <string name="reconnect">Znovu připojit</string>
+
+    <string name="selection_queue_title">Výběr</string>
+
+    <string name="unknown_podcast">Neznámý podcast</string>
+
+    <string name="utaloom_attribution">Založeno na open-source pracích Metrolist, InnerTune a OuterTune. Uvedení zdroje neznamená spojení ani podporu.</string>
+
+    <string name="utaloom_desktop_app">Utaloom pro desktop</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android používá veřejná API Discordu (OAuth2 a Gateway) ke sdílení toho, co posloucháte. Token je na tomto zařízení šifrovaný a nikdy se nesdílí. Je vyžadována samostatně nakonfigurovaná aplikace Utaloom Discord.</string>
+
+    <string name="utaloom_discord_unavailable">Integrace Discordu není v tomto sestavení k dispozici. Vyžaduje se aplikace Utaloom Discord nakonfigurovaná správcem.</string>
+
+    <string name="utaloom_encore_special_thanks">Poděkování původním přispěvatelům open source a komunitě Utaloom</string>
+
+    <string name="utaloom_independent_notice">Nezávisle spravuje cabrata. Nesouvisí s Metro Group, Metrolist ani MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Označujte skladby na Last.fm jako oblíbené nebo označení rušte, když je označíte nebo zrušíte v Utaloom Android</string>
+
+    <string name="utaloom_listen_on_app">Poslouchejte v Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Logo Utaloom Android</string>
+
+    <string name="utaloom_maintainer">Správce Utaloom</string>
+
+    <string name="utaloom_play_on_app">Přehrát v Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Nahlásit problém s Androidem</string>
+
+    <string name="utaloom_tap_to_open">Klepnutím otevřete Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s je připraven ke stažení.</string>
+
+    <string name="youtube_playlist_fallback">Playlist YouTube</string>
 </resources>

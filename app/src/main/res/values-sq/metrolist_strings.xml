@@ -1095,11 +1095,9 @@
     <string name="theme_colors">Tema &amp; Ngjyrat</string>
     <string name="theme_mode">Mënyra e temës</string>
     <string name="color_palette">Paleta e ngjyrave</string>
-    <string name="use_system_colors">Përdor ngjyrat e sistemit</string>
     <string name="clear_image_cache">Pastro memorien e imazheve</string>
     <string name="max_song_cache_size">Madhësia maksimale e memorisë e këngëve</string>
     <string name="clear_song_cache">Pastro memorien e këngëve</string>
-    <string name="size_used">%s i përdorur</string>
     <string name="privacy">Privatësia</string>
     <string name="listen_history">Historiku i dëgjimit</string>
     <string name="pause_listen_history">Pano historikun e dëgjimit</string>
@@ -1109,17 +1107,12 @@
     <string name="pause_search_history">Pano historikun e kërkimit</string>
     <string name="clear_search_history">Pastro historikun e kërkimit</string>
     <string name="clear_search_history_confirm">A jeni i sigurt se doni të fshini të gjithë historikun e kërkimit?</string>
-    <string name="use_login_for_browse">Përdor hyrjen për të shfletuar përmbajtjen</string>
-    <string name="use_login_for_browse_desc">Kjo mund të ndikojë përmbajtjen që shikon dhe për shembull tregon albumet vetëm premium nëse jeni i identifikuar me një llogari Premium</string>
     <string name="disable_screenshot">Çaktivizo screenshot-in</string>
     <string name="disable_screenshot_desc">Kur kjo opsion është ndezur, bëhen të çaktivizohen screenshots dhe pamja e aplikacionit në Recents.</string>
-    <string name="enable_lrclib">Aktivizo ofruesin e teksteve LrcLib</string>
-    <string name="enable_kugou">Aktivizo ofruesin e teksteve KuGou</string>
     <string name="hide_explicit">Fshih përmbajtjen e qartë</string>
     <string name="backup_restore">Kopja e sigurisë dhe riktivizimi</string>
     <string name="action_backup">Kopje sigurie</string>
     <string name="action_restore">Riktivizo</string>
-    <string name="imported_playlist">Playlisti i importuar</string>
     <string name="backup_create_success">Kopja e sigurisë u krijua me sukses</string>
     <string name="backup_create_failed">Nuk qe e mundur të krijohet kopja e sigurisë</string>
     <string name="restore_failed">Dështoi riktivizimi i kopjes të sigurisë</string>
@@ -1127,10 +1120,7 @@
     <string name="options">Opsionet</string>
     <string name="preview">Paraqitje</string>
     <string name="about">Për të</string>
-    <string name="app_version">Versioni i aplikacionit</string>
     <string name="new_version_available">Versioni i ri në dispozicion</string>
-    <string name="translation_models">Modelet e përkthimit</string>
-    <string name="clear_translation_models">Pastro modelet e përkthimit</string>
     <string name="music_source_edit">Ndrysho shtesën</string>
     <string name="music_source_test">Testo</string>
     <string name="music_source_testing">Po testohet…</string>
@@ -1217,4 +1207,60 @@
         <item quantity="one">album</item>
         <item quantity="other">albume</item>
     </plurals>
+
+    <string name="cache_songs">Ruaji këngët në stash</string>
+
+    <string name="failed_to_preview_csv">S’u arrit të shiheshin në paraqitje paraprake skedarët CSV</string>
+
+    <string name="listen_together_connection_error_with_reason">Gabim lidhjeje: %1$s</string>
+
+    <string name="listen_together_join_rejected">Kërkesa u hodh poshtë: %1$s</string>
+
+    <string name="listen_together_joined_room">U futur në dhomë: %1$s</string>
+
+    <string name="listen_together_kicked">U përjashtua: %1$s</string>
+
+    <string name="listen_together_server_error">Gabim: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s dëshiron të hyjë</string>
+
+    <string name="no_recognition_history">Pa historik njohjeje</string>
+
+    <string name="playback_error_code">Kodi: %1$s (%2$d)</string>
+
+    <string name="reconnect">Rilidhu</string>
+
+    <string name="selection_queue_title">Përzgjedhje</string>
+
+    <string name="unknown_podcast">Podkast i panjohur</string>
+
+    <string name="utaloom_attribution">Bazuar në punë me burim të hapur nga Metrolist, InnerTune dhe OuterTune. Tregimi i burimit nuk nënkupton lidhje apo miratim.</string>
+
+    <string name="utaloom_desktop_app">Utaloom për kompjuter</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android përdor API-të publike OAuth2 dhe Gateway të Discord për të ndarë se çfarë po dëgjoni. Tokenu juaj është i enkriptuar në këtë pajisje dhe nuk ndahet kurrë. Kërkohet një aplikacion Utaloom Discord i konfiguruar veçmas.</string>
+
+    <string name="utaloom_discord_unavailable">Integrimi me Discord s’është i disponueshëm në këtë version. Kërkohet një aplikacion Utaloom Discord i konfiguruar nga mirëmbajtësi.</string>
+
+    <string name="utaloom_encore_special_thanks">Falënderime kontribuesve të hershëm me burim të hapur dhe komunitetit Utaloom</string>
+
+    <string name="utaloom_independent_notice">Mban vetëm cabrata. S’ka lidhje me Metro Group, Metrolist apo MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Vëri ose hiq shenjë si të preferuara në Last.fm kur i vë ose heq shenjën në Utaloom Android</string>
+
+    <string name="utaloom_listen_on_app">Dëgjo në Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Logo e Utaloom Android</string>
+
+    <string name="utaloom_maintainer">Mirëmbajtës i Utaloom</string>
+
+    <string name="utaloom_play_on_app">Luaj në Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Raporto një problem në Android</string>
+
+    <string name="utaloom_tap_to_open">Trokit për të hapur Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s është gati për shkarkim.</string>
+
+    <string name="youtube_playlist_fallback">Listë luajtjeje YouTube</string>
 </resources>

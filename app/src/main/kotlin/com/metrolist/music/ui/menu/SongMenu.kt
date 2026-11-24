@@ -114,6 +114,7 @@ fun SongMenu(
 ) {
     val navController = LocalNavController.current
     val context = LocalContext.current
+    val unknownPodcast = stringResource(R.string.unknown_podcast)
     val database = LocalDatabase.current
     val playerConnection = LocalPlayerConnection.current ?: return
     val songState = database.song(originalSong.id).collectAsStateWithLifecycle(initialValue = originalSong)
@@ -1081,7 +1082,7 @@ fun SongMenu(
                                                     insert(
                                                         PodcastEntity(
                                                             id = podcastId,
-                                                            title = song.song.albumName ?: "Unknown Podcast",
+                                                            title = song.song.albumName ?: unknownPodcast,
                                                             author = song.artists.firstOrNull()?.name,
                                                             thumbnailUrl = song.song.thumbnailUrl,
                                                         ).toggleBookmark(),

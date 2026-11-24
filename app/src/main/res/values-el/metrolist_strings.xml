@@ -1091,9 +1091,6 @@
     <string name="theme_colors">Θέμα &amp; Χρώματα</string>
     <string name="theme_mode">Λειτουργία θέματος</string>
     <string name="color_palette">Παλέτα χρωμάτων</string>
-    <string name="use_system_colors">Χρήση χρωμάτων συστήματος</string>
-    <string name="use_login_for_browse">Χρήση σύνδεσης για περιήγηση περιεχομένου</string>
-    <string name="use_login_for_browse_desc">Αυτό μπορεί να επηρεάσει το περιεχόμενο που βλέπετε και για παράδειγμα εμφανίζει άλμπουμ μόνο premium εάν είστε συνδεδεμένοι με λογαριασμό Premium</string>
 <string name="audio_output_bluetooth">Bluetooth ήχος</string><string name="audio_output_hdmi">HDMI</string><string name="audio_output_phone">Αυτό το τηλέφωνο</string><string name="audio_output_playing">Αναπαραγωγή εδώ</string><string name="audio_output_system">Έξοδος ήχου συστήματος</string><string name="audio_output_usb">USB ήχος</string><string name="audio_output_wired">Ενσύρματα ακουστικά</string><string name="audio_quality_high_detail">Καλύτερο ρεύμα YouTube, έως ~256 kbps · 115 MB/hr</string><string name="audio_quality_in_use">Σε χρήση</string><string name="audio_quality_lossless_detail">Τα πρόσθετά σας, bit-ακριβή όπου διατίθεται · 300+ MB/hr</string><string name="audio_quality_low_detail">~64 kbps · μικρότερη λήψη · 29 MB/hr</string><string name="audio_quality_on_mobile_data">Σε δεδομένα κινητής</string><string name="audio_quality_on_wifi">Σε Wi-Fi</string><string name="cast_casting">Μετάδοση</string><string name="cast_connecting">Σύνδεση…</string><string name="cast_dialog_subtitle">Αναπαραγωγή σε Chromecast ή Google Cast ηχείο</string><string name="cast_row_subtitle">Ηχεία Chromecast και Google Cast</string><string name="cast_searching">Αναζήτηση συσκευών…</string><string name="cast_searching_hint">Το τηλέφωνό σας και το δέκτη πρέπει να βρίσκονται στο ίδιο δίκτυο Wi-Fi.</string><string name="cast_stop">Διακοπή μετάδοσης</string><string name="drag_to_reorder">Σύρετε για αναδιάταξη</string><string name="music_source_edit">Επεξεργασία πρόσθετου</string><string name="music_source_remove_action">Αφαίρεση πρόσθετου</string><string name="music_source_test">Δοκιμή</string><string name="music_source_testing">Δοκιμή…</string><string name="pipeline_codec_profile">Προφίλ κωδικοποιητή</string><string name="pipeline_device_capability">Δυνατότητα συσκευής</string><string name="pipeline_direct">Άμεση</string><string name="pipeline_direct_offload">Ενεργή (offload, παράκαμψη mixer)</string><string name="pipeline_direct_supported">Υποστηρίζεται (ανάμιξη από Android)</string><string name="pipeline_direct_unsupported">Δεν υποστηρίζεται (διαδρομή μικτή)</string><string name="pipeline_loudness_measured">Μετρημένη δυναμικότητα</string><string name="pipeline_none">Καμία</string><string name="pipeline_output_api">API εξόδου</string><string name="pipeline_passthrough">Διέλευση</string><string name="pipeline_pcm_data_rate">Ρυθμός δεδομένων PCM</string><string name="pipeline_quality">Ποιότητα</string><string name="pipeline_resampled">Επανά-δειγματοληψία</string><string name="pipeline_resampler_framework">Πλαίσιο επανα-δειγματοληψίας</string><string name="pipeline_route">Διαδρομή</string><string name="pipeline_sonic">Sonic (ταχύτητα και τόνος)</string><string name="pipeline_system_default">Προεπιλογή συστήματος</string><string name="pipeline_type">Τύπος</string>
     <string name="encore_story_opener">Το %1$d σας στο Utaloom</string>
     <string name="encore_story_opener_detail">Ας δούμε τι άκουσες.</string>
@@ -1138,4 +1135,60 @@
         <item quantity="one">άλμπουμ</item>
         <item quantity="other">άλμπουμ</item>
     </plurals>
+
+    <string name="cache_songs">Αποθήκευση τραγουδιών στην προσωρινή μνήμη</string>
+
+    <string name="failed_to_preview_csv">Αποτυχία προεπισκόπησης αρχείου CSV</string>
+
+    <string name="listen_together_connection_error_with_reason">Σφάλμα σύνδεσης: %1$s</string>
+
+    <string name="listen_together_join_rejected">Το αίτημα απορρίφθηκε: %1$s</string>
+
+    <string name="listen_together_joined_room">Μπήκατε στο δωμάτιο: %1$s</string>
+
+    <string name="listen_together_kicked">Απομάκρυνση: %1$s</string>
+
+    <string name="listen_together_server_error">Σφάλμα διακομιστή: %1$s</string>
+
+    <string name="listen_together_wants_to_join">Ο/η %1$s θέλει να μπει</string>
+
+    <string name="no_recognition_history">Κανένα ιστορικό αναγνώρισης</string>
+
+    <string name="playback_error_code">Κωδικός: %1$s (%2$d)</string>
+
+    <string name="reconnect">Επανασύνδεση</string>
+
+    <string name="selection_queue_title">Επιλογή</string>
+
+    <string name="unknown_podcast">Άγνωστο podcast</string>
+
+    <string name="utaloom_attribution">Βασισμένο σε έργα ανοιχτού κώδικα από Metrolist, InnerTune και OuterTune. Η αναφορά πηγής δεν συνεπάγεται σύνδεση ή υποστήριξη.</string>
+
+    <string name="utaloom_desktop_app">Utaloom για υπολογιστή</string>
+
+    <string name="utaloom_discord_information_warning">Το Utaloom Android χρησιμοποιεί τα δημόσια API OAuth2 και Gateway του Discord για να μοιράζεται τι ακούτε. Το token σας κρυπτογραφείται σε αυτή τη συσκευή και δεν κοινοποιείται ποτέ. Απαιτείται ξεχωριστά διαμορφωμένη εφαρμογή Utaloom Discord.</string>
+
+    <string name="utaloom_discord_unavailable">Η ενσωμάτωση Discord δεν είναι διαθέσιμη σε αυτή την έκδοση. Απαιτείται εφαρμογή Utaloom Discord διαμορφωμένη από τον συντηρητή.</string>
+
+    <string name="utaloom_encore_special_thanks">Ευχαριστίες στους αρχικούς συνεισφέροντες ανοιχτού κώδικα και στην κοινότητα Utaloom</string>
+
+    <string name="utaloom_independent_notice">Διατηρείται ανεξάρτητα από την cabrata. Δεν σχετίζεται με Metro Group, Metrolist ή MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Σημειώστε ή αποεπιλέξτε τραγούδια στο Last.fm όταν τα σημειώνετε ή τα αποεπιλέγετε στο Utaloom Android</string>
+
+    <string name="utaloom_listen_on_app">Άκουσε στο Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Λογότυπο Utaloom Android</string>
+
+    <string name="utaloom_maintainer">Συντηρητής Utaloom</string>
+
+    <string name="utaloom_play_on_app">Αναπαραγωγή στο Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Αναφορά προβλήματος Android</string>
+
+    <string name="utaloom_tap_to_open">Πατήστε για να ανοίξετε το Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Το Utaloom Android %s είναι έτοιμο για λήψη.</string>
+
+    <string name="youtube_playlist_fallback">Λίστα αναπαραγωγής YouTube</string>
 </resources>

@@ -1095,7 +1095,6 @@
     <string name="theme_colors">Theme &amp; Colors</string>
     <string name="theme_mode">Theme Mode</string>
     <string name="color_palette">Color Palette</string>
-    <string name="use_system_colors">Gumamit ng system colors</string>
     <string name="music_source_edit">I-edit ang add-on</string>
     <string name="music_source_test">Subukan</string>
     <string name="music_source_testing">Sinusubukan…</string>
@@ -1182,4 +1181,60 @@
         <item quantity="one">album</item>
         <item quantity="other">album</item>
     </plurals>
+
+    <string name="cache_songs">I-cache ang mga kanta</string>
+
+    <string name="failed_to_preview_csv">Hindi ma-preview ang CSV file</string>
+
+    <string name="listen_together_connection_error_with_reason">Error sa koneksyon: %1$s</string>
+
+    <string name="listen_together_join_rejected">Tinanggihan ang pag-join: %1$s</string>
+
+    <string name="listen_together_joined_room">Sumali sa room: %1$s</string>
+
+    <string name="listen_together_kicked">Napaalis: %1$s</string>
+
+    <string name="listen_together_server_error">Error mula sa server: %1$s</string>
+
+    <string name="listen_together_wants_to_join">Gustong sumali ni %1$s</string>
+
+    <string name="no_recognition_history">Walang recognition history</string>
+
+    <string name="playback_error_code">Code: %1$s (%2$d)</string>
+
+    <string name="reconnect">Muling kumonekta</string>
+
+    <string name="selection_queue_title">Napili</string>
+
+    <string name="unknown_podcast">Hindi kilalang podcast</string>
+
+    <string name="utaloom_attribution">Batay sa open-source na gawa mula sa Metrolist, InnerTune, at OuterTune. Ang pagbanggit ng pinagmulan ay hindi nangangahulugang pakikipag-ugnayan o pag-endorso.</string>
+
+    <string name="utaloom_desktop_app">Utaloom para sa desktop</string>
+
+    <string name="utaloom_discord_information_warning">Ginagamit ng Utaloom Android ang pampublikong OAuth2 at Gateway APIs ng Discord para ibahagi ang iyong pinakikinggan. Naka-encrypt ang iyong token sa device na ito at hindi kailanman ibinabahagi. Kailangan ng hiwalay na naka-configure na Utaloom Discord app.</string>
+
+    <string name="utaloom_discord_unavailable">Hindi available ang Discord integration sa build na ito. Kailangan ng Utaloom Discord app na na-configure ng maintainer.</string>
+
+    <string name="utaloom_encore_special_thanks">Salamat sa mga orihinal na open-source contributor at sa Utaloom community</string>
+
+    <string name="utaloom_independent_notice">Independently maintained by cabrata. Walang kaugnayan sa Metro Group, Metrolist, o MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">I-like o i-unlike ang mga kanta sa Last.fm kapag ni-like o ni-unlike mo sa Utaloom Android</string>
+
+    <string name="utaloom_listen_on_app">Makinig sa Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Logo ng Utaloom Android</string>
+
+    <string name="utaloom_maintainer">Maintainer ng Utaloom</string>
+
+    <string name="utaloom_play_on_app">I-play sa Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Mag-ulat ng isyu sa Android</string>
+
+    <string name="utaloom_tap_to_open">I-tap para buksan ang Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Handa nang i-download ang Utaloom Android %s.</string>
+
+    <string name="youtube_playlist_fallback">Playlist ng YouTube</string>
 </resources>

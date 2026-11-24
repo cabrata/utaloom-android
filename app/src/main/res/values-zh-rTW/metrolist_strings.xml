@@ -1087,7 +1087,6 @@
     <string name="theme_colors">主題 &amp; 顏色</string>
     <string name="theme_mode">主題模式</string>
     <string name="color_palette">色彩調色盤</string>
-    <string name="use_system_colors">使用系統顏色</string>
     <string name="music_source_edit">編輯外掛程式</string>
     <string name="music_source_test">測試</string>
     <string name="music_source_testing">正在測試…</string>
@@ -1170,4 +1169,60 @@
     <plurals name="encore_story_albums_word">
         <item quantity="other">張專輯</item>
     </plurals>
+
+    <string name="cache_songs">快取歌曲</string>
+
+    <string name="failed_to_preview_csv">無法預覽 CSV 檔案</string>
+
+    <string name="listen_together_connection_error_with_reason">連線錯誤：%1$s</string>
+
+    <string name="listen_together_join_rejected">加入請求遭拒：%1$s</string>
+
+    <string name="listen_together_joined_room">已加入房間：%1$s</string>
+
+    <string name="listen_together_kicked">已被移出：%1$s</string>
+
+    <string name="listen_together_server_error">伺服器錯誤：%1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s 想加入</string>
+
+    <string name="no_recognition_history">尚無辨識紀錄</string>
+
+    <string name="playback_error_code">代碼：%1$s (%2$d)</string>
+
+    <string name="reconnect">重新連線</string>
+
+    <string name="selection_queue_title">已選</string>
+
+    <string name="unknown_podcast">未知播客</string>
+
+    <string name="utaloom_attribution">基於 Metrolist、InnerTune 和 OuterTune 的開源成果。標示來源並不代表有隸屬或背書關係。</string>
+
+    <string name="utaloom_desktop_app">Utaloom 桌面版</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android 使用 Discord 的公開 OAuth2 與 Gateway API 分享你的收聽內容。你的權杖會在此裝置上加密，絕不外流。需要另行設定的 Utaloom Discord 應用程式。</string>
+
+    <string name="utaloom_discord_unavailable">此版本不支援 Discord 整合。需要由維護者設定的 Utaloom Discord 應用程式。</string>
+
+    <string name="utaloom_encore_special_thanks">感謝最初的開源貢獻者與 Utaloom 社群</string>
+
+    <string name="utaloom_independent_notice">由 cabrata 獨立維護。與 Metro Group、Metrolist 或 MetrolistGroup 無關。</string>
+
+    <string name="utaloom_last_fm_send_likes_description">在 Utaloom Android 收藏或取消收藏歌曲時，同步至 Last.fm</string>
+
+    <string name="utaloom_listen_on_app">在 Utaloom Android 收聽</string>
+
+    <string name="utaloom_logo_content_description">Utaloom Android 標誌</string>
+
+    <string name="utaloom_maintainer">Utaloom 維護者</string>
+
+    <string name="utaloom_play_on_app">在 Utaloom Android 播放</string>
+
+    <string name="utaloom_report_issue">回報 Android 問題</string>
+
+    <string name="utaloom_tap_to_open">輕觸以開啟 Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s 已可下載。</string>
+
+    <string name="youtube_playlist_fallback">YouTube 播放清單</string>
 </resources>

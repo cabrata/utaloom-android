@@ -1101,7 +1101,6 @@
     <string name="theme_colors">Tema &amp; Boje</string>
     <string name="theme_mode">Način teme</string>
     <string name="color_palette">Paleta boja</string>
-    <string name="use_system_colors">Koristi sistemske boje</string>
     <string name="music_source_edit">Uredi dodatak</string>
     <string name="music_source_test">Testiraj</string>
     <string name="music_source_testing">Testiranje…</string>
@@ -1192,4 +1191,60 @@
         <item quantity="few">albuma</item>
         <item quantity="other">albuma</item>
     </plurals>
+
+    <string name="cache_songs">Predmemoriraj pjesme</string>
+
+    <string name="failed_to_preview_csv">Pregled CSV datoteke nije uspio</string>
+
+    <string name="listen_together_connection_error_with_reason">Pogreška veze: %1$s</string>
+
+    <string name="listen_together_join_rejected">Zahtjev odbijen: %1$s</string>
+
+    <string name="listen_together_joined_room">Pridružili ste se sobi: %1$s</string>
+
+    <string name="listen_together_kicked">Izbačeni: %1$s</string>
+
+    <string name="listen_together_server_error">Pogreška poslužitelja: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s se želi pridružiti</string>
+
+    <string name="no_recognition_history">Nema povijesti prepoznavanja</string>
+
+    <string name="playback_error_code">Kod: %1$s (%2$d)</string>
+
+    <string name="reconnect">Ponovno spoji</string>
+
+    <string name="selection_queue_title">Odabir</string>
+
+    <string name="unknown_podcast">Nepoznat podcast</string>
+
+    <string name="utaloom_attribution">Temelji se na radovima otvorenog koda Metrolist, InnerTune i OuterTune. Navođenje izvora ne znači povezanost niti podršku.</string>
+
+    <string name="utaloom_desktop_app">Utaloom za računalo</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android koristi javne OAuth2 i Gateway API-je Discorda kako bi dijelio što slušate. Token je šifriran na uređaju i nikad se ne dijeli. Potrebna je zasebno podešena Utaloom Discord aplikacija.</string>
+
+    <string name="utaloom_discord_unavailable">Discord integracija nije dostupna u ovom izdanju. Potrebna je Utaloom Discord aplikacija koju podešava održavatelj.</string>
+
+    <string name="utaloom_encore_special_thanks">Zahvala izvornim contributorima otvorenog koda i zajednici Utaloom</string>
+
+    <string name="utaloom_independent_notice">Nezavisno održava cabrata. Nije povezano s Metro Group, Metrolist ni MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Označite ili poništite pjesme kao omiljene na Last.fm kad ih označite ili poništite u Utaloom Android</string>
+
+    <string name="utaloom_listen_on_app">Slušaj na Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Logo Utaloom Android</string>
+
+    <string name="utaloom_maintainer">Održavatelj Utaloom</string>
+
+    <string name="utaloom_play_on_app">Pusti na Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Prijavi Android problem</string>
+
+    <string name="utaloom_tap_to_open">Dodirnite za otvaranje Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s je spreman za preuzimanje.</string>
+
+    <string name="youtube_playlist_fallback">YouTube playlista</string>
 </resources>

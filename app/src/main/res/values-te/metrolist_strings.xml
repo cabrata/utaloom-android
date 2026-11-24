@@ -1091,7 +1091,6 @@
     <string name="theme_colors">థీమ్ &amp; రంగులు</string>
     <string name="theme_mode">థీమ్ విధానం</string>
     <string name="color_palette">రంగు ప్యాలెట్</string>
-    <string name="use_system_colors">సిస్టమ్ రంగులను ఉపయోగించండి</string>
     <string name="music_source_edit">యాడ్-ఆన్‌ను సవరించు</string>
     <string name="music_source_test">పరీక్షించు</string>
     <string name="music_source_testing">పరీక్షిస్తోంది…</string>
@@ -1178,4 +1177,60 @@
         <item quantity="one">ఆల్బమ్</item>
         <item quantity="other">ఆల్బమ్‌లు</item>
     </plurals>
+
+    <string name="cache_songs">పాటలను కాష్ చేయి</string>
+
+    <string name="failed_to_preview_csv">CSV ఫైల్‌ను మునుపటి విశ్లేషణ చేయడం విఫలమైంది</string>
+
+    <string name="listen_together_connection_error_with_reason">కనెక్షన్ లోపం: %1$s</string>
+
+    <string name="listen_together_join_rejected">చేరడానికి తిరస్కరణ: %1$s</string>
+
+    <string name="listen_together_joined_room">గదిలో చేరారు: %1$s</string>
+
+    <string name="listen_together_kicked">బయటకు తీశారు: %1$s</string>
+
+    <string name="listen_together_server_error">లోపం: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s చేరదలుచుకుంటున్నారు</string>
+
+    <string name="no_recognition_history">గుర్తింపు చరిత్ర లేదు</string>
+
+    <string name="playback_error_code">కోడ్: %1$s (%2$d)</string>
+
+    <string name="reconnect">మళ్లీ కనెక్ట్ అవ్వండి</string>
+
+    <string name="selection_queue_title">ఎంపిక</string>
+
+    <string name="unknown_podcast">తెలియని పాడ్‌కాస్ట్</string>
+
+    <string name="utaloom_attribution">Metrolist, InnerTune మరియు OuterTune ల ఓపెన్-సోర్స్ పనిపై ఆధారపడింది. మూలం పేర్కొనడం అనుబంధం లేదా మద్దతు అని అర్థం కాదు.</string>
+
+    <string name="utaloom_desktop_app">Utaloom డెస్క్‌టాప్ కోసం</string>
+
+    <string name="utaloom_discord_information_warning">మీరు వినేదాన్ని పంచుకోవడానికి Utaloom Android Discord యొక్క పబ్లిక్ OAuth2 మరియు Gateway API లను ఉపయోగిస్తుంది. మీ టోకెన్ ఈ పరికరంలో ఎన్క్రిప్ట్ చేయబడి ఎప్పుడూ పంచబడదు. ప్రత్యేకంగా కాన్ఫిగర్ చేయబడిన Utaloom Discord యాప్ అవసరం.</string>
+
+    <string name="utaloom_discord_unavailable">Discord అనుసంధానం ఈ బిల్డ్‌లో అందుబాటులో లేదు. నిర్వాహకుడు కాన్ఫిగర్ చేసిన Utaloom Discord యాప్ అవసరం.</string>
+
+    <string name="utaloom_encore_special_thanks">మూల ఓపెన్-సోర్స్ కంట్రిబ్యూటర్లకు మరియు Utaloom కమ్యూనిటీకి ధన్యవాదాలు</string>
+
+    <string name="utaloom_independent_notice">cabrata స్వతంత్రంగా నిర్వహిస్తున్నారు. Metro Group, Metrolist లేదా MetrolistGroup తో సంబంధం లేదు.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Utaloom Android లో ఇష్టపడినప్పుడు/ఇష్టం తీసినప్పుడు Last.fm లో పాటలను ఇష్టపడండి/ఇష్టం తీయండి</string>
+
+    <string name="utaloom_listen_on_app">Utaloom Android లో వినండి</string>
+
+    <string name="utaloom_logo_content_description">Utaloom Android లోగో</string>
+
+    <string name="utaloom_maintainer">Utaloom నిర్వాహకుడు</string>
+
+    <string name="utaloom_play_on_app">Utaloom Android లో ప్లే చేయి</string>
+
+    <string name="utaloom_report_issue">Android సమస్యను నివేదించండి</string>
+
+    <string name="utaloom_tap_to_open">Utaloom Android తెరవడానికి నొక్కండి</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s డౌన్‌లోడ్ చేయడానికి సిద్ధం.</string>
+
+    <string name="youtube_playlist_fallback">YouTube ప్లేలిస్ట్</string>
 </resources>

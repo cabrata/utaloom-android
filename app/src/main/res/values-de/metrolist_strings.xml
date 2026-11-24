@@ -1093,7 +1093,6 @@
     <string name="theme_colors">Design &amp; Farben</string>
     <string name="theme_mode">Design-Modus</string>
     <string name="color_palette">Farbpalette</string>
-    <string name="use_system_colors">Systemfarben verwenden</string>
 <string name="audio_output_bluetooth">Bluetooth-Audio</string><string name="audio_output_hdmi">HDMI</string><string name="audio_output_phone">Dieses Telefon</string><string name="audio_output_playing">Hier wird abgespielt</string><string name="audio_output_system">Systemischer Audioausgang</string><string name="audio_output_usb">USB-Audio</string><string name="audio_output_wired">Kabelgebundene Kopfhörer</string><string name="audio_quality_high_detail">Bester YouTube-Stream, bis zu ~256 kbps · 115 MB/hr</string><string name="audio_quality_in_use">Im Gebrauch</string><string name="audio_quality_lossless_detail">Ihre Add-ons, Bit-genau, wo verfügbar · 300+ MB/hr</string><string name="audio_quality_low_detail">~64 kbps · kleinster Download · 29 MB/hr</string><string name="audio_quality_on_mobile_data">Bei Mobilfunkdaten</string><string name="audio_quality_on_wifi">Im Wi-Fi</string><string name="cast_casting">Übertragung läuft</string><string name="cast_connecting">Wird verbunden…</string><string name="cast_dialog_subtitle">Auf einen Chromecast- oder Google Cast-Lautsprecher abspielen</string><string name="cast_row_subtitle">Chromecast- und Google Cast-Lautsprecher</string><string name="cast_searching">Geräte werden gesucht…</string><string name="cast_searching_hint">Ihr Telefon und der Receiver müssen sich im selben Wi-Fi-Netz befinden.</string><string name="cast_stop">Übertragung beenden</string><string name="drag_to_reorder">Zum Neuordnen ziehen</string><string name="music_source_edit">Add-on bearbeiten</string><string name="music_source_remove_action">Add-on entfernen</string><string name="music_source_test">Test</string><string name="music_source_testing">Wird getestet…</string><string name="pipeline_codec_profile">Codec-Profil</string><string name="pipeline_device_capability">Gerätefunktion</string><string name="pipeline_direct">Direkt</string><string name="pipeline_direct_offload">Aktiv (Offload, umgeht Mixer)</string><string name="pipeline_direct_supported">Unterstützt (gemixt durch Android)</string><string name="pipeline_direct_unsupported">Nicht unterstützt (gemischter Pfad)</string><string name="pipeline_loudness_measured">Gemessene Lautheit</string><string name="pipeline_none">Keine</string><string name="pipeline_output_api">Ausgabe-API</string><string name="pipeline_passthrough">Durchleitung</string><string name="pipeline_pcm_data_rate">PCM-Datenrate</string><string name="pipeline_quality">Qualität</string><string name="pipeline_resampled">Neu abgetastet</string><string name="pipeline_resampler_framework">Neuabastastungs-Framework</string><string name="pipeline_route">Route</string><string name="pipeline_sonic">Sonic (Tempo und Tonhöhe)</string><string name="pipeline_system_default">Systemstandard</string><string name="pipeline_type">Typ</string>
     <string name="encore_story_opener">Dein %1$d in Utaloom</string>
     <string name="encore_story_opener_detail">Schauen wir zurück auf das, was du gehört hast.</string>
@@ -1138,4 +1137,60 @@
         <item quantity="one">Album</item>
         <item quantity="other">Alben</item>
     </plurals>
+
+    <string name="cache_songs">Songs cachen</string>
+
+    <string name="failed_to_preview_csv">CSV-Datei konnte nicht in der Vorschau angezeigt werden</string>
+
+    <string name="listen_together_connection_error_with_reason">Verbindungsfehler: %1$s</string>
+
+    <string name="listen_together_join_rejected">Beitrittsanfrage abgelehnt: %1$s</string>
+
+    <string name="listen_together_joined_room">Raum beigetreten: %1$s</string>
+
+    <string name="listen_together_kicked">Entfernt: %1$s</string>
+
+    <string name="listen_together_server_error">Serverfehler: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s möchte beitreten</string>
+
+    <string name="no_recognition_history">Keine Erkennungsverlauf</string>
+
+    <string name="playback_error_code">Code: %1$s (%2$d)</string>
+
+    <string name="reconnect">Neu verbinden</string>
+
+    <string name="selection_queue_title">Auswahl</string>
+
+    <string name="unknown_podcast">Unbekannter Podcast</string>
+
+    <string name="utaloom_attribution">Basiert auf Open-Source-Arbeiten von Metrolist, InnerTune und OuterTune. Die Quellenangabe impliziert keine Zugehörigkeit oder Billigung.</string>
+
+    <string name="utaloom_desktop_app">Utaloom für Desktop</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android nutzt die öffentlichen OAuth2- und Gateway-APIs von Discord, um zu teilen, was du hörst. Dein Token wird auf diesem Gerät verschlüsselt und nie weitergegeben. Eine separat konfigurierte Utaloom Discord-App ist erforderlich.</string>
+
+    <string name="utaloom_discord_unavailable">Discord-Integration ist in diesem Build nicht verfügbar. Erforderlich ist eine vom Maintainer konfigurierte Utaloom Discord-App.</string>
+
+    <string name="utaloom_encore_special_thanks">Dank an die ursprünglichen Open-Source-Beitragenden und die Utaloom-Community</string>
+
+    <string name="utaloom_independent_notice">Unabhängig gepflegt von cabrata. Keine Verbindung zu Metro Group, Metrolist oder MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Markiere Songs auf Last.fm als Favorit oder entferne die Markierung, wenn du sie in Utaloom Android markierst oder entfernst</string>
+
+    <string name="utaloom_listen_on_app">Auf Utaloom Android hören</string>
+
+    <string name="utaloom_logo_content_description">Utaloom Android Logo</string>
+
+    <string name="utaloom_maintainer">Utaloom Maintainer</string>
+
+    <string name="utaloom_play_on_app">Auf Utaloom Android abspielen</string>
+
+    <string name="utaloom_report_issue">Android-Problem melden</string>
+
+    <string name="utaloom_tap_to_open">Tippe, um Utaloom Android zu öffnen</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s ist bereit zum Herunterladen.</string>
+
+    <string name="youtube_playlist_fallback">YouTube-Playlist</string>
 </resources>

@@ -1103,7 +1103,6 @@
     <string name="theme_colors">Téma a Farby</string>
     <string name="theme_mode">Režim Témy</string>
     <string name="color_palette">Farebná paleta</string>
-    <string name="use_system_colors">Použiť farby systému</string>
     <string name="music_source_edit">Upraviť doplnok</string>
     <string name="music_source_test">Otestovať</string>
     <string name="music_source_testing">Testuje sa…</string>
@@ -1198,4 +1197,60 @@
         <item quantity="many">albumov</item>
         <item quantity="other">albumov</item>
     </plurals>
+
+    <string name="cache_songs">Ukladať skladby do vyrovnávacej pamäte</string>
+
+    <string name="failed_to_preview_csv">Nepodarilo sa zobraziť náhľad CSV súboru</string>
+
+    <string name="listen_together_connection_error_with_reason">Chyba pripojenia: %1$s</string>
+
+    <string name="listen_together_join_rejected">Žiadosť zamietnutá: %1$s</string>
+
+    <string name="listen_together_joined_room">Pripojené k miestnosti: %1$s</string>
+
+    <string name="listen_together_kicked">Vyhodený: %1$s</string>
+
+    <string name="listen_together_server_error">Chyba: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s sa chce pripojiť</string>
+
+    <string name="no_recognition_history">Žiadna história rozpoznávania</string>
+
+    <string name="playback_error_code">Kód: %1$s (%2$d)</string>
+
+    <string name="reconnect">Znova pripojiť</string>
+
+    <string name="selection_queue_title">Výber</string>
+
+    <string name="unknown_podcast">Neznámy podcast</string>
+
+    <string name="utaloom_attribution">Založené na open-source projektoch Metrolist, InnerTune a OuterTune. Uvedenie zdroja neznamená spojenie ani podporu.</string>
+
+    <string name="utaloom_desktop_app">Utaloom pre počítač</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android používa verejné API Discord (OAuth2 a Gateway) na zdieľanie toho, čo počúvate. Váš token je na tomto zariadení zašifrovaný a nikdy sa nezdieľa. Vyžaduje sa samostatne nakonfigurovaná aplikácia Utaloom Discord.</string>
+
+    <string name="utaloom_discord_unavailable">Integrácia s Discordom nie je v tejto verzii dostupná. Vyžaduje sa aplikácia Utaloom Discord nakonfigurovaná správcom.</string>
+
+    <string name="utaloom_encore_special_thanks">Poďakovanie pôvodným prispievateľom open-source a komunite Utaloom</string>
+
+    <string name="utaloom_independent_notice">Nezávisle spravuje cabrata. Nesúvisí s Metro Group, Metrolist ani MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Označovať skladby na Last.fm ako obľúbené alebo označenie zrušiť, keď ich v Utaloom Android označíte alebo označenie zrušíte</string>
+
+    <string name="utaloom_listen_on_app">Počúvať v Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Logo Utaloom Android</string>
+
+    <string name="utaloom_maintainer">Správca Utaloom</string>
+
+    <string name="utaloom_play_on_app">Prehrať v Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Nahlásiť problém s Androidom</string>
+
+    <string name="utaloom_tap_to_open">Klepnutím otvoríte Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s je pripravený na stiahnutie.</string>
+
+    <string name="youtube_playlist_fallback">Zoznam skladieb YouTube</string>
 </resources>

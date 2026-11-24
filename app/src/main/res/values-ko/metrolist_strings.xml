@@ -1085,7 +1085,6 @@
     <string name="theme_colors">테마 및 색상</string>
     <string name="theme_mode">테마 모드</string>
     <string name="color_palette">색상 팔레트</string>
-    <string name="use_system_colors">시스템 색상 사용</string>
     <string name="music_source_edit">부가 기능 수정</string>
     <string name="music_source_test">테스트</string>
     <string name="music_source_testing">테스트 중…</string>
@@ -1168,4 +1167,60 @@
     <plurals name="encore_story_albums_word">
         <item quantity="other">앨범</item>
     </plurals>
+
+    <string name="cache_songs">곡 캐시</string>
+
+    <string name="failed_to_preview_csv">CSV 파일 미리보기 실패</string>
+
+    <string name="listen_together_connection_error_with_reason">연결 오류: %1$s</string>
+
+    <string name="listen_together_join_rejected">참가 요청이 거부됨: %1$s</string>
+
+    <string name="listen_together_joined_room">방에 참가함: %1$s</string>
+
+    <string name="listen_together_kicked">강제 퇴장됨: %1$s</string>
+
+    <string name="listen_together_server_error">서버 오류: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s 님이 참가하려 함</string>
+
+    <string name="no_recognition_history">인식 기록 없음</string>
+
+    <string name="playback_error_code">코드: %1$s (%2$d)</string>
+
+    <string name="reconnect">다시 연결</string>
+
+    <string name="selection_queue_title">선택 항목</string>
+
+    <string name="unknown_podcast">알 수 없는 팟캐스트</string>
+
+    <string name="utaloom_attribution">Metrolist, InnerTune, OuterTune의 오픈소스 작업을 기반으로 합니다. 출처 표기는 제휴나 보증을 의미하지 않습니다.</string>
+
+    <string name="utaloom_desktop_app">데스크톱용 Utaloom</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android은 Discord의 공개 OAuth2 및 Gateway API를 사용해 청취 정보를 공유합니다. 토큰은 이 기기에서 암호화되며 절대 공유되지 않습니다. 별도로 구성된 Utaloom Discord 앱이 필요합니다.</string>
+
+    <string name="utaloom_discord_unavailable">이 빌드에서는 Discord 연동을 사용할 수 없습니다. 메인테이너가 구성한 Utaloom Discord 앱이 필요합니다.</string>
+
+    <string name="utaloom_encore_special_thanks">최초 오픈소스 기여자와 Utaloom 커뮤니티에 감사드립니다</string>
+
+    <string name="utaloom_independent_notice">cabrata가 독립적으로 유지 관리합니다. Metro Group, Metrolist, MetrolistGroup과 무관합니다.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Utaloom Android에서 좋아요하거나 취소하면 Last.fm에서도 곡에 좋아요하거나 취소됩니다</string>
+
+    <string name="utaloom_listen_on_app">Utaloom Android에서 듣기</string>
+
+    <string name="utaloom_logo_content_description">Utaloom Android 로고</string>
+
+    <string name="utaloom_maintainer">Utaloom 메인테이너</string>
+
+    <string name="utaloom_play_on_app">Utaloom Android에서 재생</string>
+
+    <string name="utaloom_report_issue">Android 문제 보고</string>
+
+    <string name="utaloom_tap_to_open">탭하여 Utaloom Android 열기</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s 다운로드 준비 완료.</string>
+
+    <string name="youtube_playlist_fallback">YouTube 재생목록</string>
 </resources>

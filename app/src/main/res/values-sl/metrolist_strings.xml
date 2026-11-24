@@ -1149,7 +1149,6 @@
         <item quantity="two">%d let</item>
         <item quantity="few">%d let</item>
     </plurals>
-    <string name="playlist_imported">Seznam predvajanja uvožen</string>
     <string name="removed_song_from_playlist">Odstranjena \"%s\" iz seznama predvajanja</string>
     <string name="playlist_synced">Seznam predvajanja sinhroniziraj</string>
     <string name="undo">Razveljavi</string>
@@ -1162,14 +1161,11 @@
         <item quantity="two">%d minut</item>
         <item quantity="few">%d minut</item>
     </plurals>
-    <string name="error_no_stream">Tok ni na voljo</string>
     <string name="error_no_internet">Ni omrežne povezave</string>
     <string name="error_timeout">Časovna omejitev</string>
     <string name="error_unknown">Neznana napaka</string>
     <string name="action_like">Všeč mi je</string>
-    <string name="action_like_all">Všeč mi je vse</string>
     <string name="action_remove_like">Odstrani všečk</string>
-    <string name="action_remove_like_all">Odstrani vse všečke</string>
     <string name="action_shuffle_on">Naključno predvajanje vklopljeno</string>
     <string name="action_shuffle_off">Naključno predvajanje izključeno</string>
     <string name="repeat_mode_off">Ponavljanje izključeno</string>
@@ -1185,18 +1181,10 @@
     <string name="theme_colors">Tema in barve</string>
     <string name="theme_mode">Način teme</string>
     <string name="color_palette">Barvna paleta</string>
-    <string name="use_system_colors">Uporabi sistemske barve</string>
     <string name="enable_dynamic_theme">Omogoči dinamično temo</string>
-    <string name="dark_theme">Temna tema</string>
-    <string name="dark_theme_on">Vključeno</string>
-    <string name="dark_theme_off">Izključeno</string>
-    <string name="dark_theme_follow_system">Sledi sistemu</string>
     <string name="pure_black">Čista črna</string>
-    <string name="customize_navigation_tabs">Prilagajajte navigacijske zavihke</string>
     <string name="player">Predvajalnik</string>
-    <string name="player_text_alignment">Poravnava besedila predvajalnika</string>
     <string name="lyrics_text_position">Položaj besedila besedil</string>
-    <string name="sided">Stranski</string>
     <string name="left">Levo</string>
     <string name="center">Sredina</string>
     <string name="right">Desno</string>
@@ -1220,7 +1208,6 @@
     <string name="enable_proxy">Omogoči proxy</string>
     <string name="proxy_type">Vrsta proxy</string>
     <string name="proxy_url">URL proxy</string>
-    <string name="restart_to_take_effect">Ponovno zaženi, da se spremeni</string>
     <string name="player_and_audio">Predvajalnik in avdio</string>
     <string name="audio_quality">Kakovost zvoka</string>
     <string name="audio_quality_auto">Avtomatski</string>
@@ -1238,17 +1225,14 @@
     <string name="stop_music_on_task_clear">Ustavi glasbo ob brisanju opravila</string>
     <string name="equalizer">Izenačevalnik</string>
     <string name="storage">Shramba</string>
-    <string name="cache">Predpomnilnik</string>
     <string name="image_cache">Predpomnilnik slike</string>
     <string name="song_cache">Predpomnilnik skladbe</string>
-    <string name="max_cache_size">Največja velikost predpomnilnika</string>
     <string name="unlimited">Neomejeno</string>
     <string name="clear_all_downloads">Počisti vse prenose</string>
     <string name="max_image_cache_size">Največja velikost predpomnilnika slike</string>
     <string name="clear_image_cache">Počisti predpomnilnik slike</string>
     <string name="max_song_cache_size">Največja velikost predpomnilnika skladbe</string>
     <string name="clear_song_cache">Počisti predpomnilnik skladbe</string>
-    <string name="size_used">%s uporabljeno</string>
     <string name="privacy">Zasebnost</string>
     <string name="listen_history">Zgodovina poslušanja</string>
     <string name="pause_listen_history">Pavziraj zgodovino poslušanja</string>
@@ -1258,17 +1242,12 @@
     <string name="pause_search_history">Pavziraj zgodovino iskanja</string>
     <string name="clear_search_history">Počisti zgodovino iskanja</string>
     <string name="clear_search_history_confirm">Ali ste prepričani, da želite počistiti vso zgodovino iskanja?</string>
-    <string name="use_login_for_browse">Uporabi prijavo za brskanje vsebine</string>
-    <string name="use_login_for_browse_desc">To lahko vpliva na to, kaj vidite, in na primer prikaže albume samo za premium, če ste prijavljeni s premium računom</string>
     <string name="disable_screenshot">Onemogoči sliko zaslona</string>
     <string name="disable_screenshot_desc">Ko je ta možnost vklopljena, so onemogočeni posnetki zaslona in pogled aplikacije v Nedavnem.</string>
-    <string name="enable_lrclib">Omogoči LrcLib ponudnik besedil</string>
-    <string name="enable_kugou">Omogoči KuGou ponudnik besedil</string>
     <string name="hide_explicit">Skrij eksplicitno vsebino</string>
     <string name="backup_restore">Varnostna kopija in obnovitev</string>
     <string name="action_backup">Varnostna kopija</string>
     <string name="action_restore">Obnovitev</string>
-    <string name="imported_playlist">Uvožen seznam predvajanja</string>
     <string name="backup_create_success">Varnostna kopija uspešno ustvarjena</string>
     <string name="backup_create_failed">Varnostne kopije ni bilo mogoče ustvariti</string>
     <string name="restore_failed">Obnovitev varnostne kopije ni uspela</string>
@@ -1276,10 +1255,7 @@
     <string name="options">Možnosti</string>
     <string name="preview">Predogled</string>
     <string name="about">O programu</string>
-    <string name="app_version">Različica aplikacije</string>
     <string name="new_version_available">Nova različica je na voljo</string>
-    <string name="translation_models">Modeli prevajanja</string>
-    <string name="clear_translation_models">Počisti modele prevajanja</string>
     <string name="music_source_edit">Uredi dodatek</string>
     <string name="music_source_test">Preizkusi</string>
     <string name="music_source_testing">Preizkušanje…</string>
@@ -1374,4 +1350,60 @@
         <item quantity="few">albumi</item>
         <item quantity="other">albumov</item>
     </plurals>
+
+    <string name="cache_songs">Shrani pesmi v predpomnilnik</string>
+
+    <string name="failed_to_preview_csv">Predogled datoteke CSV ni uspel</string>
+
+    <string name="listen_together_connection_error_with_reason">Napaka povezave: %1$s</string>
+
+    <string name="listen_together_join_rejected">Zahteva zavrnjena: %1$s</string>
+
+    <string name="listen_together_joined_room">Pridruženi sobi: %1$s</string>
+
+    <string name="listen_together_kicked">Izgnani: %1$s</string>
+
+    <string name="listen_together_server_error">Napaka: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s se želi pridružiti</string>
+
+    <string name="no_recognition_history">Ni zgodovine prepoznavanja</string>
+
+    <string name="playback_error_code">Koda: %1$s (%2$d)</string>
+
+    <string name="reconnect">Ponovno poveži</string>
+
+    <string name="selection_queue_title">Izbor</string>
+
+    <string name="unknown_podcast">Neznan podkast</string>
+
+    <string name="utaloom_attribution">Temelji na odprtokodnih projektih Metrolist, InnerTune in OuterTune. Navedba vira ne pomeni povezave ali odobritve.</string>
+
+    <string name="utaloom_desktop_app">Utaloom za namizje</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android uporablja javna vmesnika OAuth2 in Gateway za Discord, da deli, kaj poslušate. Žeton je šifriran na tej napravi in nikoli ni v skupni rabi. Zahtevana je ločeno nastavljena aplikacija Utaloom Discord.</string>
+
+    <string name="utaloom_discord_unavailable">Integracija z Discordom v tej različici ni na voljo. Zahtevana je aplikacija Utaloom Discord, ki jo nastavi vzdrževalec.</string>
+
+    <string name="utaloom_encore_special_thanks">Hvala izvirnim avtorjem odprte kode in skupnosti Utaloom</string>
+
+    <string name="utaloom_independent_notice">Neodvisno vzdržuje cabrata. Ni povezana z Metro Group, Metrolist ali MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Označi pesmi na Last.fm kot priljubljene ali odstrani oznako, ko jih označiš ali odznačiš v Utaloom Android</string>
+
+    <string name="utaloom_listen_on_app">Poslušaj v Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Logotip Utaloom Android</string>
+
+    <string name="utaloom_maintainer">Vzdrževalec Utaloom</string>
+
+    <string name="utaloom_play_on_app">Predvajaj v Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Prijavi težavo na Androidu</string>
+
+    <string name="utaloom_tap_to_open">Tapnite, da odprete Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s je pripravljen za prenos.</string>
+
+    <string name="youtube_playlist_fallback">Predvajalni seznam YouTube</string>
 </resources>

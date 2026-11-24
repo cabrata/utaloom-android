@@ -1105,7 +1105,6 @@
     <string name="theme_colors">Тема &amp; Цвета</string>
     <string name="theme_mode">Режим темы</string>
     <string name="color_palette">Палитра цветов</string>
-    <string name="use_system_colors">Использовать системные цвета</string>
     <string name="music_source_edit">Изменить дополнение</string>
     <string name="music_source_test">Проверить</string>
     <string name="music_source_testing">Проверка…</string>
@@ -1200,4 +1199,60 @@
         <item quantity="many">альбомов</item>
         <item quantity="other">альбомов</item>
     </plurals>
+
+    <string name="cache_songs">Кэшировать песни</string>
+
+    <string name="failed_to_preview_csv">Не удалось открыть предпросмотр CSV-файла</string>
+
+    <string name="listen_together_connection_error_with_reason">Ошибка подключения: %1$s</string>
+
+    <string name="listen_together_join_rejected">Заявка отклонена: %1$s</string>
+
+    <string name="listen_together_joined_room">Вы вошли в комнату: %1$s</string>
+
+    <string name="listen_together_kicked">Исключён: %1$s</string>
+
+    <string name="listen_together_server_error">Ошибка сервера: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s хочет присоединиться</string>
+
+    <string name="no_recognition_history">Нет истории распознавания</string>
+
+    <string name="playback_error_code">Код: %1$s (%2$d)</string>
+
+    <string name="reconnect">Переподключиться</string>
+
+    <string name="selection_queue_title">Выбранное</string>
+
+    <string name="unknown_podcast">Неизвестный подкаст</string>
+
+    <string name="utaloom_attribution">Основано на открытых разработках Metrolist, InnerTune и OuterTune. Указание источника не означает аффилиации или одобрения.</string>
+
+    <string name="utaloom_desktop_app">Utaloom для компьютера</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android использует публичные API OAuth2 и Gateway Discord, чтобы передавать, что вы слушаете. Ваш токен зашифрован на этом устройстве и никогда не передаётся. Требуется отдельно настроенное приложение Utaloom Discord.</string>
+
+    <string name="utaloom_discord_unavailable">Интеграция с Discord недоступна в этой сборке. Требуется приложение Utaloom Discord, настроенное сопровождающим.</string>
+
+    <string name="utaloom_encore_special_thanks">Благодарность изначальным участникам открытого исходного кода и сообществу Utaloom</string>
+
+    <string name="utaloom_independent_notice">Независимо поддерживается cabrata. Не связано с Metro Group, Metrolist или MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Отмечайте песни как любимые или убирайте отметку на Last.fm, когда отмечаете или снимаете отметку «Нравится» в Utaloom Android</string>
+
+    <string name="utaloom_listen_on_app">Слушать в Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Логотип Utaloom Android</string>
+
+    <string name="utaloom_maintainer">Сопровождающий Utaloom</string>
+
+    <string name="utaloom_play_on_app">Воспроизвести в Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Сообщить о проблеме Android</string>
+
+    <string name="utaloom_tap_to_open">Нажмите, чтобы открыть Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s готов к загрузке.</string>
+
+    <string name="youtube_playlist_fallback">Плейлист YouTube</string>
 </resources>

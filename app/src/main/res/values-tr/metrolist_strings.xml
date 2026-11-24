@@ -1093,7 +1093,6 @@
     <string name="theme_colors">Tema &amp; Renkler</string>
     <string name="theme_mode">Tema Modu</string>
     <string name="color_palette">Renk Paleti</string>
-    <string name="use_system_colors">Sistem renklerini kullan</string>
     <string name="music_source_edit">Eklentiyi düzenle</string>
     <string name="music_source_test">Test et</string>
     <string name="music_source_testing">Test ediliyor…</string>
@@ -1180,4 +1179,60 @@
         <item quantity="one">albüm</item>
         <item quantity="other">albüm</item>
     </plurals>
+
+    <string name="cache_songs">Şarkıları önbelleğe al</string>
+
+    <string name="failed_to_preview_csv">CSV dosyası önizlemesi başarısız oldu</string>
+
+    <string name="listen_together_connection_error_with_reason">Bağlantı hatası: %1$s</string>
+
+    <string name="listen_together_join_rejected">Katılma isteği reddedildi: %1$s</string>
+
+    <string name="listen_together_joined_room">Odaya katıldınız: %1$s</string>
+
+    <string name="listen_together_kicked">Atıldınız: %1$s</string>
+
+    <string name="listen_together_server_error">Hata: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s katılmak istiyor</string>
+
+    <string name="no_recognition_history">Tanıma geçmişi yok</string>
+
+    <string name="playback_error_code">Kod: %1$s (%2$d)</string>
+
+    <string name="reconnect">Yeniden bağlan</string>
+
+    <string name="selection_queue_title">Seçim</string>
+
+    <string name="unknown_podcast">Bilinmeyen podcast</string>
+
+    <string name="utaloom_attribution">Metrolist, InnerTune ve OuterTune açık kaynak çalışmalarına dayanır. Kaynak belirtmek bağlantı veya onay anlamına gelmez.</string>
+
+    <string name="utaloom_desktop_app">Masaüstü için Utaloom</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android, dinlediklerinizi paylaşmak için Discord\'un herkese açık OAuth2 ve Gateway API\'lerini kullanır. Belirteciniz bu cihazda şifrelenir ve asla paylaşılmaz. Ayrıca yapılandırılmış bir Utaloom Discord uygulaması gerekir.</string>
+
+    <string name="utaloom_discord_unavailable">Bu derlemede Discord entegrasyonu kullanılamıyor. Bakımcı tarafından yapılandırılmış bir Utaloom Discord uygulaması gerekir.</string>
+
+    <string name="utaloom_encore_special_thanks">Orijinal açık kaynak katkıda bulunanlara ve Utaloom topluluğuna teşekkürler</string>
+
+    <string name="utaloom_independent_notice">Bağımsız olarak cabrata tarafından sürdürülür. Metro Group, Metrolist veya MetrolistGroup ile bağlantısı yoktur.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Utaloom Android\'da beğendiğinizde veya beğeniyi kaldırdığınızda Last.fm\'de şarkıları beğenin veya beğeniyi kaldırın</string>
+
+    <string name="utaloom_listen_on_app">Utaloom Android\'de dinle</string>
+
+    <string name="utaloom_logo_content_description">Utaloom Android logosu</string>
+
+    <string name="utaloom_maintainer">Utaloom bakımcısı</string>
+
+    <string name="utaloom_play_on_app">Utaloom Android\'de çal</string>
+
+    <string name="utaloom_report_issue">Android sorunu bildir</string>
+
+    <string name="utaloom_tap_to_open">Utaloom Android\'i açmak için dokunun</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s indirilmeye hazır.</string>
+
+    <string name="youtube_playlist_fallback">YouTube oynatma listesi</string>
 </resources>

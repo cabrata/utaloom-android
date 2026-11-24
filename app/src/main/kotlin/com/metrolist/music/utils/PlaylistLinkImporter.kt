@@ -37,6 +37,8 @@ object PlaylistLinkImporter {
 
     private const val UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
     private const val MAX_SONGS = 20_000
+    // ponytail: default title is caller-localized because this object has no Context; switch to resources if importer grows UI surface
+    private const val YOUTUBE_PLAYLIST_FALLBACK = "YouTube playlist"
     private val http by lazy {
         OkHttpClient.Builder().connectTimeout(15, TimeUnit.SECONDS).readTimeout(20, TimeUnit.SECONDS).build()
     }
@@ -82,7 +84,7 @@ object PlaylistLinkImporter {
             songs += next.songs
             cont = next.continuation
         }
-        return Result(page.playlist.title.ifBlank { "YouTube playlist" }, songs.distinctBy { it.id }, emptyList(), false)
+        return Result(page.playlist.title.ifBlank { YOUTUBE_PLAYLIST_FALLBACK }, songs.distinctBy { it.id }, emptyList(), false)
     }
 
     private data class SpTrack(val title: String, val artist: String, val durationSec: Int)

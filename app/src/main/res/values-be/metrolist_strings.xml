@@ -1103,14 +1103,10 @@
     <string name="wifi_only_downloads_desc">Прыпыніце на запэўненых злучэннях і адновіце на Wi-Fi ці іншай незапэўненай сетцы. Wi-Fi запэўнены выключены.</string>
     <string name="forgotten_favorites">Забытыя любімцы</string>
     <string name="keep_listening">Прадаўжыць слухаць</string>
-    <string name="your_youtube_playlists">Ваш плэйлісты YouTube</string>
     <string name="similar_to">Падобна да</string>
-    <string name="most_played_albums">Найбольш прайграваныя альбомы</string>
     <string name="filter_library">Бібліятэка</string>
     <string name="filter_liked">Упадабаныя</string>
     <string name="filter_downloaded">Загружаныя</string>
-    <string name="filter_bookmarked">Здабавалісь</string>
-    <string name="library_song_empty">Песні бібліятэкі будуць паказаны тут</string>
     <string name="library_artist_empty">Выканаўцы бібліятэкі будуць паказаны тут</string>
     <string name="library_album_empty">Альбомы бібліятэкі будуць паказаны тут</string>
     <string name="library_playlist_empty">Вашыя плэйлісты будуць паказаны тут</string>
@@ -1119,10 +1115,7 @@
     <string name="delete_playlist_confirm">Сапраўды хочаце выдаліць плэйліст \"%s\"?</string>
     <string name="reset">Скінуць</string>
     <string name="pause">Паўза</string>
-    <string name="add_all_to_library">Дадаць ўсё ў бібліятэку</string>
-    <string name="remove_all_from_library">Выдаліць усё з бібліятэкі</string>
     <string name="remove_from_playlist">Выдаліць з плэйліста</string>
-    <string name="remove_from_queue">Выдаліць з чаргі</string>
     <string name="advanced">Прасунуты</string>
     <string name="tempo_and_pitch">Тэмп і вышыня</string>
     <string name="duplicates">Дублікаты</string>
@@ -1130,17 +1123,12 @@
     <string name="add_anyway">Дадаць ўсё роўна</string>
     <string name="duplicates_description_single">Песня ужо ў вашым плэйлісце</string>
     <string name="duplicates_description_multiple">%d песен ужо ў вашым плэйлісце</string>
-    <string name="action_like_all">Мне нравяцца ўсе</string>
-    <string name="action_remove_like_all">Выдаліць ўсе нравяцца</string>
     <string name="theme">Тэма</string>
     <string name="theme_desc">Дапасуйце тэму вашага прыкладання</string>
     <string name="theme_colors">Тэма &amp; Колеры</string>
     <string name="theme_mode">Рэжым тэмы</string>
     <string name="color_palette">Палітра колераў</string>
-    <string name="use_system_colors">Выкарыстоўваць сістэмныя колеры</string>
     <string name="player">Плэер</string>
-    <string name="player_text_alignment">Выраўноўванне тэксту плэера</string>
-    <string name="sided">Занятасцы</string>
     <string name="player_slider_style">Стыль повзунка плэера</string>
     <string name="default_">По умолчанию</string>
     <string name="squiggly">Хвалісты</string>
@@ -1161,11 +1149,8 @@
     <string name="stop_music_on_task_clear">Спыніць музыку пры ачышчэнні задачаў</string>
     <string name="listen_history">Гісторыя праслухоўвання</string>
     <string name="search_history">Гісторыя пошуку</string>
-    <string name="use_login_for_browse">Выкарыстоўваць ўваход для браўзання змесціва</string>
-    <string name="use_login_for_browse_desc">Гэта можа паўпліваць на то, які змесціў вы бачыце і напрыклад паказвае адключаныя толькі альбомы калі вы ўвайшлі з прэміумным акаўнтам</string>
     <string name="disable_screenshot">Адключыць скрыншоты</string>
     <string name="disable_screenshot_desc">Калі гэта опцыя уключана, скрыншоты і прагляд прыкладання ў Апошнія задачаў адключаны.</string>
-    <string name="enable_lrclib">Уключыць пастаўшчыка тэкстаў LrcLib</string>
     <string name="hide_explicit">Схаваць экслюзіўны змесціў</string>
     <string name="dismiss">Адхіліць</string>
     <string name="options">Опцыі</string>
@@ -1264,4 +1249,60 @@
         <item quantity="many">альбомаў</item>
         <item quantity="other">альбомаў</item>
     </plurals>
+
+    <string name="cache_songs">Кэшаваць песні</string>
+
+    <string name="failed_to_preview_csv">Не ўдалося прадпрагледзець файл CSV</string>
+
+    <string name="listen_together_connection_error_with_reason">Памылка злучэння: %1$s</string>
+
+    <string name="listen_together_join_rejected">Запыт адхілены: %1$s</string>
+
+    <string name="listen_together_joined_room">Вы далучыліся да пакоя: %1$s</string>
+
+    <string name="listen_together_kicked">Выдалены: %1$s</string>
+
+    <string name="listen_together_server_error">Памылка сервера: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s хоча далучыцца</string>
+
+    <string name="no_recognition_history">Няма гісторыі распазнавання</string>
+
+    <string name="playback_error_code">Код: %1$s (%2$d)</string>
+
+    <string name="reconnect">Перападключыцца</string>
+
+    <string name="selection_queue_title">Выбар</string>
+
+    <string name="unknown_podcast">Невядомы подкаст</string>
+
+    <string name="utaloom_attribution">Створана на аснове адкрытых праектаў Metrolist, InnerTune і OuterTune. Пазначэнне крыніцы не азначае сувязі ці падтрымкі.</string>
+
+    <string name="utaloom_desktop_app">Utaloom для кампутара</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android выкарыстоўвае публічныя API Discord (OAuth2 і Gateway), каб дзяліцца тым, што вы слухаеце. Токен шыфруецца на прыладзе і ніколі не перадаецца. Патрэбна асобна наладжаная праграма Utaloom Discord.</string>
+
+    <string name="utaloom_discord_unavailable">Інтэграцыя з Discord недаступная ў гэтай версіі. Патрэбна праграма Utaloom Discord, наладжаная суправаджальным.</string>
+
+    <string name="utaloom_encore_special_thanks">Падзяка першапачатковым удзельнікам адкрытага кода і супольнасці Utaloom</string>
+
+    <string name="utaloom_independent_notice">Незалежна падтрымліваецца cabrata. Не звязана з Metro Group, Metrolist ці MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Пазначайце песні на Last.fm як улюбёныя або зымайце пазнаку, калі пазначаеце або зымаете ў Utaloom Android</string>
+
+    <string name="utaloom_listen_on_app">Слухаць у Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Лагатып Utaloom Android</string>
+
+    <string name="utaloom_maintainer">Суправаджальны Utaloom</string>
+
+    <string name="utaloom_play_on_app">Прайграць у Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Паведаміць пра праблему Android</string>
+
+    <string name="utaloom_tap_to_open">Дакраніцеся, каб адкрыць Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s гатовы да спампоўкі.</string>
+
+    <string name="youtube_playlist_fallback">Плэйліст YouTube</string>
 </resources>

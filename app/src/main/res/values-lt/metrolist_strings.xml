@@ -1116,10 +1116,8 @@
     <string name="mood_and_genres">Nuotaika ir žanrai</string>
     <string name="account">Paskyra</string>
     <string name="quick_picks">Greitieji pasirinkimai</string>
-    <string name="quick_picks_empty">Klausykitės dainų, jei norite sukurti greitųjų pasirinkimų</string>
     <string name="forgotten_favorites">Pamiršti mėgiamiausi</string>
     <string name="keep_listening">Tęsti klausymą</string>
-    <string name="your_youtube_playlists">Jūsų YouTube grojaraščiai</string>
     <string name="similar_to">Panašus į</string>
     <string name="new_release_albums">Nauji leidimų albumai</string>
     <string name="today">Šiandien</string>
@@ -1127,8 +1125,6 @@
     <string name="this_week">Šią savaitę</string>
     <string name="last_week">Praeitą savaitę</string>
     <string name="most_played_songs">Dažniausiai grojamos dainos</string>
-    <string name="most_played_artists">Dažniausiai grojami atlikėjai</string>
-    <string name="most_played_albums">Dažniausiai grojami albumai</string>
     <string name="search">Paieška</string>
     <string name="search_yt_music">Ieškoti YouTube Muzika…</string>
     <string name="search_library">Ieškoti bibliotekoje…</string>
@@ -1143,13 +1139,10 @@
     <string name="filter_playlists">Grojaraščiai</string>
     <string name="filter_community_playlists">Bendruomenės grojaraščiai</string>
     <string name="filter_featured_playlists">Pasirinkti grojaraščiai</string>
-    <string name="filter_bookmarked">Pažymėta</string>
     <string name="no_results_found">Rezultatų nerasta</string>
-    <string name="library_song_empty">Bibliotekos dainos pasirodys čia</string>
     <string name="library_artist_empty">Bibliotekos atlikėjai pasirodys čia</string>
     <string name="library_album_empty">Bibliotekos albumai pasirodys čia</string>
     <string name="library_playlist_empty">Jūsų grojaraščiai pasirodys čia</string>
-    <string name="from_your_library">Iš jūsų bibliotekos</string>
     <string name="other_versions">Kitos versijos</string>
     <string name="liked_songs">Patinkamos dainos</string>
     <string name="downloaded_songs">Atsisiuntos dainos</string>
@@ -1168,9 +1161,7 @@
     <string name="play_next">Groti toliau</string>
     <string name="add_to_queue">Pridėti į eilę</string>
     <string name="add_to_library">Pridėti į biblioteką</string>
-    <string name="add_all_to_library">Pridėti viską į biblioteką</string>
     <string name="remove_from_library">Pašalinti iš bibliotekos</string>
-    <string name="remove_all_from_library">Pašalinti viską iš bibliotekos</string>
     <string name="action_download">Atsisiųsti</string>
     <string name="downloading">Atsisiunčiama</string>
     <string name="remove_download">Pašalinti atsisiuntimą</string>
@@ -1183,7 +1174,6 @@
     <string name="delete">Ištrinti</string>
     <string name="remove_from_history">Pašalinti iš istorijos</string>
     <string name="remove_from_playlist">Pašalinti iš grojaraščio</string>
-    <string name="remove_from_queue">Pašalinti iš eilės</string>
     <string name="search_online">Ieškoti internete</string>
     <string name="action_sync">Sinchronizuoti</string>
     <string name="advanced">Pažangi</string>
@@ -1206,22 +1196,14 @@
     <string name="file_size">Failo dydis</string>
     <string name="unknown">Nežinomas</string>
     <string name="copied">Nukopijuota į iškarpinę</string>
-    <string name="edit_lyrics">Redaguoti dainos žodžius</string>
     <string name="search_lyrics">Ieškoti dainos žodžių</string>
     <string name="edit_song">Redaguoti dainą</string>
     <string name="song_title">Dainos pavadinimas</string>
     <string name="song_artists">Dainos atlikėjai</string>
-    <string name="error_song_title_empty">Dainos pavadinimas negali būti tuščias.</string>
-    <string name="error_song_artist_empty">Dainos atlikėjas negali būti tuščias.</string>
     <string name="save">Išsaugoti</string>
-    <string name="choose_playlist">Pasirinkti grojaraštį</string>
     <string name="edit_playlist">Redaguoti grojaraštį</string>
     <string name="create_playlist">Sukurti grojaraštį</string>
-    <string name="playlist_name">Grojaraščio pavadinimas</string>
-    <string name="error_playlist_name_empty">Grojaraščio pavadinimas negali būti tuščias.</string>
-    <string name="edit_artist">Redaguoti atlikėją</string>
     <string name="artist_name">Atlikėjo pavadinimas</string>
-    <string name="error_artist_name_empty">Atlikėjo pavadinimas negali būti tuščias.</string>
     <string name="duplicates">Dublikatai</string>
     <string name="skip_duplicates">Praleisti dublikatus</string>
     <string name="add_anyway">Pridėti vis tiek</string>
@@ -1269,7 +1251,6 @@
         <item quantity="few">%d metų</item>
         <item quantity="many">%d metų</item>
     </plurals>
-    <string name="playlist_imported">Grojaraštis importuotas</string>
     <string name="removed_song_from_playlist">Pašalinta \"%s\" iš grojaraščio</string>
     <string name="playlist_synced">Grojaraštis sinchronizuotas</string>
     <string name="undo">Atšaukti</string>
@@ -1282,14 +1263,11 @@
         <item quantity="few">%d minutės</item>
         <item quantity="many">%d minutės</item>
     </plurals>
-    <string name="error_no_stream">Nėra galimos transliacijos</string>
     <string name="error_no_internet">Nėra tinklo ryšio</string>
     <string name="error_timeout">Laikas baigtas</string>
     <string name="error_unknown">Nežinoma klaida</string>
     <string name="action_like">Patinka</string>
-    <string name="action_like_all">Patinka viskas</string>
     <string name="action_remove_like">Pašalinti patinkamą</string>
-    <string name="action_remove_like_all">Pašalinti viską, kas patinka</string>
     <string name="action_shuffle_on">Maišymas įjungtas</string>
     <string name="action_shuffle_off">Maišymas išjungtas</string>
     <string name="repeat_mode_off">Kartojimo režimas išjungtas</string>
@@ -1305,18 +1283,10 @@
     <string name="theme_colors">Tema &amp; Spalvos</string>
     <string name="theme_mode">Temos režimas</string>
     <string name="color_palette">Spalvų paletė</string>
-    <string name="use_system_colors">Naudoti sistemos spalvas</string>
     <string name="enable_dynamic_theme">Įjungti dinaminę temą</string>
-    <string name="dark_theme">Tamsūs tema</string>
-    <string name="dark_theme_on">Įjungta</string>
-    <string name="dark_theme_off">Išjungta</string>
-    <string name="dark_theme_follow_system">Seka sistemą</string>
     <string name="pure_black">Grynai juoda</string>
-    <string name="customize_navigation_tabs">Susumuokite naršymo skirtukus</string>
     <string name="player">Grotuvas</string>
-    <string name="player_text_alignment">Grotuvo teksto lygiavimas</string>
     <string name="lyrics_text_position">Dainos žodžių teksto padėtis</string>
-    <string name="sided">Šoninė</string>
     <string name="left">Kairė</string>
     <string name="center">Centras</string>
     <string name="right">Dešinė</string>
@@ -1340,7 +1310,6 @@
     <string name="enable_proxy">Įjungti proxy</string>
     <string name="proxy_type">Proxy tipas</string>
     <string name="proxy_url">Proxy URL</string>
-    <string name="restart_to_take_effect">Paleidininti iš naujo, jei norite, kad pakeitimas įsigaliotų</string>
     <string name="player_and_audio">Grotuvas ir garsas</string>
     <string name="audio_quality">Garso kokybė</string>
     <string name="audio_quality_auto">Automatinis</string>
@@ -1358,17 +1327,14 @@
     <string name="stop_music_on_task_clear">Sustabdyti muziką aiškius užduotis</string>
     <string name="equalizer">Ekvalaizeris</string>
     <string name="storage">Saugojimas</string>
-    <string name="cache">Talpykla</string>
     <string name="image_cache">Paveikslų talpykla</string>
     <string name="song_cache">Dainų talpykla</string>
-    <string name="max_cache_size">Didžiausia talpyklos dydis</string>
     <string name="unlimited">Neribota</string>
     <string name="clear_all_downloads">Išvalyti visus atsisiuntimus</string>
     <string name="max_image_cache_size">Didžiausia paveikslų talpyklos dydis</string>
     <string name="clear_image_cache">Išvalyti paveikslų talpyklą</string>
     <string name="max_song_cache_size">Didžiausia dainų talpyklos dydis</string>
     <string name="clear_song_cache">Išvalyti dainų talpyklą</string>
-    <string name="size_used">%s naudota</string>
     <string name="privacy">Privatumas</string>
     <string name="listen_history">Klausymo istorija</string>
     <string name="pause_listen_history">Pauzoti klausymo istoriją</string>
@@ -1378,17 +1344,12 @@
     <string name="pause_search_history">Pauzoti paieškos istoriją</string>
     <string name="clear_search_history">Išvalyti paieškos istoriją</string>
     <string name="clear_search_history_confirm">Ar tikrai norite išvalyti visą paieškos istoriją?</string>
-    <string name="use_login_for_browse">Naudoti prisijungimą turiniui naršyti</string>
-    <string name="use_login_for_browse_desc">Tai gali daryti įtaką matytam turiniui ir pavyzdžiui rodyti tik premijos albumus, jei esate prisijungę su Premium paskyra</string>
     <string name="disable_screenshot">Išjungti ekrano fotografiją</string>
     <string name="disable_screenshot_desc">Kai ši parinktis įjungta, ekrano nuotraukos ir programėlės rodinys Recents yra išjungtas.</string>
-    <string name="enable_lrclib">Įjungti LrcLib dainos žodžių tiekėją</string>
-    <string name="enable_kugou">Įjungti KuGou dainos žodžių tiekėją</string>
     <string name="hide_explicit">Slėpti aiškų turinį</string>
     <string name="backup_restore">Atsarginė kopija ir atkūrimas</string>
     <string name="action_backup">Atsarginė kopija</string>
     <string name="action_restore">Atkurti</string>
-    <string name="imported_playlist">Importuotas grojaraštis</string>
     <string name="backup_create_success">Atsarginė kopija sėkmingai sukurta</string>
     <string name="backup_create_failed">Nepavyko sukurti atsarginės kopijos</string>
     <string name="restore_failed">Nepavyko atkurti atsarginės kopijos</string>
@@ -1396,10 +1357,7 @@
     <string name="options">Parinktys</string>
     <string name="preview">Peržiūra</string>
     <string name="about">Apie</string>
-    <string name="app_version">Programėlės versija</string>
     <string name="new_version_available">Galima nauja versija</string>
-    <string name="translation_models">Vertimo modeliai</string>
-    <string name="clear_translation_models">Išvalyti vertimo modelius</string>
     <string name="music_source_edit">Redaguoti priedą</string>
     <string name="music_source_test">Testuoti</string>
     <string name="music_source_testing">Testuojama…</string>
@@ -1494,4 +1452,60 @@
         <item quantity="many">albumų</item>
         <item quantity="other">albumų</item>
     </plurals>
+
+    <string name="cache_songs">Talpyklinėti dainas</string>
+
+    <string name="failed_to_preview_csv">Nepavyko peržiūrėti CSV failo</string>
+
+    <string name="listen_together_connection_error_with_reason">Ryšio klaida: %1$s</string>
+
+    <string name="listen_together_join_rejected">Prašymas atmestas: %1$s</string>
+
+    <string name="listen_together_joined_room">Prisijungėte prie kambario: %1$s</string>
+
+    <string name="listen_together_kicked">Išmestas: %1$s</string>
+
+    <string name="listen_together_server_error">Serverio klaida: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s nori prisijungti</string>
+
+    <string name="no_recognition_history">Nėra atpažinimo istorijos</string>
+
+    <string name="playback_error_code">Kodas: %1$s (%2$d)</string>
+
+    <string name="reconnect">Prisijungti iš naujo</string>
+
+    <string name="selection_queue_title">Žymėjimas</string>
+
+    <string name="unknown_podcast">Nežinomas podcastas</string>
+
+    <string name="utaloom_attribution">Sukurta remiantis atvirojo kodo darbais Metrolist, InnerTune ir OuterTune. Nurodant šaltinį nereiškia ryšių ar pritarimo.</string>
+
+    <string name="utaloom_desktop_app">Utaloom kompiuteriui</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android naudoja viešuosius Discord OAuth2 ir Gateway API, kad būtų galima dalintis tuo, ką klausote. Jūsų atpažinimo ženklas šifruojamas šiame įrenginyje ir niekada neskelbiamas. Reikia atskirai sukonfigūruotos Utaloom Discord programos.</string>
+
+    <string name="utaloom_discord_unavailable">Šiame kūrimė Discord integracija neprieinama. Reikia Utaloom Discord programos, sukonfigūruotos prižiūrėtojo.</string>
+
+    <string name="utaloom_encore_special_thanks">Padėka pradiniems atvirojo kodo bendraautoriams ir Utaloom bendruomenei</string>
+
+    <string name="utaloom_independent_notice">Nepriklausomai palaiko cabrata. Nesusijęs su Metro Group, Metrolist ar MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Pažymėkite dainas kaip mėgstamas arba atšaukite Last.fm, kai pažymite arba atšaukiate Utaloom Android</string>
+
+    <string name="utaloom_listen_on_app">Klausyti Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Utaloom Android logotipas</string>
+
+    <string name="utaloom_maintainer">Utaloom prižiūrėtojas</string>
+
+    <string name="utaloom_play_on_app">Leisti Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Pranešti apie Android problemą</string>
+
+    <string name="utaloom_tap_to_open">Palieskite, kad atidarytumėte Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s paruoštas atsisiųsti.</string>
+
+    <string name="youtube_playlist_fallback">YouTube grojaraštis</string>
 </resources>

@@ -1087,7 +1087,6 @@
     <string name="theme_colors">Tema &amp; Warna</string>
     <string name="theme_mode">Mode Tema</string>
     <string name="color_palette">Palet Warna</string>
-    <string name="use_system_colors">Gunakan warna sistem</string>
     <string name="music_source_edit">Edit add-on</string>
     <string name="music_source_test">Uji</string>
     <string name="music_source_testing">Menguji…</string>
@@ -1170,4 +1169,60 @@
     <plurals name="encore_story_albums_word">
         <item quantity="other">album</item>
     </plurals>
+
+    <string name="cache_songs">Cache lagu</string>
+
+    <string name="failed_to_preview_csv">Gagal mempratinjau file CSV</string>
+
+    <string name="listen_together_connection_error_with_reason">Kesalahan koneksi: %1$s</string>
+
+    <string name="listen_together_join_rejected">Permintaan gabung ditolak: %1$s</string>
+
+    <string name="listen_together_joined_room">Bergabung ke ruang: %1$s</string>
+
+    <string name="listen_together_kicked">Dikeluarkan: %1$s</string>
+
+    <string name="listen_together_server_error">Kesalahan server: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s ingin bergabung</string>
+
+    <string name="no_recognition_history">Tidak ada riwayat pengenalan</string>
+
+    <string name="playback_error_code">Kode: %1$s (%2$d)</string>
+
+    <string name="reconnect">Sambungkan ulang</string>
+
+    <string name="selection_queue_title">Pilihan</string>
+
+    <string name="unknown_podcast">Podcast tidak dikenal</string>
+
+    <string name="utaloom_attribution">Berdasarkan karya sumber terbuka dari Metrolist, InnerTune, dan OuterTune. Atribusi sumber tidak berarti afiliasi atau dukungan.</string>
+
+    <string name="utaloom_desktop_app">Utaloom untuk desktop</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android menggunakan API publik OAuth2 dan Gateway Discord untuk membagikan apa yang Anda dengarkan. Token Anda dienkripsi di perangkat ini dan tidak pernah dibagikan. Diperlukan aplikasi Utaloom Discord yang dikonfigurasi terpisah.</string>
+
+    <string name="utaloom_discord_unavailable">Integrasi Discord tidak tersedia dalam build ini. Diperlukan aplikasi Utaloom Discord yang dikonfigurasi oleh pengelola.</string>
+
+    <string name="utaloom_encore_special_thanks">Terima kasih kepada kontributor sumber terbuka asli dan komunitas Utaloom</string>
+
+    <string name="utaloom_independent_notice">Dikelola secara independen oleh cabrata. Tidak berafiliasi dengan Metro Group, Metrolist, atau MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Sukai atau batalkan suka lagu di Last.fm saat Anda menyukai atau membatalkan di Utaloom Android</string>
+
+    <string name="utaloom_listen_on_app">Dengarkan di Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Logo Utaloom Android</string>
+
+    <string name="utaloom_maintainer">Pengelola Utaloom</string>
+
+    <string name="utaloom_play_on_app">Putar di Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Laporkan masalah Android</string>
+
+    <string name="utaloom_tap_to_open">Ketuk untuk membuka Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s siap diunduh.</string>
+
+    <string name="youtube_playlist_fallback">Playlist YouTube</string>
 </resources>

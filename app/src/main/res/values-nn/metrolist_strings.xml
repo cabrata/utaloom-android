@@ -1091,7 +1091,6 @@
     <string name="theme_colors">Tema &amp; Fargar</string>
     <string name="theme_mode">Tema-modus</string>
     <string name="color_palette">Fargpalett</string>
-    <string name="use_system_colors">Nøyt systemfargar</string>
     <string name="music_source_edit">Rediger tillegg</string>
     <string name="music_source_test">Test</string>
     <string name="music_source_testing">Testar…</string>
@@ -1178,4 +1177,60 @@
         <item quantity="one">album</item>
         <item quantity="other">album</item>
     </plurals>
+
+    <string name="cache_songs">Hurtiglagre songar</string>
+
+    <string name="failed_to_preview_csv">Klarte ikkje førehandsvise CSV-fila</string>
+
+    <string name="listen_together_connection_error_with_reason">Tilkoblingsfeil: %1$s</string>
+
+    <string name="listen_together_join_rejected">Førespurnad avslått: %1$s</string>
+
+    <string name="listen_together_joined_room">Ble med i rom: %1$s</string>
+
+    <string name="listen_together_kicked">Kasta ut: %1$s</string>
+
+    <string name="listen_together_server_error">Tenarfeil: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s vil bli med</string>
+
+    <string name="no_recognition_history">Ingen gjenkjenningshistorikk</string>
+
+    <string name="playback_error_code">Kode: %1$s (%2$d)</string>
+
+    <string name="reconnect">Kopla til på nytt</string>
+
+    <string name="selection_queue_title">Utval</string>
+
+    <string name="unknown_podcast">Ukjent podkast</string>
+
+    <string name="utaloom_attribution">Basert på arbeid med open kjeldekode frå Metrolist, InnerTune og OuterTune. Kjeldelenking inneberer ikkje tilknyting eller støtte.</string>
+
+    <string name="utaloom_desktop_app">Utaloom for skrivebord</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android bruker dei offentlege OAuth2- og Gateway-API-ane til Discord for å dele kva du lyttar til. Tokenet ditt blir kryptert på eininga og aldri delt. Det krevst ei separat konfigurert Utaloom Discord-app.</string>
+
+    <string name="utaloom_discord_unavailable">Discord-integrasjon er ikkje tilgjengeleg i denne bygget. Det krevst ei Utaloom Discord-app sett opp av vedlikehaldaren.</string>
+
+    <string name="utaloom_encore_special_thanks">Takk til dei opphavlege bidragsytarane med open kjeldekode og Utaloom-fellesskapet</string>
+
+    <string name="utaloom_independent_notice">Uavhengig vedlikehalde av cabrata. Ikkje tilknytt Metro Group, Metrolist eller MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Lik eller fjern likt på songar på Last.fm når du likar eller fjernar likt i Utaloom Android</string>
+
+    <string name="utaloom_listen_on_app">Lytt på Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Utaloom Android-logo</string>
+
+    <string name="utaloom_maintainer">Utaloom-vedlikehaldar</string>
+
+    <string name="utaloom_play_on_app">Spel på Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Rapporter ein Android-feil</string>
+
+    <string name="utaloom_tap_to_open">Trykk for å opne Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s er klar til nedlasting.</string>
+
+    <string name="youtube_playlist_fallback">YouTube-speleliste</string>
 </resources>

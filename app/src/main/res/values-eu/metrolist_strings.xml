@@ -1103,10 +1103,8 @@
     <string name="mood_and_genres">Sentimendua eta Generoak</string>
     <string name="account">Kontua</string>
     <string name="quick_picks">Hautatze arinak</string>
-    <string name="quick_picks_empty">Abestiak jo zure pick-ak azkarren sortzeko</string>
     <string name="forgotten_favorites">Ahantuta gogokoak</string>
     <string name="keep_listening">Entzuntz jarraitu</string>
-    <string name="your_youtube_playlists">Zure YouTube erreprodukzio-zerrendak</string>
     <string name="similar_to">Antzekoa du</string>
     <string name="new_release_albums">Albunak askaratuta berritua</string>
     <string name="today">Gaur</string>
@@ -1114,8 +1112,6 @@
     <string name="this_week">Astean honetan</string>
     <string name="last_week">Astean aurtehan</string>
     <string name="most_played_songs">Gehien jotakoak abestiak</string>
-    <string name="most_played_artists">Gehien jotakoak artistak</string>
-    <string name="most_played_albums">Gehien jotakoak albumak</string>
     <string name="search">Bilaketa</string>
     <string name="search_yt_music">YouTube Musikaren bilaketa…</string>
     <string name="search_library">Liburutegian bilaketa…</string>
@@ -1130,13 +1126,10 @@
     <string name="filter_playlists">Erreprodukzio-zerrendak</string>
     <string name="filter_community_playlists">Komunitate erreprodukzio-zerrendak</string>
     <string name="filter_featured_playlists">Destacaturiko erreprodukzio-zerrendak</string>
-    <string name="filter_bookmarked">Liburua markaturikoa</string>
     <string name="no_results_found">Ez da emaitzarik aurkitu</string>
-    <string name="library_song_empty">Liburutegiko abestiak hemen agertu</string>
     <string name="library_artist_empty">Liburutegiko artistak hemen agertu</string>
     <string name="library_album_empty">Liburutegiko albumak hemen agertu</string>
     <string name="library_playlist_empty">Zure erreprodukzio-zerrendak hemen agertu</string>
-    <string name="from_your_library">Zure liburutegitik</string>
     <string name="other_versions">Beste bertsioak</string>
     <string name="liked_songs">Gustaturiko abestiak</string>
     <string name="downloaded_songs">Deskargatutako abestiak</string>
@@ -1155,9 +1148,7 @@
     <string name="play_next">Hurrengoa jo</string>
     <string name="add_to_queue">Ilarera gehitu</string>
     <string name="add_to_library">Liburutegira gehitu</string>
-    <string name="add_all_to_library">Dena liburutegira gehitu</string>
     <string name="remove_from_library">Liburutegitik kendu</string>
-    <string name="remove_all_from_library">Dena liburutegitik kendu</string>
     <string name="action_download">Deskargatu</string>
     <string name="downloading">Deskargatzen</string>
     <string name="remove_download">Deskargatzea kendu</string>
@@ -1170,7 +1161,6 @@
     <string name="delete">Ezabatu</string>
     <string name="remove_from_history">Historiaren historiatik ezabatu</string>
     <string name="remove_from_playlist">Erreprodukzio-zerrendatik kendu</string>
-    <string name="remove_from_queue">Ilaratik kendu</string>
     <string name="search_online">Enlinean bilaketa</string>
     <string name="action_sync">Sinkronizatu</string>
     <string name="advanced">Aurreratakoa</string>
@@ -1193,22 +1183,14 @@
     <string name="file_size">Fitxategia neurria</string>
     <string name="unknown">Ezezaguna</string>
     <string name="copied">Arbela arbelera kopiatuta</string>
-    <string name="edit_lyrics">Letrak editatu</string>
     <string name="search_lyrics">Letrak bilaketa</string>
     <string name="edit_song">Abestia editatu</string>
     <string name="song_title">Abestiaren izenburua</string>
     <string name="song_artists">Abestiaren artistak</string>
-    <string name="error_song_title_empty">Abestiaren izenburua ezin da hutsik egon.</string>
-    <string name="error_song_artist_empty">Abestiaren artistak ezin da hutsik egon.</string>
     <string name="save">Gorde</string>
-    <string name="choose_playlist">Erreprodukzio-zerrenda hautatu</string>
     <string name="edit_playlist">Erreprodukzio-zerrenda editatu</string>
     <string name="create_playlist">Erreprodukzio-zerrenda sortu</string>
-    <string name="playlist_name">Erreprodukzio-zerrendaren izena</string>
-    <string name="error_playlist_name_empty">Erreprodukzio-zerrendaren izena ezin da hutsik egon.</string>
-    <string name="edit_artist">Artistak editatu</string>
     <string name="artist_name">Artistaren izena</string>
-    <string name="error_artist_name_empty">Artistaren izena ezin da hutsik egon.</string>
     <string name="duplicates">Errepikatutakoak</string>
     <string name="skip_duplicates">Errepikatutakoak jauzi</string>
     <string name="add_anyway">Bestelakoak gehitu</string>
@@ -1242,7 +1224,6 @@
         <item quantity="one">%d urtea</item>
         <item quantity="other">%d urteak</item>
     </plurals>
-    <string name="playlist_imported">Erreprodukzio-zerrenda inportatuta</string>
     <string name="removed_song_from_playlist">Erreprodukzio-zerrendatik \"%s\" kendu</string>
     <string name="playlist_synced">Erreprodukzio-zerrenda sinkronizatuta</string>
     <string name="undo">Desegin</string>
@@ -1253,14 +1234,11 @@
         <item quantity="one">1 minutu</item>
         <item quantity="other">%d minutu</item>
     </plurals>
-    <string name="error_no_stream">Ez dago sarreren erabilgarririk</string>
     <string name="error_no_internet">Sare konexio ez</string>
     <string name="error_timeout">Denbora agortuta</string>
     <string name="error_unknown">Akats ezezaguna</string>
     <string name="action_like">Gustoko eman</string>
-    <string name="action_like_all">Dena gustoko</string>
     <string name="action_remove_like">Gustoko kendu</string>
-    <string name="action_remove_like_all">Dena gustokoa kendu</string>
     <string name="action_shuffle_on">Nahasketara gaituta</string>
     <string name="action_shuffle_off">Nahasketara ezgaituta</string>
     <string name="repeat_mode_off">Errepikapen modua itzalia</string>
@@ -1276,18 +1254,10 @@
     <string name="theme_colors">Gaia &amp; Koloreak</string>
     <string name="theme_mode">Gaiaren modua</string>
     <string name="color_palette">Kolorearen paleta</string>
-    <string name="use_system_colors">Sistemaren koloreak erabili</string>
     <string name="enable_dynamic_theme">Dinamikoa gaia gaitu</string>
-    <string name="dark_theme">Ilun gaia</string>
-    <string name="dark_theme_on">Gaituta</string>
-    <string name="dark_theme_off">Ezgaituta</string>
-    <string name="dark_theme_follow_system">Sistemara jarraitu</string>
     <string name="pure_black">Beltz purua</string>
-    <string name="customize_navigation_tabs">Nabigazio fitxak pertsonalizatu</string>
     <string name="player">Erreproduzigailua</string>
-    <string name="player_text_alignment">Erreproduzitzailearen testuaren lerrokatza</string>
     <string name="lyrics_text_position">Hitzen testuaren posizioa</string>
-    <string name="sided">Albokoena</string>
     <string name="left">Ezkerrera</string>
     <string name="center">Erdia</string>
     <string name="right">Eskuinera</string>
@@ -1311,7 +1281,6 @@
     <string name="enable_proxy">Proxy gaitu</string>
     <string name="proxy_type">Proxy mota</string>
     <string name="proxy_url">Proxy URL-a</string>
-    <string name="restart_to_take_effect">Berrabiarazi eragina izateko</string>
     <string name="player_and_audio">Erreproduzigailua eta audioa</string>
     <string name="audio_quality">Audioaren kalitatea</string>
     <string name="audio_quality_auto">Automatikoa</string>
@@ -1329,17 +1298,14 @@
     <string name="stop_music_on_task_clear">Musika gelditu zeregina garbitzerakoan</string>
     <string name="equalizer">Ekualizadorea</string>
     <string name="storage">Biltegia</string>
-    <string name="cache">Cache-a</string>
     <string name="image_cache">Irudiaren Cache-a</string>
     <string name="song_cache">Abestiaren Cache-a</string>
-    <string name="max_cache_size">Gehieneko cache neurria</string>
     <string name="unlimited">Mugarik gabea</string>
     <string name="clear_all_downloads">Dena deskargatuta garbitu</string>
     <string name="max_image_cache_size">Gehieneko irudiaren cache neurria</string>
     <string name="clear_image_cache">Irudiaren cache garbitu</string>
     <string name="max_song_cache_size">Gehieneko abestiaren cache neurria</string>
     <string name="clear_song_cache">Abestiaren cache garbitu</string>
-    <string name="size_used">%s erabilita</string>
     <string name="privacy">Pribatutasuna</string>
     <string name="listen_history">Entzundako historia</string>
     <string name="pause_listen_history">Entzundako historia pausatu</string>
@@ -1349,17 +1315,12 @@
     <string name="pause_search_history">Bilaketa historia pausatu</string>
     <string name="clear_search_history">Bilaketa historia garbitu</string>
     <string name="clear_search_history_confirm">Ziur al zaude bilaketa historia guztia garbitu nahi duzula?</string>
-    <string name="use_login_for_browse">Saioa erabili edukia arakatzeko</string>
-    <string name="use_login_for_browse_desc">Hau gaituak eragin dezake zein eduki duzu ikusten eta adibidez erakusten du premium-soilak albumak saioa Premium kontua batekin</string>
     <string name="disable_screenshot">Pantaila-irudia desgaitu</string>
     <string name="disable_screenshot_desc">Aukera hau gaituta dagoenean, pantaila-irudiak eta aplikazioaren ikuspegi Atzelari ezgaituak daude.</string>
-    <string name="enable_lrclib">LrcLib hitzen hornitzailea gaitu</string>
-    <string name="enable_kugou">KuGou hitzen hornitzailea gaitu</string>
     <string name="hide_explicit">Esplizituko edukia ezkutatu</string>
     <string name="backup_restore">Babes-kopia eta berrezarri</string>
     <string name="action_backup">Babes-kopia</string>
     <string name="action_restore">Berrezarri</string>
-    <string name="imported_playlist">Inportaturiko erreprodukzio-zerrenda</string>
     <string name="backup_create_success">Babes-kopia arrakastatsua sortu</string>
     <string name="backup_create_failed">Ezin da babes-kopia sortu</string>
     <string name="restore_failed">Babes-kopiatik berrezarri huts egin zuen</string>
@@ -1367,10 +1328,7 @@
     <string name="options">Aukerak</string>
     <string name="preview">Aurreikuspena</string>
     <string name="about">Honi buruz</string>
-    <string name="app_version">Aplikazio bertsioa</string>
     <string name="new_version_available">Bertsioa berritua erabilgarri</string>
-    <string name="translation_models">Itzulpen Ereduak</string>
-    <string name="clear_translation_models">Itzulpen ereduak garbitu</string>
     <string name="music_source_edit">Editatu gehigarria</string>
     <string name="music_source_test">Probatu</string>
     <string name="music_source_testing">Probatzen…</string>
@@ -1457,4 +1415,60 @@
         <item quantity="one">albuma</item>
         <item quantity="other">albumak</item>
     </plurals>
+
+    <string name="cache_songs">Gorde abestiak cachean</string>
+
+    <string name="failed_to_preview_csv">Ezin izan da CSV fitxategia aurreikusi</string>
+
+    <string name="listen_together_connection_error_with_reason">Konexio-errorea: %1$s</string>
+
+    <string name="listen_together_join_rejected">Eskaera baztertu da: %1$s</string>
+
+    <string name="listen_together_joined_room">Gelan sartu zara: %1$s</string>
+
+    <string name="listen_together_kicked">Bota zaituzte: %1$s</string>
+
+    <string name="listen_together_server_error">Zerbitzari-errorea: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s sartu nahi du</string>
+
+    <string name="no_recognition_history">Ez dago aitortzaren historiarik</string>
+
+    <string name="playback_error_code">Kodea: %1$s (%2$d)</string>
+
+    <string name="reconnect">Berriro konektatu</string>
+
+    <string name="selection_queue_title">Hautapena</string>
+
+    <string name="unknown_podcast">Podcast ezezaguna</string>
+
+    <string name="utaloom_attribution">Metrolist, InnerTune eta OuterTune open source lanetan oinarrituta. Iturria aipatzeak ez du esan nahi lotura edo onespenik dagoenik.</string>
+
+    <string name="utaloom_desktop_app">Utaloom mahaigainerako</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android-ek Discord-en OAuth2 eta Gateway API publikoak erabiltzen ditu zeri entzuten duzun partekatzeko. Zure tokena gailu honetan enkriptatzen da eta ez da inoiz partekatzen. Utaloom Discord aplikazio bat behar da, bereizita konfiguratuta.</string>
+
+    <string name="utaloom_discord_unavailable">Discord integrazioa ez dago erabilgarri bertsio honetan. Mantentzaileak konfiguratutako Utaloom Discord aplikazio bat behar da.</string>
+
+    <string name="utaloom_encore_special_thanks">Eskerrik asko jatorrizko open source laguntzaileei eta Utaloom komunitateari</string>
+
+    <string name="utaloom_independent_notice">cabrata-k modu independentean mantentzen du. Ez dago loturik Metro Group, Metrolist edo MetrolistGroup-ekin.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Markatu edo desmarkatu abestiak Last.fm-en, Utaloom Android-en markatzen edo desmarkatzen dituzun heinean</string>
+
+    <string name="utaloom_listen_on_app">Entzun Utaloom Android-en</string>
+
+    <string name="utaloom_logo_content_description">Utaloom Android logoa</string>
+
+    <string name="utaloom_maintainer">Utaloom mantentzailea</string>
+
+    <string name="utaloom_play_on_app">Erreproduzitu Utaloom Android-en</string>
+
+    <string name="utaloom_report_issue">Jakinarazi Android arazoa</string>
+
+    <string name="utaloom_tap_to_open">Sakatu Utaloom Android irekitzeko</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s deskargatzeko prest dago.</string>
+
+    <string name="youtube_playlist_fallback">YouTube erreprodukzio-zerrenda</string>
 </resources>

@@ -1091,7 +1091,6 @@
     <string name="theme_colors">Thema &amp; Kleuren</string>
     <string name="theme_mode">Themamodus</string>
     <string name="color_palette">Kleurenpalet</string>
-    <string name="use_system_colors">Systeemkleuren gebruiken</string>
     <string name="music_source_edit">Add-on bewerken</string>
     <string name="music_source_test">Testen</string>
     <string name="music_source_testing">Bezig met testen…</string>
@@ -1178,4 +1177,60 @@
         <item quantity="one">album</item>
         <item quantity="other">albums</item>
     </plurals>
+
+    <string name="cache_songs">Nummers cachen</string>
+
+    <string name="failed_to_preview_csv">Voorbeeldweergave van CSV-bestand mislukt</string>
+
+    <string name="listen_together_connection_error_with_reason">Verbindingsfout: %1$s</string>
+
+    <string name="listen_together_join_rejected">Deelnameverzoek geweigerd: %1$s</string>
+
+    <string name="listen_together_joined_room">Je bent de ruimte binnengegaan: %1$s</string>
+
+    <string name="listen_together_kicked">Verwijderd: %1$s</string>
+
+    <string name="listen_together_server_error">Serverfout: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s wil deelnemen</string>
+
+    <string name="no_recognition_history">Geen herkenningsgeschiedenis</string>
+
+    <string name="playback_error_code">Code: %1$s (%2$d)</string>
+
+    <string name="reconnect">Opnieuw verbinden</string>
+
+    <string name="selection_queue_title">Selectie</string>
+
+    <string name="unknown_podcast">Onbekende podcast</string>
+
+    <string name="utaloom_attribution">Gebaseerd op open-sourcewerk van Metrolist, InnerTune en OuterTune. Het vermelden van de bron houdt geen verwantschap of goedkeuring in.</string>
+
+    <string name="utaloom_desktop_app">Utaloom voor bureaublad</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android gebruikt de openbare OAuth2- en Gateway-API\'s van Discord om te delen wat je aan het luisteren bent. Je token is versleuteld op dit apparaat en wordt nooit gedeeld. Een apart geconfigureerde Utaloom Discord-app is vereist.</string>
+
+    <string name="utaloom_discord_unavailable">Discord-integratie is niet beschikbaar in deze build. Er is een Utaloom Discord-app nodig die door de beheerder is geconfigureerd.</string>
+
+    <string name="utaloom_encore_special_thanks">Dank aan de oorspronkelijke open-sourcebijdragers en de Utaloom-gemeenschap</string>
+
+    <string name="utaloom_independent_notice">Onafhankelijk onderhouden door cabrata. Niet gelieerd aan Metro Group, Metrolist of MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Markeer nummers op Last.fm als favoriet of verwijder de markering wanneer je ze in Utaloom Android markeert of verwijdert</string>
+
+    <string name="utaloom_listen_on_app">Luister op Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Utaloom Android-logo</string>
+
+    <string name="utaloom_maintainer">Utaloom-beheerder</string>
+
+    <string name="utaloom_play_on_app">Afspelen op Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Android-probleem melden</string>
+
+    <string name="utaloom_tap_to_open">Tik om Utaloom Android te openen</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s is klaar om te downloaden.</string>
+
+    <string name="youtube_playlist_fallback">YouTube-afspeellijst</string>
 </resources>

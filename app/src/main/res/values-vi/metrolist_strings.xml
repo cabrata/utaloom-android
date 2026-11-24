@@ -1087,7 +1087,6 @@
     <string name="theme_colors">Chủ đề &amp; Màu sắc</string>
     <string name="theme_mode">Chế độ chủ đề</string>
     <string name="color_palette">Bảng màu</string>
-    <string name="use_system_colors">Sử dụng màu hệ thống</string>
     <string name="music_source_edit">Chỉnh sửa tiện ích bổ sung</string>
     <string name="music_source_test">Kiểm tra</string>
     <string name="music_source_testing">Đang kiểm tra…</string>
@@ -1170,4 +1169,60 @@
     <plurals name="encore_story_albums_word">
         <item quantity="other">album</item>
     </plurals>
+
+    <string name="cache_songs">Lưu bài hát vào bộ nhớ đệm</string>
+
+    <string name="failed_to_preview_csv">Không thể xem trước tệp CSV</string>
+
+    <string name="listen_together_connection_error_with_reason">Lỗi kết nối: %1$s</string>
+
+    <string name="listen_together_join_rejected">Yêu cầu bị từ chối: %1$s</string>
+
+    <string name="listen_together_joined_room">Đã vào phòng: %1$s</string>
+
+    <string name="listen_together_kicked">Đã bị mời ra: %1$s</string>
+
+    <string name="listen_together_server_error">Lỗi: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s muốn tham gia</string>
+
+    <string name="no_recognition_history">Chưa có lịch sử nhận dạng</string>
+
+    <string name="playback_error_code">Mã: %1$s (%2$d)</string>
+
+    <string name="reconnect">Kết nối lại</string>
+
+    <string name="selection_queue_title">Đã chọn</string>
+
+    <string name="unknown_podcast">Podcast không rõ</string>
+
+    <string name="utaloom_attribution">Dựa trên các dự án mã nguồn mở Metrolist, InnerTune và OuterTune. Việc ghi nguồn không có nghĩa là có liên kết hay chứng thực.</string>
+
+    <string name="utaloom_desktop_app">Utaloom cho máy tính</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android dùng API công khai OAuth2 và Gateway của Discord để chia sẻ nội dung bạn đang nghe. Mã thông báo của bạn được mã hóa trên thiết bị này và không bao giờ chia sẻ. Cần một ứng dụng Utaloom Discord được cấu hình riêng.</string>
+
+    <string name="utaloom_discord_unavailable">Tích hợp Discord không khả dụng trong bản dựng này. Cần một ứng dụng Utaloom Discord do người duy trì cấu hình.</string>
+
+    <string name="utaloom_encore_special_thanks">Cảm ơn những người đóng góp mã nguồn mở ban đầu và cộng đồng Utaloom</string>
+
+    <string name="utaloom_independent_notice">Được bảo trì độc lập bởi cabrata. Không liên kết với Metro Group, Metrolist hay MetrolistGroup.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Thích hoặc bỏ thích bài hát trên Last.fm khi bạn thích hoặc bỏ thích trên Utaloom Android</string>
+
+    <string name="utaloom_listen_on_app">Nghe trên Utaloom Android</string>
+
+    <string name="utaloom_logo_content_description">Logo Utaloom Android</string>
+
+    <string name="utaloom_maintainer">Người duy trì Utaloom</string>
+
+    <string name="utaloom_play_on_app">Phát trên Utaloom Android</string>
+
+    <string name="utaloom_report_issue">Báo cáo sự cố trên Android</string>
+
+    <string name="utaloom_tap_to_open">Chạm để mở Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s đã sẵn sàng để tải xuống.</string>
+
+    <string name="youtube_playlist_fallback">Danh sách phát YouTube</string>
 </resources>

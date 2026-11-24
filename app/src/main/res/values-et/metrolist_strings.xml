@@ -1092,7 +1092,6 @@
     <string name="theme_colors">Kujundus &amp; Värvid</string>
     <string name="theme_mode">Kujunduse režiim</string>
     <string name="color_palette">Värvide palett</string>
-    <string name="use_system_colors">Kasuta süsteemi värve</string>
     <string name="music_source_edit">Muuda lisandmoodulit</string>
     <string name="music_source_test">Testi</string>
     <string name="music_source_testing">Testimine…</string>
@@ -1179,4 +1178,60 @@
         <item quantity="one">album</item>
         <item quantity="other">albumit</item>
     </plurals>
+
+    <string name="cache_songs">Salvesta laulud vahemällu</string>
+
+    <string name="failed_to_preview_csv">CSV-faili eelvaade nurjus</string>
+
+    <string name="listen_together_connection_error_with_reason">Ühenduse viga: %1$s</string>
+
+    <string name="listen_together_join_rejected">Ligipääsutaotlus lükati tagasi: %1$s</string>
+
+    <string name="listen_together_joined_room">Sisenesid tuppa: %1$s</string>
+
+    <string name="listen_together_kicked">Eemaldati: %1$s</string>
+
+    <string name="listen_together_server_error">Serveri viga: %1$s</string>
+
+    <string name="listen_together_wants_to_join">%1$s soovib liituda</string>
+
+    <string name="no_recognition_history">Tuvastamisajalugu pole</string>
+
+    <string name="playback_error_code">Kood: %1$s (%2$d)</string>
+
+    <string name="reconnect">Ühenda uuesti</string>
+
+    <string name="selection_queue_title">Valik</string>
+
+    <string name="unknown_podcast">Tundmatu taskuhääling</string>
+
+    <string name="utaloom_attribution">Põhineb Metrolist, InnerTune ja OuterTune avatud lähtekoodi töödel. Allika märkimine ei tähenda seotust ega toetust.</string>
+
+    <string name="utaloom_desktop_app">Utaloom arvutile</string>
+
+    <string name="utaloom_discord_information_warning">Utaloom Android kasutab Discordi avalikke OAuth2 ja Gateway API-sid, et jagada seda, mida sa kuulad. Su token krüpteeritakse selles seadmes ja seda ei jagata kunagi. Vajalik on eraldi seadistatud Utaloom Discordi rakendus.</string>
+
+    <string name="utaloom_discord_unavailable">Discordi integratsioon pole selles versioonis saadaval. Vajalik on hooldaja poolt seadistatud Utaloom Discordi rakendus.</string>
+
+    <string name="utaloom_encore_special_thanks">Aitäh algsetele avatud lähtekoodi kaasautoritele ja Utaloomi kogukonnale</string>
+
+    <string name="utaloom_independent_notice">Hooldab sõltumatult cabrata. Ei ole seotud Metro Group, Metrolist ega MetrolistGroup-iga.</string>
+
+    <string name="utaloom_last_fm_send_likes_description">Märgi või tühista laulud Last.fm-is lemmikuks, kui märgid või tühistad need Utaloom Androidis</string>
+
+    <string name="utaloom_listen_on_app">Kuula Utaloom Androidis</string>
+
+    <string name="utaloom_logo_content_description">Utaloom Androidi logo</string>
+
+    <string name="utaloom_maintainer">Utaloomi hooldaja</string>
+
+    <string name="utaloom_play_on_app">Esita Utaloom Androidis</string>
+
+    <string name="utaloom_report_issue">Teata Androidi probleemist</string>
+
+    <string name="utaloom_tap_to_open">Puuduta, et avada Utaloom Android</string>
+
+    <string name="utaloom_update_available_message">Utaloom Android %s on allalaadimiseks valmis.</string>
+
+    <string name="youtube_playlist_fallback">YouTube\'i esitusloend</string>
 </resources>
