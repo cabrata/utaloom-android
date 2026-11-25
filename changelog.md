@@ -1,5 +1,10 @@
 # Changelog
 
+## [v1.9.0] - 2026-11-25
+
+### Added
+- **playback:** Add Dolby Atmos add-on support (`984b4e4`)
+
 ## [v1.8.0] - 2026-11-24
 
 ### Added
