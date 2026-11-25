@@ -113,6 +113,7 @@ import com.metrolist.music.constants.AndroidAutoTargetPlaylistKey
 import com.metrolist.music.constants.AudioNormalizationKey
 import com.metrolist.music.constants.AudioOffload
 import com.metrolist.music.constants.MusicAddonsKey
+import com.metrolist.music.constants.DolbyAtmosKey
 import com.metrolist.music.constants.AudioTrackPlaybackParamsKey
 import com.metrolist.music.constants.AutoDownloadOnLikeKey
 import com.metrolist.music.constants.AutoLoadMoreKey
@@ -537,6 +538,7 @@ class MusicService :
     private val songUrlCache = StreamUrlCache()
 
     private var musicAddons: List<MusicAddon> = emptyList()
+    private var dolbyAtmos = true
 
     private val addonRenditions = java.util.concurrent.ConcurrentHashMap<String, MusicAddons.Stream>()
     private val refusedAddons = mutableSetOf<String>()
@@ -828,6 +830,7 @@ class MusicService :
         qualityPrefs = QualityPrefs.from(startupPrefs!!)
         cachedEnableSongCache = startupPrefs!![EnableSongCacheKey] ?: true
         musicAddons = MusicAddons.decode(startupPrefs!![MusicAddonsKey])
+        dolbyAtmos = startupPrefs!![DolbyAtmosKey] ?: true
         playerVolume = MutableStateFlow((startupPrefs!![PlayerVolumeKey] ?: 1f).coerceIn(0f, 1f))
 
         initializeCast()
@@ -1306,6 +1309,16 @@ class MusicService :
                 val addons = MusicAddons.decode(it)
                 if (addons != musicAddons) {
                     musicAddons = addons
+                    clearAddonUpgrades()
+                    if (playerInitialized.value) maybeUpgradeAudio()
+                }
+            }
+        }
+        scope.launch {
+            dataStore.data.map { it[DolbyAtmosKey] ?: true }.distinctUntilChanged().collect {
+                if (it != dolbyAtmos) {
+                    dolbyAtmos = it
+                    // The rendition playing may be the mix this switch now forbids, or the stereo one it no longer wants.
                     clearAddonUpgrades()
                     if (playerInitialized.value) maybeUpgradeAudio()
                 }
@@ -2126,7 +2139,8 @@ class MusicService :
                 val stream = MusicAddons.resolveUpgrade(
                     musicAddons, metadata.title, metadata.artists.map { it.name },
                     (duration / 1000.0).roundToInt(), bitrate.takeIf { it > 0 },
-                ) ?: return@launch
+                    atmos = dolbyAtmos && DeviceCodecs.playsDolbyAtmos,
+                ) ?: return@launch.also { Timber.tag(TAG).d("Add-on upgrade: no worthwhile rendition for %s", metadata.title) }
 
                 fun canSwap() = player === activePlayer && activePlayer.currentMediaItem === item &&
                     !offlineMode && !isCrossfading &&
@@ -2139,6 +2153,7 @@ class MusicService :
                     return@launch
                 }
 
+                Timber.tag(TAG).d("Add-on swap: %s (atmos=%s)", stream.label, stream.isDolbyAtmos)
                 addonRenditions[key] = stream
                 // Keep buffered YouTube bytes for an immediate fallback.
                 aheadCacheWriters.remove(mediaId)?.cancel()
@@ -2187,6 +2202,10 @@ class MusicService :
                         }
                     }
                 } finally {
+                    Timber.tag(TAG).d(
+                        "Add-on probe %s: verdict=%s state=%d error=%s",
+                        stream.label, verdict, probe.playbackState, probe.playerError?.errorCodeName,
+                    )
                     probe.release()
                 }
                 verdict == true

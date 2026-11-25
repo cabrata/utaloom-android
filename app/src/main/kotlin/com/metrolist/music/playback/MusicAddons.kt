@@ -68,6 +68,7 @@ object MusicAddons {
         val bitrateKbps: Int? = null,
         /** The add-on's own name for this rendition, e.g. `LOSSLESS`. */
         val quality: String? = null,
+        val isDolbyAtmos: Boolean = false,
     )
 
     @Serializable
@@ -77,7 +78,16 @@ object MusicAddons {
         val artist: String = "",
         val duration: Double? = null,
         val streamURL: String? = null,
-    )
+        val audioQuality: String? = null,
+        val audioMode: String? = null,
+        val audioModes: List<String> = emptyList(),
+        val format: String? = null,
+        val atmos: Boolean? = null,
+    ) {
+        /** Some catalogues (Tidal) publish the Atmos mix as its own track, so only the row can say so. */
+        val isDolbyAtmos: Boolean
+            get() = atmos == true || ATMOS_HINT.containsMatchIn("$audioQuality $audioMode ${audioModes.joinToString(" ")} $format")
+    }
 
     @Serializable
     private data class SearchResponse(val tracks: List<Track> = emptyList())
@@ -116,6 +126,10 @@ object MusicAddons {
     private data class Option(val value: JsonPrimitive? = null, val label: String = "")
 
     const val QUALITY = "quality"
+    private const val ATMOS = "atmos"
+
+    // Add-ons name the immersive mix in their codec, format or quality fields, each in its own spelling.
+    internal val ATMOS_HINT = Regex("atmos|dolby|eac3[_-]?joc|ec-?3", RegexOption.IGNORE_CASE)
 
     private const val DURATION_TOLERANCE_SEC = 3.0
     private val COMBINING_MARKS = Regex("\\p{Mn}+")
@@ -202,12 +216,13 @@ object MusicAddons {
         artists: List<String>,
         durationSec: Int,
         playingBitrate: Int?,
+        atmos: Boolean,
     ): Stream? = channelFlow {
         // All add-ons search at once; the first worthwhile answer wins and cancels the rest.
         addons.filter { it.enabled }.forEach { addon ->
             launch {
                 try {
-                    resolveFrom(addon, title, artists, durationSec)?.takeIf { worthUpgrading(it, playingBitrate) }?.let { send(it) }
+                    resolveFrom(addon, title, artists, durationSec, atmos)?.takeIf { worthUpgrading(it, playingBitrate) }?.let { send(it) }
                 } catch (e: CancellationException) {
                     throw e
                 } catch (e: Exception) {
@@ -218,6 +233,7 @@ object MusicAddons {
     }.flowOn(Dispatchers.IO).firstOrNull()
 
     internal fun worthUpgrading(stream: Stream, playingBitrate: Int?): Boolean {
+        if (stream.isDolbyAtmos) return true
         val codec = stream.codec?.lowercase().orEmpty()
         if (codec in setOf("flac", "alac", "audio/flac", "audio/alac")) return true
         // A narrow bitrate gain across codecs is not worth a mid-song interruption.
@@ -229,11 +245,16 @@ object MusicAddons {
         title: String,
         artists: List<String>,
         durationSec: Int,
+        atmos: Boolean,
     ): Stream? {
-        val tracks = get<SearchResponse>(addon.url, listOf("search"), addon.params + ("q" to searchQuery(title, artists))).tracks
-        val match = pickMatch(tracks, title, artists, durationSec, requireDuration = true) ?: return null
+        val params = requestParams(addon, atmos)
+        val tracks = get<SearchResponse>(addon.url, listOf("search"), params + ("q" to searchQuery(title, artists))).tracks
+        val (immersive, stereo) = tracks.partition { it.isDolbyAtmos }
+        val match = (if (atmos) pickMatch(immersive, title, artists, durationSec, requireDuration = true) else null)
+            ?: pickMatch(stereo, title, artists, durationSec, requireDuration = true)
+            ?: return null
         val stream = try {
-            get<StreamResponse>(addon.url, listOf("stream", match.id), addon.params)
+            get<StreamResponse>(addon.url, listOf("stream", match.id), params)
         } catch (e: IOException) {
             null
         }
@@ -244,6 +265,9 @@ object MusicAddons {
         // Add-ons report sample rate in Hz or kHz and bitrate in bps or kbps.
         val sampleRateHz = stream?.sampleRate?.let { if (it < 1000) it * 1000 else it }?.toInt()
         val codec = (stream?.codec ?: stream?.format)?.takeIf { it.isNotBlank() }
+        val isDolbyAtmos = ATMOS_HINT.containsMatchIn("${stream?.codec} ${stream?.format} ${stream?.quality}")
+        // Unwanted or undecodable here: the player would skip the song rather than fail loudly.
+        if (isDolbyAtmos && !atmos) return null
         val format = listOfNotNull(
             codec?.uppercase(),
             stream?.bitDepth?.let { "${it.toInt()}-bit" },
@@ -258,9 +282,20 @@ object MusicAddons {
             bitDepth = stream?.bitDepth?.toInt(),
             sampleRateHz = sampleRateHz,
             bitrateKbps = stream?.bitrate?.let { if (it > 10_000) it / 1000 else it }?.toInt(),
+            isDolbyAtmos = isDolbyAtmos,
             // Quality is part of the key: another tier is another file and must not share cached bytes.
             cacheKey = "${addon.url}/${match.id}?${addon.quality}:${stream?.quality}:$codec:$sampleRateHz:${stream?.bitDepth}:${stream?.bitrate}",
         )
+    }
+
+    /**
+     * The add-on's settings plus the standard `atmos` hint. `auto` asks for the Atmos mix and falls back to
+     * stereo; an add-on that declared its own `atmos` default keeps it, unless Atmos is off, which pins it off.
+     */
+    internal fun requestParams(addon: MusicAddon, atmos: Boolean): Map<String, String> = when {
+        atmos -> mapOf(ATMOS to "auto") + addon.params
+        ATMOS in addon.params -> addon.params + (ATMOS to "0")
+        else -> addon.params
     }
 
     internal fun searchQuery(title: String, artists: List<String>): String =

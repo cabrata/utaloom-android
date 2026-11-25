@@ -64,6 +64,24 @@ class MusicAddonsTest {
         assertFalse(MusicAddons.worthUpgrading(stream.copy(codec = "aac", bitrateKbps = 320), null))
         assertFalse(MusicAddons.worthUpgrading(stream.copy(codec = "aac", bitrateKbps = 192), 128_000))
         assertTrue(MusicAddons.worthUpgrading(stream.copy(codec = "aac", bitrateKbps = 320), 160_000))
+        assertTrue(MusicAddons.worthUpgrading(stream.copy(codec = "eac3", isDolbyAtmos = true), 256_000))
+    }
+
+    @Test
+    fun `reads an atmos row from its own fields`() {
+        assertTrue(Track("1", "x", "y", 200.0, audioQuality = "DOLBY_ATMOS").isDolbyAtmos)
+        assertTrue(Track("1", "x", "y", 200.0, atmos = true).isDolbyAtmos)
+        assertFalse(Track("1", "x", "y", 200.0, audioQuality = "HI_RES_LOSSLESS", format = "flac").isDolbyAtmos)
+    }
+
+    @Test
+    fun `atmos hint is offered only when wanted and never overrides the add-on`() {
+        val plain = MusicAddon("https://example.com", "A", params = mapOf("quality" to "LOSSLESS"))
+        assertEquals("auto", MusicAddons.requestParams(plain, atmos = true)["atmos"])
+        assertNull(MusicAddons.requestParams(plain, atmos = false)["atmos"])
+        val declared = plain.copy(params = plain.params + ("atmos" to "1"))
+        assertEquals("1", MusicAddons.requestParams(declared, atmos = true)["atmos"])
+        assertEquals("0", MusicAddons.requestParams(declared, atmos = false)["atmos"])
     }
 
     @Test

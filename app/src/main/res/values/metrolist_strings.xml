@@ -1270,6 +1270,8 @@
     <string name="audio_quality_on_wifi">On Wi-Fi</string>
     <string name="audio_quality_on_mobile_data">On mobile data</string>
     <string name="audio_quality_in_use">In use</string>
+    <string name="dolby_atmos_desc">Play the immersive, surround version of a song when a music source has one</string>
+    <string name="dolby_atmos_unavailable">This device can\'t play Dolby Atmos, so songs play in their usual version</string>
     <string name="audio_quality_lossless_detail">Your add-ons, bit-exact where available · 300+ MB/hr</string>
     <string name="audio_quality_high_detail">Best YouTube stream, up to ~256 kbps · 115 MB/hr</string>
     <string name="audio_quality_low_detail">~64 kbps · smallest download · 29 MB/hr</string>

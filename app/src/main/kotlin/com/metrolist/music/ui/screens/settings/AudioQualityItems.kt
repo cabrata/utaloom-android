@@ -23,16 +23,19 @@ import com.metrolist.music.constants.AudioQuality
 import com.metrolist.music.constants.AudioQualityCellularKey
 import com.metrolist.music.constants.AudioQualityKey
 import com.metrolist.music.constants.AudioQualityWifiKey
+import com.metrolist.music.constants.DolbyAtmosKey
+import com.metrolist.music.playback.DeviceCodecs
 import com.metrolist.music.playback.QualityPrefs
 import com.metrolist.music.playback.StreamQuality
 import com.metrolist.music.ui.component.EnumDialog
 import com.metrolist.music.ui.component.Material3SettingsItem
+import com.metrolist.music.ui.component.SettingsSwitch
 import com.metrolist.music.utils.rememberEnumPreference
 import com.metrolist.music.utils.rememberPreference
 
 /**
  * BitChord's "Audio quality" group for the front of Settings: where music comes from, then the ceiling on Wi-Fi
- * and the ceiling on mobile data, the one in use marked. Choosing opens the options right here (best first, a
+ * and the ceiling on mobile data, the one in use marked, then Dolby Atmos. Choosing opens the options right here (best first, a
  * line of what each costs under it), not a page of its own. Also emits the dialog while one is open.
  */
 @Composable
@@ -45,6 +48,8 @@ fun rememberAudioQualityItems(onOpenSources: () -> Unit): List<Material3Settings
         wifi = StreamQuality.entries.find { it.name == wifiName },
         cellular = StreamQuality.entries.find { it.name == cellularName },
     )
+    val (dolbyAtmos, setDolbyAtmos) = rememberPreference(DolbyAtmosKey, defaultValue = true)
+    val atmosSupported = remember { DeviceCodecs.playsDolbyAtmos }
     val metered = rememberNetworkMetered()
     // Which connection's options are open, or null.
     var editing by remember { mutableStateOf<Boolean?>(null) }
@@ -89,6 +94,24 @@ fun rememberAudioQualityItems(onOpenSources: () -> Unit): List<Material3Settings
                 Text(qualityLabel(prefs.effective(false)) + if (metered == true) " · $inUse" else "")
             },
             onClick = { editing = false },
+        ),
+        // Greyed rather than hidden on a phone without the decoder, so it reads as "this phone can't", not "the app can't".
+        Material3SettingsItem(
+            icon = painterResource(R.drawable.quality_atmos),
+            title = { Text(stringResource(R.string.audio_quality_dolby_atmos)) },
+            targetKey = R.string.audio_quality_dolby_atmos,
+            description = {
+                Text(stringResource(if (atmosSupported) R.string.dolby_atmos_desc else R.string.dolby_atmos_unavailable))
+            },
+            trailingContent = {
+                SettingsSwitch(
+                    checked = dolbyAtmos && atmosSupported,
+                    onCheckedChange = setDolbyAtmos,
+                    enabled = atmosSupported,
+                )
+            },
+            enabled = atmosSupported,
+            onClick = { setDolbyAtmos(!dolbyAtmos) },
         ),
     )
 }
