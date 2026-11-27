@@ -1,5 +1,10 @@
 # Changelog
 
+## [v1.9.1] - 2026-11-27
+
+### Fixed
+- **playback:** Improve Dolby Atmos stream handling (`3bc58da`)
+
 ## [v1.9.0] - 2026-11-25
 
 ### Added
