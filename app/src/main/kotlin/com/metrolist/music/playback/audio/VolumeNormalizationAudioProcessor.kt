@@ -40,14 +40,19 @@ class VolumeNormalizationAudioProcessor : BaseAudioProcessor() {
     }
 
     override fun onConfigure(inputAudioFormat: AudioProcessor.AudioFormat): AudioProcessor.AudioFormat {
-        encoding = inputAudioFormat.encoding
-        bytesPerSample =
-            when (encoding) {
+        val sampleBytes =
+            when (inputAudioFormat.encoding) {
                 C.ENCODING_PCM_16BIT -> 2
                 C.ENCODING_PCM_24BIT -> 3
                 C.ENCODING_PCM_32BIT, C.ENCODING_PCM_FLOAT -> 4
-                else -> throw AudioProcessor.UnhandledAudioFormatException(inputAudioFormat)
+                else -> {
+                    encoding = C.ENCODING_INVALID
+                    bytesPerSample = 0
+                    return AudioProcessor.AudioFormat.NOT_SET
+                }
             }
+        encoding = inputAudioFormat.encoding
+        bytesPerSample = sampleBytes
 
         Timber.tag(TAG).d(
             "Configured: sampleRate=${inputAudioFormat.sampleRate}, channels=${inputAudioFormat.channelCount}, encoding=$encoding",

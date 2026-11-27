@@ -39,8 +39,11 @@ class SilenceDetectorAudioProcessor(
     private var notifiedThisSilence = false
 
     override fun onConfigure(inputAudioFormat: AudioProcessor.AudioFormat): AudioProcessor.AudioFormat {
-        if (inputAudioFormat.encoding != C.ENCODING_PCM_16BIT) {
-            throw AudioProcessor.UnhandledAudioFormatException(inputAudioFormat)
+        if (inputAudioFormat.encoding != C.ENCODING_PCM_16BIT || inputAudioFormat.channelCount < 1) {
+            sampleRate = 0
+            channelCount = 0
+            clearSilenceState()
+            return AudioProcessor.AudioFormat.NOT_SET
         }
         sampleRate = inputAudioFormat.sampleRate
         channelCount = inputAudioFormat.channelCount

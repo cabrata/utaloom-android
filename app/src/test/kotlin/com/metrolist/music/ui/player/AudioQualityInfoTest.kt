@@ -66,6 +66,8 @@ class AudioQualityInfoTest {
         val atmos = audioQualityOf(aac, null, PlayedAudio(mimeType = "audio/eac3-joc"))!!
         assertEquals(Tier.DOLBY_ATMOS, atmos.tier)
         assertEquals("E-AC-3 JOC", atmos.codec)
+        assertEquals(Tier.DOLBY_ATMOS, audioQualityOf(stream("eac3_joc"), null)!!.tier)
+        assertEquals(Tier.DOLBY_ATMOS, audioQualityOf(stream("ec3-joc"), null)!!.tier)
     }
 
     @Test

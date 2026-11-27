@@ -70,8 +70,12 @@ class CustomEqualizerAudioProcessor : BaseAudioProcessor() {
     }
 
     override fun onConfigure(inputAudioFormat: AudioProcessor.AudioFormat): AudioProcessor.AudioFormat {
-        if (inputAudioFormat.encoding != C.ENCODING_PCM_16BIT || inputAudioFormat.channelCount > 2) {
-            throw AudioProcessor.UnhandledAudioFormatException(inputAudioFormat)
+        if (inputAudioFormat.encoding != C.ENCODING_PCM_16BIT || inputAudioFormat.channelCount !in 1..2) {
+            // Bypass multi-channel (e.g. Dolby Atmos) / non-PCM16 streams rather than failing playback.
+            sampleRate = 0
+            channelCount = 0
+            filters.forEach { it.reset() }
+            return AudioProcessor.AudioFormat.NOT_SET
         }
 
         sampleRate = inputAudioFormat.sampleRate

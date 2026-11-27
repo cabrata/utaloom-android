@@ -296,6 +296,8 @@ dependencies {
     implementation(libs.haze.blur)
 
     implementation(libs.media3)
+    implementation(libs.media3.dash)
+    implementation(libs.media3.hls)
     implementation(libs.media3.session)
     implementation(libs.media3.okhttp)
 

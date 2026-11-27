@@ -95,7 +95,7 @@ private fun audioCodec(value: String?): String? = when (val codec = value?.trim(
     "audio/wav", "audio/x-wav" -> "wav"
     "audio/raw" -> "pcm"
     "audio/mpeg" -> "mp3"
-    "audio/eac3-joc", "ec+3", "eac3-joc" -> "eac3-joc"
+    "audio/eac3-joc", "ec+3", "eac3-joc", "eac3_joc", "ec3_joc", "ec3-joc" -> "eac3-joc"
     "audio/eac3", "ec-3", "eac3" -> "eac3"
     else -> codec?.let { if (it.startsWith("mp4a")) "aac" else it.substringAfter('/') }
 }

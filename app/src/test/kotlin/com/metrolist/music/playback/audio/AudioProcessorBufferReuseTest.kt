@@ -11,7 +11,10 @@ import com.metrolist.music.eq.audio.CustomEqualizerAudioProcessor
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import org.junit.Assert.assertArrayEquals
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertSame
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class AudioProcessorBufferReuseTest {
@@ -28,6 +31,29 @@ class AudioProcessorBufferReuseTest {
     @Test
     fun `custom equalizer reuses its direct output buffer`() {
         assertOutputBufferIsReused(CustomEqualizerAudioProcessor())
+    }
+
+
+    @Test
+    fun `processors bypass unsupported Atmos or non-PCM formats instead of throwing`() {
+        val sixChannel = AudioProcessor.AudioFormat(48_000, 6, C.ENCODING_PCM_16BIT)
+        val eq = CustomEqualizerAudioProcessor()
+        assertEquals(AudioProcessor.AudioFormat.NOT_SET, eq.configure(sixChannel))
+        assertFalse(eq.isActive())
+        assertEquals(INPUT_FORMAT, eq.configure(INPUT_FORMAT))
+        assertTrue(eq.isActive())
+
+        val norm = VolumeNormalizationAudioProcessor()
+        assertEquals(sixChannel, norm.configure(sixChannel))
+        assertTrue(norm.isActive())
+        assertEquals(AudioProcessor.AudioFormat.NOT_SET, norm.configure(AudioProcessor.AudioFormat(48_000, 2, C.ENCODING_INVALID)))
+        assertFalse(norm.isActive())
+
+        val silence = SilenceDetectorAudioProcessor(onLongSilence = {})
+        assertEquals(sixChannel, silence.configure(sixChannel))
+        assertTrue(silence.isActive())
+        assertEquals(AudioProcessor.AudioFormat.NOT_SET, silence.configure(AudioProcessor.AudioFormat(48_000, 2, C.ENCODING_PCM_FLOAT)))
+        assertFalse(silence.isActive())
     }
 
     @Suppress("DEPRECATION")

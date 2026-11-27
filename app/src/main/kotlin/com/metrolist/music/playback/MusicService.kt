@@ -568,7 +568,7 @@ class MusicService :
     fun normalizationGainDb(player: Player): Float? =
         playerNormalizationProcessors[player]?.takeIf { it.enabled }?.targetGainMb?.div(100f)
 
-    fun equalizerActive(player: Player): Boolean = playerEqualizerProcessors[player]?.isEnabled() == true
+    fun equalizerActive(player: Player): Boolean = playerEqualizerProcessors[player]?.let { it.isEnabled() && it.isActive() } == true
 
     /** Only the active rendition, not a search result or a prefetched track. */
     val addonStreams = MutableStateFlow<Map<String, MusicAddons.Stream>>(emptyMap())
@@ -2091,17 +2091,36 @@ class MusicService :
         refusedAddons.clear()
         if (!::player.isInitialized) return
         updateAddonStream()
+        val currentIndex = player.currentMediaItemIndex
+        val order = player.shuffleOrder
+        var replacedOther = false
+        for (i in 0 until player.mediaItemCount) {
+            if (i == currentIndex) continue
+            val item = player.getMediaItemAt(i)
+            if (item.addonKey() != null) {
+                player.replaceMediaItem(
+                    i,
+                    item.buildUpon().setUri(item.mediaId).setMimeType(null).setCustomCacheKey(item.mediaId).build(),
+                )
+                replacedOther = true
+            }
+        }
+        if (replacedOther) player.setShuffleOrder(order)
         val current = player.currentMediaItem ?: return
         if (restoreCurrent && current.addonKey() != null) replaceRendition(current, current.mediaId)
     }
 
-    private fun replaceRendition(item: MediaItem, cacheKey: String) {
+    private fun replaceRendition(item: MediaItem, cacheKey: String, mimeType: String? = null) {
         val index = player.currentMediaItemIndex
         val position = player.currentPosition
         val order = player.shuffleOrder
         // Change the URI as well as the cache namespace so Media3 must build a new source.
-        val uri = if (cacheKey == item.mediaId) item.mediaId else "utaloom-addon:${item.mediaId}"
-        val replacement = item.buildUpon().setUri(uri).setCustomCacheKey(cacheKey).build()
+        val uri = if (cacheKey == item.mediaId) item.mediaId else "utaloom-addon://stream?key=${android.net.Uri.encode(cacheKey)}"
+        val replacement = item.buildUpon()
+            .setUri(uri)
+            .setMimeType(if (cacheKey == item.mediaId) null else mimeType)
+            .setCustomCacheKey(cacheKey)
+            .build()
         renditionSwapMediaId = item.mediaId
         renditionSwapStatsMediaId = item.mediaId
         player.replaceMediaItem(index, replacement)
@@ -2158,7 +2177,7 @@ class MusicService :
                 // Keep buffered YouTube bytes for an immediate fallback.
                 aheadCacheWriters.remove(mediaId)?.cancel()
                 aheadCacheJobs.remove(mediaId)?.cancel()
-                replaceRendition(item, key)
+                replaceRendition(item, key, stream.manifestMimeType)
                 // The badge keeps "upgrading" until the new rendition is ready; see updateAddonStream.
                 swapped = true
             } finally {
@@ -2184,7 +2203,7 @@ class MusicService :
                     .apply { volume = 0f }
                 var verdict: Boolean? = null
                 try {
-                    probe.setMediaItem(MediaItem.Builder().setUri(stream.url).setCustomCacheKey(key).build(), position)
+                    probe.setMediaItem(MediaItem.Builder().setUri(stream.url).setMimeType(stream.manifestMimeType).setCustomCacheKey(key).build(), position)
                     probe.prepare()
                     withTimeoutOrNull(ADDON_PROBE_TIMEOUT_MS) {
                         while (verdict == null) {
@@ -4492,7 +4511,13 @@ class MusicService :
         playerProvider: () -> ExoPlayer?,
     ): DataSource.Factory {
         return ResolvingDataSource.Factory(createCacheDataSource()) { request ->
-            val key = request.key ?: error("No media id")
+            // DASH/HLS segments and variant playlists arrive already resolved to HTTP(S) (DASH sets DataSpec.key to segment URL).
+            if (request.uri.scheme in setOf("http", "https")) {
+                return@Factory request
+            }
+            val key = request.key
+                ?: request.uri.takeIf { it.scheme == "utaloom-addon" }?.getQueryParameter("key")
+                ?: error("No media id")
             val mediaId = key.substringBefore(ADDON_KEY_SEPARATOR)
             if (!offlineMode) {
                 addonRenditions[key]?.let { stream ->
